@@ -58,7 +58,7 @@ namespace MKPRG.Tracing.DocuTerms
         /// mko, 2.3.2020
         /// Aus Gründen der Abwärtscompatibilität wird immer in der kulturneutralen Sparache ausgegeben
         /// </summary>
-        ANC.Language lng = DFC.Naming.Language.CNT;
+        ANC.Language lng = MKPRG.Naming.Language.CNT;
 
         /// <summary>
         /// Ordnet einer long UID einen EventName- Naming Objekt zu.

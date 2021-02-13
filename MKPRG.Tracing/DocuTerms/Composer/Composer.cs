@@ -878,7 +878,7 @@ namespace MKPRG.Tracing.DocuTerms
         //                            // Methode in einer Instanz einkapseln
         //                            () => i(TTD.MetaData.Result.UID, (IInstanceMember)docuTerm),
         //                            () => IfElse(docuTerm is IReturn,
-        //                                            () => (IPropertyValue)i(TTD.MetaData.Result.UID, m(DFC.Naming.TechTerms.RunTime.CalledUpFunction.UID, (IReturn)docuTerm)),
+        //                                            () => (IPropertyValue)i(TTD.MetaData.Result.UID, m(MKPRG.Naming.TechTerms.RunTime.CalledUpFunction.UID, (IReturn)docuTerm)),
         //                                            () => i(TTD.MetaData.Result.UID, eFails("There exitst a detaild description of error, but it can't be encapsulated as docuTerm EventParameter")))));
 
         /// <summary>

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 /// mko, 9.6.2020
 /// Bennenung von Wahrheitswerten etc.
 /// </summary>
-namespace MKPRG.Naming
+namespace MKPRG.Naming.DocuTerms.Boolean
 {
     /// <summary>
     /// Wahrheitswert für wahr

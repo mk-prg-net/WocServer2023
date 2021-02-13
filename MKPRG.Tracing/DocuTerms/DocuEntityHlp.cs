@@ -120,7 +120,7 @@ namespace MKPRG.Tracing.DocuTerms
         /// </summary>
         /// <param name="entity"></param>
         /// <param name="lng"></param>
-        public static string Name(this IDocuEntity entity, DFC.Naming.Language lng = DFC.Naming.Language.CNT)
+        public static string Name(this IDocuEntity entity, MKPRG.Naming.Language lng = MKPRG.Naming.Language.CNT)
         {
             return Name(entity, lng, RCV3.NC);
         }
@@ -133,7 +133,7 @@ namespace MKPRG.Tracing.DocuTerms
         /// <param name="lng"></param>
         /// <param name="NC"></param>
         /// <returns></returns>
-        public static string Name(this IDocuEntity entity, DFC.Naming.Language lng, IReadOnlyDictionary<long, DFC.Naming.INaming> NC)
+        public static string Name(this IDocuEntity entity, MKPRG.Naming.Language lng, IReadOnlyDictionary<long, MKPRG.Naming.INaming> NC)
         {
             // check, if Name exists
             var first = entity.Childs.FirstOrDefault();
@@ -160,7 +160,7 @@ namespace MKPRG.Tracing.DocuTerms
         /// <param name="entity"></param>
         /// <param name="NC"></param>
         /// <returns></returns>
-        public static string Glyph(this IDocuEntity entity, IReadOnlyDictionary<long, DFC.Naming.INaming> NC)
+        public static string Glyph(this IDocuEntity entity, IReadOnlyDictionary<long, MKPRG.Naming.INaming> NC)
         {
             // check, if Name exists
             var first = entity.Childs.FirstOrDefault();
@@ -208,7 +208,7 @@ namespace MKPRG.Tracing.DocuTerms
         /// <param name="nid"></param>
         /// <param name="lng"></param>
         /// <returns></returns>
-        public static bool HasName(this IDocuEntity entity, long nid, MKPRG.Naming.Language lng = DFC.Naming.Language.CNT)
+        public static bool HasName(this IDocuEntity entity, long nid, MKPRG.Naming.Language lng = MKPRG.Naming.Language.CNT)
         {
             if (!entity.IsNamed())
                 return false;

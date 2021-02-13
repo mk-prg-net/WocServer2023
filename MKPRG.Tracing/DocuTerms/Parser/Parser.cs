@@ -29,7 +29,7 @@ namespace MKPRG.Tracing.DocuTerms.Parser.Parser
         /// </summary>
         /// <param name="pn"></param>
         /// <returns></returns>
-        public static RCV2<DocuTerms.IDocuEntity> Parse(string pn, IFn fn, bool doRPNUrlDecode = true)
+        public static RC<IDocuEntity> Parse(string pn, IFn fn, bool doRPNUrlDecode = true)
         {
             RCV2<DocuTerms.IDocuEntity> rc = null;
             DocuTerms.IDocuEntity NullEntity = null;
@@ -87,12 +87,12 @@ namespace MKPRG.Tracing.DocuTerms.Parser.Parser
         /// <param name="fn"></param>
         /// <param name="pnL"></param>
         /// <returns></returns>
-        public static RCV3sV<DocuTerms.IDocuEntity> Parse18_11(string pn, IFn fn, DocuTerms.IComposer pnL, bool doRPNUrlDecode = true)
+        public static RC<IDocuEntity> Parse18_11(string pn, IFn fn, DocuTerms.IComposer pnL, bool doRPNUrlDecode = true)
         {
             RCV3sV<DocuTerms.IDocuEntity> rc = null;
             DocuTerms.IDocuEntity NullEntity = null;
 
-            var fmt = new DocuTerms.PNFormater(fn, new DFC.Naming.Tools().GetNamingContainerAsConcurrentDict("MKPRG.Naming"), DFC.Naming.Language.CNT);
+            var fmt = new DocuTerms.PNFormater(fn, new MKPRG.Naming.Tools().GetNamingContainerAsConcurrentDict("MKPRG.Naming"), MKPRG.Naming.Language.CNT);
 
             try
             {
@@ -192,20 +192,20 @@ namespace MKPRG.Tracing.DocuTerms.Parser.Parser
         /// <param name="pnL"></param>
         /// <param name="doRPNUrlDecode"></param>
         /// <returns></returns>
-        public static RCV3sV<DocuTerms.IDocuEntity> Parse20_06(
+        public static RC<IDocuEntity> Parse20_06(
             string pn, 
             IFn fn, 
             DocuTerms.IComposer pnL,
             //DocuTerms.IFormater fmt,
             bool doRPNUrlDecode = true)
         {
-            RCV3sV<DocuTerms.IDocuEntity> rc = null;
+            RC<IDocuEntity> rc = null;
             DocuTerms.IDocuEntity NullEntity = null;
 
             try
             {
                 var evalTab = new FunctionEvaluatorTable(new FunctionEvalMapperFunctor(fn, pnL));
-                var parser = new global::mko.RPN.ParserV3(evalTab.FuncEvaluators);
+                var parser = new ParserV3(evalTab.FuncEvaluators);
 
                 // mko, 19.11.2020
                 // Entfernen von HTML kodierten Leerzeichen
@@ -220,7 +220,7 @@ namespace MKPRG.Tracing.DocuTerms.Parser.Parser
 
                 if (!getParsed.Succeeded || getParsed.Value.Stack.Count != 1)
                 {
-                    rc = RCV3sV<DocuTerms.IDocuEntity>.Failed(NullEntity,
+                    rc = RC<IDocuEntity>.Failed(NullEntity,
                         ErrorDescription: 
                         pnL.i(ANC.DocuTerms.StateDescription.FinStateDescr.UID, 
                             pnL.m(ANC.TechTerms.Parser.Parse.UID,
@@ -242,12 +242,12 @@ namespace MKPRG.Tracing.DocuTerms.Parser.Parser
                                                     : pnL.txt(getParsed.Value.Stack.Peek().ToString());
 
 
-                    rc = RCV3sV<DocuTerms.IDocuEntity>.Ok(val);
+                    rc = RC<IDocuEntity>.Ok(val);
                 }
             }
             catch (Exception ex)
             {
-                rc = RCV3sV<DocuTerms.IDocuEntity>.Failed(NullEntity, 
+                rc = RC<IDocuEntity>.Failed(NullEntity, 
                     ErrorDescription: pnL.i(ANC.TechTerms.Parser.Parser.UID, 
                                         pnL.eFails(pnL.EncapsulateAsEventParameter(TraceHlp.FlattenExceptionMessagesPN(ex)))));
             }

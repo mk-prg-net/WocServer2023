@@ -17,7 +17,7 @@ namespace MKPRG.Tracing.DocuTerms
 
         readonly int IndentSpc;
 
-        MKPRG.Naming.Language lng = DFC.Naming.Language.CNT;
+        MKPRG.Naming.Language lng = MKPRG.Naming.Language.CNT;
 
         /// <summary>
         /// Ordnet einer long UID einen EventName- Naming Objekt zu.
@@ -64,7 +64,7 @@ namespace MKPRG.Tracing.DocuTerms
         public IndentedTextFormatter(
             IFn fn, 
             IReadOnlyDictionary<long, MKPRG.Naming.INaming> NamingContainers, 
-            MKPRG.Naming.Language lng = DFC.Naming.Language.NID, 
+            MKPRG.Naming.Language lng = MKPRG.Naming.Language.NID, 
             int Indentation = 1, 
             bool RPNUrlSaveEncode = false)
         {
@@ -132,11 +132,11 @@ namespace MKPRG.Tracing.DocuTerms
                         // Abrufen des Namens in der Wunschsprache
                         var nid = (NID)entity;
 
-                        if (lng == DFC.Naming.Language.NID)
+                        if (lng == MKPRG.Naming.Language.NID)
                         {
                             bld.Append($"{fn.Nid} {nid.NamingId}");
                         }
-                        else if(lng == DFC.Naming.Language.CNT)
+                        else if(lng == MKPRG.Naming.Language.CNT)
                         {
                             // Culture neutral names sind immer ein regulärer Name (bestehen aus einem Wort)
                             bld.Append($"{delimitIfneeded(NC[nid.NamingId].NameIn(lng))}");
@@ -152,8 +152,8 @@ namespace MKPRG.Tracing.DocuTerms
                         var boolVal = (Boolean)entity;
 
                         var bVal = boolVal.ValueAsBool
-                                    ? NC[DFC.Naming.DocuTerms.Boolean.True.UID].NameIn(lng)
-                                    : NC[DFC.Naming.DocuTerms.Boolean.False.UID].NameIn(lng);
+                                    ? NC[MKPRG.Naming.DocuTerms.Boolean.True.UID].NameIn(lng)
+                                    : NC[MKPRG.Naming.DocuTerms.Boolean.False.UID].NameIn(lng);
                         bld.Append($"{bVal}");
                     }
                     break;

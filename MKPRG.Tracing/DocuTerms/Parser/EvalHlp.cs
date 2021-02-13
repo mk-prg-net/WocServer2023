@@ -33,9 +33,9 @@ namespace MKPRG.Tracing.DocuTerms.Parser.Parser
         //    // mko, 28.5.2020
         //    // 
         //    // Namen in CNT von DocuTerms wie Events, Instanzen etc. in die DokuTerm- Id umwandeln             
-        //    if (DFC.Naming.Tools.NamingIdForCNTNameOfDocuTerm.ContainsKey(name))
+        //    if (MKPRG.Naming.Tools.NamingIdForCNTNameOfDocuTerm.ContainsKey(name))
         //    {
-        //        name = DFC.Naming.Tools.NamingIdForCNTNameOfDocuTerm[name];
+        //        name = MKPRG.Naming.Tools.NamingIdForCNTNameOfDocuTerm[name];
         //    }
 
         //    return new DocuTerms.String(name);

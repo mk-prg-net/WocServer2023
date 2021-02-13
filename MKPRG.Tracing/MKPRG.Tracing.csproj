@@ -37,14 +37,18 @@
     <Reference Include="mko.Algo, Version=1.2.3.0, Culture=neutral, PublicKeyToken=f4d93f46e53e0656, processorArchitecture=MSIL">
       <HintPath>..\packages\mko.Algo.1.2.3\lib\net45\mko.Algo.dll</HintPath>
     </Reference>
-    <Reference Include="mko.RPN, Version=1.1.34.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\mko.RPN.1.1.34\lib\net45\mko.RPN.dll</HintPath>
+    <Reference Include="mko.RPN, Version=20.3.7381.20704, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\mko.RPN.20.3.7381.20704\lib\net45\mko.RPN.dll</HintPath>
     </Reference>
     <Reference Include="mko.RPN.Arithmetik, Version=20.3.7381.20704, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\mko.RPN.Arithmetik.20.3.7381.20704\lib\net45\mko.RPN.Arithmetik.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -53,6 +57,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ArgumentExceptionWithDocuTermDescription.cs" />
+    <Compile Include="DocuTerms\Formater\IFormater.cs" />
+    <Compile Include="DocuTerms\Formater\IndentedTextFormatter.cs" />
+    <Compile Include="DocuTerms\Formater\PNFormater.cs" />
+    <Compile Include="ExceptionWithDocuTermDescription.cs" />
+    <Compile Include="IExceptionWithDocuTermDescription.cs" />
+    <Compile Include="IndexOutOfRangeExceptionWithDocuTermDescription.cs" />
     <Compile Include="ISucceeded.cs" />
     <Compile Include="ITraceInfo.cs" />
     <Compile Include="IValue.cs" />
@@ -66,12 +77,6 @@
     <Compile Include="DocuTerms\Composer\XTabGeneratorRows.cs" />
     <Compile Include="DocuTerms\DocuEntity.cs" />
     <Compile Include="DocuTerms\DocuEntityHlp.cs" />
-    <Compile Include="DocuTerms\Formater\HTMLFormater.cs" />
-    <Compile Include="DocuTerms\Formater\HTMLFormatter_2021_01.cs" />
-    <Compile Include="DocuTerms\Formater\IFormater.cs" />
-    <Compile Include="DocuTerms\Formater\IndentedTextFormatter.cs" />
-    <Compile Include="DocuTerms\Formater\PNFormater.cs" />
-    <Compile Include="DocuTerms\Formater\RTFFormatter.cs" />
     <Compile Include="DocuTerms\IDate.cs" />
     <Compile Include="DocuTerms\IDocuEntity.cs" />
     <Compile Include="DocuTerms\IDTList.cs" />
@@ -141,6 +146,9 @@
     <Compile Include="DocuTerms\Parser\TimeEval.cs" />
     <Compile Include="DocuTerms\Parser\VersionEval.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RC.cs" />
+    <Compile Include="RCException.cs" />
+    <Compile Include="TraceHlp.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -155,5 +163,6 @@
       <Name>MKPRG.Naming</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

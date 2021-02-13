@@ -22,7 +22,7 @@ namespace MKPRG.Tracing.DocuTerms
         /// <summary>
         /// Function Name Prefixes (Table of keywords)
         /// </summary>
-        IFn fn = new Fn();
+        Parser.IFn fn = new Fn();
 
         bool RPNUrlSaveEncode = false;        
         
@@ -33,7 +33,7 @@ namespace MKPRG.Tracing.DocuTerms
         /// mko, 2.3.2020
         /// Aus Gründen der Abwärtscompatibilität wird immer in der kulturneutralen Sparache ausgegeben
         /// </summary>
-        DFC.Naming.Language lng = DFC.Naming.Language.NID;
+        Naming.Language lng = Naming.Language.NID;
 
         /// <summary>
         /// Ordnet einer long UID einen EventName- Naming Objekt zu.
@@ -66,7 +66,7 @@ namespace MKPRG.Tracing.DocuTerms
         /// <param name="NC">nur lesbares Dictionary, welches zu einerm NID den zugehörigen Naming- Container liefert</param>
         /// <param name="lng">Sprache, in der DocuTerm- Ausgabe erfolgen soll</param>
         /// <param name="RPNUrlSaveEncode"></param>
-        public PNFormater(IFn fn, IReadOnlyDictionary<long, MKPRG.Naming.INaming> NC, MKPRG.Naming.Language lng = DFC.Naming.Language.NID, bool RPNUrlSaveEncode = false)
+        public PNFormater(Parser.IFn fn, IReadOnlyDictionary<long, Naming.INaming> NC, Naming.Language lng = Naming.Language.NID, bool RPNUrlSaveEncode = false)
         {            
             this.fn = fn;
             this.RPNUrlSaveEncode = RPNUrlSaveEncode;
@@ -127,11 +127,11 @@ namespace MKPRG.Tracing.DocuTerms
                         // Abrufen des Namens in der Wunschsprache
                         var nid = (NID)entity;
                         
-                        if(lng == DFC.Naming.Language.NID)
+                        if(lng == MKPRG.Naming.Language.NID)
                         {
                             bld.Append($"{fn.Nid} {nid.NamingId}");
                         }
-                        else if (lng == DFC.Naming.Language.CNT)
+                        else if (lng == MKPRG.Naming.Language.CNT)
                         {
                             // Culture neutral names sind immer ein regulärer Name (bestehen aus einem Wort)
                             bld.Append($"{NC[nid.NamingId].NameIn(lng)}");
@@ -153,8 +153,8 @@ namespace MKPRG.Tracing.DocuTerms
                         var boolVal = (Boolean)entity;
 
                         var bVal =  boolVal.ValueAsBool
-                                    ? NC[DFC.Naming.DocuTerms.Boolean.True.UID].NameIn(lng)
-                                    : NC[DFC.Naming.DocuTerms.Boolean.False.UID].NameIn(lng);
+                                    ? NC[MKPRG.Naming.DocuTerms.Boolean.True.UID].NameIn(lng)
+                                    : NC[MKPRG.Naming.DocuTerms.Boolean.False.UID].NameIn(lng);
                         bld.Append($"{bVal}");
                     }
                     break;
@@ -227,7 +227,7 @@ namespace MKPRG.Tracing.DocuTerms
         }
 
 
-        private void PrintTypeNameAndValue(IFn fn, IDocuEntity entity, string TypeName, StringBuilder bld)
+        private void PrintTypeNameAndValue(Parser.IFn fn, IDocuEntity entity, string TypeName, StringBuilder bld)
         {
             TraceHlp.ThrowArgExIf(entity.Childs.Count() < 1, "at least name and one value expected");
             bld.Append($"{TypeName} {Print(entity.Childs.First())}");

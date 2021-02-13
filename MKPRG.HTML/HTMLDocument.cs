@@ -10,7 +10,7 @@ using TT = MKPRG.Naming.TechTerms;
 using TTD = MKPRG.Naming.DocuTerms;
 
 
-namespace MKPRG.HTML
+namespace ATMO.mko.Logging.HTML
 {
     /// <summary>
     /// mko, 11.11.2020
