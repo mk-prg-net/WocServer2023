@@ -1,0 +1,29 @@
+﻿
+@{
+    ViewBag.Title = "Test";
+}
+
+
+<h2>Editor QUnit</h2>
+
+<div>
+    <div id="qunit"></div>
+    <div id="qunit-fixture">
+        <!-- Hier kommen die Dom- Teststrukturen rein -->
+
+        <div id="result">
+
+        </div>
+
+    </div>
+</div>
+
+<script src="~/Scripts/require.js" data-main="/Scripts/Editor/Tests.js"></script>
+
+
+@* Style wird für Gestaltung der QUnit- Testausgabe benötigt *@
+@section Styles {
+    <link rel="stylesheet" href="~/Content/qunit.css" />
+}
+
+

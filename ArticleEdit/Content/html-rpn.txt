@@ -1,0 +1,13 @@
+﻿Hallo Welt #h1
+Das ist ein Text der in html RPN ##b notiert wird. RPN steht für R #ul#.everse P#ul#.olish N#ul#.notation ###i. Dabei werden die 
+html- #b Befehle den betroffenen Worten nachgestellt. Die Anzahl der # definieren dabei, auf wie viele unmittelbar vorausgegangene Worte 
+sich der html- Befehl erstreckt. #p
+Ausnahmen bilden Befehle wie #h1, #p, #pre oder #table. Von diesen werden alle Worte bis zu einem vorausgegangenen #h1, #p, #pre, #table oder dem
+Textanfang erfasst. #p
+Eine Tabelle #h2
+Kopf 1#th Kopf2#th Kopf 3#th #tr
+z1c1 #td z1c2#td z1c3#td #tr
+z2c1 #td z2c2#td z2c3#td #tr
+#table
+
+

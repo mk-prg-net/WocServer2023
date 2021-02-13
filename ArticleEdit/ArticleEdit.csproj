@@ -1,0 +1,655 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{255D7CA1-9D40-43DD-B124-50DAC3157774}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ArticleEdit</RootNamespace>
+    <AssemblyName>ArticleEdit</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGrease">
+      <Private>True</Private>
+      <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
+    </Reference>
+    <Reference Include="Antlr3.Runtime">
+      <Private>True</Private>
+      <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\EditorController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\html-rpn.txt" />
+    <Content Include="Content\qunit.css" />
+    <Content Include="favicon.ico" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Global.asax" />
+    <Content Include="Content\Site.css" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\Editor\DocumentReady.js" />
+    <Content Include="Scripts\node_modules\lodash\array.js" />
+    <Content Include="Scripts\node_modules\lodash\array\chunk.js" />
+    <Content Include="Scripts\node_modules\lodash\array\compact.js" />
+    <Content Include="Scripts\node_modules\lodash\array\difference.js" />
+    <Content Include="Scripts\node_modules\lodash\array\drop.js" />
+    <Content Include="Scripts\node_modules\lodash\array\dropRight.js" />
+    <Content Include="Scripts\node_modules\lodash\array\dropRightWhile.js" />
+    <Content Include="Scripts\node_modules\lodash\array\dropWhile.js" />
+    <Content Include="Scripts\node_modules\lodash\array\fill.js" />
+    <Content Include="Scripts\node_modules\lodash\array\findIndex.js" />
+    <Content Include="Scripts\node_modules\lodash\array\findLastIndex.js" />
+    <Content Include="Scripts\node_modules\lodash\array\first.js" />
+    <Content Include="Scripts\node_modules\lodash\array\flatten.js" />
+    <Content Include="Scripts\node_modules\lodash\array\flattenDeep.js" />
+    <Content Include="Scripts\node_modules\lodash\array\head.js" />
+    <Content Include="Scripts\node_modules\lodash\array\indexOf.js" />
+    <Content Include="Scripts\node_modules\lodash\array\initial.js" />
+    <Content Include="Scripts\node_modules\lodash\array\intersection.js" />
+    <Content Include="Scripts\node_modules\lodash\array\last.js" />
+    <Content Include="Scripts\node_modules\lodash\array\lastIndexOf.js" />
+    <Content Include="Scripts\node_modules\lodash\array\object.js" />
+    <Content Include="Scripts\node_modules\lodash\array\pull.js" />
+    <Content Include="Scripts\node_modules\lodash\array\pullAt.js" />
+    <Content Include="Scripts\node_modules\lodash\array\remove.js" />
+    <Content Include="Scripts\node_modules\lodash\array\rest.js" />
+    <Content Include="Scripts\node_modules\lodash\array\slice.js" />
+    <Content Include="Scripts\node_modules\lodash\array\sortedIndex.js" />
+    <Content Include="Scripts\node_modules\lodash\array\sortedLastIndex.js" />
+    <Content Include="Scripts\node_modules\lodash\array\tail.js" />
+    <Content Include="Scripts\node_modules\lodash\array\take.js" />
+    <Content Include="Scripts\node_modules\lodash\array\takeRight.js" />
+    <Content Include="Scripts\node_modules\lodash\array\takeRightWhile.js" />
+    <Content Include="Scripts\node_modules\lodash\array\takeWhile.js" />
+    <Content Include="Scripts\node_modules\lodash\array\union.js" />
+    <Content Include="Scripts\node_modules\lodash\array\uniq.js" />
+    <Content Include="Scripts\node_modules\lodash\array\unique.js" />
+    <Content Include="Scripts\node_modules\lodash\array\unzip.js" />
+    <Content Include="Scripts\node_modules\lodash\array\unzipWith.js" />
+    <Content Include="Scripts\node_modules\lodash\array\without.js" />
+    <Content Include="Scripts\node_modules\lodash\array\xor.js" />
+    <Content Include="Scripts\node_modules\lodash\array\zip.js" />
+    <Content Include="Scripts\node_modules\lodash\array\zipObject.js" />
+    <Content Include="Scripts\node_modules\lodash\array\zipWith.js" />
+    <Content Include="Scripts\node_modules\lodash\chain.js" />
+    <Content Include="Scripts\node_modules\lodash\chain\chain.js" />
+    <Content Include="Scripts\node_modules\lodash\chain\commit.js" />
+    <Content Include="Scripts\node_modules\lodash\chain\concat.js" />
+    <Content Include="Scripts\node_modules\lodash\chain\lodash.js" />
+    <Content Include="Scripts\node_modules\lodash\chain\plant.js" />
+    <Content Include="Scripts\node_modules\lodash\chain\reverse.js" />
+    <Content Include="Scripts\node_modules\lodash\chain\run.js" />
+    <Content Include="Scripts\node_modules\lodash\chain\tap.js" />
+    <Content Include="Scripts\node_modules\lodash\chain\thru.js" />
+    <Content Include="Scripts\node_modules\lodash\chain\toJSON.js" />
+    <Content Include="Scripts\node_modules\lodash\chain\toString.js" />
+    <Content Include="Scripts\node_modules\lodash\chain\value.js" />
+    <Content Include="Scripts\node_modules\lodash\chain\valueOf.js" />
+    <Content Include="Scripts\node_modules\lodash\chain\wrapperChain.js" />
+    <Content Include="Scripts\node_modules\lodash\chain\wrapperCommit.js" />
+    <Content Include="Scripts\node_modules\lodash\chain\wrapperConcat.js" />
+    <Content Include="Scripts\node_modules\lodash\chain\wrapperPlant.js" />
+    <Content Include="Scripts\node_modules\lodash\chain\wrapperReverse.js" />
+    <Content Include="Scripts\node_modules\lodash\chain\wrapperToString.js" />
+    <Content Include="Scripts\node_modules\lodash\chain\wrapperValue.js" />
+    <Content Include="Scripts\node_modules\lodash\collection.js" />
+    <Content Include="Scripts\node_modules\lodash\collection\all.js" />
+    <Content Include="Scripts\node_modules\lodash\collection\any.js" />
+    <Content Include="Scripts\node_modules\lodash\collection\at.js" />
+    <Content Include="Scripts\node_modules\lodash\collection\collect.js" />
+    <Content Include="Scripts\node_modules\lodash\collection\contains.js" />
+    <Content Include="Scripts\node_modules\lodash\collection\countBy.js" />
+    <Content Include="Scripts\node_modules\lodash\collection\detect.js" />
+    <Content Include="Scripts\node_modules\lodash\collection\each.js" />
+    <Content Include="Scripts\node_modules\lodash\collection\eachRight.js" />
+    <Content Include="Scripts\node_modules\lodash\collection\every.js" />
+    <Content Include="Scripts\node_modules\lodash\collection\filter.js" />
+    <Content Include="Scripts\node_modules\lodash\collection\find.js" />
+    <Content Include="Scripts\node_modules\lodash\collection\findLast.js" />
+    <Content Include="Scripts\node_modules\lodash\collection\findWhere.js" />
+    <Content Include="Scripts\node_modules\lodash\collection\foldl.js" />
+    <Content Include="Scripts\node_modules\lodash\collection\foldr.js" />
+    <Content Include="Scripts\node_modules\lodash\collection\forEach.js" />
+    <Content Include="Scripts\node_modules\lodash\collection\forEachRight.js" />
+    <Content Include="Scripts\node_modules\lodash\collection\groupBy.js" />
+    <Content Include="Scripts\node_modules\lodash\collection\include.js" />
+    <Content Include="Scripts\node_modules\lodash\collection\includes.js" />
+    <Content Include="Scripts\node_modules\lodash\collection\indexBy.js" />
+    <Content Include="Scripts\node_modules\lodash\collection\inject.js" />
+    <Content Include="Scripts\node_modules\lodash\collection\invoke.js" />
+    <Content Include="Scripts\node_modules\lodash\collection\map.js" />
+    <Content Include="Scripts\node_modules\lodash\collection\max.js" />
+    <Content Include="Scripts\node_modules\lodash\collection\min.js" />
+    <Content Include="Scripts\node_modules\lodash\collection\partition.js" />
+    <Content Include="Scripts\node_modules\lodash\collection\pluck.js" />
+    <Content Include="Scripts\node_modules\lodash\collection\reduce.js" />
+    <Content Include="Scripts\node_modules\lodash\collection\reduceRight.js" />
+    <Content Include="Scripts\node_modules\lodash\collection\reject.js" />
+    <Content Include="Scripts\node_modules\lodash\collection\sample.js" />
+    <Content Include="Scripts\node_modules\lodash\collection\select.js" />
+    <Content Include="Scripts\node_modules\lodash\collection\shuffle.js" />
+    <Content Include="Scripts\node_modules\lodash\collection\size.js" />
+    <Content Include="Scripts\node_modules\lodash\collection\some.js" />
+    <Content Include="Scripts\node_modules\lodash\collection\sortBy.js" />
+    <Content Include="Scripts\node_modules\lodash\collection\sortByAll.js" />
+    <Content Include="Scripts\node_modules\lodash\collection\sortByOrder.js" />
+    <Content Include="Scripts\node_modules\lodash\collection\sum.js" />
+    <Content Include="Scripts\node_modules\lodash\collection\where.js" />
+    <Content Include="Scripts\node_modules\lodash\date.js" />
+    <Content Include="Scripts\node_modules\lodash\date\now.js" />
+    <Content Include="Scripts\node_modules\lodash\function.js" />
+    <Content Include="Scripts\node_modules\lodash\function\after.js" />
+    <Content Include="Scripts\node_modules\lodash\function\ary.js" />
+    <Content Include="Scripts\node_modules\lodash\function\backflow.js" />
+    <Content Include="Scripts\node_modules\lodash\function\before.js" />
+    <Content Include="Scripts\node_modules\lodash\function\bind.js" />
+    <Content Include="Scripts\node_modules\lodash\function\bindAll.js" />
+    <Content Include="Scripts\node_modules\lodash\function\bindKey.js" />
+    <Content Include="Scripts\node_modules\lodash\function\compose.js" />
+    <Content Include="Scripts\node_modules\lodash\function\curry.js" />
+    <Content Include="Scripts\node_modules\lodash\function\curryRight.js" />
+    <Content Include="Scripts\node_modules\lodash\function\debounce.js" />
+    <Content Include="Scripts\node_modules\lodash\function\defer.js" />
+    <Content Include="Scripts\node_modules\lodash\function\delay.js" />
+    <Content Include="Scripts\node_modules\lodash\function\flow.js" />
+    <Content Include="Scripts\node_modules\lodash\function\flowRight.js" />
+    <Content Include="Scripts\node_modules\lodash\function\memoize.js" />
+    <Content Include="Scripts\node_modules\lodash\function\modArgs.js" />
+    <Content Include="Scripts\node_modules\lodash\function\negate.js" />
+    <Content Include="Scripts\node_modules\lodash\function\once.js" />
+    <Content Include="Scripts\node_modules\lodash\function\partial.js" />
+    <Content Include="Scripts\node_modules\lodash\function\partialRight.js" />
+    <Content Include="Scripts\node_modules\lodash\function\rearg.js" />
+    <Content Include="Scripts\node_modules\lodash\function\restParam.js" />
+    <Content Include="Scripts\node_modules\lodash\function\spread.js" />
+    <Content Include="Scripts\node_modules\lodash\function\throttle.js" />
+    <Content Include="Scripts\node_modules\lodash\function\wrap.js" />
+    <Content Include="Scripts\node_modules\lodash\index.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\arrayConcat.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\arrayCopy.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\arrayEach.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\arrayEachRight.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\arrayEvery.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\arrayExtremum.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\arrayFilter.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\arrayMap.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\arrayPush.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\arrayReduce.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\arrayReduceRight.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\arraySome.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\arraySum.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\assignDefaults.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\assignOwnDefaults.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\assignWith.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\baseAssign.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\baseAt.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\baseCallback.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\baseClone.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\baseCompareAscending.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\baseCopy.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\baseCreate.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\baseDelay.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\baseDifference.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\baseEach.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\baseEachRight.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\baseEvery.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\baseExtremum.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\baseFill.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\baseFilter.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\baseFind.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\baseFindIndex.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\baseFlatten.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\baseFor.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\baseForIn.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\baseForOwn.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\baseForOwnRight.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\baseForRight.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\baseFunctions.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\baseGet.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\baseIndexOf.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\baseIsEqual.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\baseIsEqualDeep.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\baseIsFunction.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\baseIsMatch.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\baseLodash.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\baseMap.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\baseMatches.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\baseMatchesProperty.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\baseMerge.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\baseMergeDeep.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\baseProperty.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\basePropertyDeep.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\basePullAt.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\baseRandom.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\baseReduce.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\baseSetData.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\baseSlice.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\baseSome.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\baseSortBy.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\baseSortByOrder.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\baseSum.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\baseToString.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\baseUniq.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\baseValues.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\baseWhile.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\baseWrapperValue.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\binaryIndex.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\binaryIndexBy.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\bindCallback.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\bufferClone.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\cacheIndexOf.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\cachePush.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\charsLeftIndex.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\charsRightIndex.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\compareAscending.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\compareMultiple.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\composeArgs.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\composeArgsRight.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\createAggregator.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\createAssigner.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\createBaseEach.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\createBaseFor.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\createBindWrapper.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\createCache.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\createCompounder.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\createCtorWrapper.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\createCurry.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\createDefaults.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\createExtremum.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\createFind.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\createFindIndex.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\createFindKey.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\createFlow.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\createForEach.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\createForIn.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\createForOwn.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\createHybridWrapper.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\createObjectMapper.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\createPadding.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\createPadDir.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\createPartial.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\createPartialWrapper.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\createReduce.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\createRound.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\createSortedIndex.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\createWrapper.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\deburrLetter.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\equalArrays.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\equalByTag.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\equalObjects.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\escapeHtmlChar.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\escapeRegExpChar.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\escapeStringChar.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\getData.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\getFuncName.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\getLength.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\getMatchData.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\getNative.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\getView.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\indexOfNaN.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\initCloneArray.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\initCloneByTag.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\initCloneObject.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\invokePath.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\isArrayLike.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\isIndex.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\isIterateeCall.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\isKey.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\isLaziable.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\isLength.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\isObjectLike.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\isSpace.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\isStrictComparable.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\lazyClone.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\lazyReverse.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\lazyValue.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\LazyWrapper.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\LodashWrapper.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\MapCache.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\mapDelete.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\mapGet.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\mapHas.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\mapSet.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\mergeData.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\mergeDefaults.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\metaMap.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\pickByArray.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\pickByCallback.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\realNames.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\reEscape.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\reEvaluate.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\reInterpolate.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\reorder.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\replaceHolders.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\SetCache.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\setData.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\shimKeys.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\sortedUniq.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\toIterable.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\toObject.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\toPath.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\trimmedLeftIndex.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\trimmedRightIndex.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\unescapeHtmlChar.js" />
+    <Content Include="Scripts\node_modules\lodash\internal\wrapperClone.js" />
+    <Content Include="Scripts\node_modules\lodash\lang.js" />
+    <Content Include="Scripts\node_modules\lodash\lang\clone.js" />
+    <Content Include="Scripts\node_modules\lodash\lang\cloneDeep.js" />
+    <Content Include="Scripts\node_modules\lodash\lang\eq.js" />
+    <Content Include="Scripts\node_modules\lodash\lang\gt.js" />
+    <Content Include="Scripts\node_modules\lodash\lang\gte.js" />
+    <Content Include="Scripts\node_modules\lodash\lang\isArguments.js" />
+    <Content Include="Scripts\node_modules\lodash\lang\isArray.js" />
+    <Content Include="Scripts\node_modules\lodash\lang\isBoolean.js" />
+    <Content Include="Scripts\node_modules\lodash\lang\isDate.js" />
+    <Content Include="Scripts\node_modules\lodash\lang\isElement.js" />
+    <Content Include="Scripts\node_modules\lodash\lang\isEmpty.js" />
+    <Content Include="Scripts\node_modules\lodash\lang\isEqual.js" />
+    <Content Include="Scripts\node_modules\lodash\lang\isError.js" />
+    <Content Include="Scripts\node_modules\lodash\lang\isFinite.js" />
+    <Content Include="Scripts\node_modules\lodash\lang\isFunction.js" />
+    <Content Include="Scripts\node_modules\lodash\lang\isMatch.js" />
+    <Content Include="Scripts\node_modules\lodash\lang\isNaN.js" />
+    <Content Include="Scripts\node_modules\lodash\lang\isNative.js" />
+    <Content Include="Scripts\node_modules\lodash\lang\isNull.js" />
+    <Content Include="Scripts\node_modules\lodash\lang\isNumber.js" />
+    <Content Include="Scripts\node_modules\lodash\lang\isObject.js" />
+    <Content Include="Scripts\node_modules\lodash\lang\isPlainObject.js" />
+    <Content Include="Scripts\node_modules\lodash\lang\isRegExp.js" />
+    <Content Include="Scripts\node_modules\lodash\lang\isString.js" />
+    <Content Include="Scripts\node_modules\lodash\lang\isTypedArray.js" />
+    <Content Include="Scripts\node_modules\lodash\lang\isUndefined.js" />
+    <Content Include="Scripts\node_modules\lodash\lang\lt.js" />
+    <Content Include="Scripts\node_modules\lodash\lang\lte.js" />
+    <Content Include="Scripts\node_modules\lodash\lang\toArray.js" />
+    <Content Include="Scripts\node_modules\lodash\lang\toPlainObject.js" />
+    <Content Include="Scripts\node_modules\lodash\math.js" />
+    <Content Include="Scripts\node_modules\lodash\math\add.js" />
+    <Content Include="Scripts\node_modules\lodash\math\ceil.js" />
+    <Content Include="Scripts\node_modules\lodash\math\floor.js" />
+    <Content Include="Scripts\node_modules\lodash\math\max.js" />
+    <Content Include="Scripts\node_modules\lodash\math\min.js" />
+    <Content Include="Scripts\node_modules\lodash\math\round.js" />
+    <Content Include="Scripts\node_modules\lodash\math\sum.js" />
+    <Content Include="Scripts\node_modules\lodash\number.js" />
+    <Content Include="Scripts\node_modules\lodash\number\inRange.js" />
+    <Content Include="Scripts\node_modules\lodash\number\random.js" />
+    <Content Include="Scripts\node_modules\lodash\object.js" />
+    <Content Include="Scripts\node_modules\lodash\object\assign.js" />
+    <Content Include="Scripts\node_modules\lodash\object\create.js" />
+    <Content Include="Scripts\node_modules\lodash\object\defaults.js" />
+    <Content Include="Scripts\node_modules\lodash\object\defaultsDeep.js" />
+    <Content Include="Scripts\node_modules\lodash\object\extend.js" />
+    <Content Include="Scripts\node_modules\lodash\object\findKey.js" />
+    <Content Include="Scripts\node_modules\lodash\object\findLastKey.js" />
+    <Content Include="Scripts\node_modules\lodash\object\forIn.js" />
+    <Content Include="Scripts\node_modules\lodash\object\forInRight.js" />
+    <Content Include="Scripts\node_modules\lodash\object\forOwn.js" />
+    <Content Include="Scripts\node_modules\lodash\object\forOwnRight.js" />
+    <Content Include="Scripts\node_modules\lodash\object\functions.js" />
+    <Content Include="Scripts\node_modules\lodash\object\get.js" />
+    <Content Include="Scripts\node_modules\lodash\object\has.js" />
+    <Content Include="Scripts\node_modules\lodash\object\invert.js" />
+    <Content Include="Scripts\node_modules\lodash\object\keys.js" />
+    <Content Include="Scripts\node_modules\lodash\object\keysIn.js" />
+    <Content Include="Scripts\node_modules\lodash\object\mapKeys.js" />
+    <Content Include="Scripts\node_modules\lodash\object\mapValues.js" />
+    <Content Include="Scripts\node_modules\lodash\object\merge.js" />
+    <Content Include="Scripts\node_modules\lodash\object\methods.js" />
+    <Content Include="Scripts\node_modules\lodash\object\omit.js" />
+    <Content Include="Scripts\node_modules\lodash\object\pairs.js" />
+    <Content Include="Scripts\node_modules\lodash\object\pick.js" />
+    <Content Include="Scripts\node_modules\lodash\object\result.js" />
+    <Content Include="Scripts\node_modules\lodash\object\set.js" />
+    <Content Include="Scripts\node_modules\lodash\object\transform.js" />
+    <Content Include="Scripts\node_modules\lodash\object\values.js" />
+    <Content Include="Scripts\node_modules\lodash\object\valuesIn.js" />
+    <Content Include="Scripts\node_modules\lodash\string.js" />
+    <Content Include="Scripts\node_modules\lodash\string\camelCase.js" />
+    <Content Include="Scripts\node_modules\lodash\string\capitalize.js" />
+    <Content Include="Scripts\node_modules\lodash\string\deburr.js" />
+    <Content Include="Scripts\node_modules\lodash\string\endsWith.js" />
+    <Content Include="Scripts\node_modules\lodash\string\escape.js" />
+    <Content Include="Scripts\node_modules\lodash\string\escapeRegExp.js" />
+    <Content Include="Scripts\node_modules\lodash\string\kebabCase.js" />
+    <Content Include="Scripts\node_modules\lodash\string\pad.js" />
+    <Content Include="Scripts\node_modules\lodash\string\padLeft.js" />
+    <Content Include="Scripts\node_modules\lodash\string\padRight.js" />
+    <Content Include="Scripts\node_modules\lodash\string\parseInt.js" />
+    <Content Include="Scripts\node_modules\lodash\string\repeat.js" />
+    <Content Include="Scripts\node_modules\lodash\string\snakeCase.js" />
+    <Content Include="Scripts\node_modules\lodash\string\startCase.js" />
+    <Content Include="Scripts\node_modules\lodash\string\startsWith.js" />
+    <Content Include="Scripts\node_modules\lodash\string\template.js" />
+    <Content Include="Scripts\node_modules\lodash\string\templateSettings.js" />
+    <Content Include="Scripts\node_modules\lodash\string\trim.js" />
+    <Content Include="Scripts\node_modules\lodash\string\trimLeft.js" />
+    <Content Include="Scripts\node_modules\lodash\string\trimRight.js" />
+    <Content Include="Scripts\node_modules\lodash\string\trunc.js" />
+    <Content Include="Scripts\node_modules\lodash\string\unescape.js" />
+    <Content Include="Scripts\node_modules\lodash\string\words.js" />
+    <Content Include="Scripts\node_modules\lodash\support.js" />
+    <Content Include="Scripts\node_modules\lodash\utility.js" />
+    <Content Include="Scripts\node_modules\lodash\utility\attempt.js" />
+    <Content Include="Scripts\node_modules\lodash\utility\callback.js" />
+    <Content Include="Scripts\node_modules\lodash\utility\constant.js" />
+    <Content Include="Scripts\node_modules\lodash\utility\identity.js" />
+    <Content Include="Scripts\node_modules\lodash\utility\iteratee.js" />
+    <Content Include="Scripts\node_modules\lodash\utility\matches.js" />
+    <Content Include="Scripts\node_modules\lodash\utility\matchesProperty.js" />
+    <Content Include="Scripts\node_modules\lodash\utility\method.js" />
+    <Content Include="Scripts\node_modules\lodash\utility\methodOf.js" />
+    <Content Include="Scripts\node_modules\lodash\utility\mixin.js" />
+    <Content Include="Scripts\node_modules\lodash\utility\noop.js" />
+    <Content Include="Scripts\node_modules\lodash\utility\property.js" />
+    <Content Include="Scripts\node_modules\lodash\utility\propertyOf.js" />
+    <Content Include="Scripts\node_modules\lodash\utility\range.js" />
+    <Content Include="Scripts\node_modules\lodash\utility\times.js" />
+    <Content Include="Scripts\node_modules\lodash\utility\uniqueId.js" />
+    <Content Include="Scripts\Polyfills.js" />
+    <Content Include="Scripts\qunit.js" />
+    <Content Include="Scripts\Editor\RPNHtml.js" />
+    <Content Include="Scripts\Editor\Parser.js" />
+    <Content Include="Scripts\Editor\RPN.js" />
+    <Content Include="Scripts\Editor\StringHlp.js" />
+    <Content Include="Scripts\Editor\Tests.js" />
+    <Content Include="Scripts\jquery-1.10.2.js" />
+    <Content Include="Scripts\jquery-1.10.2.min.js" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\node_modules\qunitjs\LICENSE.txt" />
+    <Content Include="Scripts\node_modules\qunitjs\qunit\qunit.css" />
+    <Content Include="Scripts\node_modules\qunitjs\qunit\qunit.js" />
+    <Content Include="Scripts\require.js" />
+    <Content Include="Scripts\respond.js" />
+    <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\underscore.js" />
+    <Content Include="Scripts\_references.js" />
+    <Content Include="Web.config" />
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Home\About.cshtml" />
+    <Content Include="Views\Home\Contact.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Scripts\jquery-1.10.2.min.map" />
+    <Content Include="Views\Editor\EditText.cshtml" />
+    <Content Include="Scripts\package.json" />
+    <Content Include="Scripts\node_modules\qunitjs\History.md" />
+    <Content Include="Scripts\node_modules\qunitjs\package.json" />
+    <Content Include="Scripts\node_modules\qunitjs\README.md" />
+    <Content Include="Views\Editor\Test.cshtml" />
+    <Content Include="Scripts\node_modules\lodash\LICENSE" />
+    <Content Include="Scripts\node_modules\lodash\package.json" />
+    <Content Include="Scripts\node_modules\lodash\README.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="Models\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="packages.config" />
+    <None Include="Project_Readme.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\mko.Woc.DB\mko.Woc.DB.csproj">
+      <Project>{fa0ef161-f3bb-41b9-a4ad-0aa79d8d73d1}</Project>
+      <Name>mko.Woc.DB</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\mko.Woc.WocStore\mko.Woc.WocStore.csproj">
+      <Project>{247ed57d-a253-4ebb-94ef-9026652399d0}</Project>
+      <Name>mko.Woc.WocStore</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>49748</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:49748/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>
