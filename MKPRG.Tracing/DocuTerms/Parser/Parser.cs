@@ -31,8 +31,8 @@ namespace MKPRG.Tracing.DocuTerms.Parser.Parser
         /// <returns></returns>
         public static RC<IDocuEntity> Parse(string pn, IFn fn, bool doRPNUrlDecode = true)
         {
-            RCV2<DocuTerms.IDocuEntity> rc = null;
-            DocuTerms.IDocuEntity NullEntity = null;
+            RC<IDocuEntity> rc = null;
+            IDocuEntity NullEntity = null;
 
             var pnL = new DocuTerms.Composer();
 
@@ -41,7 +41,7 @@ namespace MKPRG.Tracing.DocuTerms.Parser.Parser
 
             if (!getNC.Succeeded)
             {
-                rc = RCV2<DocuTerms.IDocuEntity>.Failed(getNC.Message);
+                rc = RC<IDocuEntity>.Failed(getNC.Message);
             }
             else
             {
@@ -56,22 +56,22 @@ namespace MKPRG.Tracing.DocuTerms.Parser.Parser
                 {
                     var rcp = _parser.Parse(rcT.Value);
 
-                    PNDocuTerms.DocuTerms.IDocuEntity val = rcp.Value.Stack.Peek() is PNDocuTerms.DocuTerms.IDocuEntity
-                                                                    ? (DocuTerms.IDocuEntity)rcp.Value.Stack.Peek()
+                    IDocuEntity val = rcp.Value.Stack.Peek() is IDocuEntity
+                                                                    ? (IDocuEntity)rcp.Value.Stack.Peek()
                                                                     : pnL.txt(rcp.Value.Stack.Peek().ToString());
 
                     if (rcp.Succeeded && rcp.Value.Stack.Count == 1)
                     {
-                        rc = RCV2<DocuTerms.IDocuEntity>.Ok(value: val);
+                        rc = RC<IDocuEntity>.Ok(value: val);
                     }
                     else
                     {
-                        rc = RCV2<DocuTerms.IDocuEntity>.Failed(NullEntity, ErrorDescription: "Parse failed", inner: new RCV2<IToken>(rcp));
+                        rc = RC<IDocuEntity>.Failed(NullEntity, ErrorDescription: pnL.eFails("Parse failed"));
                     }
                 }
                 else
                 {
-                    rc = RCV2<DocuTerms.IDocuEntity>.Failed(NullEntity, ErrorDescription: "Tokenizer failed");
+                    rc = RC<IDocuEntity>.Failed(NullEntity, ErrorDescription: pnL.eFails("Tokenizer failed"));
                 }
             }
 
@@ -89,10 +89,10 @@ namespace MKPRG.Tracing.DocuTerms.Parser.Parser
         /// <returns></returns>
         public static RC<IDocuEntity> Parse18_11(string pn, IFn fn, DocuTerms.IComposer pnL, bool doRPNUrlDecode = true)
         {
-            RCV3sV<DocuTerms.IDocuEntity> rc = null;
-            DocuTerms.IDocuEntity NullEntity = null;
+            RC<IDocuEntity> rc = null;
+            IDocuEntity NullEntity = null;
 
-            var fmt = new DocuTerms.PNFormater(fn, new MKPRG.Naming.Tools().GetNamingContainerAsConcurrentDict("MKPRG.Naming"), MKPRG.Naming.Language.CNT);
+            var fmt = new DocuTerms.PNFormater(fn, new ANC.Tools().GetNamingContainerAsConcurrentDict("MKPRG.Naming"), ANC.Language.CNT);
 
             try
             {
@@ -107,27 +107,27 @@ namespace MKPRG.Tracing.DocuTerms.Parser.Parser
                 {
                     var rcp = _parser.Parse(rcT.Value);
 
-                    PNDocuTerms.DocuTerms.IDocuEntity val = rcp.Value.Stack.Peek() is PNDocuTerms.DocuTerms.IDocuEntity
-                                                                    ? (DocuTerms.IDocuEntity)rcp.Value.Stack.Peek()
+                    IDocuEntity val = rcp.Value.Stack.Peek() is IDocuEntity
+                                                                    ? (IDocuEntity)rcp.Value.Stack.Peek()
                                                                     : pnL.txt(rcp.Value.Stack.Peek().ToString());
 
                     if (rcp.Succeeded && rcp.Value.Stack.Count == 1)
                     {
-                        rc = RCV3sV<DocuTerms.IDocuEntity>.Ok(value: val);
+                        rc = RC<IDocuEntity>.Ok(value: val);
                     }
                     else
                     {
-                        rc = RCV3sV<DocuTerms.IDocuEntity>.Failed(NullEntity, ErrorDescription: pnL.m("Parse", pnL.ret(pnL.eFails())), inner: RCV3.TranformToRCV3(rcp));
+                        rc = RC<IDocuEntity>.Failed(NullEntity, ErrorDescription: pnL.m("Parse", pnL.ret(pnL.eFails())));
                     }
                 }
                 else
                 {
-                    rc = RCV3sV<DocuTerms.IDocuEntity>.Failed(NullEntity, ErrorDescription: pnL.i("Tokenizer", pnL.m("Tokenize", pnL.ret(pnL.eFails()))), inner: RCV3.TranformToRCV3(rcT));
+                    rc = RC<IDocuEntity>.Failed(NullEntity, ErrorDescription: pnL.i("Tokenizer", pnL.m("Tokenize", pnL.ret(pnL.eFails()))));
                 }
             }
             catch (Exception ex)
             {
-                rc = RCV3sV<DocuTerms.IDocuEntity>.Failed(NullEntity, ErrorDescription: pnL.i("Parser", pnL.eFails(pnL.EncapsulateAsEventParameter(TraceHlp.FlattenExceptionMessagesPN(ex)))));
+                rc = RC<IDocuEntity>.Failed(NullEntity, ErrorDescription: pnL.i("Parser", pnL.eFails(pnL.EncapsulateAsEventParameter(TraceHlp.FlattenExceptionMessagesPN(ex)))));
             }
 
             return rc;

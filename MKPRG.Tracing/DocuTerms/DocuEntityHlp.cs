@@ -5,6 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 
 using ANC = MKPRG.Naming;
+using TT = MKPRG.Naming.TechTerms;
+using TTD = MKPRG.Naming.DocuTerms;
+
+using MKPRG.Tracing.DocuTerms;
 
 namespace MKPRG.Tracing.DocuTerms
 {
@@ -120,9 +124,9 @@ namespace MKPRG.Tracing.DocuTerms
         /// </summary>
         /// <param name="entity"></param>
         /// <param name="lng"></param>
-        public static string Name(this IDocuEntity entity, MKPRG.Naming.Language lng = MKPRG.Naming.Language.CNT)
+        public static string Name(this IDocuEntity entity, IComposer pnL, ANC.Language lng = ANC.Language.CNT)
         {
-            return Name(entity, lng, RCV3.NC);
+            return Name(entity, lng, RC.NC, pnL);
         }
 
         /// <summary>
@@ -133,12 +137,12 @@ namespace MKPRG.Tracing.DocuTerms
         /// <param name="lng"></param>
         /// <param name="NC"></param>
         /// <returns></returns>
-        public static string Name(this IDocuEntity entity, MKPRG.Naming.Language lng, IReadOnlyDictionary<long, MKPRG.Naming.INaming> NC)
+        public static string Name(this IDocuEntity entity, ANC.Language lng, IReadOnlyDictionary<long, ANC.INaming> NC, IComposer pnL)
         {
             // check, if Name exists
             var first = entity.Childs.FirstOrDefault();
-            TraceHlp.ThrowArgExIfNot(entity.IsNamed(), $"Name of unnamed DocuEntity of type {entity.EntityType} requested");
-            TraceHlp.ThrowArgExIfNot(first != null && (first is String || first is NID), $"Name of named entity of type {entity.EntityType} is left");
+            TraceHlp.ThrowArgExIfNot(entity.IsNamed(), pnL.eFails($"Name of unnamed DocuEntity of type {entity.EntityType} requested"));
+            TraceHlp.ThrowArgExIfNot(first != null && (first is String || first is NID), pnL.eFails($"Name of named entity of type {entity.EntityType} is left"));
 
             string name = "";
             if (first is String str)
@@ -160,12 +164,12 @@ namespace MKPRG.Tracing.DocuTerms
         /// <param name="entity"></param>
         /// <param name="NC"></param>
         /// <returns></returns>
-        public static string Glyph(this IDocuEntity entity, IReadOnlyDictionary<long, MKPRG.Naming.INaming> NC)
+        public static string Glyph(this IDocuEntity entity, IReadOnlyDictionary<long, ANC.INaming> NC, IComposer pnL)
         {
             // check, if Name exists
             var first = entity.Childs.FirstOrDefault();
-            TraceHlp.ThrowArgExIfNot(entity.IsNamed(), $"Name of unnamed DocuEntity of type {entity.EntityType} requested");
-            TraceHlp.ThrowArgExIfNot(first != null && (first is String || first is NID), $"Name of named entity of type {entity.EntityType} is left");
+            TraceHlp.ThrowArgExIfNot(entity.IsNamed(), pnL.eFails($"Name of unnamed DocuEntity of type {entity.EntityType} requested"));
+            TraceHlp.ThrowArgExIfNot(first != null && (first is String || first is NID), pnL.eFails($"Name of named entity of type {entity.EntityType} is left"));
 
             string glyph = "&nbsp;";
             if (first is NID nid)
@@ -184,7 +188,7 @@ namespace MKPRG.Tracing.DocuTerms
         /// <param name="entity"></param>
         /// <param name="other"></param>
         /// <returns></returns>
-        public static bool AreOfSameName(this IDocuEntity entity, IDocuEntity other)
+        public static bool AreOfSameName(this IDocuEntity entity, IDocuEntity other, IComposer pnL)
         {
             if (!entity.IsNamed() || !other.IsNamed())
                 return false;
@@ -195,7 +199,7 @@ namespace MKPRG.Tracing.DocuTerms
             }
             else
             {
-                return entity.Name() == other.Name();
+                return entity.Name(pnL) == other.Name(pnL);
             }
         }
 
@@ -208,7 +212,7 @@ namespace MKPRG.Tracing.DocuTerms
         /// <param name="nid"></param>
         /// <param name="lng"></param>
         /// <returns></returns>
-        public static bool HasName(this IDocuEntity entity, long nid, MKPRG.Naming.Language lng = MKPRG.Naming.Language.CNT)
+        public static bool HasName(this IDocuEntity entity, long nid, IComposer pnL, ANC.Language lng = ANC.Language.CNT)
         {
             if (!entity.IsNamed())
                 return false;
@@ -219,7 +223,7 @@ namespace MKPRG.Tracing.DocuTerms
             }
             else
             {
-                return entity.Name() == RCV3.NC[nid].NameIn(lng);
+                return entity.Name(pnL) == RC.NC[nid].NameIn(lng);
             }
         }
 
@@ -231,13 +235,13 @@ namespace MKPRG.Tracing.DocuTerms
         /// <param name="entity"></param>
         /// <param name="name"></param>
         /// <returns></returns>
-        public static bool HasName(this IDocuEntity entity, string name)
+        public static bool HasName(this IDocuEntity entity, string name, IComposer pnL)
         {
             if (!entity.IsNamed())
                 return false;
             else
             {
-                return entity.Name() == name;
+                return entity.Name(pnL) == name;
             }
         }
 
@@ -308,7 +312,7 @@ namespace MKPRG.Tracing.DocuTerms
             if (entity is NID nidA)
             {
                 // Direkter Vergleich der NID's (exakt und effizient)
-                return RCV3.NC[nidA.NamingId].NameIn(lng);
+                return RC.NC[nidA.NamingId].NameIn(lng);
             }
             else if (entity is String str)
             {
@@ -318,7 +322,7 @@ namespace MKPRG.Tracing.DocuTerms
             {
                 return string.Join(" ", txt.Words.Select(r => r.Value));
             }
-            else TraceHlp.ThrowArgEx(RCV3.pnL.m("GetText", RCV3.pnL.ret(RCV3.pnL.eFails(ANC.DocuTerms.Parser.Errors.Name_NidOrStringTokenForNameExpected.UID))));
+            else TraceHlp.ThrowArgEx(RC.pnL.m("GetText", RC.pnL.ret(RC.pnL.eFails(ANC.DocuTerms.Parser.Errors.Name_NidOrStringTokenForNameExpected.UID))));
 
             return null;
         }
@@ -331,64 +335,64 @@ namespace MKPRG.Tracing.DocuTerms
         /// <param name="entity"></param>
         /// <param name="lng"></param>
         /// <returns></returns>
-        public static string GetEventTextValue(this IEvent entity, ANC.Language lng = ANC.Language.CNT)
+        public static string GetEventTextValue(this IEvent entity, IComposer pnL, ANC.Language lng = ANC.Language.CNT)
         {
             if(entity.EntityValue() is IDTList list
                 && list.ListMembers.FirstOrDefault() is IProperty  p
-               && p.HasName(ANC.DocuTerms.MetaData.Result.UID))
+               && p.HasName(TTD.MetaData.Result.UID, pnL))
             {
                 return p.PropertyValue.GetText(lng);
             } else
             {
-                TraceHlp.ThrowArgEx(RCV3.pnL.m("GetEventTextValue", RCV3.pnL.eFails("Event has not text")));
+                TraceHlp.ThrowArgEx(RC.pnL.m("GetEventTextValue", RC.pnL.eFails("Event has not text")));
                 return "";
             }
         }
 
-        public static long GetEventIntValue(this IEvent entity, ANC.Language lng = ANC.Language.CNT)
+        public static long GetEventIntValue(this IEvent entity, IComposer pnL,  ANC.Language lng = ANC.Language.CNT)
         {
             if (entity.EntityValue() is IDTList list
                 && list.ListMembers.FirstOrDefault() is IProperty p
-               && p.HasName(ANC.DocuTerms.MetaData.Result.UID)
+               && p.HasName(TTD.MetaData.Result.UID, pnL)
                && p.PropertyValue is Integer i)
             {
                 return i.ValueAsLong;
             }
             else
             {
-                TraceHlp.ThrowArgEx(RCV3.pnL.m("GetEventIntValue", RCV3.pnL.eFails("Event has not text")));
+                TraceHlp.ThrowArgEx(RC.pnL.m("GetEventIntValue", RC.pnL.eFails("Event has not text")));
                 return 0;
             }
         }
 
-        public static double GetEventDblValue(this IEvent entity, ANC.Language lng = ANC.Language.CNT)
+        public static double GetEventDblValue(this IEvent entity, IComposer pnL, ANC.Language lng = ANC.Language.CNT)
         {
             if (entity.EntityValue() is IDTList list
                 && list.ListMembers.FirstOrDefault() is IProperty p
-               && p.HasName(ANC.DocuTerms.MetaData.Result.UID)
+               && p.HasName(TTD.MetaData.Result.UID, pnL)
                && p.PropertyValue is Double dbl)
             {
                 return dbl.Value;
             }
             else
             {
-                TraceHlp.ThrowArgEx(RCV3.pnL.m("GetEventDblValue", RCV3.pnL.eFails("Event has not text")));
+                TraceHlp.ThrowArgEx(RC.pnL.m("GetEventDblValue", RC.pnL.eFails("Event has not text")));
                 return 0.0;
             }
         }
 
-        public static bool GetEventBoolValue(this IEvent entity, ANC.Language lng = ANC.Language.CNT)
+        public static bool GetEventBoolValue(this IEvent entity, IComposer pnL, ANC.Language lng = ANC.Language.CNT)
         {
             if (entity.EntityValue() is IDTList list
                 && list.ListMembers.FirstOrDefault() is IProperty p
-               && p.HasName(ANC.DocuTerms.MetaData.Result.UID)
+               && p.HasName(TTD.MetaData.Result.UID, pnL)
                && p.PropertyValue is Boolean b)
             {
                 return b.ValueAsBool;
             }
             else
             {
-                TraceHlp.ThrowArgEx(RCV3.pnL.m("GetEventBoolValue", RCV3.pnL.eFails("Event has not text")));
+                TraceHlp.ThrowArgEx(RC.pnL.m("GetEventBoolValue", RC.pnL.eFails("Event has not text")));
                 return false;
             }
         }
@@ -402,9 +406,9 @@ namespace MKPRG.Tracing.DocuTerms
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
-        public static IEnumerable<IDocuEntity> GetInstanceMembers(this IDocuEntity entity)
+        public static IEnumerable<IDocuEntity> GetInstanceMembers(this IDocuEntity entity, IComposer pnL)
         {
-            TraceHlp.ThrowArgExIfNot(entity.EntityType == DocuEntityTypes.Instance, "entity is not a instance!");
+            TraceHlp.ThrowArgExIfNot(entity.EntityType == DocuEntityTypes.Instance, pnL.eFails("entity is not a instance!"));
 
             var members = entity.Childs.Skip(1).FirstOrDefault()?.Childs;
             if (members == null)
@@ -424,9 +428,9 @@ namespace MKPRG.Tracing.DocuTerms
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
-        public static IEnumerable<IMethodParameter> GetMethodMembers(this IDocuEntity entity)
+        public static IEnumerable<IMethodParameter> GetMethodMembers(this IDocuEntity entity, IComposer pnL)
         {
-            TraceHlp.ThrowArgExIfNot(entity.EntityType == DocuEntityTypes.Method, "entity is not a method!");
+            TraceHlp.ThrowArgExIfNot(entity.EntityType == DocuEntityTypes.Method, pnL.eFails("entity is not a method!"));
 
             var m = (IMethod)entity;
             
@@ -449,9 +453,9 @@ namespace MKPRG.Tracing.DocuTerms
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
-        public static DateTime GetDate(this IDocuEntity entity)
+        public static DateTime GetDate(this IDocuEntity entity, IComposer pnL)
         {
-            TraceHlp.ThrowArgExIfNot(entity.EntityType == DocuEntityTypes.Date, "doc entity is not a date!");
+            TraceHlp.ThrowArgExIfNot(entity.EntityType == DocuEntityTypes.Date, pnL.eFails("doc entity is not a date!"));
 
             var d = (IDate)entity;
 
@@ -469,20 +473,20 @@ namespace MKPRG.Tracing.DocuTerms
         /// </summary>
         /// <param name="ElemWithVersion"></param>
         /// <returns></returns>
-        public static RCV2<string> GetVersion(this IDocuEntity ElemWithVersion)
+        public static RC<string> GetVersion(this IDocuEntity ElemWithVersion)
         {
-            RCV2<string> rc = RCV2<string>.Failed();
+            RC<string> rc = RC<string>.Failed(null);
 
             if (ElemWithVersion.EntityType != DocuEntityTypes.Instance || ElemWithVersion.EntityType != DocuEntityTypes.Method)
             {
-                rc = RCV2<string>.Failed(ErrorDescription: "Only instances (#i) or methods (#m) can contains a version element");
+                rc = RC<string>.Failed(null, "Only instances (#i) or methods (#m) can contains a version element");
             }
 
             foreach (var child in ElemWithVersion.Childs.Skip(1).First().Childs)
             {
                 if (child is IVer ver)
                 {                    
-                    rc = RCV2<string>.Ok(ver.VersionString);
+                    rc = RC<string>.Ok(ver.VersionString);
                     break;
                 }
             }
@@ -537,11 +541,11 @@ namespace MKPRG.Tracing.DocuTerms
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
-        public static EventTypes GetEventType(this IDocuEntity entity)
+        public static EventTypes GetEventType(this IDocuEntity entity, IComposer pnL)
         {
-            TraceHlp.ThrowArgExIfNot(entity.EntityType == DocuEntityTypes.Event, "Entity is not a event");
-            if (MapStringToEventType.ContainsKey(entity.Name()))
-                return MapStringToEventType[entity.Name()];
+            TraceHlp.ThrowArgExIfNot(entity.EntityType == DocuEntityTypes.Event, pnL.eFails("Entity is not a event"));
+            if (MapStringToEventType.ContainsKey(entity.Name(pnL)))
+                return MapStringToEventType[entity.Name(pnL)];
             else
                 return EventTypes.none;
         }

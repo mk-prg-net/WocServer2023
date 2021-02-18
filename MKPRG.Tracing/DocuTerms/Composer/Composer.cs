@@ -31,8 +31,8 @@ namespace MKPRG.Tracing.DocuTerms
 
         public Composer()
         {
-            //var NC = RCV3.NC;
-            fmt = RCV3.fmtPN;
+            //var NC = RC.NC;
+            fmt = RC.fmtPN;
         }
 
         public Composer(IFormater fmt)

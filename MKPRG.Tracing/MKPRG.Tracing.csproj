@@ -37,11 +37,11 @@
     <Reference Include="mko.Algo, Version=1.2.3.0, Culture=neutral, PublicKeyToken=f4d93f46e53e0656, processorArchitecture=MSIL">
       <HintPath>..\packages\mko.Algo.1.2.3\lib\net45\mko.Algo.dll</HintPath>
     </Reference>
-    <Reference Include="mko.RPN, Version=20.3.7381.20704, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\mko.RPN.20.3.7381.20704\lib\net45\mko.RPN.dll</HintPath>
+    <Reference Include="mko.RPN, Version=20.6.7719.38697, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\mko.RPN.20.6.7719.38697\lib\net45\mko.RPN.dll</HintPath>
     </Reference>
-    <Reference Include="mko.RPN.Arithmetik, Version=20.3.7381.20704, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\mko.RPN.Arithmetik.20.3.7381.20704\lib\net45\mko.RPN.Arithmetik.dll</HintPath>
+    <Reference Include="mko.RPN.Arithmetik, Version=20.3.7719.38699, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\mko.RPN.Arithmetik.20.3.7719.38699\lib\net45\mko.RPN.Arithmetik.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -145,6 +145,13 @@
     <Compile Include="DocuTerms\Parser\TextEval.cs" />
     <Compile Include="DocuTerms\Parser\TimeEval.cs" />
     <Compile Include="DocuTerms\Parser\VersionEval.cs" />
+    <Compile Include="Monitoring\IJob.cs" />
+    <Compile Include="Monitoring\IJobMonitoring.cs" />
+    <Compile Include="Monitoring\IJobMonitoringConsole.cs" />
+    <Compile Include="Monitoring\IJobMonitoringEvents.cs" />
+    <Compile Include="Monitoring\Job.cs" />
+    <Compile Include="Monitoring\JobMonitoringConsole.cs" />
+    <Compile Include="Naming\Tools.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RC.cs" />
     <Compile Include="RCException.cs" />
@@ -155,6 +162,7 @@
     <None Include="DocuTerms\Docu\.vscode\tasks.json" />
     <None Include="DocuTerms\Docu\DocuEntitiesComposer.md" />
     <None Include="DocuTerms\Docu\readme-DocuEntities-language.md" />
+    <None Include="Docu\ProgPolicies.md" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

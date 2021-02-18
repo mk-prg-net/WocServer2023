@@ -152,22 +152,22 @@ namespace MKPRG.Tracing
         }
 
 
-        /// <summary>
-        /// Wirft eine Argumentexception. Die Fehlermeldung ist automatisch 
-        /// umfassend dokumentiert (Zeit, Ort mit Assemblynamen, Klasse und Methode, sowie einer Ursachenbeschreibung).
-        /// </summary>
-        /// <param name="condition">Bedingung, die erfüllt sein muß</param>
-        /// <param name="msg">Fehlermeldung, falls Bedingung nicht erfüllt ist</param>
-        /// <param name="callerName">Name der aufrufenden Funktion, siehe https://msdn.microsoft.com/en-us/library/mt653988.aspx </param>
-        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.NoInlining)]
-        public static void ThrowArgEx(string msg, Exception innerException = null, [System.Runtime.CompilerServices.CallerMemberName] string callerName = "")
-        {
-            var mth = new System.Diagnostics.StackTrace().GetFrame(1).GetMethod();
-            var cls = mth.ReflectedType.Name;
-            var assembly = mth.ReflectedType.Assembly.GetName().Name;
+        ///// <summary>
+        ///// Wirft eine Argumentexception. Die Fehlermeldung ist automatisch 
+        ///// umfassend dokumentiert (Zeit, Ort mit Assemblynamen, Klasse und Methode, sowie einer Ursachenbeschreibung).
+        ///// </summary>
+        ///// <param name="condition">Bedingung, die erfüllt sein muß</param>
+        ///// <param name="msg">Fehlermeldung, falls Bedingung nicht erfüllt ist</param>
+        ///// <param name="callerName">Name der aufrufenden Funktion, siehe https://msdn.microsoft.com/en-us/library/mt653988.aspx </param>
+        //[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.NoInlining)]
+        //public static void ThrowArgEx(string msg, Exception innerException = null, [System.Runtime.CompilerServices.CallerMemberName] string callerName = "")
+        //{
+        //    var mth = new System.Diagnostics.StackTrace().GetFrame(1).GetMethod();
+        //    var cls = mth.ReflectedType.Name;
+        //    var assembly = mth.ReflectedType.Assembly.GetName().Name;
 
-            throw new ArgumentException(FormatErrMsg(assembly, cls, callerName, msg), innerException);
-        }
+        //    throw new ArgumentException(FormatErrMsg(assembly, cls, callerName, msg), innerException);
+        //}
 
         /// <summary>
         /// mko, 18.9.2018
@@ -385,7 +385,7 @@ namespace MKPRG.Tracing
         /// <param name="MethodName"></param>
         /// <param name="msg"></param>
         /// <returns></returns>
-        //public static string FormatWarningMsg(object Obj, string MethodName, PNDocuTerms.DocuEntities.IDocuEntity msg)
+        //public static string FormatWarningMsg(object Obj, string MethodName, IDocuEntity msg)
         //{
         //    var now = DateTime.Now;
         //    return fmt.Print(pnL.i($"{Obj.GetType().FullName}",

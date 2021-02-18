@@ -27,7 +27,7 @@ namespace MKPRG.Tracing
     /// InnerException entfernt.
     /// MessageDocuTerm hinzugefügt.
     /// </summary>
-    public class RC
+    public class RC: ISucceeded, ITraceInfo
     {
 
         /// <summary>
@@ -40,7 +40,7 @@ namespace MKPRG.Tracing
         /// mko
         /// Globaler Composer
         /// </summary>
-        public static DocuTerms.IComposer pnL;
+        public static IComposer pnL;
 
         /// <summary>
         /// mko
@@ -61,25 +61,25 @@ namespace MKPRG.Tracing
         }
 
 
-        internal RC(
-                    bool succeeded, 
-                    DateTime dat, 
-                    string User, 
-                    string Assembly, 
-                    string TypeName, 
-                    string FunctionName, 
-                    IComposer pnL, 
-                    IDocuEntity Message)
-        {
-            _succeeded = succeeded;
-            _User = User;
-            _Assembly = Assembly;
-            _TypeName = TypeName;
-            _FunctionName = FunctionName;
-            _Message = Message;
-            _dat = dat;
-            RC.pnL = pnL;
-        }
+        //internal RC(
+        //            bool succeeded, 
+        //            DateTime dat, 
+        //            string User, 
+        //            string Assembly, 
+        //            string TypeName, 
+        //            string FunctionName, 
+        //            IComposer pnL, 
+        //            IDocuEntity Message)
+        //{
+        //    _succeeded = succeeded;
+        //    _User = User;
+        //    _Assembly = Assembly;
+        //    _TypeName = TypeName;
+        //    _FunctionName = FunctionName;
+        //    _Message = Message;
+        //    _dat = dat;
+        //    RC.pnL = pnL;
+        //}
 
 
         [DataMember(Name = "Succeeded")]
@@ -139,15 +139,7 @@ namespace MKPRG.Tracing
         public string FunctionName => _FunctionName;
 
         [Newtonsoft.Json.JsonIgnore]
-        public DocuTerms.IDocuEntity Message => _Message;
-
-        public override string ToString()
-        {
-            return $"{StartTimeSingleton.TimeDifferenceToStartTimeInMs(LogDate).ToString("D9")} "
-                  + $"{AssemblyName}.{TypeName}.{FunctionName} {(Succeeded ? "-> ok" : "-> failed!")} "
-                  + (!string.IsNullOrWhiteSpace(Message) ? $": {Message}" : "");
-        }
-
+        public IDocuEntity Message => _Message;
 
         /// <summary>
         /// Indicates a successful function call.
@@ -169,7 +161,7 @@ namespace MKPRG.Tracing
             var cls = mth.ReflectedType.Name;
             var assembly = mth.ReflectedType.Assembly.GetName().Name;
 
-            return new RC(true, DateTime.Now, User, assembly, cls, mth.Name, pnL, docuEntity);
+            return new RC(true, DateTime.Now, User, assembly, cls, mth.Name, docuEntity);
         }
 
 
@@ -185,7 +177,7 @@ namespace MKPRG.Tracing
             var cls = mth.ReflectedType.Name;
             var assembly = mth.ReflectedType.Assembly.GetName().Name;
 
-            return new RC(false, DateTime.Now, User, assembly, cls, mth.Name, pnL, pnL.NID(TT.Sets.None.UID));
+            return new RC(false, DateTime.Now, User, assembly, cls, mth.Name, pnL.NID(TT.Sets.None.UID));
         }
 
         public static RC Failed(IComposer pnL, IDocuEntity ErrorDescription, string User = "*")
@@ -194,7 +186,7 @@ namespace MKPRG.Tracing
             var cls = mth.ReflectedType.Name;
             var assembly = mth.ReflectedType.Assembly.GetName().Name;
 
-            return new RC(false, DateTime.Now, User, assembly, cls, mth.Name, pnL, ErrorDescription);
+            return new RC(false, DateTime.Now, User, assembly, cls, mth.Name, ErrorDescription);
         }
 
 
@@ -210,14 +202,14 @@ namespace MKPRG.Tracing
             var cls = mth.ReflectedType.Name;
             var assembly = mth.ReflectedType.Assembly.GetName().Name;
 
-            //var fmt = new PNDocuTerms.DocuEntities.PNFormater(pnL);
+            //var fmt = new PNFormater(pnL);
 
-            return new RCV3(false, DateTime.Now, User, assembly, cls, mth.Name, TraceHlp.FlattenExceptionMessagesPN(ex));
+            return new RC(false, DateTime.Now, User, assembly, cls, mth.Name, TraceHlp.FlattenExceptionMessagesPN(ex));
         }
 
         /// <summary>
         /// mko, 22.10.2018
-        /// Erstellt einen RCV3 parametrisch.
+        /// Erstellt einen RC parametrisch.
         /// </summary>
         /// <param name="value"></param>
         /// <param name="Succedeed"></param>
@@ -225,99 +217,50 @@ namespace MKPRG.Tracing
         /// <param name="User"></param>
         /// <param name="inner"></param>
         /// <returns></returns>
-        public static RCV3 Create(bool Succedeed = true, IDocuEntity ErrorDescription = null, string User = "*", RCV3 inner = null, [CallerMemberName] string caller = "")
+        public static RC Create(bool Succedeed = true, IDocuEntity ErrorDescription = null, string User = "*", RC inner = null, [CallerMemberName] string caller = "")
         {
             var mth = new System.Diagnostics.StackTrace().GetFrame(1).GetMethod();
             var cls = mth.ReflectedType.Name;
             var assembly = mth.ReflectedType.Assembly.GetName().Name;
 
-            return new RCV3(Succedeed, DateTime.Now, User, assembly, cls, caller, ErrorDescription, inner);
+            return new RC(Succedeed, DateTime.Now, User, assembly, cls, caller, ErrorDescription);
         }
 
-
-
-        //internal RCV3(bool succeeded, DateTime dat, string User, string Assembly, string TypeName, string FunctionName, string Message, IRCV2 innerRC = null)            
-        //{
-        //    _Succeeded = succeeded;
-        //    _User = User;
-        //    _AssemblyName = Assembly;
-        //    _TypeName = TypeName;
-        //    _FunctionName = FunctionName;
-        //    this.Message = Message;
-        //    _LogDate = dat;
-        //    _InnerRC = TranformToRCV3(innerRC);
-        //}
-
-        internal RCV3(bool succeeded, DateTime dat, string User, string Assembly, string TypeName, string FunctionName, IDocuEntity Message, IRCV2 innerRC = null)
+        internal RC(bool succeeded, DateTime dat, string User, string Assembly, string TypeName, string FunctionName, IDocuEntity Message)
         {
-            _Succeeded = succeeded;
+            _succeeded = succeeded;
             _User = User;
-            _AssemblyName = Assembly;
+            _Assembly = Assembly;
             _TypeName = TypeName;
             _FunctionName = FunctionName;
-            _MessageEntity = Message;
-            _LogDate = dat;
-            _InnerRC = TranformToRCV3(innerRC);
+            _Message = Message;
+            _dat = dat;
         }
 
-        public RCV3(RCV3 ori)
-            : this(ori.Succeeded, ori.LogDate, ori.User, ori.AssemblyName, ori.TypeName, ori.FunctionName, ori.MessageEntity)
+        public RC(RC ori)
+            : this(ori.Succeeded, ori.LogDate, ori.User, ori.AssemblyName, ori.TypeName, ori.FunctionName, ori.Message)
         {
         }
 
-        public RCV3 Clone()
+        public RC Clone()
         {
-            return new RCV3(Succeeded, LogDate, User, AssemblyName, TypeName, FunctionName, pnL.txt(Message));
+            return new RC(Succeeded, LogDate, User, AssemblyName, TypeName, FunctionName, Message);
         }
 
 
-        /// <summary>
-        /// mko, 25.7.2018
-        /// Transforms objects with IRCV2 Values in RCV3- values recursivly. 
-        /// Because _InnerRC ist of type RCV3, this "reconstruction" of RCV3 object with data from IRCV2 
-        /// objects is necessary.
-        /// </summary>
-        /// <param name="rc"></param>
-        /// <returns></returns>
-        public static RCV3 TranformToRCV3(IRCV2 rc)
+
+        public static RC TranformToRC(RC<ParserV2.Result> rc)
         {
             if (rc != null)
             {
-                return new RCV3(
+                return new RC(
                     rc.Succeeded,
                     rc.LogDate,
                     rc.User,
                     rc.AssemblyName,
                     rc.TypeName,
                     rc.FunctionName,
-                    pnL.txt(rc.Message),
-                    rc.InnerRCV2 != null ? TranformToRCV3(rc.InnerRCV2) : null);
-            }
-            else
-            {
-                return null;
-            }
-        }
-
-        public static RCV3 TranformToRCV3(RC<ParserV2.Result> rc)
-        {
-            if (rc != null)
-            {
-                IRCV2 inner = null;
-                if (rc.InnerRCV2 != null)
-                {
-                    inner = new RCV3(true, rc.InnerRCV2.LogDate, rc.InnerRCV2.User, rc.InnerRCV2.AssemblyName, rc.InnerRCV2.TypeName, rc.InnerRCV2.FunctionName, pnL.txt(rc.InnerRCV2.Message));
-                }
-
-                return new RCV3(
-                    rc.Succeeded,
-                    rc.LogDate,
-                    rc.User,
-                    rc.AssemblyName,
-                    rc.TypeName,
-                    rc.FunctionName,
-                    pnL.txt(rc.Message),
-                    inner);
+                    rc.Message);
             }
             else
             {
@@ -330,25 +273,18 @@ namespace MKPRG.Tracing
         /// </summary>
         /// <param name="rc"></param>
         /// <returns></returns>
-        public static RCV3 TranformToRCV3(RC<IToken[]> rc)
+        public static RC TranformToRC(RC<IToken[]> rc, IComposer pnL)
         {
             if (rc != null)
             {
-                IRCV2 inner = null;
-                if (rc.InnerRCV2 != null)
-                {
-                    inner = new RCV3(true, rc.InnerRCV2.LogDate, rc.InnerRCV2.User, rc.InnerRCV2.AssemblyName, rc.InnerRCV2.TypeName, rc.InnerRCV2.FunctionName, pnL.txt(rc.InnerRCV2.Message));
-                }
-
-                return new RCV3(
+                return new RC(
                     rc.Succeeded,
                     rc.LogDate,
                     rc.User,
                     rc.AssemblyName,
                     rc.TypeName,
-                    rc.FunctionName,
-                    pnL.txt(rc.Message),
-                    inner);
+                    rc.FunctionName,                    
+                    rc.Message);
             }
             else
             {
@@ -357,23 +293,21 @@ namespace MKPRG.Tracing
         }
 
 
-        public RCV3()
+        public RC()
         {
         }
 
         public virtual IDocuEntity ToPlx()
         {
-            PNDocuTerms.DocuEntities.IDocuEntity de = null;
+            IDocuEntity de = null;
 
             // To leave the IRCV2 interface untouched type check for _InnerIRCv2 is needed 
             // Otherwise IRCV2 needs to be extended with IRCV2 InnerIRCv2 { get; } Property
 
-            var details = pnL.i(ANC.DocuTerms.MetaData.Details.UID,
-                pnL.p(ANC.TechTerms.Timeline.DateStamp.UID, pnL.date(LogDate)),
-                pnL.KillIf(string.IsNullOrWhiteSpace(User), () => (IInstanceMember)pnL.p(ANC.TechTerms.Authentication.UserId.UID, User)),
-                pnL.KillIf(MessageEntity == null, () => (IInstanceMember)pnL.p(ANC.DocuTerms.MetaData.Msg.UID, pnL.EncapsulateAsPropertyValue(MessageEntity))),
-                pnL.KillIf(InnerRCV2 == null || !(InnerRCV2 is IRCV2), () => (IInstanceMember)pnL.p("inner", pnL.EncapsulateAsPropertyValue(InnerRCV2.ToPlx())))
-                );
+            var details = pnL.i(TTD.MetaData.Details.UID,
+                pnL.p(TT.Timeline.DateStamp.UID, pnL.date(LogDate)),
+                pnL.KillIf(string.IsNullOrWhiteSpace(User), () => (IInstanceMember)pnL.p(TT.Authentication.UserId.UID, User)),
+                pnL.KillIf(Message == null, () => (IInstanceMember)pnL.p(TTD.MetaData.Msg.UID, pnL.EncapsulateAsPropertyValue(Message))));
 
             de = pnL.i($"{AssemblyName}.{TypeName}",
                     pnL.m(FunctionName,
@@ -390,29 +324,29 @@ namespace MKPRG.Tracing
         /// Creates from plx
         /// </summary>
         /// <param name="plx"></param>
-        public static RCV3 Parse(IDocuEntity plx)
+        public static RC Parse(IDocuEntity plx, IComposer pnL)
         {
-            var rc = new RCV3();
+            var rc = new RC();
 
-            TraceHlp.ThrowArgExIfNot(plx.EntityType == DocuEntityTypes.Instance, "plx is not a instantce");
-            TraceHlp.ThrowArgExIfNot(System.Text.RegularExpressions.Regex.IsMatch(plx.Name(), @"[\w\.\<\>]+\.[\w\<\>]+\.[\w\<\>]+$"), "plx instance name do not contains assembly.typename.functionname");
+            TraceHlp.ThrowArgExIfNot(plx.EntityType == DocuEntityTypes.Instance, pnL.eFails("plx is not a instantce"));
+            TraceHlp.ThrowArgExIfNot(System.Text.RegularExpressions.Regex.IsMatch(plx.Name(pnL), @"[\w\.\<\>]+\.[\w\<\>]+\.[\w\<\>]+$"), pnL.eFails("plx instance name do not contains assembly.typename.functionname"));
             {
-                var parts = plx.Name().Split(new char[] { '.' }, StringSplitOptions.RemoveEmptyEntries);
-                TraceHlp.ThrowArgExIfNot(parts.Length >= 3, "plx instance name is incomplete");
+                var parts = plx.Name(pnL).Split(new char[] { '.' }, StringSplitOptions.RemoveEmptyEntries);
+                TraceHlp.ThrowArgExIfNot(parts.Length >= 3, pnL.eFails("plx instance name is incomplete"));
                 rc._TypeName = parts[parts.Length - 2];
                 rc._FunctionName = parts[parts.Length - 1];
 
-                rc._AssemblyName = string.Join(".", parts.Take(parts.Length - 2));
+                rc._Assembly = string.Join(".", parts.Take(parts.Length - 2));
             }
 
-            TraceHlp.ThrowArgExIfNot(plx.HasValue(), "plx of RCV3 do not contains content");
+            TraceHlp.ThrowArgExIfNot(plx.HasValue(), pnL.eFails("plx of RC do not contains content"));
             {
-                rc._Succeeded = null != plx.FindNamedEntity(DocuEntityTypes.Event, "succeeded", 2);
+                rc._succeeded = null != plx.FindNamedEntity(DocuEntityTypes.Event, "succeeded", 2);
 
                 var dat = plx.FindNamedEntity(DocuEntityTypes.Property, "logDate", 2);
                 if (null != dat)
                 {
-                    rc._LogDate = DateTime.Parse(dat.EntityValue().GetText());
+                    rc._dat = DateTime.Parse(dat.EntityValue().GetText());
                 }
 
                 var user = plx.FindNamedEntity(DocuEntityTypes.Property, "user", 2);
@@ -424,13 +358,7 @@ namespace MKPRG.Tracing
                 var msg = plx.FindNamedEntity(DocuEntityTypes.Property, "msg", 2);
                 if (null != msg)
                 {
-                    rc._MessageEntity = msg.EntityValue();
-                }
-
-                var inner = plx.FindNamedEntity(DocuEntityTypes.Property, "inner", 2);
-                if (inner != null)
-                {
-                    rc._InnerRC = Parse(inner.EntityValue());
+                    rc._Message = msg.EntityValue();
                 }
             }
 
@@ -451,13 +379,13 @@ namespace MKPRG.Tracing
         /// </summary>
         /// <param name="User"></param>
         /// <returns></returns>
-        public static RC<T> Ok(T value, string User = "*", string Message = "", RC inner = null)
+        public static RC<T> Ok(T value, string User = "*", IDocuEntity Message = null)
         {
             var mth = new System.Diagnostics.StackTrace().GetFrame(1).GetMethod();
             var cls = mth.ReflectedType.Name;
             var assembly = mth.ReflectedType.Assembly.GetName().Name;
 
-            return new RC<T>(true, value, DateTime.Now, User, assembly, cls, mth.Name, Message, inner);
+            return new RC<T>(true, value, DateTime.Now, User, assembly, cls, mth.Name, Message);
         }
 
         /// <summary>
@@ -466,18 +394,18 @@ namespace MKPRG.Tracing
         /// <param name="User"></param>
         /// <param name="ErrorDescription"></param>
         /// <returns></returns>
-        public static RC<T> Failed(T value, string User = "*", string ErrorDescription = "", RC inner = null)
+        public static RC<T> Failed(T value, string User = "*", IDocuEntity ErrorDescription = null)
         {
             var mth = new System.Diagnostics.StackTrace().GetFrame(1).GetMethod();
             var cls = mth.ReflectedType.Name;
             var assembly = mth.ReflectedType.Assembly.GetName().Name;
 
-            return new RC<T>(false, value, DateTime.Now, User, assembly, cls, mth.Name, ErrorDescription, inner);
+            return new RC<T>(false, value, DateTime.Now, User, assembly, cls, mth.Name, ErrorDescription);
         }
 
 
-        internal RC(bool succeeded, T value, DateTime dat, string User, string Assembly, string TypeName, string FunctionName, string Message, RC inner)
-            : base(succeeded, dat, User, Assembly, TypeName, FunctionName, Message, inner)
+        internal RC(bool succeeded, T value, DateTime dat, string User, string Assembly, string TypeName, string FunctionName, IDocuEntity Message)
+            : base(succeeded, dat, User, Assembly, TypeName, FunctionName, Message)
         {
             _value = value;
         }
@@ -490,7 +418,7 @@ namespace MKPRG.Tracing
         {
             return $"{StartTimeSingleton.TimeDifferenceToStartTimeInMs(LogDate).ToString("D9")} "
                   + $"{AssemblyName}.{TypeName}.{FunctionName} " + (Succeeded ? $"-> {Value}" : "-> failed!")
-                  + (!string.IsNullOrWhiteSpace(Message) ? $": {Message}" : "");
+                  + (Message != null ? $": {RC.fmtPN.Print(Message)}" : "");
         }
     }
 }

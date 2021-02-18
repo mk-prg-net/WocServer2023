@@ -167,7 +167,7 @@ Analog Eigenschaft.
 ## Return Status Descriptor
 
 Ein **Return Status Descriptor** ist eine strukturierte (=baumartige) Beschreibung des Ergebnisses eines 
-Funktionsaufrufes. Z.B. ist die Eigenschaft MessageEntity eines RCV3 Objektes ein **Return Status Descriptor**.
+Funktionsaufrufes. Z.B. ist die Eigenschaft MessageEntity eines RC Objektes ein **Return Status Descriptor**.
 
 
 

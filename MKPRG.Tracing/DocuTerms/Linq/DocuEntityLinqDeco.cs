@@ -32,9 +32,9 @@ namespace MKPRG.Tracing.DocuTerms
         /// mko, 22.11.2018
         /// returns true, if this docEntity is a instance with given name.
         /// </summary>
-        public bool IsInstance(string name)
+        public bool IsInstance(string name, IComposer pnL)
         {
-            return EntityType == DocuEntityTypes.Instance && DocuEntityHlp.Name(this) == name;
+            return EntityType == DocuEntityTypes.Instance && DocuEntityHlp.Name(this, pnL) == name;
         }
 
 
@@ -118,14 +118,14 @@ namespace MKPRG.Tracing.DocuTerms
 
 
 
-        public bool IsMethod(string name)
+        public bool IsMethod(string name, IComposer pnL)
         {
-            return EntityType == DocuEntityTypes.Method && DocuEntityHlp.Name(this) == name;
+            return EntityType == DocuEntityTypes.Method && DocuEntityHlp.Name(this, pnL) == name;
         }
 
-        public bool IsProperty(string name)
+        public bool IsProperty(string name, IComposer pnL)
         {
-            return EntityType == DocuEntityTypes.Property && DocuEntityHlp.Name(this) == name;
+            return EntityType == DocuEntityTypes.Property && DocuEntityHlp.Name(this, pnL) == name;
         }
 
         //public bool IsReturn(string name)
@@ -134,9 +134,9 @@ namespace MKPRG.Tracing.DocuTerms
             return EntityType == DocuEntityTypes.ReturnValue; // && DocuEntityHlp.Name(this) == name;
         }
 
-        public bool IsEvent(string name)
+        public bool IsEvent(string name, IComposer pnL)
         {
-            return EntityType == DocuEntityTypes.Event && DocuEntityHlp.Name(this) == name;
+            return EntityType == DocuEntityTypes.Event && DocuEntityHlp.Name(this, pnL) == name;
         }
 
         
@@ -254,12 +254,12 @@ namespace MKPRG.Tracing.DocuTerms
         /// </summary>
         /// <param name="Name"></param>
         /// <returns></returns>
-        public DocuEntityWithNameLinqDeco ReturnValueOf(string Name)
+        public DocuEntityWithNameLinqDeco ReturnValueOf(string Name, IComposer pnL)
         {
             DocuEntityWithNameLinqDeco ret = null;
 
             //var retp=  entity.Childs.First(r => r.EntityType == DocuEntityTypes.Method && r.Name() == Name)?.Childs.First(r => r.EntityType == DocuEntityTypes.ReturnValue);
-            var retp = GetAllChildsOfType(entity, DocuEntityTypes.Method).First(r => r.EntityType == DocuEntityTypes.Method && r.Name() == Name)?.Childs.First(r => r.EntityType == DocuEntityTypes.ReturnValue);
+            var retp = GetAllChildsOfType(entity, DocuEntityTypes.Method).First(r => r.EntityType == DocuEntityTypes.Method && r.Name(pnL) == Name)?.Childs.First(r => r.EntityType == DocuEntityTypes.ReturnValue);
             if (retp != null)
             {
                 ret = new DocuEntityWithNameLinqDeco(retp);

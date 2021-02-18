@@ -453,12 +453,12 @@ namespace MKPRG.Tracing.DocuTerms
                 else if (a is NID nidA_ && b is String str_B)
                 {
                     // mko, 14.7.2020
-                    res = RCV3.NC[nidA_.NamingId].CNT == str_B.Value;
+                    res = RC.NC[nidA_.NamingId].CNT == str_B.Value;
                 }
                 else if (a is String strA_ && b is NID nid_B)
                 {
                     // mko, 14.7.2020
-                    res = strA_.Value == RCV3.NC[nid_B.NamingId].CNT;
+                    res = strA_.Value == RC.NC[nid_B.NamingId].CNT;
                 }
 
 
@@ -612,7 +612,7 @@ namespace MKPRG.Tracing.DocuTerms
         /// <param name="searchAnywhere">Wenn false, dann muss der Baumn mit dem Teilbaumabschnitt beginnen. sonst wird nach dem ersten Teilbaum linksrekursiv gesucht</param>
         /// <param name="PropertyValueWildCard">Bei Properties im subTreePattern mit diesem Wert muss nur der Eigenschaftsname übereinstimmen, nicht jedoch der Wert</param>
         /// <returns></returns>
-        public static RCV3sV<(IDocuEntity subTree, IDocuEntity subTreeParent, long depth)> AsSubTreeOf(
+        public static RCsV<(IDocuEntity subTree, IDocuEntity subTreeParent, long depth)> AsSubTreeOf(
             this IDocuEntity subTreePattern,
             IDocuEntity treeRoot,
             IComposer pnL,
@@ -620,11 +620,11 @@ namespace MKPRG.Tracing.DocuTerms
             long deepth = 0,
             IDocuEntity subTreeParent = null)
         {
-            var ret = RCV3sV<(IDocuEntity, IDocuEntity, long)>.Failed(value: (null, null, -1), ErrorDescription: pnL.ReturnNotCompleted("SearchAsSubTreeOf"));
+            var ret = RCsV<(IDocuEntity, IDocuEntity, long)>.Failed(value: (null, null, -1), ErrorDescription: pnL.ReturnNotCompleted("SearchAsSubTreeOf"));
 
             if (subTreePattern.IsSubTreeOf(treeRoot, false))
             {
-                ret = RCV3sV<(IDocuEntity, IDocuEntity, long)>.Ok(value: (treeRoot, subTreeParent, deepth));
+                ret = RCsV<(IDocuEntity, IDocuEntity, long)>.Ok(value: (treeRoot, subTreeParent, deepth));
             }
             else if (searchAnywhere)
             {
@@ -648,7 +648,7 @@ namespace MKPRG.Tracing.DocuTerms
                 else
                 {
                     // Im Baum wurde keine Übereinstimmung mit der Teilbaumstruktur gefunden
-                    ret = RCV3sV<(IDocuEntity, IDocuEntity, long)>.Failed(
+                    ret = RCsV<(IDocuEntity, IDocuEntity, long)>.Failed(
                         value: (null, null, -1),
                         ErrorDescription: pnL.ReturnSearchFailsEmptyResult(pnL.EncapsulateAsPropertyValue(subTreePattern)));
                 }
@@ -658,7 +658,7 @@ namespace MKPRG.Tracing.DocuTerms
 
 
                 // Im Baum wurde keine Übereinstimmung mit der Teilbaumstruktur gefunden
-                ret = RCV3sV<(IDocuEntity, IDocuEntity, long)>.Failed(
+                ret = RCsV<(IDocuEntity, IDocuEntity, long)>.Failed(
                     value: (null, null, -1),
                     ErrorDescription: pnL.ReturnSearchFailsEmptyResult(pnL.EncapsulateAsPropertyValue(subTreePattern)));
             }
@@ -676,7 +676,7 @@ namespace MKPRG.Tracing.DocuTerms
         /// <param name="deepth"></param>
         /// <param name="PropertyValueWildCard">Bei Properties im subTreePattern mit diesem Wert muss nur der Eigenschaftsname übereinstimmen, nicht jedoch der Wert</param>
         /// <returns></returns>
-        public static RCV3sV<IEnumerable<(IDocuEntity subTree, IDocuEntity subTreeParent, long depth)>> AsSubTreeOf_AllOccurrences
+        public static RCsV<IEnumerable<(IDocuEntity subTree, IDocuEntity subTreeParent, long depth)>> AsSubTreeOf_AllOccurrences
             (this IDocuEntity subTreePattern,
             IDocuEntity treeRoot,
             IComposer pnL,
@@ -687,7 +687,7 @@ namespace MKPRG.Tracing.DocuTerms
 
             var matches = new List<(IDocuEntity subTree, IDocuEntity subTreeParent, long depth)>();
 
-            var ret = RCV3sV<IEnumerable<(IDocuEntity subTree, IDocuEntity subTreeParent, long depth)>>.Failed(
+            var ret = RCsV<IEnumerable<(IDocuEntity subTree, IDocuEntity subTreeParent, long depth)>>.Failed(
                 value: matches,
                 ErrorDescription: pnL.ReturnNotCompleted(
                                         "AsSubTreeOf_AllOccurrences",
@@ -703,13 +703,13 @@ namespace MKPRG.Tracing.DocuTerms
                 // Deshalb ist Debug.Assert hier nicht ausreichend.
                 if (subTreePattern == null)
                 {
-                    return RCV3sV<IEnumerable<(IDocuEntity subTree, IDocuEntity subTreeParent, long depth)>>.Failed(
+                    return RCsV<IEnumerable<(IDocuEntity subTree, IDocuEntity subTreeParent, long depth)>>.Failed(
                         value: matches,
                         ErrorDescription: pnL.ReturnValidatePreconditionNotNullFailed(pnL.p(ANC.DocuTerms.MetaData.Arg.UID, ANC.TechTerms.Trees.SubTree.UID)));
                 }
                 else if (treeRoot == null)
                 {
-                    return RCV3sV<IEnumerable<(IDocuEntity subTree, IDocuEntity subTreeParent, long depth)>>.Failed(
+                    return RCsV<IEnumerable<(IDocuEntity subTree, IDocuEntity subTreeParent, long depth)>>.Failed(
                         value: matches,
                         ErrorDescription: pnL.ReturnValidatePreconditionNotNullFailed(pnL.p(ANC.DocuTerms.MetaData.Arg.UID, ANC.TechTerms.Trees.Root.UID)));
                 }
@@ -724,7 +724,7 @@ namespace MKPRG.Tracing.DocuTerms
 
                     if (first.Succeeded || !first.Succeeded && pnL.ReturnSearchFailsEmptyResult().IsSubTreeOf(first.MessageEntity, true))
                     {
-                        ret = RCV3sV<IEnumerable<(IDocuEntity subTree, IDocuEntity subTreeParent, long depth)>>.Ok(matches);
+                        ret = RCsV<IEnumerable<(IDocuEntity subTree, IDocuEntity subTreeParent, long depth)>>.Ok(matches);
 
                         // Weitere Teilbäume innerhalb des aktuellen Teilbaumes suchen
                         foreach (var child in treeRoot.Childs)
@@ -736,7 +736,7 @@ namespace MKPRG.Tracing.DocuTerms
                             }
                             else
                             {
-                                ret = RCV3sV<IEnumerable<(IDocuEntity subTree, IDocuEntity subTreeParent, long depth)>>.Failed(matches, getAllSubtrees.ToPlx());
+                                ret = RCsV<IEnumerable<(IDocuEntity subTree, IDocuEntity subTreeParent, long depth)>>.Failed(matches, getAllSubtrees.ToPlx());
                                 break;
                             }
                         }
@@ -744,20 +744,20 @@ namespace MKPRG.Tracing.DocuTerms
                         if (ret.Succeeded)
                         {
                             // Rückgabewert mit den allen Treffern aktualisieren
-                            ret = RCV3sV<IEnumerable<(IDocuEntity subTree, IDocuEntity subTreeParent, long depth)>>.Ok(matches);
+                            ret = RCsV<IEnumerable<(IDocuEntity subTree, IDocuEntity subTreeParent, long depth)>>.Ok(matches);
                         }
                     }
                     else
                     {
                         // Fall: In der Suche ging was schief
-                        ret = RCV3sV<IEnumerable<(IDocuEntity subTree, IDocuEntity subTreeParent, long depth)>>.Failed(value: matches, ErrorDescription: first.ToPlx());
+                        ret = RCsV<IEnumerable<(IDocuEntity subTree, IDocuEntity subTreeParent, long depth)>>.Failed(value: matches, ErrorDescription: first.ToPlx());
                     }
 
                 }
             }
             catch (Exception ex)
             {
-                ret = RCV3sV<IEnumerable<(IDocuEntity subTree, IDocuEntity subTreeParent, long depth)>>.Failed(value: matches, ErrorDescription: TraceHlp.FlattenExceptionMessagesPN(ex));
+                ret = RCsV<IEnumerable<(IDocuEntity subTree, IDocuEntity subTreeParent, long depth)>>.Failed(value: matches, ErrorDescription: TraceHlp.FlattenExceptionMessagesPN(ex));
             }
 
             return ret;

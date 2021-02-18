@@ -9,11 +9,11 @@ namespace MKPRG.Tracing
 {
     /// <summary>
     /// mko, 2.7.2019
-    /// Ausnahme, die geworfen wird, wenn auf einen Wert in RCV3WithValue zugegriffen werden soll, das
+    /// Ausnahme, die geworfen wird, wenn auf einen Wert in RCWithValue zugegriffen werden soll, das
     /// Rückgabeobjekt jedoch einen Fehler anzeigt und kein Wert existiert.
     /// 
     /// mko, 14.11.2019
-    /// Aus RCV3GetValueException verallgemeinert.
+    /// Aus RCGetValueException verallgemeinert.
     /// 
     /// mko, 26.6.2020
     /// Schnittstele IExceptionWithDocuTermDescription hinzugefügt

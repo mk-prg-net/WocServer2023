@@ -48,7 +48,7 @@ namespace MKPRG.Tracing
         /// <summary>
         /// Zusätzliche Informationen über die Aufzeichnung eines Funktionsaufrufes
         /// </summary>
-        string Message { get; }
+        DocuTerms.IDocuEntity Message { get; }
 
     }
 }
