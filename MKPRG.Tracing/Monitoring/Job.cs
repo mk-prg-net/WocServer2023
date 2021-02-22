@@ -25,7 +25,7 @@ namespace MKPRG.Tracing.Monitoring
 
         long _JobId;
         JobState _JobState;
-        string _Title;
+        IListMember _JobDescr;
         long _EstimatedEffort;
         long _CurrentProgress;
         DateTime _Created;
@@ -83,19 +83,19 @@ namespace MKPRG.Tracing.Monitoring
             }
         }
 
-        public string Title {
+        public IListMember JobDescr {
             get
             {
                 lock (this)
                 {
-                    return _Title;
+                    return _JobDescr;
                 }
             }
             set
             {
                 lock (this)
                 {
-                    _Title = value;
+                    _JobDescr = value;
                 }
             }
         }

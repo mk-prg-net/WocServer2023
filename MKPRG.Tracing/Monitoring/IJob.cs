@@ -44,7 +44,7 @@ namespace MKPRG.Tracing.Monitoring
         /// <summary>
         /// Informelle Beschreibung des Jobs
         /// </summary>
-        string Title { get; }
+        IListMember JobDescr { get; }
 
         /// <summary>
         /// voraussichtlicher Arbeitsaufwand

@@ -26,10 +26,10 @@ namespace MKPRG.Tracing.Monitoring
         /// Ein neuer nebenläufiger Prozess (Job) wird registiert. Wenn erfolgreich, dann liefert die 
         /// Funktion eine eindeutige ID für die Identifizirung des Jobs durch den Monitor Job zurück
         /// </summary>
-        /// <param name="title">Informelle Beschreibung des Jobs (ird benutzt in Anzeigen des Prozessfortschrittes)</param>
+        /// <param name="title">Informelle Beschreibung des Jobs (wird benutzt in Anzeigen des Prozessfortschrittes)</param>
         /// <param name="estimatedEffort">prognostizierte Ausführungsdauer in ms</param>        
         /// <returns></returns>
-        RC<long> registerJob(string title, long estimatedEffort);
+        RC<long> registerJob(IListMember jobDescr, long estimatedEffort);
 
 
         /// <summary>

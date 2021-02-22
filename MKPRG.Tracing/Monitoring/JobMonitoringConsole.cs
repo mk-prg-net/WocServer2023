@@ -25,6 +25,9 @@ namespace MKPRG.Tracing.Monitoring
     /// Verhalten der Funktionen erweitert um Aufzeichnung von Logmeldungen während eines Jobs. Die Logmeldungen 
     /// werden am Ende in einer DokuTerm- Liste zusammengefasst und in die  ResultDocu-Eigenschaft des Jobs kopiert.
     /// 
+    /// mko, 22.2.2021
+    /// Integriert in MKPRG.Tracing
+    /// 
     /// </summary>
     public class JobMonitoringConsole 
         : IJobMonitoring, 
@@ -69,7 +72,7 @@ namespace MKPRG.Tracing.Monitoring
 
                 // Umgebung vom beantragten Jobabbruch benachrichtigen
                 JobAbortRequestedEvent?.Invoke(_Jobs[JobId]);
-                ret = RC.Ok();
+                ret = RC.Ok(pnL);
             }
 
             return ret;
@@ -79,20 +82,20 @@ namespace MKPRG.Tracing.Monitoring
         public RC<JobState> continueJob(long JobId)
         {
 
-            var ret = RC<JobState>.Failed(JobState.none, pnL.eFails());
+            var ret = RC<JobState>.Failed(JobState.none, ErrorDescription: pnL.eFails());
             if (!_Jobs.ContainsKey(JobId))
             {
-                ret = RC<JobState>.Failed(JobState.aborted,JobIdNotFound(JobId));
+                ret = RC<JobState>.Failed(JobState.aborted, ErrorDescription: JobIdNotFound(JobId));
 
             }
             else if (_Jobs[JobId].State == JobState.aborted)
             {
-                ret = RC<JobState>.Failed(JobState.aborted, JobAbortedMsg(JobId));
+                ret = RC<JobState>.Failed(JobState.aborted, ErrorDescription: JobAbortedMsg(JobId));
             }
             else if(_Jobs[JobId].State == JobState.stopped)
             {
                 _Jobs[JobId].State = JobState.running;
-                _logQueue[JobId].Enqueue(pnL.m("JobContinued", pnL.p(TT.Timeline.TimeStamp.UID, DateTime.Now.ToString())));
+                _logQueue[JobId].Enqueue(pnL.m(TT.Runtime.Continue.UID, pnL.p(TT.Timeline.TimeStamp.UID, pnL.time(DateTime.Now.TimeOfDay))));
 
                 // Umgebung von der Fortsetzung des zuvor gestoppten Jobs benachrichtigen
                 JobContinueEvent?.Invoke(_Jobs[JobId]);
@@ -108,19 +111,18 @@ namespace MKPRG.Tracing.Monitoring
         }
 
         private IDocuEntity JobIdNotFound(long JobId)
-        {
-            return pnL.i("JobList",
-                            pnL.m("get",
-                                    pnL.p("JobId", pnL.txt(JobId.ToString())),
-                                    pnL.ret(pnL.eFails("NotFound"))));
-        }
+            => pnL.m(TT.Access.Fetch.UID,
+                    pnL.p(TT.Access.Datasources.DataSource.UID, "JobList"),
+                    pnL.p(TT.Runtime.Jobs.JobId.UID, pnL.integer(JobId)),
+                    pnL.ret(pnL.eFails(TT.Search.NotFound.UID)));
+        
 
         public RC<JobState> deregisterJob(long JobId)
         {
             var ret = RC<JobState>.Failed(value: JobState.none, ErrorDescription: pnL.eFails());
             if (!_Jobs.ContainsKey(JobId))
             {
-                ret = RC<JobState>.Failed(JobState.aborted, JobIdNotFound(JobId));
+                ret = RC<JobState>.Failed(JobState.aborted, ErrorDescription: JobIdNotFound(JobId));
 
             }            
             if(_Jobs[JobId].State == JobState.running)
@@ -128,9 +130,9 @@ namespace MKPRG.Tracing.Monitoring
                 ret = RC<JobState>.Failed(value: _Jobs[JobId].State,
                    ErrorDescription:
                    pnL.ReturnValidatePreconditionFailed(
-                        pnL.m(TechTerms.RelationalOperators.mNotEq,
-                            pnL.p(TechTerms.MetaData.Arg, TechTerms.StateMachine.State),
-                            pnL.p(TechTerms.MetaData.Val, JobState.running.ToString()))));
+                        pnL.m(TT.Operators.Relations.NotEq.UID,
+                            pnL.p_NID(TTD.MetaData.Arg.UID, TTD.StateDescription.CurrentState.UID),
+                            pnL.p(TTD.MetaData.Arg.UID, JobState.running.ToString()))));
             }
             else
             {
@@ -145,12 +147,12 @@ namespace MKPRG.Tracing.Monitoring
             return ret;
         }
 
-        public RC<long> registerJob(string title, long estimatedEffort)
+        public RC<long> registerJob(IListMember jobDescr, long estimatedEffort)
         {
             var job = new Job();
             job.JobId = System.Threading.Interlocked.Increment(ref _nextJobId);
             job.EstimatedEffort = estimatedEffort;
-            job.Title = title;
+            job.JobDescr = jobDescr;
             job.Created = DateTime.Now;
 
             _Jobs[job.JobId] = job;
@@ -165,12 +167,12 @@ namespace MKPRG.Tracing.Monitoring
             var ret = RC<JobState>.Failed(value: JobState.none, ErrorDescription: pnL.eFails());
             if (!_Jobs.ContainsKey(JobId))
             {
-                ret = RC<JobState>.Failed(JobState.aborted, JobIdNotFound(JobId));
+                ret = RC<JobState>.Failed(JobState.aborted, ErrorDescription: JobIdNotFound(JobId));
 
             }
             else if (_Jobs[JobId].State == JobState.aborted)
             {
-                ret = RC<JobState>.Failed(JobState.aborted, JobAbortedMsg(JobId));
+                ret = RC<JobState>.Failed(JobState.aborted, ErrorDescription: JobAbortedMsg(JobId));
             }
             else
             {
@@ -199,12 +201,12 @@ namespace MKPRG.Tracing.Monitoring
             var ret = RC<JobState>.Failed(value: JobState.none, ErrorDescription: pnL.eFails());
             if (!_Jobs.ContainsKey(JobId))
             {
-                ret = RC<JobState>.Failed(JobState.aborted, JobIdNotFound(JobId));
+                ret = RC<JobState>.Failed(JobState.aborted, ErrorDescription: JobIdNotFound(JobId));
 
             }
             else if (_Jobs[JobId].State == JobState.aborted)
             {
-                ret = RC<JobState>.Failed(JobState.aborted, JobAbortedMsg(JobId));
+                ret = RC<JobState>.Failed(JobState.aborted, ErrorDescription: JobAbortedMsg(JobId));
             }
             else
             {
@@ -232,20 +234,20 @@ namespace MKPRG.Tracing.Monitoring
 
         public RC<JobState> stopJob(long JobId)
         {
-            var ret = RC<JobState>.Failed(JobState.none, pnL.eFails());
+            var ret = RC<JobState>.Failed(JobState.none, ErrorDescription: pnL.eFails());
             if (!_Jobs.ContainsKey(JobId))
             {
-                ret = RC<JobState>.Failed(JobState.none, JobIdNotFound(JobId));
+                ret = RC<JobState>.Failed(JobState.none, ErrorDescription: JobIdNotFound(JobId));
 
             }
             else if (_Jobs[JobId].State == JobState.aborted)
             {
-                ret = RC<JobState>.Failed(_Jobs[JobId].State, JobAbortedMsg(JobId));
+                ret = RC<JobState>.Failed(_Jobs[JobId].State, ErrorDescription: JobAbortedMsg(JobId));
             }
             else
             {
                 _Jobs[JobId].State = JobState.stopped;
-                _logQueue[JobId].Enqueue(pnL.m("JobStopped", pnL.p(TT.Timeline.TimeStamp.UID, DateTime.Now.ToString())));
+                _logQueue[JobId].Enqueue(pnL.m(TT.Runtime.Stop.UID, pnL.p(TT.Timeline.TimeStamp.UID, pnL.time(DateTime.Now.TimeOfDay, true))));
 
                 // Benachrichtigen der Umgebung, das Job getoppt wurde
                 JobStoppedEvent?.Invoke(_Jobs[JobId]);
@@ -258,7 +260,9 @@ namespace MKPRG.Tracing.Monitoring
 
         private IDocuEntity JobAbortedMsg(long JobId)
         {
-            return pnL.i("Job", pnL.p("JobId", pnL.txt(JobId.ToString())), pnL.p("State", pnL.txt("aborted")));
+            return pnL.m(TT.Runtime.Abort.UID,
+                    pnL.p(TT.Grammar.Subject.UID, TT.Runtime.Jobs.Job.UID),
+                    pnL.p(TT.Runtime.Jobs.JobId.UID, pnL.integer(JobId)));
         }
 
         public RC<JobState> completeJob(long JobId)
@@ -268,12 +272,12 @@ namespace MKPRG.Tracing.Monitoring
             var ret = RC<JobState>.Failed(value: JobState.none, ErrorDescription: pnL.eFails());
             if (!_Jobs.ContainsKey(JobId))
             {
-                ret = RC<JobState>.Failed(JobState.none, JobIdNotFound(JobId));
+                ret = RC<JobState>.Failed(JobState.none, ErrorDescription: JobIdNotFound(JobId));
             }
             else if (_Jobs[JobId].State == JobState.aborted)
             {
                 _Jobs[JobId].ResultDocu = logList;
-                ret = RC<JobState>.Failed(_Jobs[JobId].State, JobAbortedMsg(JobId));
+                ret = RC<JobState>.Failed(_Jobs[JobId].State, ErrorDescription: JobAbortedMsg(JobId));
             }
             else
             {
@@ -303,12 +307,12 @@ namespace MKPRG.Tracing.Monitoring
             var ret = RC<JobState>.Failed(value: JobState.none, ErrorDescription: pnL.eFails());
             if (!_Jobs.ContainsKey(JobId))
             {
-                ret = RC<JobState>.Failed(JobState.none, JobIdNotFound(JobId));
+                ret = RC<JobState>.Failed(JobState.none, ErrorDescription: JobIdNotFound(JobId));
             }
             else if (_Jobs[JobId].State == JobState.aborted)
             {
                 _Jobs[JobId].ResultDocu = logList;
-                ret = RC<JobState>.Failed(_Jobs[JobId].State, JobAbortedMsg(JobId));
+                ret = RC<JobState>.Failed(_Jobs[JobId].State, ErrorDescription: JobAbortedMsg(JobId));
             }
             else
             {

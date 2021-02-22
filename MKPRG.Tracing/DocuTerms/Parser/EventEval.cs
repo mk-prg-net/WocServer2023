@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using mko.RPN;
-using pnL = MKPRG.Tracing.DocuTerms.Parser.Composer;
+using pnL = MKPRG.Tracing.DocuTerms.Composer;
 using MKPRG.Tracing.DocuTerms;
 
 using ANC = MKPRG.Naming;

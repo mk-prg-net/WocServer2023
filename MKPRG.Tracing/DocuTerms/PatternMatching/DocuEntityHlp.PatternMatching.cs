@@ -612,7 +612,7 @@ namespace MKPRG.Tracing.DocuTerms
         /// <param name="searchAnywhere">Wenn false, dann muss der Baumn mit dem Teilbaumabschnitt beginnen. sonst wird nach dem ersten Teilbaum linksrekursiv gesucht</param>
         /// <param name="PropertyValueWildCard">Bei Properties im subTreePattern mit diesem Wert muss nur der Eigenschaftsname übereinstimmen, nicht jedoch der Wert</param>
         /// <returns></returns>
-        public static RCsV<(IDocuEntity subTree, IDocuEntity subTreeParent, long depth)> AsSubTreeOf(
+        public static RC<(IDocuEntity subTree, IDocuEntity subTreeParent, long depth)> AsSubTreeOf(
             this IDocuEntity subTreePattern,
             IDocuEntity treeRoot,
             IComposer pnL,

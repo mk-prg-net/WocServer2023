@@ -96,6 +96,7 @@
     <Compile Include="TechTerms.StateMachine.Workflows.cs" />
     <Compile Include="TechTerms.Timeline.cs" />
     <Compile Include="TechTerms.Transactions.cs" />
+    <Compile Include="TechTerms.Tree.HID.cs" />
     <Compile Include="TechTerms.Trees.cs" />
     <Compile Include="TechTerms.Validation.cs" />
     <Compile Include="TechTerms.Validation.Errors.cs" />

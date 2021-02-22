@@ -8,6 +8,9 @@ using MKPRG.Tracing;
 using MKPRG.Tracing.DocuTerms;
 using ANC = MKPRG.Naming;
 
+using TT = MKPRG.Naming.TechTerms;
+using TTD = MKPRG.Naming.DocuTerms;
+
 namespace MKPRG.Trees
 {
     /// <summary>
@@ -78,11 +81,11 @@ namespace MKPRG.Trees
 
             TraceHlp.ThrowIndexOutOfRangeExceptionIf(next.end > parent.end,
                 pnL.m("AllocFirst",
-                    pnL.p(ANC.TechTerms.Trees.Parent.UID,
-                        pnL.i(ANC.TechTerms.Trees.Hid.UID,
-                            pnL.p(ANC.TechTerms.Sets.Begin.UID, parent.beg.ToString()),
-                            pnL.p(ANC.TechTerms.Sets.End.UID, parent.end.ToString()))),
-                    pnL.eFails("Parent Subspace is full- can't allocate new Hid")));
+                    pnL.p(TT.Trees.Parent.UID,
+                        pnL.i(TT.Trees.Hid.UID,
+                            pnL.p(TT.Sets.Begin.UID, pnL.integer(parent.beg)),
+                            pnL.p(TT.Sets.End.UID, pnL.integer(parent.end)))),
+                    pnL.eFails(TT.Trees.HID.HidAllocationError_IndexIntervallInParentNodeExhausted.UID)));
 
             return next;
         }
@@ -111,7 +114,7 @@ namespace MKPRG.Trees
                         pnL.i(ANC.TechTerms.Trees.Hid.UID,
                             pnL.p(ANC.TechTerms.Sets.Begin.UID, last.beg.ToString()),
                             pnL.p(ANC.TechTerms.Sets.End.UID, last.end.ToString()))),
-                    pnL.eFails("Parent Subspace is full- can't allocate new Hid")));
+                    pnL.eFails(TT.Trees.HID.HidAllocationError_IndexIntervallInParentNodeExhausted.UID)));
             
             return next;
         }

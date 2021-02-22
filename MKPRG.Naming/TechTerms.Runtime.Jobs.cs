@@ -47,4 +47,25 @@ namespace MKPRG.Naming.TechTerms.Runtime.Jobs
         public override string EN => "Job";
         public override string ES => "Seguimiento del trabajo";
     }
+
+    public class JobId
+    : NamingBase
+    {
+
+        public const long UID = 0xDCDE500F;
+
+        public JobId()
+            : base(UID)
+        {
+        }
+
+        public override string CNT => "jobId";
+        public override string CN => "职位编号";
+        public override string DE => "Job ID";
+        public override string EN => "Job ID";
+        public override string ES => "Job ID";
+    }
+
+
+
 }
