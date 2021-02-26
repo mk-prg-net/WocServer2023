@@ -6,6 +6,53 @@ using System.Threading.Tasks;
 
 namespace MKPRG.Naming.DocuTerms.Types
 {
+
+    public class DocuTerm
+        : NamingBase
+    {
+        public const long UID = 0xB8B9BBE1;
+
+        public DocuTerm()
+            : base(UID)
+        { }
+
+        public override string CNT => "docuTerm";
+
+        public override string DE => CNT;
+
+        public override string EN => CNT;
+
+        public override string ES => CNT;
+
+        public override string CN => CNT;
+
+        public override string Glyph => Glyphs.VariousSigns.Eye;
+    }
+
+    public class NamedDocuTerm
+    : NamingBase
+    {
+        public const long UID = 0x27CEA248;
+
+        public NamedDocuTerm()
+            : base(UID)
+        { }
+
+        public override string CNT => "namedDocuTerm";
+
+        public override string DE => CNT;
+
+        public override string EN => CNT;
+
+        public override string ES => CNT;
+
+        public override string CN => CNT;
+
+        public override string Glyph => Glyphs.VariousSigns.Eye;
+    }
+
+
+
     /// <summary>
     /// mko, 24.6.2020
     /// </summary>
@@ -30,6 +77,29 @@ namespace MKPRG.Naming.DocuTerms.Types
 
         public override string Glyph => Glyphs.DocuTerms.Instance;
     }
+
+    public class InstanceExpected
+    : NamingBase
+    {
+        public const long UID = 0xA4201AF;
+
+        public InstanceExpected()
+            : base(UID)
+        { }
+
+        public override string CNT => "instanceExpected";
+
+        public override string DE => "Ein Docuterm vom Typ Instanz wurde erwartet.";
+
+        public override string EN => CNT;
+
+        public override string ES => "Instancia";
+
+        public override string CN => "实例";
+
+        public override string Glyph => Glyphs.Weather.flash;
+    }
+
 
     /// <summary>
     /// mko, 24.6.2020
@@ -346,7 +416,6 @@ namespace MKPRG.Naming.DocuTerms.Types
 
         public override string CN => CNT;
     }
-
 
 
 }

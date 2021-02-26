@@ -6,6 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 
 using static mko.RPN.UrlSaveStringEncoder;
+using MKPRG.Tracing.DocuTerms.Parser;
+
+using TTD = MKPRG.Naming.DocuTerms;
 
 namespace MKPRG.Tracing.DocuTerms
 {
@@ -229,7 +232,7 @@ namespace MKPRG.Tracing.DocuTerms
 
         private void PrintTypeNameAndValue(Parser.IFn fn, IDocuEntity entity, string TypeName, StringBuilder bld)
         {
-            TraceHlp.ThrowArgExIf(entity.Childs.Count() < 1, "at least name and one value expected");
+            TraceHlp.ThrowArgExIf(entity.Childs.Count() < 1, RC.pnL.NID(TTD.Parser.Errors.NameValuePairExpected.UID));
             bld.Append($"{TypeName} {Print(entity.Childs.First())}");
 
             foreach (var c in entity.Childs.Skip(1))

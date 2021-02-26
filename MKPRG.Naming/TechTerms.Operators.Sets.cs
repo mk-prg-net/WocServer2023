@@ -140,6 +140,40 @@ namespace MKPRG.Naming.TechTerms.Operators.Sets
         public override string ES => CNT;
     }
 
+    public class NotExists
+    : NamingBase
+    {
+        public const long UID = 0xA511E25F;
+
+        public NotExists()
+            : base(UID)
+        { }
+
+        public override string CN => CNT;
+        public override string CNT => "notExists";
+        public override string DE => CNT;
+        public override string EN => CNT;
+        public override string ES => CNT;
+    }
+
+    public class Exists
+        : NamingBase
+    {
+        public const long UID = 0x509F31B0;
+
+        public Exists()
+            : base(UID)
+        { }
+
+        public override string CN => CNT;
+        public override string CNT => "Exists";
+        public override string DE => CNT;
+        public override string EN => CNT;
+        public override string ES => CNT;
+    }
+
+
+
 
     /// mko, 19.6.2020
     /// Erstes Element einer geordneten Menge

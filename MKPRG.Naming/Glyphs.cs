@@ -1038,6 +1038,15 @@ namespace MKPRG.Naming
 
         }
 
+        public static class Validation
+        {
+            public static string Contradiction => Weather.flash;
+
+            public static string Valid => "&#x1F5F8;";
+
+            public static string Invalid => "&#x1F5F4;";
+        }
+
         public static class War
         {
             /// <summary>

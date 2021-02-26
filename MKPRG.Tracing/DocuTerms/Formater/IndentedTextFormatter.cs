@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using MKPRG.Tracing.DocuTerms.Parser;
 using static mko.RPN.UrlSaveStringEncoder;
 
+using TTD = MKPRG.Naming.DocuTerms;
+
 namespace MKPRG.Tracing.DocuTerms
 {
     public class IndentedTextFormatter : IFormater
@@ -18,12 +20,14 @@ namespace MKPRG.Tracing.DocuTerms
 
         readonly int IndentSpc;
 
-        MKPRG.Naming.Language lng = MKPRG.Naming.Language.CNT;
+        Naming.Language lng = MKPRG.Naming.Language.CNT;
 
         /// <summary>
         /// Ordnet einer long UID einen EventName- Naming Objekt zu.
         /// </summary>
         IReadOnlyDictionary<long, MKPRG.Naming.INaming> NC;
+
+        IComposer pnL;
 
         /// <summary>
         /// mko, 19.11.2019
@@ -63,12 +67,14 @@ namespace MKPRG.Tracing.DocuTerms
         /// <param name="Indentation"></param>
         /// <param name="RPNUrlSaveEncode"></param>
         public IndentedTextFormatter(
+            IComposer pnL,
             IFn fn, 
             IReadOnlyDictionary<long, MKPRG.Naming.INaming> NamingContainers, 
             MKPRG.Naming.Language lng = MKPRG.Naming.Language.NID, 
             int Indentation = 1, 
             bool RPNUrlSaveEncode = false)
         {
+            this.pnL = pnL;
             this.fn = fn;
             this.RPNUrlSaveEncode = RPNUrlSaveEncode;
             this.lng = lng;
@@ -242,7 +248,7 @@ namespace MKPRG.Tracing.DocuTerms
         /// <param name="Indentation"></param>
         private void PrintTypeNameAndValue(IFn fn, IDocuEntity entity, string TypeName, StringBuilder bld, int Indentation)
         {
-            TraceHlp.ThrowArgExIf(entity.Childs.Count() < 1, "at least name and one value expected");
+            TraceHlp.ThrowArgExIf(entity.Childs.Count() < 1, pnL.NID(TTD.Parser.Errors.NameValuePairExpected.UID));
             bld.Append($"{Tabs(Indentation)}{TypeName} {Print(entity.Childs.First(), Indentation + IndentSpc)}");
 
             foreach (var c in entity.Childs.Skip(1))

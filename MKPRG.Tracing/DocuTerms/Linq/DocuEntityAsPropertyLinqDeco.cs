@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 using static MKPRG.Tracing.DocuTerms.ComposerSubTrees;
 using ANC = MKPRG.Naming;
 
+using TT = MKPRG.Naming.TechTerms;
+using TTD = MKPRG.Naming.DocuTerms;
+
 namespace MKPRG.Tracing.DocuTerms
 {
     /// <summary>
@@ -35,7 +38,7 @@ namespace MKPRG.Tracing.DocuTerms
         {
             get
             {
-                TraceHlp.ThrowArgExIfNot(DocuEntityHlp.EntityValue(this) is Integer, "Integer erwartet");
+                TraceHlp.ThrowArgExIfNot(DocuEntityHlp.EntityValue(this) is Integer, RC.pnL.NID(TTD.Parser.Errors.IntegerExpected.UID));
                 return ((Integer)DocuEntityHlp.EntityValue(this)).ValueAsInteger;
                 //return  int.Parse(DocuEntityHlp.EntityValue(this).GetText());
             }
@@ -55,7 +58,7 @@ namespace MKPRG.Tracing.DocuTerms
         {
             get
             {
-                TraceHlp.ThrowArgExIfNot(DocuEntityHlp.EntityValue(this) is Double, "Integer erwartet");
+                TraceHlp.ThrowArgExIfNot(DocuEntityHlp.EntityValue(this) is Double, RC.pnL.NID(TTD.Parser.Errors.IntegerExpected.UID));
                 return ((Double)DocuEntityHlp.EntityValue(this)).Value;
 
                 //return double.Parse(DocuEntityHlp.EntityValue(this).GetText());
@@ -66,7 +69,7 @@ namespace MKPRG.Tracing.DocuTerms
         {
             get
             {
-                TraceHlp.ThrowArgExIfNot(DocuEntityHlp.EntityValue(this) is IDate, "Date erwartet");
+                TraceHlp.ThrowArgExIfNot(DocuEntityHlp.EntityValue(this) is IDate, RC.pnL.NID(TTD.Parser.Errors.Date_DateParticleExpected.UID));
                 var dat = (IDate)DocuEntityHlp.EntityValue(this);
 
                 return new DateTime(dat.Year, dat.Month, dat.Day);

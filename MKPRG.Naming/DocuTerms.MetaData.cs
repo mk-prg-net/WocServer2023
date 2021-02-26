@@ -291,13 +291,9 @@ namespace MKPRG.Naming.DocuTerms.MetaData
         }
 
         public override string CNT => "namespace";
-
         public override string CN => "命名空间";
-
         public override string DE => "Namensraum";
-
         public override string EN => "Namespace";
-
         public override string ES => EN;
     }
 

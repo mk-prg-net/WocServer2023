@@ -124,9 +124,9 @@ namespace MKPRG.Tracing.DocuTerms
         /// </summary>
         /// <param name="entity"></param>
         /// <param name="lng"></param>
-        public static string Name(this IDocuEntity entity, IComposer pnL, ANC.Language lng = ANC.Language.CNT)
+        public static string Name(this IDocuEntity entity, ANC.Language lng = ANC.Language.CNT)
         {
-            return Name(entity, lng, RC.NC, pnL);
+            return Name(entity, lng, RC.NC, RC.pnL);
         }
 
         /// <summary>
@@ -141,8 +141,25 @@ namespace MKPRG.Tracing.DocuTerms
         {
             // check, if Name exists
             var first = entity.Childs.FirstOrDefault();
-            TraceHlp.ThrowArgExIfNot(entity.IsNamed(), pnL.eFails($"Name of unnamed DocuEntity of type {entity.EntityType} requested"));
-            TraceHlp.ThrowArgExIfNot(first != null && (first is String || first is NID), pnL.eFails($"Name of named entity of type {entity.EntityType} is left"));
+
+            TraceHlp.ThrowArgExIfNot(
+                entity.IsNamed(),
+                pnL.ReturnValidatePreconditionFailedWithDetails(
+                     pnL.i(TTD.Types.DocuTerm.UID,
+                        pnL.p(TTD.MetaData.Type.UID, entity.EntityType.ToString())),
+                     pnL.m(TT.Operators.Relations.IsOfType.UID,
+                        pnL.p_NID(TTD.MetaData.Arg.UID, TTD.Types.NamedDocuTerm.UID),
+                        pnL.ret(pnL.eFails(TTD.Parser.Errors.NamedTermExpected.UID)))));
+
+                
+            TraceHlp.ThrowArgExIfNot(
+                first != null && (first is String || first is NID),
+                pnL.ReturnValidatePreconditionFailedWithDetails(
+                     pnL.i(TTD.Types.DocuTerm.UID,
+                        pnL.p(TTD.MetaData.Type.UID, entity.EntityType.ToString())),
+                     pnL.m(TT.Operators.Sets.Exists.UID,
+                        pnL.p_NID(TTD.MetaData.Arg.UID, TTD.MetaData.Name.UID),
+                        pnL.ret(pnL.eFails(TTD.Parser.Errors.Name_NidOrStringTokenForNameExpected.UID)))));
 
             string name = "";
             if (first is String str)
@@ -168,8 +185,25 @@ namespace MKPRG.Tracing.DocuTerms
         {
             // check, if Name exists
             var first = entity.Childs.FirstOrDefault();
-            TraceHlp.ThrowArgExIfNot(entity.IsNamed(), pnL.eFails($"Name of unnamed DocuEntity of type {entity.EntityType} requested"));
-            TraceHlp.ThrowArgExIfNot(first != null && (first is String || first is NID), pnL.eFails($"Name of named entity of type {entity.EntityType} is left"));
+
+            TraceHlp.ThrowArgExIfNot(
+                entity.IsNamed(),
+                pnL.ReturnValidatePreconditionFailedWithDetails(
+                     pnL.i(TTD.Types.DocuTerm.UID,
+                        pnL.p(TTD.MetaData.Type.UID, entity.EntityType.ToString())),
+                     pnL.m(TT.Operators.Relations.IsOfType.UID,
+                        pnL.p_NID(TTD.MetaData.Arg.UID, TTD.Types.NamedDocuTerm.UID),
+                        pnL.ret(pnL.eFails(TTD.Parser.Errors.NamedTermExpected.UID)))));
+
+
+            TraceHlp.ThrowArgExIfNot(
+                first != null && (first is String || first is NID),
+                pnL.ReturnValidatePreconditionFailedWithDetails(
+                     pnL.i(TTD.Types.DocuTerm.UID,
+                        pnL.p(TTD.MetaData.Type.UID, entity.EntityType.ToString())),
+                     pnL.m(TT.Operators.Sets.Exists.UID,
+                        pnL.p_NID(TTD.MetaData.Arg.UID, TTD.MetaData.Name.UID),
+                        pnL.ret(pnL.eFails(TTD.Parser.Errors.Name_NidOrStringTokenForNameExpected.UID)))));
 
             string glyph = "&nbsp;";
             if (first is NID nid)
@@ -199,7 +233,7 @@ namespace MKPRG.Tracing.DocuTerms
             }
             else
             {
-                return entity.Name(pnL) == other.Name(pnL);
+                return entity.Name() == other.Name();
             }
         }
 
@@ -223,7 +257,7 @@ namespace MKPRG.Tracing.DocuTerms
             }
             else
             {
-                return entity.Name(pnL) == RC.NC[nid].NameIn(lng);
+                return entity.Name() == RC.NC[nid].NameIn(lng);
             }
         }
 
@@ -241,7 +275,7 @@ namespace MKPRG.Tracing.DocuTerms
                 return false;
             else
             {
-                return entity.Name(pnL) == name;
+                return entity.Name() == name;
             }
         }
 
@@ -344,7 +378,7 @@ namespace MKPRG.Tracing.DocuTerms
                 return p.PropertyValue.GetText(lng);
             } else
             {
-                TraceHlp.ThrowArgEx(RC.pnL.m("GetEventTextValue", RC.pnL.eFails("Event has not text")));
+                TraceHlp.ThrowArgEx(RC.pnL.m("GetEventTextValue", RC.pnL.eFails(TTD.Parser.Errors.Event_EventParameterAsTextExpected.UID)));
                 return "";
             }
         }
@@ -360,7 +394,7 @@ namespace MKPRG.Tracing.DocuTerms
             }
             else
             {
-                TraceHlp.ThrowArgEx(RC.pnL.m("GetEventIntValue", RC.pnL.eFails("Event has not text")));
+                TraceHlp.ThrowArgEx(RC.pnL.m("GetEventIntValue", RC.pnL.eFails(TTD.Parser.Errors.Event_EventParameterAsTextExpected.UID)));
                 return 0;
             }
         }
@@ -376,7 +410,7 @@ namespace MKPRG.Tracing.DocuTerms
             }
             else
             {
-                TraceHlp.ThrowArgEx(RC.pnL.m("GetEventDblValue", RC.pnL.eFails("Event has not text")));
+                TraceHlp.ThrowArgEx(RC.pnL.m("GetEventDblValue", RC.pnL.eFails(TTD.Parser.Errors.Event_EventParameterAsTextExpected.UID)));
                 return 0.0;
             }
         }
@@ -392,7 +426,7 @@ namespace MKPRG.Tracing.DocuTerms
             }
             else
             {
-                TraceHlp.ThrowArgEx(RC.pnL.m("GetEventBoolValue", RC.pnL.eFails("Event has not text")));
+                TraceHlp.ThrowArgEx(RC.pnL.m("GetEventBoolValue", RC.pnL.eFails(TTD.Parser.Errors.Event_EventParameterAsTextExpected.UID)));
                 return false;
             }
         }
@@ -408,7 +442,7 @@ namespace MKPRG.Tracing.DocuTerms
         /// <returns></returns>
         public static IEnumerable<IDocuEntity> GetInstanceMembers(this IDocuEntity entity, IComposer pnL)
         {
-            TraceHlp.ThrowArgExIfNot(entity.EntityType == DocuEntityTypes.Instance, pnL.eFails("entity is not a instance!"));
+            TraceHlp.ThrowArgExIfNot(entity.EntityType == DocuEntityTypes.Instance, pnL.eFails(TTD.Parser.Errors.InstanceExpected.UID));
 
             var members = entity.Childs.Skip(1).FirstOrDefault()?.Childs;
             if (members == null)
@@ -430,7 +464,7 @@ namespace MKPRG.Tracing.DocuTerms
         /// <returns></returns>
         public static IEnumerable<IMethodParameter> GetMethodMembers(this IDocuEntity entity, IComposer pnL)
         {
-            TraceHlp.ThrowArgExIfNot(entity.EntityType == DocuEntityTypes.Method, pnL.eFails("entity is not a method!"));
+            TraceHlp.ThrowArgExIfNot(entity.EntityType == DocuEntityTypes.Method, pnL.eFails(TTD.Parser.Errors.MethodExpected.UID));
 
             var m = (IMethod)entity;
             
