@@ -31,11 +31,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="mko, Version=7.3.2.0, Culture=neutral, PublicKeyToken=f4d93f46e53e0656, processorArchitecture=MSIL">
-      <HintPath>..\packages\mko.7.3.2\lib\net45\mko.dll</HintPath>
+    <Reference Include="mko, Version=7.4.1.0, Culture=neutral, PublicKeyToken=f4d93f46e53e0656, processorArchitecture=MSIL">
+      <HintPath>..\packages\mko.7.4.1\lib\net45\mko.dll</HintPath>
     </Reference>
-    <Reference Include="mko.RPN, Version=20.6.7719.38697, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\mko.RPN.20.6.7719.38697\lib\net45\mko.RPN.dll</HintPath>
+    <Reference Include="mko.RPN, Version=20.6.7727.25015, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\mko.RPN.20.6.7727.25015\lib\net45\mko.RPN.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

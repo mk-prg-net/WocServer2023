@@ -4,8 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-
-using static ATMO.mko.Logging.PNDocuTerms.DocuEntities.ComposerSubTrees;
+using MKPRG.Tracing;
+using static MKPRG.Tracing.DocuTerms.ComposerSubTrees;
 using TT = MKPRG.Naming.TechTerms;
 using TTD = MKPRG.Naming.DocuTerms;
 

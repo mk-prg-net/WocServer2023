@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 
-using ATMO.mko.Logging;
+using MKPRG.Tracing;
 
 namespace LngUIDGenerator
 {

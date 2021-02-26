@@ -676,7 +676,7 @@ namespace MKPRG.Tracing.DocuTerms
         /// <param name="deepth"></param>
         /// <param name="PropertyValueWildCard">Bei Properties im subTreePattern mit diesem Wert muss nur der Eigenschaftsname übereinstimmen, nicht jedoch der Wert</param>
         /// <returns></returns>
-        public static RCsV<IEnumerable<(IDocuEntity subTree, IDocuEntity subTreeParent, long depth)>> AsSubTreeOf_AllOccurrences
+        public static RC<IEnumerable<(IDocuEntity subTree, IDocuEntity subTreeParent, long depth)>> AsSubTreeOf_AllOccurrences
             (this IDocuEntity subTreePattern,
             IDocuEntity treeRoot,
             IComposer pnL,
@@ -687,7 +687,7 @@ namespace MKPRG.Tracing.DocuTerms
 
             var matches = new List<(IDocuEntity subTree, IDocuEntity subTreeParent, long depth)>();
 
-            var ret = RCsV<IEnumerable<(IDocuEntity subTree, IDocuEntity subTreeParent, long depth)>>.Failed(
+            var ret = RC<IEnumerable<(IDocuEntity subTree, IDocuEntity subTreeParent, long depth)>>.Failed(
                 value: matches,
                 ErrorDescription: pnL.ReturnNotCompleted(
                                         "AsSubTreeOf_AllOccurrences",

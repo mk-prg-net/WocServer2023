@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using ANC = MKPRG.Naming;
+using static MKPRG.Tracing.DocuTerms.DocuEntityHlp;
 
 namespace MKPRG.Tracing.DocuTerms
 {

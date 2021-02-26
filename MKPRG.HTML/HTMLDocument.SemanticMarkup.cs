@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using xhtm = mkoIt.Xhtml;
+//using xhtm = mkoIt.Xhtml;
 
 namespace ATMO.mko.Logging.HTML
 {

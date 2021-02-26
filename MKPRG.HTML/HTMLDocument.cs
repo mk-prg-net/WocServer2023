@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using System.Drawing;
 using System.Diagnostics;
 
+using MKPRG.Tracing.DocuTerms;
+
 using TT = MKPRG.Naming.TechTerms;
 using TTD = MKPRG.Naming.DocuTerms;
 
@@ -30,21 +32,21 @@ namespace ATMO.mko.Logging.HTML
         StringBuilder bldDoc = new StringBuilder();
 
         Stack<string> tags = new Stack<string>();
-        PNDocuTerms.DocuEntities.IComposer pnL;
+        IComposer pnL;
 
         /// <summary>
         /// mko, 4.1.2021
         /// </summary>
         public HTMLDocument()
         {
-            pnL = new PNDocuTerms.DocuEntities.Composer();
+            pnL = new Composer();
         }
 
         /// <summary>
         /// mko, 4.1.2021
         /// </summary>
         /// <param name="pnL"></param>
-        public HTMLDocument(PNDocuTerms.DocuEntities.IComposer pnL)
+        public HTMLDocument(IComposer pnL)
         {
             this.pnL = pnL;
         }

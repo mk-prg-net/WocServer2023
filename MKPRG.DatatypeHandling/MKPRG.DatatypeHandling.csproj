@@ -44,6 +44,7 @@
     <Compile Include="EnumExt.cs" />
     <Compile Include="LongExt.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SessionIdGenerator.cs" />
     <Compile Include="UndefValueHandling.cs" />
   </ItemGroup>
   <ItemGroup>

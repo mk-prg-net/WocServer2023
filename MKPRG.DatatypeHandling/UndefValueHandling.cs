@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ATMO.mko.Logging.Tools
+namespace MKPRG.DatatypeHandling
 {
     /// <summary>
     /// mko, 24.9.2020

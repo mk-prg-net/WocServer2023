@@ -31,6 +31,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="mko, Version=7.3.2.0, Culture=neutral, PublicKeyToken=f4d93f46e53e0656, processorArchitecture=MSIL">
+      <HintPath>..\packages\mko.7.3.2\lib\net45\mko.dll</HintPath>
+    </Reference>
+    <Reference Include="mko.RPN, Version=20.6.7727.25015, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\mko.RPN.20.6.7727.25015\lib\net45\mko.RPN.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -60,6 +66,14 @@
       <Project>{ee9d24a7-80bf-4d6d-a164-2e49743386f8}</Project>
       <Name>MKPRG.Naming</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MKPRG.Tracing\MKPRG.Tracing.csproj">
+      <Project>{e9d442d4-e7a9-49aa-89d3-9e459cd926b5}</Project>
+      <Name>MKPRG.Tracing</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

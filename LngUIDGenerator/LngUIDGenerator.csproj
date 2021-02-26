@@ -8,7 +8,7 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>LngUIDGenerator</RootNamespace>
     <AssemblyName>LngUIDGenerator</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <IsWebBootstrapper>false</IsWebBootstrapper>
@@ -122,6 +122,12 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MKPRG.Tracing\MKPRG.Tracing.csproj">
+      <Project>{e9d442d4-e7a9-49aa-89d3-9e459cd926b5}</Project>
+      <Name>MKPRG.Tracing</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
