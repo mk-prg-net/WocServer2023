@@ -106,7 +106,7 @@ namespace MKPRG.Tracing
             }
         }
 
-        static IComposer _pnL;      
+        static IComposer _pnL;
 
         /// <summary>
         /// mko, 18.9.2018
@@ -186,6 +186,22 @@ namespace MKPRG.Tracing
 
             throw new ArgumentExceptionWithDocuTermDescription(FormatErrMsg(assembly, cls, callerName, msg), innerException);
         }
+
+        /// <summary>
+        /// mko, 28.2.2021
+        /// </summary>
+        /// <param name="msg"></param>
+        /// <param name="innerException"></param>
+        /// <param name="callerName"></param>
+        public static void ThrowEx(IDocuEntity msg, Exception innerException = null, [System.Runtime.CompilerServices.CallerMemberName] string callerName = "")
+        {
+            var mth = new System.Diagnostics.StackTrace().GetFrame(1).GetMethod();
+            var cls = mth.ReflectedType.Name;
+            var assembly = mth.ReflectedType.Assembly.FullName;
+
+            throw new ExceptionWithDocuTermDescription(FormatErrMsg(assembly, cls, callerName, msg), innerException);
+        }
+
 
         /// <summary>
         /// mko, 18.9.2018
@@ -332,7 +348,7 @@ namespace MKPRG.Tracing
         {
             var now = DateTime.Now;
             return pnL.i($"{Obj.GetType().FullName}",
-                    pnL.m(MethodName, 
+                    pnL.m(MethodName,
                         pnL.p(TT.Timeline.DateStamp.UID, pnL.date(now)),
                         pnL.p(TT.Timeline.TimeStamp.UID, pnL.time(now.Hour, now.Minute, now.Second, now.Millisecond)),
                         pnL.ret(pnL.eFails(pnL.EncapsulateAsEventParameter(msg)))));
@@ -349,7 +365,7 @@ namespace MKPRG.Tracing
         {
             var now = DateTime.Now;
             return pnL.i(ClassName,
-                        pnL.m(MethodName, 
+                        pnL.m(MethodName,
                             pnL.p(TT.Timeline.DateStamp.UID, pnL.date(now)),
                             pnL.p(TT.Timeline.TimeStamp.UID, pnL.time(now.Hour, now.Minute, now.Second, now.Millisecond)),
                             pnL.ret(pnL.eFails(pnL.EncapsulateAsEventParameter(msg)))));
@@ -370,7 +386,7 @@ namespace MKPRG.Tracing
         {
             var now = DateTime.Now;
             return pnL.i($"{Assembly}.{ClassName}",
-                        pnL.m(MethodName, 
+                        pnL.m(MethodName,
                             pnL.p(TT.Timeline.DateStamp.UID, pnL.date(now)),
                             pnL.p(TT.Timeline.TimeStamp.UID, pnL.time(now.Hour, now.Minute, now.Second, now.Millisecond)),
                             pnL.ret(pnL.eFails(pnL.EncapsulateAsEventParameter(msg)))));
@@ -394,7 +410,7 @@ namespace MKPRG.Tracing
         //                    pnL.ret(pnL.eWarn(pnL.EncapsulateAsEventParameter(msg))))));
         //}
 
-        public static IDocuEntity FormatWarningMsg(object Obj, string MethodName, IDocuEntity msg)        
+        public static IDocuEntity FormatWarningMsg(object Obj, string MethodName, IDocuEntity msg)
         {
             var now = DateTime.Now;
             return pnL.i($"{Obj.GetType().FullName}",
@@ -418,7 +434,7 @@ namespace MKPRG.Tracing
         {
             var now = DateTime.Now;
             return pnL.i(ClassName,
-                        pnL.m(MethodName, 
+                        pnL.m(MethodName,
                             pnL.p(TT.Timeline.DateStamp.UID, pnL.date(now)),
                             pnL.p(TT.Timeline.TimeStamp.UID, pnL.time(now.Hour, now.Minute, now.Second, now.Millisecond)),
                             pnL.ret(pnL.eWarn(pnL.EncapsulateAsEventParameter(msg)))));
@@ -438,7 +454,7 @@ namespace MKPRG.Tracing
         public static IDocuEntity FormatWarningMsg(string Assembly, string ClassName, string MethodName, IEventParameter msg)
         {
             var now = DateTime.Now;
-            return  pnL.i($"{Assembly}.{ClassName}", 
+            return pnL.i($"{Assembly}.{ClassName}",
                             pnL.m(MethodName,
                                 pnL.p(TT.Timeline.DateStamp.UID, pnL.date(now)),
                                 pnL.p(TT.Timeline.TimeStamp.UID, pnL.time(now.Hour, now.Minute, now.Second, now.Millisecond)),
@@ -456,11 +472,11 @@ namespace MKPRG.Tracing
         /// <param name="MethodName"></param>
         /// <param name="msg"></param>
         /// <returns></returns>
-        public static IDocuEntity FormatInfoMsg(object Obj, string MethodName,IEventParameter msg)
+        public static IDocuEntity FormatInfoMsg(object Obj, string MethodName, IEventParameter msg)
         {
             var now = DateTime.Now;
-            return pnL.i(Obj.GetType().FullName, 
-                    pnL.m(MethodName, 
+            return pnL.i(Obj.GetType().FullName,
+                    pnL.m(MethodName,
                         pnL.p(TT.Timeline.DateStamp.UID, pnL.date(now)),
                         pnL.p(TT.Timeline.TimeStamp.UID, pnL.time(now.Hour, now.Minute, now.Second, now.Millisecond)),
                         pnL.ret(pnL.eInfo(msg))));
@@ -476,8 +492,8 @@ namespace MKPRG.Tracing
         public static IDocuEntity FormatInfoMsg(string ClassName, string MethodName, IEventParameter msg)
         {
             var now = DateTime.Now;
-            return pnL.i(ClassName, 
-                    pnL.m(MethodName, 
+            return pnL.i(ClassName,
+                    pnL.m(MethodName,
                     pnL.p(TT.Timeline.DateStamp.UID, pnL.date(now)),
                     pnL.p(TT.Timeline.TimeStamp.UID, pnL.time(now.Hour, now.Minute, now.Second, now.Millisecond)),
                     pnL.ret(pnL.eInfo(msg))));
@@ -494,8 +510,8 @@ namespace MKPRG.Tracing
         public static IDocuEntity FormatInfoMsg(string Assembly, string ClassName, string MethodName, IEventParameter msg)
         {
             var now = DateTime.Now;
-            return pnL.i($"{Assembly}.{ClassName}", 
-                        pnL.m(MethodName, 
+            return pnL.i($"{Assembly}.{ClassName}",
+                        pnL.m(MethodName,
                             pnL.p(TT.Timeline.DateStamp.UID, pnL.date(now)),
                             pnL.p(TT.Timeline.TimeStamp.UID, pnL.time(now.Hour, now.Minute, now.Second, now.Millisecond)),
                             pnL.ret(pnL.eInfo(msg))));
@@ -565,11 +581,11 @@ namespace MKPRG.Tracing
                 {
                     return i;
                 }
-                else if(ex is RCException __rex3)
+                else if (ex is RCException __rex3)
                 {
                     return pnL.i(TT.Runtime.RuntimeErrorOfTypeException.UID,
                             pnL.p(TTD.MetaData.Type.UID, __rex3.GetType().Name),
-                            pnL.p(TTD.MetaData.Msg.UID, pnL.EncapsulateAsPropertyValue(__rex3.MessageAsDocuTerm)));                        
+                            pnL.p(TTD.MetaData.Msg.UID, pnL.EncapsulateAsPropertyValue(__rex3.MessageAsDocuTerm)));
                 }
                 else
                 {
@@ -588,7 +604,7 @@ namespace MKPRG.Tracing
                         else
                         {
                             return pnL.i(TT.Runtime.RuntimeErrorOfTypeException.UID,
-                                pnL.p(TTD.MetaData.Type.UID, ex.GetType().Name),                                
+                                pnL.p(TTD.MetaData.Type.UID, ex.GetType().Name),
                                 pnL.p(TTD.MetaData.Msg.UID, pnL.EncapsulateAsPropertyValue(rcParse.Value)));
                         }
                     }
@@ -611,7 +627,7 @@ namespace MKPRG.Tracing
             }
             catch (Exception exx)
             {
-                return  
+                return
                     pnL.i(TT.Runtime.RuntimeErrorOfTypeException.UID,
                         pnL.p(TTD.MetaData.Type.UID, ex.GetType().Name),
                         pnL.m("FlattenExceptionMessagesPN",

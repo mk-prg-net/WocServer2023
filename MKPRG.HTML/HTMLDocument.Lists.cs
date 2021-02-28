@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ATMO.mko.Logging.HTML
+namespace MKPRG.HTML
 {
     /// <summary>
     /// mko, 23.11.2020

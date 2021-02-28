@@ -6,13 +6,15 @@ using System.Threading.Tasks;
 using System.Drawing;
 using System.Diagnostics;
 
+using MKPRG.Tracing;
+
 using MKPRG.Tracing.DocuTerms;
 
 using TT = MKPRG.Naming.TechTerms;
 using TTD = MKPRG.Naming.DocuTerms;
 
 
-namespace ATMO.mko.Logging.HTML
+namespace MKPRG.HTML
 {
     /// <summary>
     /// mko, 11.11.2020

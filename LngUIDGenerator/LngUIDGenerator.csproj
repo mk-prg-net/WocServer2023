@@ -124,6 +124,10 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\MKPRG.DatatypeHandling\MKPRG.DatatypeHandling.csproj">
+      <Project>{8ba09406-2a32-4476-81e8-2359a85e8e5d}</Project>
+      <Name>MKPRG.DatatypeHandling</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MKPRG.Tracing\MKPRG.Tracing.csproj">
       <Project>{e9d442d4-e7a9-49aa-89d3-9e459cd926b5}</Project>
       <Name>MKPRG.Tracing</Name>

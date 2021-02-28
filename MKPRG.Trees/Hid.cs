@@ -83,8 +83,8 @@ namespace MKPRG.Trees
                 pnL.m("AllocFirst",
                     pnL.p(TT.Trees.Parent.UID,
                         pnL.i(TT.Trees.Hid.UID,
-                            pnL.p(TT.Sets.Begin.UID, pnL.integer(parent.beg)),
-                            pnL.p(TT.Sets.End.UID, pnL.integer(parent.end)))),
+                            pnL.p(TT.Sets.Begin.UID, parent.beg),
+                            pnL.p(TT.Sets.End.UID, parent.end))),
                     pnL.eFails(TT.Trees.HID.HidAllocationError_IndexIntervallInParentNodeExhausted.UID)));
 
             return next;

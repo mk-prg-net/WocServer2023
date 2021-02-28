@@ -34,7 +34,7 @@ namespace MKPRG.Tracing.DocuTerms
         /// </summary>
         public bool IsInstance(string name, IComposer pnL)
         {
-            return EntityType == DocuEntityTypes.Instance && DocuEntityHlp.Name(this, pnL) == name;
+            return EntityType == DocuEntityTypes.Instance && this.Name() == name;
         }
 
 
@@ -118,14 +118,14 @@ namespace MKPRG.Tracing.DocuTerms
 
 
 
-        public bool IsMethod(string name, IComposer pnL)
+        public bool IsMethod(string name)
         {
-            return EntityType == DocuEntityTypes.Method && DocuEntityHlp.Name(this, pnL) == name;
+            return EntityType == DocuEntityTypes.Method && this.Name() == name;
         }
 
-        public bool IsProperty(string name, IComposer pnL)
+        public bool IsProperty(string name)
         {
-            return EntityType == DocuEntityTypes.Property && DocuEntityHlp.Name(this, pnL) == name;
+            return EntityType == DocuEntityTypes.Property && this.Name() == name;
         }
 
         //public bool IsReturn(string name)
@@ -134,9 +134,9 @@ namespace MKPRG.Tracing.DocuTerms
             return EntityType == DocuEntityTypes.ReturnValue; // && DocuEntityHlp.Name(this) == name;
         }
 
-        public bool IsEvent(string name, IComposer pnL)
+        public bool IsEvent(string name)
         {
-            return EntityType == DocuEntityTypes.Event && DocuEntityHlp.Name(this, pnL) == name;
+            return EntityType == DocuEntityTypes.Event && this.Name() == name;
         }
 
         
@@ -254,12 +254,11 @@ namespace MKPRG.Tracing.DocuTerms
         /// </summary>
         /// <param name="Name"></param>
         /// <returns></returns>
-        public DocuEntityWithNameLinqDeco ReturnValueOf(string Name, IComposer pnL)
+        public DocuEntityWithNameLinqDeco ReturnValueOf(string Name)
         {
             DocuEntityWithNameLinqDeco ret = null;
-
-            //var retp=  entity.Childs.First(r => r.EntityType == DocuEntityTypes.Method && r.Name() == Name)?.Childs.First(r => r.EntityType == DocuEntityTypes.ReturnValue);
-            var retp = GetAllChildsOfType(entity, DocuEntityTypes.Method).First(r => r.EntityType == DocuEntityTypes.Method && r.Name(pnL) == Name)?.Childs.First(r => r.EntityType == DocuEntityTypes.ReturnValue);
+            
+            var retp = GetAllChildsOfType(entity, DocuEntityTypes.Method).First(r => r.EntityType == DocuEntityTypes.Method && r.Name() == Name)?.Childs.First(r => r.EntityType == DocuEntityTypes.ReturnValue);
             if (retp != null)
             {
                 ret = new DocuEntityWithNameLinqDeco(retp);

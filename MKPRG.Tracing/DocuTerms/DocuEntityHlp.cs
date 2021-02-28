@@ -181,29 +181,29 @@ namespace MKPRG.Tracing.DocuTerms
         /// <param name="entity"></param>
         /// <param name="NC"></param>
         /// <returns></returns>
-        public static string Glyph(this IDocuEntity entity, IReadOnlyDictionary<long, ANC.INaming> NC, IComposer pnL)
+        public static string Glyph(this IDocuEntity entity, IReadOnlyDictionary<long, ANC.INaming> NC)
         {
             // check, if Name exists
             var first = entity.Childs.FirstOrDefault();
 
             TraceHlp.ThrowArgExIfNot(
                 entity.IsNamed(),
-                pnL.ReturnValidatePreconditionFailedWithDetails(
-                     pnL.i(TTD.Types.DocuTerm.UID,
-                        pnL.p(TTD.MetaData.Type.UID, entity.EntityType.ToString())),
-                     pnL.m(TT.Operators.Relations.IsOfType.UID,
-                        pnL.p_NID(TTD.MetaData.Arg.UID, TTD.Types.NamedDocuTerm.UID),
-                        pnL.ret(pnL.eFails(TTD.Parser.Errors.NamedTermExpected.UID)))));
+                RC.pnL.ReturnValidatePreconditionFailedWithDetails(
+                     RC.pnL.i(TTD.Types.DocuTerm.UID,
+                        RC.pnL.p(TTD.MetaData.Type.UID, entity.EntityType.ToString())),
+                     RC.pnL.m(TT.Operators.Relations.IsOfType.UID,
+                        RC.pnL.p_NID(TTD.MetaData.Arg.UID, TTD.Types.NamedDocuTerm.UID),
+                        RC.pnL.ret(RC.pnL.eFails(TTD.Parser.Errors.NamedTermExpected.UID)))));
 
 
             TraceHlp.ThrowArgExIfNot(
                 first != null && (first is String || first is NID),
-                pnL.ReturnValidatePreconditionFailedWithDetails(
-                     pnL.i(TTD.Types.DocuTerm.UID,
-                        pnL.p(TTD.MetaData.Type.UID, entity.EntityType.ToString())),
-                     pnL.m(TT.Operators.Sets.Exists.UID,
-                        pnL.p_NID(TTD.MetaData.Arg.UID, TTD.MetaData.Name.UID),
-                        pnL.ret(pnL.eFails(TTD.Parser.Errors.Name_NidOrStringTokenForNameExpected.UID)))));
+                RC.pnL.ReturnValidatePreconditionFailedWithDetails(
+                     RC.pnL.i(TTD.Types.DocuTerm.UID,
+                        RC.pnL.p(TTD.MetaData.Type.UID, entity.EntityType.ToString())),
+                     RC.pnL.m(TT.Operators.Sets.Exists.UID,
+                        RC.pnL.p_NID(TTD.MetaData.Arg.UID, TTD.MetaData.Name.UID),
+                        RC.pnL.ret(RC.pnL.eFails(TTD.Parser.Errors.Name_NidOrStringTokenForNameExpected.UID)))));
 
             string glyph = "&nbsp;";
             if (first is NID nid)
@@ -222,7 +222,7 @@ namespace MKPRG.Tracing.DocuTerms
         /// <param name="entity"></param>
         /// <param name="other"></param>
         /// <returns></returns>
-        public static bool AreOfSameName(this IDocuEntity entity, IDocuEntity other, IComposer pnL)
+        public static bool AreOfSameName(this IDocuEntity entity, IDocuEntity other)
         {
             if (!entity.IsNamed() || !other.IsNamed())
                 return false;
@@ -246,7 +246,7 @@ namespace MKPRG.Tracing.DocuTerms
         /// <param name="nid"></param>
         /// <param name="lng"></param>
         /// <returns></returns>
-        public static bool HasName(this IDocuEntity entity, long nid, IComposer pnL, ANC.Language lng = ANC.Language.CNT)
+        public static bool HasName(this IDocuEntity entity, long nid, ANC.Language lng = ANC.Language.CNT)
         {
             if (!entity.IsNamed())
                 return false;
@@ -269,7 +269,7 @@ namespace MKPRG.Tracing.DocuTerms
         /// <param name="entity"></param>
         /// <param name="name"></param>
         /// <returns></returns>
-        public static bool HasName(this IDocuEntity entity, string name, IComposer pnL)
+        public static bool HasName(this IDocuEntity entity, string name)
         {
             if (!entity.IsNamed())
                 return false;
@@ -369,11 +369,11 @@ namespace MKPRG.Tracing.DocuTerms
         /// <param name="entity"></param>
         /// <param name="lng"></param>
         /// <returns></returns>
-        public static string GetEventTextValue(this IEvent entity, IComposer pnL, ANC.Language lng = ANC.Language.CNT)
+        public static string GetEventTextValue(this IEvent entity, ANC.Language lng = ANC.Language.CNT)
         {
             if(entity.EntityValue() is IDTList list
                 && list.ListMembers.FirstOrDefault() is IProperty  p
-               && p.HasName(TTD.MetaData.Result.UID, pnL))
+               && p.HasName(TTD.MetaData.Result.UID))
             {
                 return p.PropertyValue.GetText(lng);
             } else
@@ -383,11 +383,11 @@ namespace MKPRG.Tracing.DocuTerms
             }
         }
 
-        public static long GetEventIntValue(this IEvent entity, IComposer pnL,  ANC.Language lng = ANC.Language.CNT)
+        public static long GetEventIntValue(this IEvent entity,  ANC.Language lng = ANC.Language.CNT)
         {
             if (entity.EntityValue() is IDTList list
                 && list.ListMembers.FirstOrDefault() is IProperty p
-               && p.HasName(TTD.MetaData.Result.UID, pnL)
+               && p.HasName(TTD.MetaData.Result.UID)
                && p.PropertyValue is Integer i)
             {
                 return i.ValueAsLong;
@@ -399,11 +399,11 @@ namespace MKPRG.Tracing.DocuTerms
             }
         }
 
-        public static double GetEventDblValue(this IEvent entity, IComposer pnL, ANC.Language lng = ANC.Language.CNT)
+        public static double GetEventDblValue(this IEvent entity, ANC.Language lng = ANC.Language.CNT)
         {
             if (entity.EntityValue() is IDTList list
                 && list.ListMembers.FirstOrDefault() is IProperty p
-               && p.HasName(TTD.MetaData.Result.UID, pnL)
+               && p.HasName(TTD.MetaData.Result.UID)
                && p.PropertyValue is Double dbl)
             {
                 return dbl.Value;
@@ -415,11 +415,11 @@ namespace MKPRG.Tracing.DocuTerms
             }
         }
 
-        public static bool GetEventBoolValue(this IEvent entity, IComposer pnL, ANC.Language lng = ANC.Language.CNT)
+        public static bool GetEventBoolValue(this IEvent entity, ANC.Language lng = ANC.Language.CNT)
         {
             if (entity.EntityValue() is IDTList list
                 && list.ListMembers.FirstOrDefault() is IProperty p
-               && p.HasName(TTD.MetaData.Result.UID, pnL)
+               && p.HasName(TTD.MetaData.Result.UID)
                && p.PropertyValue is Boolean b)
             {
                 return b.ValueAsBool;
@@ -575,11 +575,11 @@ namespace MKPRG.Tracing.DocuTerms
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
-        public static EventTypes GetEventType(this IDocuEntity entity, IComposer pnL)
+        public static EventTypes GetEventType(this IDocuEntity entity)
         {
-            TraceHlp.ThrowArgExIfNot(entity.EntityType == DocuEntityTypes.Event, pnL.eFails("Entity is not a event"));
-            if (MapStringToEventType.ContainsKey(entity.Name(pnL)))
-                return MapStringToEventType[entity.Name(pnL)];
+            TraceHlp.ThrowArgExIfNot(entity.EntityType == DocuEntityTypes.Event, RC.pnL.eFails("Entity is not a event"));
+            if (MapStringToEventType.ContainsKey(entity.Name()))
+                return MapStringToEventType[entity.Name()];
             else
                 return EventTypes.none;
         }

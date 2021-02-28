@@ -9,7 +9,7 @@ using static MKPRG.Tracing.DocuTerms.ComposerSubTrees;
 using TT = MKPRG.Naming.TechTerms;
 using TTD = MKPRG.Naming.DocuTerms;
 
-namespace ATMO.mko.Logging.HTML
+namespace MKPRG.HTML
 {
     /// <summary>
     /// mko, 11.10.2020

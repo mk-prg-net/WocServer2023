@@ -329,9 +329,9 @@ namespace MKPRG.Tracing
             var rc = new RC();
 
             TraceHlp.ThrowArgExIfNot(plx.EntityType == DocuEntityTypes.Instance, pnL.eFails("plx is not a instantce"));
-            TraceHlp.ThrowArgExIfNot(System.Text.RegularExpressions.Regex.IsMatch(plx.Name(pnL), @"[\w\.\<\>]+\.[\w\<\>]+\.[\w\<\>]+$"), pnL.eFails("plx instance name do not contains assembly.typename.functionname"));
+            TraceHlp.ThrowArgExIfNot(System.Text.RegularExpressions.Regex.IsMatch(plx.Name(), @"[\w\.\<\>]+\.[\w\<\>]+\.[\w\<\>]+$"), pnL.eFails("plx instance name do not contains assembly.typename.functionname"));
             {
-                var parts = plx.Name(pnL).Split(new char[] { '.' }, StringSplitOptions.RemoveEmptyEntries);
+                var parts = plx.Name().Split(new char[] { '.' }, StringSplitOptions.RemoveEmptyEntries);
                 TraceHlp.ThrowArgExIfNot(parts.Length >= 3, pnL.eFails("plx instance name is incomplete"));
                 rc._TypeName = parts[parts.Length - 2];
                 rc._FunctionName = parts[parts.Length - 1];

@@ -13,7 +13,6 @@ using static MKPRG.Tracing.DocuTerms.DocuEntityHlp;
 
 using Glyphs = MKPRG.Naming.Glyphs;
 
-
 namespace MKPRG.Tracing.DocuTerms
 {
     public class HTMLFormatter_2021_01
@@ -64,7 +63,7 @@ namespace MKPRG.Tracing.DocuTerms
         {
             this.pnL = pnL;
             this.lng = lng;
-            this.NC = RCV3.NC;
+            this.NC = RC.NC;
             htmDoc = new HTML.HTMLDocument(pnL);
         }
 
@@ -149,7 +148,7 @@ namespace MKPRG.Tracing.DocuTerms
                         var glyph = ShowGlyphs && e.Glyph(NC) != Glyphs.Text.SPC ? $"{e.Glyph(NC)}{Glyphs.Text.SPC}" : "";
 
 
-                        var name = entity.Name(lng, NC);
+                        var name = entity.Name(lng);
 
                         //var color = "#000000";
                         var cssClass = "event";
@@ -207,7 +206,7 @@ namespace MKPRG.Tracing.DocuTerms
                         var glyph = ShowGlyphs && i.Glyph(NC) != Glyphs.Text.SPC ? $"{i.Glyph(NC)}{Glyphs.Text.SPC}" : "";
 
 
-                        var name = i.Name(lng, NC);
+                        var name = i.Name(lng);
 
                         if (i.InstanceMembers.Any())
                         {
@@ -272,7 +271,7 @@ namespace MKPRG.Tracing.DocuTerms
                         if (m.Parameters.Any())
                         {
                             htmDoc.div_class("method")
-                                    .hAtLevelWithClass(hLevel, "method").html(glyph).txt(m.Name(lng, NC)).E
+                                    .hAtLevelWithClass(hLevel, "method").html(glyph).txt(m.Name(lng)).E
                                     //.h1.txt(m.Name(lng, NC)).E
                                     .ol.build();
 
@@ -289,7 +288,7 @@ namespace MKPRG.Tracing.DocuTerms
                         }
                         else
                         {
-                            htmDoc.div_class("method").hAtLevelWithClass(hLevel, "method").html(glyph).txt(m.Name(lng, NC)).E.E.build();
+                            htmDoc.div_class("method").hAtLevelWithClass(hLevel, "method").html(glyph).txt(m.Name(lng)).E.E.build();
                         }
 
                     }
@@ -302,7 +301,7 @@ namespace MKPRG.Tracing.DocuTerms
 
 
                         htmDoc.div_class("property")
-                                .hAtLevelWithClass(hLevel, "property").html(glyph).txt(p.Name(lng, NC)).E
+                                .hAtLevelWithClass(hLevel, "property").html(glyph).txt(p.Name(lng)).E
                                 //.h1.txt(p.Name(lng, NC)).E
                                 .div_class("propVal").build();
 
@@ -314,7 +313,7 @@ namespace MKPRG.Tracing.DocuTerms
                 case DocuEntityTypes.PropertySet:
                     {
                         htmDoc.div_class("propertySet")
-                                .hAtLevelWithClass(hLevel, "propertySet").txt(entity.Name(lng, NC)).E.build();
+                                .hAtLevelWithClass(hLevel, "propertySet").txt(entity.Name(lng)).E.build();
 
                         _Print(Level + 1, entity.EntityValue(), htmDoc);
 

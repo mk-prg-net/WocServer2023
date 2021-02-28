@@ -61,6 +61,7 @@
     <Compile Include="DocuTerms\Formater\IFormater.cs" />
     <Compile Include="DocuTerms\Formater\IndentedTextFormatter.cs" />
     <Compile Include="DocuTerms\Formater\PNFormater.cs" />
+    <Compile Include="DocuTerms\Types\NN.cs" />
     <Compile Include="ExceptionWithDocuTermDescription.cs" />
     <Compile Include="IExceptionWithDocuTermDescription.cs" />
     <Compile Include="IndexOutOfRangeExceptionWithDocuTermDescription.cs" />
@@ -155,7 +156,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RC.cs" />
     <Compile Include="RCException.cs" />
-    <Compile Include="SessionIdGenerator.cs" />
     <Compile Include="TraceHlp.cs" />
   </ItemGroup>
   <ItemGroup>

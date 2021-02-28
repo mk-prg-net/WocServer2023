@@ -84,6 +84,11 @@ namespace MKPRG.Tracing.DocuTerms
             //=> txt(lng.ToString() + "L");
             => new Integer(lng, fmt);
 
+        NN CreateULongEntity(ulong u)
+            //=> txt(lng.ToString() + "L");
+            => new NN(u, fmt);
+
+
 
         /// <summary>
         /// Formatiert einen Double als DokuEntity
@@ -983,6 +988,24 @@ namespace MKPRG.Tracing.DocuTerms
             => new Property(fmt, new NID(fmt, nid), CreateLongEntity(Value));
 
         /// <summary>
+        /// mko, 28.2.2021
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="Value"></param>
+        /// <returns></returns>
+        public IProperty p(string name, ulong Value)
+            => new Property(fmt, new String(name), CreateULongEntity(Value));
+
+        /// <summary>
+        /// mko, 28.2.2021
+        /// </summary>
+        /// <param name="nid"></param>
+        /// <param name="Value"></param>
+        /// <returns></returns>
+        public IProperty p(long nid, ulong Value)
+            => new Property(fmt, new NID(fmt, nid), CreateULongEntity(Value));
+
+        /// <summary>
         /// mko, 22.2.2019
         /// Eigenschaft mit float- Wert
         /// </summary>
@@ -1566,6 +1589,9 @@ namespace MKPRG.Tracing.DocuTerms
 
         public Integer integer(long i)
             => new Integer(i, fmt);
+
+        public NN NN(ulong u)
+            => new NN(u, fmt);
 
         public Double dbl(double d)
             => new Double(d, fmt);

@@ -23,6 +23,8 @@ namespace MKPRG.Tracing.DocuTerms
 
         Integer integer(long i);
 
+        NN NN(ulong u);
+
         Double dbl(double d);
 
         String str(string s);
@@ -224,6 +226,25 @@ namespace MKPRG.Tracing.DocuTerms
         /// <param name="Value"></param>
         /// <returns></returns>
         IProperty p(long NID, long Value);
+
+        /// <summary>
+        /// mko, 28.02.2021
+        /// Eigenschaft mit ulong- Wert
+        /// </summary>
+        /// <param name="Name"></param>
+        /// <param name="Value"></param>
+        /// <returns></returns>
+        IProperty p(string Name, ulong Value);
+
+        /// <summary>
+        /// mko, 21.2.2021
+        /// eigenschaft mit ulong Wert
+        /// </summary>
+        /// <param name="NID"></param>
+        /// <param name="Value"></param>
+        /// <returns></returns>
+        IProperty p(long NID, ulong Value);
+
 
         /// <summary>
         /// mko, 27.2.2019

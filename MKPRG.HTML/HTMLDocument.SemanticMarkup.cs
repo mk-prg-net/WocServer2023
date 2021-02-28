@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 //using xhtm = mkoIt.Xhtml;
 
-namespace ATMO.mko.Logging.HTML
+namespace MKPRG.HTML
 {
     partial class HTMLDocument
     {

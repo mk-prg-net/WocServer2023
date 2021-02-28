@@ -53,7 +53,7 @@ namespace MKPRG.Tracing.DocuTerms
 
         public IInstance create()
         {
-            var cols = allVals.GroupBy(i => i.Name(pnL));
+            var cols = allVals.GroupBy(i => i.Name());
 
             var colRows = new List<IInstance>();
 

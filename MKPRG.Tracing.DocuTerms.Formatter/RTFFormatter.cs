@@ -6,6 +6,11 @@ using System.Threading.Tasks;
 
 using static mko.RPN.UrlSaveStringEncoder;
 
+using MKPRG.Tracing.DocuTerms.Parser;
+
+using TT = MKPRG.Naming.TechTerms;
+using TTD = MKPRG.Naming.DocuTerms;
+
 
 namespace MKPRG.Tracing.DocuTerms.Formater
 {
@@ -22,12 +27,12 @@ namespace MKPRG.Tracing.DocuTerms.Formater
 
         readonly int IndentSpc;
 
-        MKPRG.Naming.Language lng = MKPRG.Naming.Language.CNT;
+        Naming.Language lng = Naming.Language.CNT;
 
         /// <summary>
         /// Ordnet einer long UID einen EventName- Naming Objekt zu.
         /// </summary>
-        IReadOnlyDictionary<long, MKPRG.Naming.INaming> NC;
+        IReadOnlyDictionary<long, Naming.INaming> NC;
 
         /// <summary>
         /// mko, 19.11.2019
@@ -246,7 +251,7 @@ namespace MKPRG.Tracing.DocuTerms.Formater
         /// <param name="Indentation"></param>
         private void PrintTypeNameAndValue(IFn fn, IDocuEntity entity, string TypeName, StringBuilder bld, int Indentation)
         {
-            TraceHlp.ThrowArgExIf(entity.Childs.Count() < 1, "at least name and one value expected");
+            TraceHlp.ThrowArgExIf(entity.Childs.Count() < 1, RC.pnL.eFails(TTD.Parser.Errors.NameValuePairExpected.UID));
             bld.Append($"{Tabs(Indentation)}\b{TypeName} {Print(entity.Childs.First(), Indentation + IndentSpc)}");
 
             foreach (var c in entity.Childs.Skip(1))

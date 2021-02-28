@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 using Glyphs = MKPRG.Naming.Glyphs;
 
-namespace ATMO.mko.Logging.HTML
+namespace MKPRG.HTML
 {
     /// <summary>
     /// Glyphen (miniaturen mit fester, allgemeingültiger Semantik)

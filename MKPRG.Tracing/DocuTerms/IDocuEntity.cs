@@ -87,6 +87,12 @@ namespace MKPRG.Tracing.DocuTerms
         Int,
 
         /// <summary>
+        /// mko, 28.2.2021
+        /// Dokuterm als ULong
+        /// </summary>
+        NN,
+
+        /// <summary>
         /// Dokuterm eines Gleitkomma- Wertes
         /// </summary>
         Float,
