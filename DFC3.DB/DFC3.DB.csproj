@@ -1,0 +1,260 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{CE810374-3893-42B5-A10C-85A304EC8B69}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DFC3.DB</RootNamespace>
+    <AssemblyName>DFC3.DB</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <LangVersion>7.2</LangVersion>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <LangVersion>7.2</LangVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="mko, Version=7.4.1.0, Culture=neutral, PublicKeyToken=f4d93f46e53e0656, processorArchitecture=MSIL">
+      <HintPath>..\packages\mko.7.4.1\lib\net45\mko.dll</HintPath>
+    </Reference>
+    <Reference Include="mko.Algo, Version=1.2.3.0, Culture=neutral, PublicKeyToken=f4d93f46e53e0656, processorArchitecture=MSIL">
+      <HintPath>..\packages\mko.Algo.1.2.3\lib\net45\mko.Algo.dll</HintPath>
+    </Reference>
+    <Reference Include="mko.Euklid, Version=1.1.1.0, Culture=neutral, PublicKeyToken=f4d93f46e53e0656, processorArchitecture=MSIL">
+      <HintPath>..\packages\mko.Euklid.1.1.1\lib\net45\mko.Euklid.dll</HintPath>
+    </Reference>
+    <Reference Include="mko.NaLisp, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\mko.NaLisp.1.2.0\lib\net45\mko.NaLisp.dll</HintPath>
+    </Reference>
+    <Reference Include="mko.RPN, Version=20.6.7621.16705, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\mko.RPN.20.6.7621.16705\lib\net45\mko.RPN.dll</HintPath>
+    </Reference>
+    <Reference Include="mko.RPN.Arithmetik, Version=20.3.7464.29808, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\mko.RPN.Arithmetik.20.3.7464.29808\lib\net45\mko.RPN.Arithmetik.dll</HintPath>
+    </Reference>
+    <Reference Include="MkPrgNet.Pattern.Repository, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MkPrgNet.Pattern.Repository.1.0.0\lib\net452\MkPrgNet.Pattern.Repository.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="ObjectListView, Version=2.9.1.1072, Culture=neutral, PublicKeyToken=b1c5bf581481bcd4, processorArchitecture=MSIL">
+      <HintPath>..\packages\ObjectListView.Official.2.9.1\lib\net20\ObjectListView.dll</HintPath>
+    </Reference>
+    <Reference Include="Oracle.ManagedDataAccess, Version=4.122.1.0, Culture=neutral, PublicKeyToken=89b483f429c47342, processorArchitecture=MSIL">
+      <HintPath>..\packages\Oracle.ManagedDataAccess.12.2.1100\lib\net40\Oracle.ManagedDataAccess.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Bo\Customer.cs" />
+    <Compile Include="Bo\CustomerGroup.cs" />
+    <Compile Include="Bo\DateTimeObj.cs" />
+    <Compile Include="Bo\DFCSystemStatusBo.cs" />
+    <Compile Include="Bo\DocInfoBo.cs" />
+    <Compile Include="Bo\DocuMatBo.cs" />
+    <Compile Include="Bo\FolderXDocInfo.cs" />
+    <Compile Include="Bo\IntegerObj.cs" />
+    <Compile Include="Bo\MaraBo.cs" />
+    <Compile Include="Bo\Mara2Bo.cs" />
+    <Compile Include="Bo\MaraPjBo.cs" />
+    <Compile Include="Bo\PathBo.cs" />
+    <Compile Include="Bo\Projektliste2Bo.cs" />
+    <Compile Include="Bo\StKoBo.cs" />
+    <Compile Include="Bo\StPoViewBo.cs" />
+    <Compile Include="Bo\StringObj.cs" />
+    <Compile Include="Bo\XUser.cs" />
+    <Compile Include="Class1.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Queries\ATMODocsSQL.cs" />
+    <Compile Include="Queries\Bom.cs" />
+    <Compile Include="Queries\CustGroupsQueries.cs" />
+    <Compile Include="Queries\DFCGlobalization.cs" />
+    <Compile Include="Queries\DfcTreeRepos\AreaOfConstructionRepo.cs" />
+    <Compile Include="Queries\DfcTreeRepos\AssyRepo.cs" />
+    <Compile Include="Queries\DfcTreeRepos\ProcessmoduleRepo.cs" />
+    <Compile Include="Queries\DfcTreeRepos\ProjectRepo.cs" />
+    <Compile Include="Queries\DfcTreeRepos\SinglePartRepo.cs" />
+    <Compile Include="Queries\DocUserStateSQL.cs" />
+    <Compile Include="Queries\DZA\DocInfo.SQL.cs" />
+    <Compile Include="Queries\DZA\FolderXDocSQL.cs" />
+    <Compile Include="Queries\DZA\XUsers.cs" />
+    <Compile Include="Queries\LoggingSQL.cs" />
+    <Compile Include="Queries\Mara.cs" />
+    <Compile Include="Queries\Mara2.cs" />
+    <Compile Include="Queries\MaraPj.cs" />
+    <Compile Include="Queries\MasterSQL.cs" />
+    <Compile Include="Queries\Projects.cs" />
+    <Compile Include="Queries\QueriesBase.cs" />
+    <Compile Include="Queries\QueriesBaseAsync.cs" />
+    <Compile Include="Queries\Stations.cs" />
+    <Compile Include="Queries\UserMgmt.cs" />
+    <Compile Include="Queries\UserMgmtV18_10.cs" />
+    <Compile Include="Tables\CustGroupTab.cs" />
+    <Compile Include="Tables\Dept.cs" />
+    <Compile Include="Tables\DFCLog2.cs" />
+    <Compile Include="Tables\DokuMat.cs" />
+    <Compile Include="Tables\DZA\DocInfo.cs" />
+    <Compile Include="Tables\DZA\FolderXDocTab.cs" />
+    <Compile Include="Tables\DZA\UserXRole.cs" />
+    <Compile Include="Tables\DZA\XUser.cs" />
+    <Compile Include="Tables\IPath.cs" />
+    <Compile Include="Tables\LogDFC_FS.cs" />
+    <Compile Include="Tables\LogDFC.cs" />
+    <Compile Include="Tables\Mara.cs" />
+    <Compile Include="Tables\Mara2.cs" />
+    <Compile Include="Tables\MaraPj.cs" />
+    <Compile Include="Tables\Master.cs" />
+    <Compile Include="Tables\PathView.cs" />
+    <Compile Include="Tables\Path.cs" />
+    <Compile Include="Tables\ProjekteSecF.cs" />
+    <Compile Include="Tables\Projektliste2.cs" />
+    <Compile Include="Tables\SFC.cs" />
+    <Compile Include="Tables\SFCLup.cs" />
+    <Compile Include="Tables\SFCUserstate.cs" />
+    <Compile Include="Tables\Site.cs" />
+    <Compile Include="Tables\StationenSecF.cs" />
+    <Compile Include="Tables\STB.cs" />
+    <Compile Include="Tables\STPKO.cs" />
+    <Compile Include="Tables\STPO.cs" />
+    <Compile Include="Tables\StPoView601.cs" />
+    <Compile Include="Tables\STPOView602.cs" />
+    <Compile Include="Tables\User2Tab.cs" />
+    <Compile Include="Tables\User2XRoleTab.cs" />
+    <Compile Include="Tables\UserCustTab.cs" />
+    <Compile Include="Tools\TabColAccess.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="DFC3.DB.nuspec" />
+    <None Include="packages.config" />
+    <None Include="Queries\Doku\2019-01-21-ATDATZ.md" />
+    <None Include="Queries\Doku\2019-02-13-FolderDecorators.md" />
+    <None Include="Queries\Doku\2019-05-02-Manual-Abruf-Reimlementierung.md" />
+    <None Include="Queries\Doku\2019-10-11-Manuals.md" />
+    <None Include="Queries\Doku\2019-10-24-DFC-Systemstatus.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ATMO.DFC.DB.Tools\ATMO.DFC.DB.Tools.csproj">
+      <Project>{f045d991-c606-470a-ad02-9a3610b12b8d}</Project>
+      <Name>ATMO.DFC.DB.Tools</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ATMO.DFC.Material\ATMO.DFC.Material.csproj">
+      <Project>{4e7f64e1-89d2-43be-8943-529e03a438cd}</Project>
+      <Name>ATMO.DFC.Material</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ATMO.DFC.Naming\ATMO.DFC.Naming.csproj">
+      <Project>{28712739-1efe-43d2-9a0a-a103b5042d47}</Project>
+      <Name>ATMO.DFC.Naming</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ATMO.DFC.Tree\ATMO.DFC.Tree.csproj">
+      <Project>{dfaa6e3f-f8c2-45db-9c09-1b85ef08fb64}</Project>
+      <Name>ATMO.DFC.Tree</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ATMO.DFC.UserMgmt\ATMO.DFC.UserMgmt.csproj">
+      <Project>{635e6ea3-7a46-45cf-ab1b-0a58780cd0d1}</Project>
+      <Name>ATMO.DFC.UserMgmt</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ATMO.mko.Logging\ATMO.mko.Logging.csproj">
+      <Project>{71e3a4b1-71f3-422c-93ab-31895043cc82}</Project>
+      <Name>ATMO.mko.Logging</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ATMO.mko.Objectmodel\ATMO.mko.Objectmodel.csproj">
+      <Project>{431458c4-586c-45bc-bf02-e1633e27ea17}</Project>
+      <Name>ATMO.mko.Objectmodel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ATMO.mko.Processing\ATMO.mko.Processing.csproj">
+      <Project>{e797a825-d7d2-41a6-888b-ee12ea79750c}</Project>
+      <Name>ATMO.mko.Processing</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ATMO.mko.QueryBuilder\ATMO.mko.QueryBuilder.csproj">
+      <Project>{4849e3ae-df84-4724-8491-3b4876ef2ebc}</Project>
+      <Name>ATMO.mko.QueryBuilder</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ATMOServiceWrapper\ATMOServiceWrapper.csproj">
+      <Project>{dc961c33-19bb-4a80-9ea0-8df0e8e3b21d}</Project>
+      <Name>ATMOServiceWrapper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DFC.UpDowngrades\DFC.UpDowngrades.csproj">
+      <Project>{469d9cdd-1fc9-4560-8518-7897a5dce2ac}</Project>
+      <Name>DFC.UpDowngrades</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DFC2.Helper\DFC2.Helper.csproj">
+      <Project>{39dedb24-4358-453c-9475-0488e9df9434}</Project>
+      <Name>DFC2.Helper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DFC3BomSvcClient\DFC3BomSvcClient.csproj">
+      <Project>{48f4b62d-b0e7-4175-8aac-f4f2e850b6c3}</Project>
+      <Name>DFC3BomSvcClient</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DFCObjects.Common\DFCObjects.Common.csproj">
+      <Project>{43cab213-c36b-4afc-a4d4-d1be83f6f2a3}</Project>
+      <Name>DFCObjects.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DFCSecurity.Defs\DFCSecurity.Defs.csproj">
+      <Project>{d7fdf128-8ba5-4a3b-b996-a61fb38c2e0d}</Project>
+      <Name>DFCSecurity.Defs</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DFCSecurity.V1.Defs\DFCSecurity.V1.Defs.csproj">
+      <Project>{dc338376-0f5f-491d-99ba-3bbe1ec8eed4}</Project>
+      <Name>DFCSecurity.V1.Defs</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DFCSecurity.V1\DFCSecurity.V1.csproj">
+      <Project>{efa3205b-551b-41b8-8923-4fa3f6347a7e}</Project>
+      <Name>DFCSecurity.V1</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DFCSecurity\DFCSecurity.csproj">
+      <Project>{5a9b88ad-bf44-4ec2-8360-94a16ebea673}</Project>
+      <Name>DFCSecurity</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DZAUtilities_Dictionaries\DZAUtilities_Dictionaries.csproj">
+      <Project>{421203fb-f368-40fa-8c1e-40efc84417b6}</Project>
+      <Name>DZAUtilities_Dictionaries</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OracleHelper\OracleHelper.csproj">
+      <Project>{8434a43d-d64f-435f-8b65-3d6ff177b6ca}</Project>
+      <Name>OracleHelper</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\packages\Microsoft.VisualStudio.SlowCheetah.3.0.61\build\Microsoft.VisualStudio.SlowCheetah.targets" Condition="Exists('..\packages\Microsoft.VisualStudio.SlowCheetah.3.0.61\build\Microsoft.VisualStudio.SlowCheetah.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.VisualStudio.SlowCheetah.3.0.61\build\Microsoft.VisualStudio.SlowCheetah.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.VisualStudio.SlowCheetah.3.0.61\build\Microsoft.VisualStudio.SlowCheetah.targets'))" />
+  </Target>
+</Project>

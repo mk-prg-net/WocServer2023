@@ -1,0 +1,21 @@
+﻿<?xml version="1.0"?>
+<package >
+	<metadata>
+		<id>$id$</id>
+		<version>$version$</version>
+		<title>$title$</title>
+		<authors>$author$</authors>
+		<owners>$author$</owners>
+		<licenseUrl>http://www.mkoit.de/woc.aspx?path=Wissen.beispielsoftware.lizenz_beispielsoftware</licenseUrl>
+		<projectUrl>http://www.mkoit.de/woc.aspx?path=Wissen.beispielsoftware.mko_newton</projectUrl>
+		<iconUrl>http://www.mkoit.de/mko-Logo-2-1.gif</iconUrl>
+		<requireLicenseAcceptance>false</requireLicenseAcceptance>
+		<description>$description$</description>
+		<releaseNotes></releaseNotes>
+		<copyright>Copyright Robert Bosch Manufacturing GmbH, Stuttgart 2017</copyright>
+		<tags>Encapsulates queries to oracle db</tags>
+		<dependencies>
+      
+    </dependencies>
+	</metadata>
+</package>

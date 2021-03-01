@@ -155,7 +155,7 @@ namespace MKPRG.Tracing
             return new RC(true, DateTime.Now, User, assembly, cls, mth.Name, pnL.NID(TT.Sets.None.UID));
         }
 
-        public static RC Ok(IComposer pnL, IDocuEntity docuEntity, string User = "*")
+        public static RC Ok(IDocuEntity docuEntity, string User = "*")
         {
             var mth = new System.Diagnostics.StackTrace().GetFrame(1).GetMethod();
             var cls = mth.ReflectedType.Name;
@@ -180,7 +180,7 @@ namespace MKPRG.Tracing
             return new RC(false, DateTime.Now, User, assembly, cls, mth.Name, pnL.NID(TT.Sets.None.UID));
         }
 
-        public static RC Failed(IComposer pnL, IDocuEntity ErrorDescription, string User = "*")
+        public static RC Failed(IDocuEntity ErrorDescription, string User = "*")
         {
             var mth = new System.Diagnostics.StackTrace().GetFrame(1).GetMethod();
             var cls = mth.ReflectedType.Name;
@@ -413,6 +413,10 @@ namespace MKPRG.Tracing
         T _value;
 
         public T Value => _value;
+
+        public T ValueOrException
+            => Succeeded ? _value : throw new RCException(this.ToPlx());
+
 
         public override string ToString()
         {
