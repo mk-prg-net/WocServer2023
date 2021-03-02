@@ -59,10 +59,10 @@ namespace MKPRG.Tracing.Monitoring
 
         public RC abortJob(long JobId)
         {
-            var ret = RC.Failed(pnL, pnL.eFails());
+            var ret = RC.Failed(pnL.eFails());
             if (!_Jobs.ContainsKey(JobId))
             {
-                ret = RC.Failed(pnL, JobIdNotFound(JobId));
+                ret = RC.Failed(JobIdNotFound(JobId));
             }
             else
             {

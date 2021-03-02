@@ -20,6 +20,8 @@
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
+    <Use64BitIISExpress />
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -612,10 +614,6 @@
     <ProjectReference Include="..\mko.Woc.DB\mko.Woc.DB.csproj">
       <Project>{fa0ef161-f3bb-41b9-a4ad-0aa79d8d73d1}</Project>
       <Name>mko.Woc.DB</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\mko.Woc.WocStore\mko.Woc.WocStore.csproj">
-      <Project>{247ed57d-a253-4ebb-94ef-9026652399d0}</Project>
-      <Name>mko.Woc.WocStore</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

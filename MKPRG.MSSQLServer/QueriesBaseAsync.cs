@@ -155,25 +155,24 @@ namespace MKPRG.MSSQLServer
         /// <typeparam name="T"></typeparam>
         /// <param name="qPath"></param>
         /// <returns></returns>
-        protected async Task<RCV3> ExecuteDMLAsync<T>(QueryBuilderResult<T> qPath)
+        protected async Task<RC> ExecuteDMLAsync<T>(QueryBuilderResult<T> qPath)
             where T : new()
         {
-            var ret = RCV3.Failed();
+            var ret = RC.Failed(pnL);
 
-            var ora = new global::DZA.OracleHelper.OracleSQLAsync();
+            var sqlSrv = new ProviderAsync(pnL, connectionString);
 
             try
             {
-                bool success = await ora.executeSQLInsert(qPath.QueryAsSql);
-                ret = RCV3.Ok();
+                ret = await sqlSrv.executeSQLInsert(qPath.QueryAsSql);                
             }
             catch (Exception ex)
             {
-                ret = RCV3.Failed(ex);
+                ret = RC.Failed(ex);
             }
             finally
-            {
-                ora.CloseOraConnection();
+            {               
+
             }
             return ret;
         }
