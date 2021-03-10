@@ -26,7 +26,7 @@ namespace MKPRG.Tracing.DocuTerms.Parser.Parser
         /// mko, 9.6.2020
         /// MKPRG.Naming- Container
         /// </summary>
-        IReadOnlyDictionary<long, MKPRG.Naming.INaming> NC;
+        //IReadOnlyDictionary<long, MKPRG.Naming.INaming> NC;
 
         DocuTerms.IComposer pnL;
 

@@ -70,23 +70,23 @@ namespace MKPRG.CSSQL.Test
 
             //dataReaderMoq.Setup(r => r.Read()).Returns();
 
-            var sql = new SQL<DFCObjects.Common.IBaugruppe>();
-            var tab = new Bosch106();
+            var sql = new SQL<Woc.Author>();
+            var tab = new TabAuthors();
 
             var res = sql.Select(
-                            sql.Map(tab.MatNr, (p, v) => p.MatNr = (string)v),
-                            sql.Map(tab.ProjectNumber, (p, v) => p.ProjectPSPNr = (string)v),
-                            sql.Map(tab.ZeichnungsNr, (p, v) => p.DrawingNr = (string)v))                           
+                            sql.Map(tab.FirstName, (p, v) => p.AuthorFirstName = (string)v),
+                            sql.Map(tab.LastName, (p, v) => p.AuthorLastName = (string)v),
+                            sql.Map(tab.Birthday, (p, v) => p.AuthorBrithday = (DateTime)v))                           
                         .From(tab)
-                        .Where(sql.Eq(tab.ProjectNumber, "P.2998"))
-                        .By(tab.ProjectNumber)
-                        .By(tab.Qty)
+                        .Where(sql.Eq(tab.FirstName, "Martin"))
+                        .By(tab.City)
+                        .By(tab.Birthday)
                         .done();
 
 
-            var bg = new DFCObjects.Common.ATMOBauGruppe();
+            var bg = new Woc.Author();
             var readerMockUp = new ReaderMockUp(
-                (tab.MatNr.N, "0100000000"),
+                (tab.AuthorId.N, "0100000000"),
                 (tab.ProjectNumber.N, "P.2998"),
                 (tab.ZeichnungsNr.N, "1234")
             );

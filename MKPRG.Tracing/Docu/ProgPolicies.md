@@ -213,7 +213,7 @@ In Fällen, wo Objekte zur Laufzeit dynamisch um Schnittstellen erweitert werden
                   | Data j     |Ij  +-O
                   +------------+---/
 ``````
-Das zur Laufzeit mit Schnittstellen zu erwleiternde Objekt 0 erhält eine Liste, in welcher die Schnittstelle **Ij**, um die erweitert wird, einem **Erweiterungsdekorator** zugeordnet ist. Auf der Liste sollte typischerweise folgende Operatoren ausführbar sein (Bereits implementiert im Projekt ATMO.mko.ObjectModel):
+Das zur Laufzeit mit Schnittstellen zu erwleiternde Objekt 0 erhält eine Liste, in welcher die Schnittstelle **Ij**, um die erweitert wird, einem **Erweiterungsdekorator** zugeordnet ist. Auf der Liste sollte typischerweise folgende Operatoren ausführbar sein :
 
 ``` c#
 
@@ -259,7 +259,7 @@ Das zur Laufzeit mit Schnittstellen zu erwleiternde Objekt 0 erhält eine Liste,
 }
 
 ```
-Beispiel der Anwendung ist der ATMO.DFC.Tree.Visitor- Algorithmus für Baugruppen. Hier wird geprüft, ob das Baugruppenobjekt Erweiterungslisten unterstüztz, und wenn ja, dann wird die Erweiterung, über die auf alle Stücklistenpositionen zugegriffen werden kann, geholt(Auszug):
+Beispiel der Anwendung ist ein Tree.Visitor- Algorithmus. Hier wird geprüft, ob das Baugruppenobjekt Erweiterungslisten unterstüzt, und wenn ja, dann wird die Erweiterung, über die auf alle Stücklistenpositionen zugegriffen werden kann, geholt(Auszug):
 
 ```c#
 if (assy is mko.Objectmodel.Extensions.IListOfObjectExtensions extendedAssy && extendedAssy.HasObjectExtension<IAssyBomItems>())
@@ -272,12 +272,7 @@ if (assy is mko.Objectmodel.Extensions.IListOfObjectExtensions extendedAssy && e
 Die dynamische Dekoratorerweiterung können zum Beispiel in einem speziellen Visitor- Algorithmus durchgeführt werden, bei dem der Visitor den Tree in der DB durchläuft, und dabei den Baum im Arbeitsspeicher mittels Erweiterungen aufbaut:
 
 ```c#
-/// <summary>
-/// mko, 7.10.2020
-/// </summary>
-/// <param name="assy"></param>
-/// <param name="accessPermissionGranted"></param>
-/// <returns></returns>
+
 public override Task EndVisitAssy(IAssy assy, bool accessPermissionGranted)
 {
     bool stopp = false;
@@ -285,7 +280,7 @@ public override Task EndVisitAssy(IAssy assy, bool accessPermissionGranted)
     // Erweitern einer Baugruppe, falls diese Erweiterungen unterstützt.
     if (assy is mko.Objectmodel.Extensions.IListOfObjectExtensions ExtensionsOfAssy)
     {
-        while (!stopp && dfcTreeObjectsStack.TryPop(out object obj))
+        while (!stopp && TreeObjectsStack.TryPop(out object obj))
         {
             if (obj is IAssyBomItems bomItems && !ExtensionsOfAssy.HasObjectExtension<IAssyBomItems>())
             {
