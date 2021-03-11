@@ -22,13 +22,17 @@ namespace MKPRG.CSSQL.Test
 
         public ColName City { get; }
 
+        public ColName Erfahrung { get; }
+
         public TabAuthors(string Aliasname)
             : base("Autoren", Aliasname)
         {
             AuthorId = new ColName(TableName, "Id");
             FirstName = new ColName(TableName, "Vorname");
             LastName = new ColName(TableName, "Name");
+            Birthday = new ColName(TableName, "Birthday");
             City = new ColName(TableName, "Stadt");
+            Erfahrung = new ColName(TableName, "Erfahrungen");
         }
 
         public TabAuthors()

@@ -17,5 +17,10 @@ namespace MKPRG.Woc
         public DateTime AuthorBrithday { get; set; }
 
         public string AuthorCity { get; set; }
+
+        /// <summary>
+        /// Bewertung der Fähigkeiten, von 0 bis 9
+        /// </summary>
+        public int Skills { get; set; }
     }
 }
