@@ -11,7 +11,7 @@ namespace MKPRG.CSSQL.Test
     public class WhereExpressions
     {
 
-        SQL<Woc.Author> qBG = new SQL<Woc.Author>();
+        SQL<Woc.Author> qBG = new SQL<Woc.Author>();  
         TabAuthors tab;
 
         [TestInitialize]
