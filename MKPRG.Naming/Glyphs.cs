@@ -21,12 +21,23 @@ namespace MKPRG.Naming
             return System.Net.WebUtility.HtmlDecode(Glyph);
         }
 
+        public static class Access
+        {
+            public static string Save => Computer.FloppyDiskWhite;
+            public static string Delete => VariousSigns.Trashcan;
+
+            public static string Write => "&#x1F58E;";
+
+            public static string New => LiveCycle.Create;
+
+        }
+
         public static class Aerospace
         {
             public static string Rocket => "&#x1F680;";
             public static string RocketStarts = "&#x1F66D;";
 
-            public static string Satellite => "&#x1F6E0";
+            public static string Satellite => "&#x1F6E0;";
 
             public static string SupersonicJet => "&#xF6E6;";
             public static string Jet => "&#x1F6E7;";
@@ -128,6 +139,11 @@ namespace MKPRG.Naming
             public static string Juno => "&#x26B5;";
             public static string Vesta => "&#x26B6;";
             public static string Chiron => "&#x26B7;";
+
+
+            public static string Comet => "&#x2604;";
+            public static string BlackStar => "&#x2605;";
+            public static string WhiteStar => "&#x2606;";
         }
 
         public static class Automaton
@@ -181,7 +197,23 @@ namespace MKPRG.Naming
         {
             public static string Retorte => "&#x1F76D;";
 
+            /// <summary>
+            /// Reagenzglass
+            /// </summary>
+            public static string TestTube => "&#x1F9E4;";
+
+            public static string PetriDish => "&#x1F9EB;";
+
+            public static string DNA => "&#x1F9EC;";
+
             public static string Benzol => "&#x23E3;";
+
+        }
+
+        public static class Chess
+        {
+            public static string QueenWhite => "&#x2655;"; //  Schach, Dame weiss
+            public static string KingBlack => "&#x265A;"; //  Schach, König schwarz
 
         }
 
@@ -205,6 +237,8 @@ namespace MKPRG.Naming
             /// Einkaufswagen
             /// </summary>
             public static string Basket => "&#x1F6D2;";
+
+            public static string MoneyBag => "&#x1F4B0;";
         }
 
         public static class Computer
@@ -237,12 +271,36 @@ namespace MKPRG.Naming
             /// </summary>
             public static string TapeOrStreamer => "&#x2707;";
 
-            public static string EnterKey => $"{Math.bracketOpen}{ReturnKey}{Math.bracketClosed}";
+            public static string EnterKey => "&#x2386;";
 
+            public static string EnterKey2 => "&#x23CE;";
+
+            public static string ReturnBackspaceKey => $"{Math.bracketOpen}{ReturnKey}{Math.bracketClosed}";
+
+            public static string FloppyDiskWhite => "&#x1F5AB;";
+
+            public static string FloppyDiskBlack => "&#x1F5AC;";
+
+            public static string StreamerTape => "&#x1F5AD;";
+
+            public static string Display => "&#x1F5B5;";
+
+            public static string SpeechRecognition => "&#x1F5E3;";
         }
 
         public static class Communication
         {
+            /// <summary>
+            /// Sprechender Kopf, allgemeines Symbol für Kommunikation
+            /// </summary>
+            public static string SpeakingHead => "&#x1F5E3;";
+
+            public static string Lips => "&#1F5E2;";
+
+            public static string SpeechBubbleRight => "&#1F5E8;";
+            public static string SpeechBubbleLeft => "&#1F5E9;";
+            public static string SpeechBubbleDialog => "&#1F5EA;";
+            public static string SpeechBubbleDiscussion => "&#1F5EB;";
 
             public static string Telecommunication => Aerospace.Satellite;
 
@@ -260,6 +318,11 @@ namespace MKPRG.Naming
 
             public static string Airmail => "&#x1F585;";
 
+            /// <summary>
+            /// Brief
+            /// </summary>
+            public static string Mail => "&#x1F582;";
+
             public static class Emails
             {
                 public static string Email => "&#x1F4E7;";
@@ -268,9 +331,21 @@ namespace MKPRG.Naming
 
                 public static string Attachment => "&#x1F4CE;";
             }
-
-
         }
+
+        public static class Culture
+        {
+            public static class Language
+            {
+                public static string CNT => "**"; // Joker
+                public static string Chiniese => "&#x1F1E8;&#x1F1F3;"; //"CN"; // Mahjongg, roter Drache
+                public static string German => "&#x1F1E9;&#x1F1EA;"; // "DE"; //  Bierzelt
+                public static string English => "&#x1F1EC;&#x1F1E7;"; // "EN"; //  Schach, Dame weiss
+                public static string Spanish => "&#x1F1EA;&#x1F1F8;"; // "ES"; //  Schach, König schwarz
+            }
+        }
+
+
 
         public static class DataAndDocuments
         {
@@ -301,6 +376,9 @@ namespace MKPRG.Naming
             public static class DataQuantity
             {
                 public static string DataFlood => Glyphs.VariousSigns.Tsunami;
+
+                public static string DataCompression => "&#x1F5DC;";
+
             }
 
             public static class Hyperlinks
@@ -334,61 +412,6 @@ namespace MKPRG.Naming
             public static string Night => "&#x263E;";
         }
 
-        public static class DFC
-        {
-
-            /// <summary>
-            /// DFC- Projekt
-            /// </summary>
-            public static string Project => Geographic.Globe;
-
-            //public static string Station => @"&#x1D4E2;";
-            public static string Station => Shapes.Circled_S;
-
-
-            /// <summary>
-            /// DFC Prozessmodul
-            /// </summary>
-            public static string Processmodule => Math.Function;
-
-            public static string Assy => Math.SquaredPlus;
-
-            public static string ATB => "&#x1D30B;";
-
-            public static string ATB_2 => "&#x1F70E;";
-
-
-            public static string ATD => "&#x25F2;";
-
-            public static string ATZ => $"{ArrowsAndLines.arrO}{ATD}";
-
-            public static string TDP => "&#x1F5CB;";
-
-            public static string CTS => Metrology.StopWatch;
-
-            public static string Eplan => Shapes.SquaredSpiral;
-
-            public static string MechBom => Tools.Gear;
-
-            /// <summary>
-            /// DFC Einzelteil
-            /// </summary>
-            public static string SinglePart => Shapes.WhiteSquare;
-
-            /// <summary>
-            /// ATMO- Standort
-            /// </summary>
-            public static string ATMOSite => VariousSigns.Factory;
-
-            public static string DokuHaken => DataAndDocuments.Book;
-
-            public static string AT3 => Shapes.UpperRightShadowedWhiteSqare;
-
-            public static string ElectroBom => ElectricalEngineering.ElectricalFlash; //Weather.flash;
-
-            public static string SparePart => Tools.Wrench;
-
-        }
 
         public static class DocuTerms
         {
@@ -402,6 +425,25 @@ namespace MKPRG.Naming
 
             public static string Return => Transactions.reject;
         }
+
+        public static class Edit
+        {
+            public static string DelRight => "&#x2326;";
+            public static string Del => "&#x2327;";
+            public static string Keyboard => "&#x2328;";
+            public static string DelLeft => "&#x232B;";
+
+            public static string EnterKey => "&#x23CE;";
+
+            public static string Insert => "&#x2380;";
+
+            public static string Higlight => "&#x2383;";
+            public static string Underline => "&#x2381;";
+
+            public static string ClearScreen => "&#x239A;";
+            public static string PrintScreen => "&#x2399;";
+        }
+
 
         public static class ElectricalEngineering
         {
@@ -438,6 +480,24 @@ namespace MKPRG.Naming
 
         }
 
+        public static class Engineering
+        {
+            /// <summary>
+            /// Allgemeines Symbol für die Konstruktion
+            /// </summary>
+            public static string Construction => Metrology.TriangularRuler;
+
+            public static string Zirkel => "&#x10900;";
+
+            public static string Zirkel3 => "&#x29A0;";
+
+            /// <summary>
+            /// Bleistift
+            /// </summary>
+            public static string Pencil => "&#x1F589;";
+        }
+
+
         public static class Events
         {
 
@@ -471,6 +531,8 @@ namespace MKPRG.Naming
             public static string EarthGlobeAsiaAustralia => @"&#x1F30F;";
 
             public static string EarthGlobeAmerica => @"&#x1F30E;";
+
+            public static string WorldMap => "&#x1F5FA;";
         }
 
         public static class Gestures
@@ -499,13 +561,39 @@ namespace MKPRG.Naming
             public static string Trademark => "&#x2122;";
         }
 
+        public static class LiveCycle
+        {
+            public static string Creator => "&#x1304F;";
+
+            public static string Create => "&#x1F5E4;";
+            public static string Create2 => "&#x15C8;";
+            public static string Create_PlusInsideU => "&#x228E;";
+            public static string Create_CircledPlus => "&#x2295;";
+
+            public static string Death => "&#x13062;";
+
+        }
+
+        public static class Mahjongg
+        {
+            public static string RedDragon => "&#x1F004;";
+
+            public static string Spring => "&#x1F026;";
+
+            public static string Summer => "&#x1F027;";
+
+            public static string Autumn => "&#x1F028;";
+
+            public static string Winter => "&#x1F029;";
+        }
+
         public static class Math
         {
             public static string Alpha => "&#x1D6C2;";
 
             public static string FracA => "&#x1D56C;";
 
-            public static string A => "&#1D5D4;";
+            public static string A => "&#x1D5D4;";
 
             public static string DeltaOp => "&#1D6E5;";
 
@@ -541,7 +629,7 @@ namespace MKPRG.Naming
 
 
             public static string bracketOpen => "[";
-            public static string bracketClosed => "[";
+            public static string bracketClosed => "]";
 
             /// <summary>
             /// Zurodnung
@@ -611,6 +699,12 @@ namespace MKPRG.Naming
 
         }
 
+        public static class MechanicalEngineering
+        {
+            public static string Gear => Tools.Gear;
+
+        }
+
         public static class Metrology
         {
             public static string StopWatch => "&#x23F1;";
@@ -627,12 +721,52 @@ namespace MKPRG.Naming
 
             public static string Balance => "&#x2696;";
 
-            public static string GradCelsius => "&#x2103;";
+            public static class Temperature
+            {
 
-            public static string GradFahrenheit => "&#x2109;";
+                public static string GradCelsius => "&#x2103;";
 
-            public static string Ounce => "&#xU2125;";
+                public static string GradFahrenheit => "&#x2109;";
+            }
 
+            public static class Mass
+            {
+                public static string Ounce => "&#xU2125;";
+            }
+
+
+            public static class Length
+            {
+                public static string nm => "&#x339A;";
+                public static string micrometer => "&#x339B;";
+                public static string mm => "&#x339C;";
+                public static string cm => "&#x339D;";
+                public static string km => "&#x339E;";
+            }
+
+            public static class Area
+            {
+                public static string mm2 => "&#x339F;";
+                public static string cm2 => "&#x33A0;";
+                public static string m2 => "&#x33A1;";
+                public static string km2 => "&#x33A2;";
+            }
+
+            public static class Volume
+            {
+                public static string mm3 => "&#x33A3;";
+                public static string cm3 => "&#x33A4;";
+                public static string m3 => "&#x33A5;";
+                public static string km3 => "&#x33A6;";
+            }
+
+            public static class Time
+            {
+                public static string ps => "&#x33B0;";
+                public static string ns => "&#x33B1;";
+                public static string micros => "&#x33B2;";
+                public static string ms => "&#x33B3;";
+            }
         }
 
         public static class Navigation
@@ -643,6 +777,18 @@ namespace MKPRG.Naming
 
             public static string GotoEnd => "&#x2B72;";
             public static string GotoStart => "&#x2B70";
+
+            public static string FastForward => "&#x23F5;";
+            public static string FastBackward => "&#x23F4;";
+
+            public static string SkipToBeginning => "&#x23EE;";
+            public static string SkipToEnd => "&#x23EDE;";
+
+            public static string Play => "&#x23F5;";
+            public static string StopPlay => "&#x23F9;";
+
+            public static string Steuerrad => "&#x2388;";
+
 
         }
 
@@ -688,6 +834,22 @@ namespace MKPRG.Naming
 
         public static class Sets
         {
+            public static class Operators
+            {
+                public static string ElementOf => "&#x2208;";
+                public static string NotElementOf => "&#x2208;";
+
+                public static string Intersection => "&#x2229;";
+                public static string Union => "&#x222A;";
+
+                public static string DeleteLeft => "&#x232B;";
+                public static string DeleteRight => "&#x2326;";
+
+                public static string SortAscending => "&#x2343;";
+                public static string SortDescending => "&#x2344;";
+
+            }
+
             /// <summary>
             /// Allgemeine Liste
             /// </summary>
@@ -710,9 +872,18 @@ namespace MKPRG.Naming
                 /// geprüft, ok Haken fein
                 /// </summary>
                 public static string lightCheckMark => "&#x1F5F8;";
+            }
 
+            public static class Quantors
+            {
+                public static string Exists => "&#x2203;";
+                public static string NotExists => "&#x2204;";
+
+                public static string ForEach => "&#x2200;";
 
             }
+
+
         }
 
         public static class Shapes
@@ -792,14 +963,28 @@ namespace MKPRG.Naming
             public static string Hexagon => "&#x2B21;";
 
             public static string OctagonBlack => "&#x2B21;";
+        }
 
+        /// <summary>
+        /// Allgemein Hervorhebenungen, Warnungen, Fehlermeldungen
+        /// </summary>
+        public static class Signalization
+        {
+            public static string ErrorOccured => Weather.flash;
 
+            public static string Alarm => VariousSigns.Alarm;
 
+            public static string Attention => VariousSigns.Alarm;
 
+            public static string Warning => VariousSigns.WarningSign;
 
+            public static string PleaseNote => Gestures.ForefingerRight;
 
+            public static string Danger => VariousSigns.Explosion;
 
         }
+
+
 
         public static class Smileys
         {
@@ -1007,9 +1192,9 @@ namespace MKPRG.Naming
 
             public static string Joker => "&#x1F0BF;";
 
-            public static string Tsunami => "&#x1F30A";
+            public static string Tsunami => "&#x1F30A;";
 
-            public static string UnderConstruction => "&#x1F3D7";
+            public static string UnderConstruction => "&#x1F3D7;";
 
             public static string InfoSign => "&#x2139;";
 
@@ -1035,6 +1220,25 @@ namespace MKPRG.Naming
             public static string BellOff => "&#x1F515;";
 
             public static string SpeechBubble => "&#x1F4AC;";
+
+            public static string Bierzelt => "&#x1F3AA;";
+
+            /// <summary>
+            /// Schwarze Scheere
+            /// </summary>
+            public static string BlackScissors = "&#x2702;";
+
+            public static string PrismenRaster => "&#x1246E;";
+
+            public static string Schlange => "&#xA9AC;";
+
+            public static string HalbblüteLinks => "&#xA9C1;";
+            public static string HalbblüteRechts => "&#xA9C2;";
+
+            public static string Einfachquadratchnecke => "&#xA874;";
+            public static string Doppelquadratschnecke => "&#xA875;";
+
+
 
         }
 
