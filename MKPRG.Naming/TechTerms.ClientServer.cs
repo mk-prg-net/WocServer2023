@@ -22,10 +22,12 @@ namespace MKPRG.Naming.TechTerms.ClientServer
 
 
         public override string CNT => "Client";
-        public override string CN => CNT;
-        public override string DE => CNT;
-        public override string EN => CNT;
-        public override string ES => CNT;
+        public override string CN => "客户";
+        public override string DE => "Kunde";
+        public override string EN => "Client";
+        public override string ES => "Cliente";
+
+        public override string Glyph => Glyphs.ClientServer.Client;
     }
 
     /// <summary>
@@ -44,10 +46,13 @@ namespace MKPRG.Naming.TechTerms.ClientServer
 
 
         public override string CNT => "Server";
-        public override string CN => CNT;
-        public override string DE => CNT;
-        public override string EN => CNT;
-        public override string ES => CNT;
+        public override string CN => "服务器";
+        public override string DE => "Server";
+        public override string EN => "Server";
+        public override string ES => "Servidor";
+
+
+        public override string Glyph => Glyphs.ClientServer.Server;
     }
 
 
@@ -69,10 +74,13 @@ namespace MKPRG.Naming.TechTerms.ClientServer
 
 
         public override string CNT => "download";
-        public override string CN => CNT;
-        public override string DE => CNT;
-        public override string EN => CNT;
-        public override string ES => CNT;
+        public override string CN => "下载";
+        public override string DE => "Herunterladen";
+        public override string EN => "Download";
+        public override string ES => "Descargar";
+
+        public override string Glyph => Glyphs.ClientServer.Download;
+
     }
 
     /// <summary>
@@ -91,10 +99,12 @@ namespace MKPRG.Naming.TechTerms.ClientServer
 
 
         public override string CNT => "upload";
-        public override string CN => CNT;
-        public override string DE => CNT;
-        public override string EN => CNT;
-        public override string ES => CNT;
+        public override string CN => "上传";
+        public override string DE => "Hochladen";
+        public override string EN => "Upload";
+        public override string ES => "Cargar";
+
+        public override string Glyph => Glyphs.ClientServer.Upload;
     }
 
 
@@ -114,10 +124,13 @@ namespace MKPRG.Naming.TechTerms.ClientServer
 
 
         public override string CNT => "service";
-        public override string CN => EN;
+        public override string CN => "服务项目";
         public override string DE => "Dienst";
         public override string EN => "Service";
         public override string ES => "Servicio";
+
+        public override string Glyph => Glyphs.Math.Function;
+
     }
 
 
@@ -137,10 +150,12 @@ namespace MKPRG.Naming.TechTerms.ClientServer
 
 
         public override string CNT => "webService";
-        public override string CN => EN;
+        public override string CN => "网络服务";
         public override string DE => "Web- Dienst";
         public override string EN => "Web service";
         public override string ES => "Servicio Web";
+
+        public override string Glyph => $"{Glyphs.Math.Function}{Glyphs.Geographic.Globe}";
     }
 
     /// <summary>
@@ -159,11 +174,12 @@ namespace MKPRG.Naming.TechTerms.ClientServer
 
 
         public override string CNT => "webServer";
-        public override string CN => EN;
+        public override string CN => "网络服务器";
         public override string DE => EN;
         public override string EN => "Webserver";
         public override string ES => EN;
-    }
 
+        public override string Glyph => Glyphs.ClientServer.Server;
+    }
 
 }

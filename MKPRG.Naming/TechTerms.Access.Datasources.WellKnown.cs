@@ -46,69 +46,6 @@ namespace MKPRG.Naming.TechTerms.Access.Datasources.WellKnown
     }
 
     /// <summary>
-    /// mko, 22.7.2020
-    /// Dateisystem
-    /// </summary>
-    public class FileSystem
-        : NamingBase
-    {
-        public const long UID = 0x24389B8D;
-
-        public FileSystem()
-            : base(UID)
-        {
-        }
-
-        public override string CNT => "fileSys";
-        public override string CN => EN;
-        public override string DE => "Dateisystem";
-        public override string EN => "File system";
-        public override string ES => "Sistema de archivos";
-    }
-
-    /// <summary>
-    /// mko, 22.7.2020
-    /// Dateiverzeichnis
-    /// </summary>
-    public class FileDir
-        : NamingBase
-    {
-        public const long UID = 0x641C8BBB;
-
-        public FileDir()
-            : base(UID)
-        {
-        }
-
-        public override string CNT => "fileDir";
-        public override string CN => EN;
-        public override string DE => "Dateiverzeichnis";
-        public override string EN => "File directory";
-        public override string ES => "Directorio de archivos";
-    }
-
-    /// <summary>
-    /// mko, 22.7.2020
-    /// Datei
-    /// </summary>
-    public class File
-        : NamingBase
-    {
-        public const long UID = 0xFD085F3E;
-
-        public File()
-            : base(UID)
-        {
-        }
-
-        public override string CNT => "file";
-        public override string CN => EN;
-        public override string DE => "Datei";
-        public override string EN => "File";
-        public override string ES => "Archivo";
-    }
-
-    /// <summary>
     /// mko, 3.12.2020
     /// </summary>
     public class DataBaseTable

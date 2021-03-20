@@ -58,6 +58,7 @@
     <Compile Include="TechTerms.Access.cs" />
     <Compile Include="TechTerms.Access.Datasources.cs" />
     <Compile Include="TechTerms.Access.Datasources.WellKnown.cs" />
+    <Compile Include="TechTerms.Access.Datasources.WellKnown.FileSystem.Errors.cs" />
     <Compile Include="TechTerms.ActiveDirectory.cs" />
     <Compile Include="TechTerms.ActiveDirectory.Errors.cs" />
     <Compile Include="TechTerms.Authentication.cs" />
@@ -74,6 +75,7 @@
     <Compile Include="TechTerms.Markup.cs" />
     <Compile Include="TechTerms.Markup.Html.Errors.cs" />
     <Compile Include="TechTerms.Metrology.cs" />
+    <Compile Include="TechTerms.Metrology.DimensionAndWeights.IT.cs" />
     <Compile Include="TechTerms.Monitoring.cs" />
     <Compile Include="TechTerms.Net.cs" />
     <Compile Include="TechTerms.Net.TcpIp.cs" />
@@ -100,6 +102,9 @@
     <Compile Include="TechTerms.Trees.cs" />
     <Compile Include="TechTerms.Validation.cs" />
     <Compile Include="TechTerms.Validation.Errors.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="TechTerms.Access.Datasources.WellKnown.FileSystem.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

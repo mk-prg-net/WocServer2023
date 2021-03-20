@@ -45,10 +45,17 @@
     <Compile Include="IAuthor.cs" />
     <Compile Include="IDocument.cs" />
     <Compile Include="INode.cs" />
+    <Compile Include="IWoc.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Dokumentation\Woc.Grundlagen.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MKPRG.Naming\MKPRG.Naming.csproj">
+      <Project>{ee9d24a7-80bf-4d6d-a164-2e49743386f8}</Project>
+      <Name>MKPRG.Naming</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

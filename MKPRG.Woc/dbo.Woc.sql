@@ -1,0 +1,7 @@
+﻿CREATE TABLE [dbo].[Wocs]
+(
+	[Id] BIGINT NOT NULL PRIMARY KEY, 
+    [FK_NodeId] BIGINT NOT NULL, 
+    [FK_AuthorId] BIGINT NOT NULL, 
+    [Title] VARCHAR(1024) NOT NULL
+)

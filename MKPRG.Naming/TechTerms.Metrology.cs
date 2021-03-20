@@ -20,13 +20,13 @@ namespace MKPRG.Naming.TechTerms.Metrology
 
         public override string CNT => "counter";
 
-        public override string CN => EN;
+        public override string CN => "柜台";
 
         public override string DE => "Zähler";
 
         public override string EN => "Counter";
 
-        public override string ES => "Contador";        
+        public override string ES => "Contador";
     }
 
     /// <summary>
@@ -43,13 +43,13 @@ namespace MKPRG.Naming.TechTerms.Metrology
 
         public override string CNT => "measure";
 
-        public override string CN => EN;
+        public override string CN => "计量值";
 
         public override string DE => "Messwert";
 
         public override string EN => "Measured value";
 
-        public override string ES => "Valor medido";        
+        public override string ES => "Valor medido";
     }
 
 
