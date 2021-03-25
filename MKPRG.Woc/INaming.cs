@@ -68,7 +68,7 @@ namespace MKPRG.Naming
         /// <summary>
         /// Sprachneutraler Namen als Text zur Verwendung in DocTerms
         /// </summary>
-        string IDAsName { get; }
+        //string IDAsName { get; }
 
         /// <summary>
         /// Holt den Namen in der gewünschten Sprache

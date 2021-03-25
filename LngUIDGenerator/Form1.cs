@@ -10,6 +10,7 @@ using System.Windows.Forms;
 
 
 using MKPRG.Tracing;
+using MKPRG.Naming;
 
 namespace LngUIDGenerator
 {
@@ -29,6 +30,8 @@ namespace LngUIDGenerator
 
         private void LngUidGeneratorFrm_Load(object sender, EventArgs e)
         {
+            Text = $"{Glyphs.toStr(Glyphs.DataAndDocuments.Key)} Long Uinique Identifier Generator ";
+
             generator = new SessionIdGenerator();
 
             GenNextUID();

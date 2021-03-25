@@ -139,11 +139,11 @@ namespace MKPRG.Tracing.DocuTerms
                         // Abrufen des Namens in der Wunschsprache
                         var nid = (NID)entity;
 
-                        if (lng == MKPRG.Naming.Language.NID)
+                        if (lng == Naming.Language.NID)
                         {
                             bld.Append($"{fn.Nid} {nid.NamingId}");
                         }
-                        else if(lng == MKPRG.Naming.Language.CNT)
+                        else if(lng == Naming.Language.CNT)
                         {
                             // Culture neutral names sind immer ein regulärer Name (bestehen aus einem Wort)
                             bld.Append($"{delimitIfneeded(NC[nid.NamingId].NameIn(lng))}");
@@ -159,8 +159,8 @@ namespace MKPRG.Tracing.DocuTerms
                         var boolVal = (Boolean)entity;
 
                         var bVal = boolVal.ValueAsBool
-                                    ? NC[MKPRG.Naming.DocuTerms.Boolean.True.UID].NameIn(lng)
-                                    : NC[MKPRG.Naming.DocuTerms.Boolean.False.UID].NameIn(lng);
+                                    ? NC[TTD.Boolean.True.UID].NameIn(lng)
+                                    : NC[TTD.Boolean.False.UID].NameIn(lng);
                         bld.Append($"{bVal}");
                     }
                     break;

@@ -66,6 +66,10 @@
       <Project>{e9d442d4-e7a9-49aa-89d3-9e459cd926b5}</Project>
       <Name>MKPRG.Tracing</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MKPRG.Woc\MKPRG.Woc.csproj">
+      <Project>{3658ad4a-9fbf-4687-b698-00d46c24c144}</Project>
+      <Name>MKPRG.Woc</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

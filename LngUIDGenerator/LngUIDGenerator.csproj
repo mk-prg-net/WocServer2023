@@ -24,7 +24,7 @@
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
     <PublisherName>mk-prg-net</PublisherName>
-    <ApplicationRevision>3</ApplicationRevision>
+    <ApplicationRevision>5</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -128,9 +128,17 @@
       <Project>{8ba09406-2a32-4476-81e8-2359a85e8e5d}</Project>
       <Name>MKPRG.DatatypeHandling</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MKPRG.Naming\MKPRG.Naming.csproj">
+      <Project>{ee9d24a7-80bf-4d6d-a164-2e49743386f8}</Project>
+      <Name>MKPRG.Naming</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MKPRG.Tracing\MKPRG.Tracing.csproj">
       <Project>{e9d442d4-e7a9-49aa-89d3-9e459cd926b5}</Project>
       <Name>MKPRG.Tracing</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MKPRG.Woc\MKPRG.Woc.csproj">
+      <Project>{3658ad4a-9fbf-4687-b698-00d46c24c144}</Project>
+      <Name>MKPRG.Woc</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

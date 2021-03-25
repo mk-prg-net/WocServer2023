@@ -51,7 +51,6 @@
     <Compile Include="DocuTerms.StateDescription.cs" />
     <Compile Include="DocuTerms.Types.cs" />
     <Compile Include="Glyphs.cs" />
-    <Compile Include="INaming.cs" />
     <Compile Include="NamingBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TechTerms.Abstraction.cs" />
@@ -102,9 +101,27 @@
     <Compile Include="TechTerms.Trees.cs" />
     <Compile Include="TechTerms.Validation.cs" />
     <Compile Include="TechTerms.Validation.Errors.cs" />
+    <Compile Include="Wocs\Authors\AuthorsBase.cs" />
+    <Compile Include="Wocs\Authors\_TypeAuthor.cs" />
+    <Compile Include="Wocs\Authors\KorneffelMarina.cs" />
+    <Compile Include="Wocs\Authors\KorneffelMartin.cs" />
+    <Compile Include="Wocs\Nodes\_TypeNode.cs" />
+    <Compile Include="Wocs\Nodes\Home\AsusRog80_2015.cs" />
+    <Compile Include="Wocs\Nodes\Home\ZotacI7_2021_01.cs" />
+    <Compile Include="Wocs\_WocTypeNamespace.cs" />
+    <Compile Include="Wocs\_WocRoot.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="TechTerms.Access.Datasources.WellKnown.FileSystem.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MKPRG.Woc\MKPRG.Woc.csproj">
+      <Project>{3658ad4a-9fbf-4687-b698-00d46c24c144}</Project>
+      <Name>MKPRG.Woc</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Wocs\Nodes\Mobiles\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

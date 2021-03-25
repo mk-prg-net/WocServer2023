@@ -171,6 +171,10 @@
       <Project>{ee9d24a7-80bf-4d6d-a164-2e49743386f8}</Project>
       <Name>MKPRG.Naming</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MKPRG.Woc\MKPRG.Woc.csproj">
+      <Project>{3658ad4a-9fbf-4687-b698-00d46c24c144}</Project>
+      <Name>MKPRG.Woc</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

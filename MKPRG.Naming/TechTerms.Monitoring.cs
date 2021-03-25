@@ -95,7 +95,5 @@ namespace MKPRG.Naming.TechTerms.Monitoring
             public override string EN => "Log entry";
             public override string ES => "Entrada en la bitácora";
         }
-
-
-
     }
+}
