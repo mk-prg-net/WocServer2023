@@ -12,7 +12,7 @@ namespace MKPRG.Naming.Wocs.Nodes.Home
         public const long UID = 0xE1F4DC2C;
 
         public AsusRog80_2015()
-            : base(UID, _TypeNode.UID, Authors.KorneffelMartin.UID, DLL.MkprgNamingDll.UID)
+            : base(UID, 1, _TypeNode.UID, Authors.KorneffelMartin.UID, DLL.MkprgNamingDll.UID)
         {
         }
 

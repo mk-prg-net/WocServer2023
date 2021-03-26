@@ -13,6 +13,14 @@ namespace MKPRG.Woc.Repos
         where C: new()
     {
         /// <summary>
+        /// mko, 26.3.2021
+        /// Erstellt die erste Woc- Version
+        /// </summary>
+        /// <param name="newContent"></param>
+        /// <returns></returns>
+        Task<RC<T>> CreateFirstVersionOfWoc(C newContent);
+
+        /// <summary>
         /// 26.3.2021
         /// Erzeugt für ein Woc mit einem Veralteten Inhalt ein neues Woc mit dem neuen Inhalt.
         /// Der veraltete Inhalt wird in ein Woc mit einer neuen WocId  und der Version des Wocs mit dem
@@ -22,6 +30,6 @@ namespace MKPRG.Woc.Repos
         /// <param name="oldVersion"></param>
         /// <param name="newContent"></param>
         /// <returns></returns>
-        Task<RC<(T newVersion, T oldVersionContent)>> CreateNewWocVersionOf(T oldVersion, C newContent);
+        Task<RC<(T newVersion, T oldVersionContent)>> CreateNewVersionOfWoc(T oldVersion, C newContent);
     }
 }
