@@ -16,7 +16,7 @@ namespace MKPRG.Naming.Wocs.Nodes.Home
         public const long UID = 0xF31D207F;
 
         public ZotacI7_2021_01()
-            : base(UID, _TypeNode.UID, Authors.KorneffelMartin.UID, UID)
+            : base(UID, _TypeNode.UID, Authors.KorneffelMartin.UID, DLL.MkprgNamingDll.UID)
         {
         }
 

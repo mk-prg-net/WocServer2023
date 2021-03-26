@@ -18,7 +18,7 @@ namespace MKPRG.Naming
     {
         internal NamingBase(long uid)
         {
-            ID = uid;
+            ID = uid;            
         }
 
         /// <summary>
@@ -31,12 +31,15 @@ namespace MKPRG.Naming
         /// <param name="WocRefs"></param>
         internal NamingBase(
             long uid, 
+            int WocVersion,
             long WocTypeId, 
             long WocAuthorId,
             long WocNodeId, 
             params (long RefTypeId, long WocId)[] WocRefs)
         {
             ID = uid;
+
+            this.WocVersion = WocVersion;
 
             this.WocTypeId = WocTypeId;
 

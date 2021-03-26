@@ -29,6 +29,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MKPRG.MSSQLServer", "MKPRG.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MKPRG.Woc", "MKPRG.Woc\MKPRG.Woc.csproj", "{3658AD4A-9FBF-4687-B698-00D46C24C144}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MKPRG.Woc.Repos", "MKPRG.Woc.Repos\MKPRG.Woc.Repos.csproj", "{F4719E49-FC98-4628-B068-0A526639E693}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Beta|Any CPU = Beta|Any CPU
@@ -303,6 +305,26 @@ Global
 		{3658AD4A-9FBF-4687-B698-00D46C24C144}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3658AD4A-9FBF-4687-B698-00D46C24C144}.Release|x86.ActiveCfg = Release|Any CPU
 		{3658AD4A-9FBF-4687-B698-00D46C24C144}.Release|x86.Build.0 = Release|Any CPU
+		{F4719E49-FC98-4628-B068-0A526639E693}.Beta|Any CPU.ActiveCfg = Debug|Any CPU
+		{F4719E49-FC98-4628-B068-0A526639E693}.Beta|Any CPU.Build.0 = Debug|Any CPU
+		{F4719E49-FC98-4628-B068-0A526639E693}.Beta|x86.ActiveCfg = Debug|Any CPU
+		{F4719E49-FC98-4628-B068-0A526639E693}.Beta|x86.Build.0 = Debug|Any CPU
+		{F4719E49-FC98-4628-B068-0A526639E693}.Debug_with_local_IIS|Any CPU.ActiveCfg = Debug|Any CPU
+		{F4719E49-FC98-4628-B068-0A526639E693}.Debug_with_local_IIS|Any CPU.Build.0 = Debug|Any CPU
+		{F4719E49-FC98-4628-B068-0A526639E693}.Debug_with_local_IIS|x86.ActiveCfg = Debug|Any CPU
+		{F4719E49-FC98-4628-B068-0A526639E693}.Debug_with_local_IIS|x86.Build.0 = Debug|Any CPU
+		{F4719E49-FC98-4628-B068-0A526639E693}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F4719E49-FC98-4628-B068-0A526639E693}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F4719E49-FC98-4628-B068-0A526639E693}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F4719E49-FC98-4628-B068-0A526639E693}.Debug|x86.Build.0 = Debug|Any CPU
+		{F4719E49-FC98-4628-B068-0A526639E693}.localIIS|Any CPU.ActiveCfg = Debug|Any CPU
+		{F4719E49-FC98-4628-B068-0A526639E693}.localIIS|Any CPU.Build.0 = Debug|Any CPU
+		{F4719E49-FC98-4628-B068-0A526639E693}.localIIS|x86.ActiveCfg = Debug|Any CPU
+		{F4719E49-FC98-4628-B068-0A526639E693}.localIIS|x86.Build.0 = Debug|Any CPU
+		{F4719E49-FC98-4628-B068-0A526639E693}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F4719E49-FC98-4628-B068-0A526639E693}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F4719E49-FC98-4628-B068-0A526639E693}.Release|x86.ActiveCfg = Release|Any CPU
+		{F4719E49-FC98-4628-B068-0A526639E693}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

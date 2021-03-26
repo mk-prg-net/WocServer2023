@@ -11,16 +11,57 @@ using System.Threading.Tasks;
 namespace MKPRG.Naming.DocuTerms.Boolean
 {
     /// <summary>
+    /// mko, 26.3.2021
+    /// Namensraum der Booleans
+    /// </summary>
+    public class Boolean
+        : NamingBase
+    {
+        public const long UID = 0xD7960352;
+
+        public Boolean()
+            : base(UID, 1, Wocs.DocuTerms._TypeDocuTerms.UID, Wocs.Authors.KorneffelMartin.UID, Wocs.Nodes.DLL.MkprgNamingDll.UID,
+                  new (long RefTypeId, long WocId)[]
+                  {
+                      (Wocs._WocTypeNamespace.UID, Wocs.DocuTerms._TypeDocuTerms.UID)
+                  })
+        { }
+
+        public override string CNT => "Boolean";
+
+        public override string DE => CNT;
+
+        public override string EN => CNT;
+
+        public override string ES => CNT;
+
+        public override string CN => CNT;
+    }
+
+    public abstract class _BooleanBase
+        : NamingBase
+    {
+
+        public _BooleanBase(long UID, int WocVersion)
+            : base(UID, WocVersion, Wocs.DocuTerms._TypeDocuTerms.UID, Wocs.Authors.KorneffelMartin.UID, Wocs.Nodes.DLL.MkprgNamingDll.UID,
+                  new (long RefTypeId, long WocId)[]
+                  {
+                      (Wocs._WocTypeNamespace.UID, Wocs.DocuTerms._TypeDocuTerms.UID)
+                  })
+        { }
+    }
+
+    /// <summary>
     /// Wahrheitswert für wahr
     /// </summary>
     public class True
-        : NamingBase
+    : _BooleanBase
     {
         public const long UID = 0x93EA7C6B;
 
         public True()
-            : base(UID)
-        { }
+            : base(UID, 1)
+        { }        
 
         public override string CNT => EN;
 
@@ -37,12 +78,12 @@ namespace MKPRG.Naming.DocuTerms.Boolean
     /// Wahrheitswert für falsch
     /// </summary>
     public class False
-        : NamingBase
+        : _BooleanBase
     {
         public const long UID = 0x5046A757;
 
         public False()
-            : base(UID)
+            : base(UID, 1)
         { }
 
         public override string CNT => EN;

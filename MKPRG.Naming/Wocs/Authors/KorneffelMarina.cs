@@ -15,7 +15,7 @@ namespace MKPRG.Naming.Wocs.Authors
         public const long UID = 0xE684A023;
 
         public KorneffelMarina()
-            : base(UID, KorneffelMartin.UID, Nodes.Home.ZotacI7_2021_01.UID)
+            : base(UID, KorneffelMartin.UID, Nodes.DLL.MkprgNamingDll.UID)
         {           
 
         }

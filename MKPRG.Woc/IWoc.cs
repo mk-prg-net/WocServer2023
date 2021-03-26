@@ -11,18 +11,9 @@ namespace MKPRG.Woc
     /// Liste der wichtigsten eigenschaften eines Web- Documents (Woc)
     /// </summary>
     public interface IWoc  
-        : IWocContext
+        : IWocVersion,
+        IWocContext
     {
-        /// <summary>
-        /// Eineindeutige Id eines Web- Documents (WOC)
-        /// </summary>
-        long WocId { get; }
-
-        /// <summary>
-        /// mko, 25.3.2021
-        /// Versionsnummer des Woc
-        /// </summary>
-        int WocVersion { get; }
         
         /// <summary>
         /// mko, 25.3.2021
