@@ -6,5 +6,9 @@
 CREATE TABLE [dbo].[SystemWocs]
 (	
     [Id]          BIGINT         NOT NULL,    
-    PRIMARY KEY CLUSTERED ([Id] ASC)    
+
+    /* Kulturneutraler Name */
+    CNT           NVARCHAR(255)  NOT NULL,
+
+    PRIMARY KEY CLUSTERED ([Id] ASC)
 )

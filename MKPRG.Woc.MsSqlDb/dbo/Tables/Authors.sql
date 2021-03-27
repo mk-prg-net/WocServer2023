@@ -1,9 +1,11 @@
 ﻿CREATE TABLE [dbo].[Authors] (
-    /* Woc Kopf */
+    /*
+        Woc Kopf
+        Autoren haben nur eine einfache ID, werden nur einmal unter dieser definiert.
+        Autoren sind Systemwocs, und haben immer implizit den Author **_G00D_** und sind auf dem Node **_BIGBANG_** erstellt worden
+
+    */
     [Id]        BIGINT         NOT NULL,
-    [FK_NodeId]   BIGINT         NOT NULL,
-    [FK_AuthorId] BIGINT         NOT NULL,
-    [Version]	  int			 NOT NULL,
 
     /* Nutzdaten */
     [FirstName] NVARCHAR (255) NULL,
@@ -12,7 +14,6 @@
     [City]      NVARCHAR (255) NULL,
 
     PRIMARY KEY CLUSTERED ([Id] ASC),
-    foreign key (FK_NodeId) references dbo.Nodes(Id),
-	foreign key (FK_AuthorId) references dbo.Authors(Id)
+    
 );
 

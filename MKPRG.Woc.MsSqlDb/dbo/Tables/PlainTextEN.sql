@@ -4,6 +4,12 @@
 */
 CREATE TABLE [dbo].[PlainTextEN]
 (
-	[WocId] bigint NOT NULL PRIMARY KEY,
-	[Txt] NVarchar(4000) Not Null		
+	[WocId] bigint NOT NULL ,
+	[FK_AuthorId] bigint NOT NULL,
+	[FK_NodeId] bigint NOT NULL,
+	[Txt] NVarchar(4000) Not Null,
+
+	PRIMARY KEY CLUSTERED (FK_NodeId ASC, FK_AuthorId ASC, [WocId] ASC),
+	foreign key (FK_NodeId) references dbo.Nodes(Id),
+	foreign key (FK_AuthorId) references dbo.Authors(Id)
 )
