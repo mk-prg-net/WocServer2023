@@ -15,7 +15,7 @@ namespace MKPRG.Naming.Wocs
         public const long UID = 0x57C7C853;
 
         public _WocRoot()
-            : base(UID, UID, UID, UID)
+            : base(UID, 1,  UID, UID, UID)
         {
         }
 

@@ -15,7 +15,7 @@ namespace MKPRG.Naming.Wocs.Authors
         public const long UID = 0x79F333F6;
 
         public _TypeAuthor()
-            : base(UID, _WocRoot.UID, _WocRoot.UID, _WocRoot.UID,
+            : base(UID, 1, _WocRoot.UID, _WocRoot.UID, _WocRoot.UID,
                  new (long WocType, long Ref)[]
             {
                 (_WocTypeNamespace.UID, _WocRoot.UID)

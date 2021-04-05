@@ -16,7 +16,7 @@ namespace MKPRG.Naming.Wocs.TechTerms
         public const long UID = 0x7B4E0278;
 
         public _TypeTechTerms()
-            : base(UID, _WocRoot.UID, Authors.KorneffelMartin.UID, Nodes.DLL.MkprgNamingDll.UID,
+            : base(UID, 1, _WocRoot.UID, Authors.KorneffelMartin.UID, Nodes.DLL.MkprgNamingDll.UID,
                   new (long WocType, long Ref)[]
             {
                 (_WocTypeNamespace.UID, _WocRoot.UID)

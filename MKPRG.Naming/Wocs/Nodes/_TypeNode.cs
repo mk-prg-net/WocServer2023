@@ -12,7 +12,7 @@ namespace MKPRG.Naming.Wocs.Nodes
         public const long UID = 0x35218D13;
 
         public _TypeNode()
-            : base(UID, _WocRoot.UID, _WocRoot.UID, _WocRoot.UID,
+            : base(UID, 1, _WocRoot.UID, _WocRoot.UID, _WocRoot.UID,
                   new (long WocType, long Ref)[]
             {
                 (_WocTypeNamespace.UID, _WocRoot.UID)

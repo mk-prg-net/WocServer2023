@@ -15,7 +15,7 @@ namespace MKPRG.Naming.Wocs
         public const long UID = 0x997C663E;
 
         public _WocTypeNamespace()
-            : base(UID, UID, UID, UID)
+            : base(UID, 1, UID, UID, UID)
         {
         }
 
