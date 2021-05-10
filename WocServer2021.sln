@@ -33,6 +33,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MKPRG.Woc.Repos", "MKPRG.Wo
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "MKPRG.Woc.MsSqlDb", "MKPRG.Woc.MsSqlDb\MKPRG.Woc.MsSqlDb.sqlproj", "{B8D40655-26F0-4CB4-B82F-D6C2ED9724D2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestWebViewControl", "TestWebViewControl\TestWebViewControl.csproj", "{69A9881B-2CDE-4D48-A7BC-C2AF30A4A59F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Beta|Any CPU = Beta|Any CPU
@@ -357,6 +359,26 @@ Global
 		{B8D40655-26F0-4CB4-B82F-D6C2ED9724D2}.Release|x86.ActiveCfg = Release|Any CPU
 		{B8D40655-26F0-4CB4-B82F-D6C2ED9724D2}.Release|x86.Build.0 = Release|Any CPU
 		{B8D40655-26F0-4CB4-B82F-D6C2ED9724D2}.Release|x86.Deploy.0 = Release|Any CPU
+		{69A9881B-2CDE-4D48-A7BC-C2AF30A4A59F}.Beta|Any CPU.ActiveCfg = Debug|Any CPU
+		{69A9881B-2CDE-4D48-A7BC-C2AF30A4A59F}.Beta|Any CPU.Build.0 = Debug|Any CPU
+		{69A9881B-2CDE-4D48-A7BC-C2AF30A4A59F}.Beta|x86.ActiveCfg = Debug|Any CPU
+		{69A9881B-2CDE-4D48-A7BC-C2AF30A4A59F}.Beta|x86.Build.0 = Debug|Any CPU
+		{69A9881B-2CDE-4D48-A7BC-C2AF30A4A59F}.Debug_with_local_IIS|Any CPU.ActiveCfg = Debug|Any CPU
+		{69A9881B-2CDE-4D48-A7BC-C2AF30A4A59F}.Debug_with_local_IIS|Any CPU.Build.0 = Debug|Any CPU
+		{69A9881B-2CDE-4D48-A7BC-C2AF30A4A59F}.Debug_with_local_IIS|x86.ActiveCfg = Debug|Any CPU
+		{69A9881B-2CDE-4D48-A7BC-C2AF30A4A59F}.Debug_with_local_IIS|x86.Build.0 = Debug|Any CPU
+		{69A9881B-2CDE-4D48-A7BC-C2AF30A4A59F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{69A9881B-2CDE-4D48-A7BC-C2AF30A4A59F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{69A9881B-2CDE-4D48-A7BC-C2AF30A4A59F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{69A9881B-2CDE-4D48-A7BC-C2AF30A4A59F}.Debug|x86.Build.0 = Debug|Any CPU
+		{69A9881B-2CDE-4D48-A7BC-C2AF30A4A59F}.localIIS|Any CPU.ActiveCfg = Debug|Any CPU
+		{69A9881B-2CDE-4D48-A7BC-C2AF30A4A59F}.localIIS|Any CPU.Build.0 = Debug|Any CPU
+		{69A9881B-2CDE-4D48-A7BC-C2AF30A4A59F}.localIIS|x86.ActiveCfg = Debug|Any CPU
+		{69A9881B-2CDE-4D48-A7BC-C2AF30A4A59F}.localIIS|x86.Build.0 = Debug|Any CPU
+		{69A9881B-2CDE-4D48-A7BC-C2AF30A4A59F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{69A9881B-2CDE-4D48-A7BC-C2AF30A4A59F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{69A9881B-2CDE-4D48-A7BC-C2AF30A4A59F}.Release|x86.ActiveCfg = Release|Any CPU
+		{69A9881B-2CDE-4D48-A7BC-C2AF30A4A59F}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
