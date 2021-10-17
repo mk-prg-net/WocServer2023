@@ -71,6 +71,50 @@ namespace MKPRG.Naming.TechTerms.Trees
     }
 
     /// <summary>
+    /// mko, 14.4.2021
+    /// Wurzel
+    /// </summary>
+    public class Node : NamingBase
+    {
+        public const long UID = 0x8EBBD587;
+
+        public Node()
+            : base(UID)
+        { }
+
+        public override string CN => "节点";
+        public override string CNT => "node";
+        public override string DE => "Knoten";
+        public override string EN => "Node";
+        public override string ES => "Nodo";
+
+        public override string Glyph => Glyphs.Shapes.Circle;
+    }
+
+    /// <summary>
+    /// mko, 14.4.2021
+    /// Wurzel
+    /// </summary>
+    public class SelectedNode : NamingBase
+    {
+        public const long UID = 0x42FC7E4A;
+
+        public SelectedNode()
+            : base(UID)
+        { }
+
+        public override string CN => "选定节点";
+        public override string CNT => "selectedNode";
+        public override string DE => "der ausgewählte Knoten";
+        public override string EN => "selected Node";
+        public override string ES => "nodos seleccionados";
+
+        public override string Glyph => Glyphs.Shapes.Circle;
+    }
+
+
+
+    /// <summary>
     /// mko, 19.6.2020
     /// Baumebene
     /// </summary>

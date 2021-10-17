@@ -15,9 +15,11 @@ namespace MKPRG.Naming.TechTerms.Operators.Arguments
     /// Präposition, die auf das Objekt verweist, auf welches eine Operation angewendet wird
     /// </summary>
     public class AppliedTo
-        : NamingBase
+        : NamingBase, Grammar.IInProgressActivity
     {
         public const long UID = 0x952E8B71;
+
+        public static AppliedTo I { get; } = new AppliedTo();
 
         public AppliedTo()
             : base(UID)
@@ -25,7 +27,7 @@ namespace MKPRG.Naming.TechTerms.Operators.Arguments
         }
 
         public override string CNT => "appliedTo";
-        public override string CN => EN;
+        public override string CN => "适用于";
         public override string DE => "angewendet auf";
         public override string EN => "applied to";
         public override string ES => "aplicado a";
@@ -36,9 +38,11 @@ namespace MKPRG.Naming.TechTerms.Operators.Arguments
     /// Verweist auf einen Kontext, in dem eine Operation stattfindet
     /// </summary>
     public class RefersTo
-        : NamingBase
+        : NamingBase, Grammar.IInProgressActivity
     {
         public const long UID = 0xD2DE9DD4;
+
+        public static RefersTo I { get; } = new RefersTo();
 
         public RefersTo()
             : base(UID)
@@ -46,7 +50,7 @@ namespace MKPRG.Naming.TechTerms.Operators.Arguments
         }
 
         public override string CNT => "refersTo";
-        public override string CN => EN;
+        public override string CN => "指的是";
         public override string DE => "bezieht sich auf";
         public override string EN => "refers to";
         public override string ES => "se refiere a";

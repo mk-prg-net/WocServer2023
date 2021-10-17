@@ -20,10 +20,10 @@ namespace MKPRG.Naming.TechTerms.Operators.Boolean
         }
 
         public override string CNT => "boolAnd";
-        public override string CN => EN;
-        public override string DE => "UND";
-        public override string EN => "AND";
-        public override string ES => EN;
+        public override string CN => "逻辑和";
+        public override string DE => "logisches UND";
+        public override string EN => "logical AND";
+        public override string ES => "lógica y";
     }
 
     /// <summary>
@@ -40,10 +40,10 @@ namespace MKPRG.Naming.TechTerms.Operators.Boolean
         }
 
         public override string CNT => "boolOr";
-        public override string CN => EN;
-        public override string DE => "ODER";
-        public override string EN => "OR";
-        public override string ES => EN;
+        public override string CN => "逻辑或";
+        public override string DE => "logisches ODER";
+        public override string EN => "logical OR";
+        public override string ES => "lógico o";
     }
 
     /// <summary>
@@ -60,10 +60,10 @@ namespace MKPRG.Naming.TechTerms.Operators.Boolean
         }
 
         public override string CNT => "boolNot";
-        public override string CN => EN;
+        public override string CN => "不";
         public override string DE => "NICHT";
         public override string EN => "NOT";
-        public override string ES => EN;
+        public override string ES => "NO";
     }
 
     /// <summary>
@@ -80,10 +80,10 @@ namespace MKPRG.Naming.TechTerms.Operators.Boolean
         }
 
         public override string CNT => "boolImplicate";
-        public override string CN => EN;
+        public override string CN => "意味着";
         public override string DE => "DARAUS FOLGT";
         public override string EN => "implies";
-        public override string ES => EN;
+        public override string ES => "implica";
     }
 
     /// <summary>
@@ -91,9 +91,11 @@ namespace MKPRG.Naming.TechTerms.Operators.Boolean
     /// Postulat
     /// </summary>
     public class ItIsValid
-    : NamingBase
+    : NamingBase, Grammar.IInProgressActivity
     {
         public const long UID = 0x486EC688;
+
+        public static ItIsValid I { get; } = new ItIsValid();
 
         public ItIsValid()
             : base(UID)
@@ -101,7 +103,7 @@ namespace MKPRG.Naming.TechTerms.Operators.Boolean
         }
 
         public override string CNT => "itIsValid";
-        public override string CN => EN;
+        public override string CN => "它适用于";
         public override string DE => "Es gilt";
         public override string EN => "It is valid";
         public override string ES => "Es válido";

@@ -17,7 +17,7 @@ namespace MKPRG.Naming.TechTerms.Net.TcpIp
         }
 
         public override string CNT => "ip4Address";
-        public override string CN => EN;
+        public override string CN => "IP4地址";
         public override string DE => "IP 4 Adresse";
         public override string EN => "IP 4 Address";
         public override string ES => EN;
@@ -34,7 +34,7 @@ namespace MKPRG.Naming.TechTerms.Net.TcpIp
         }
 
         public override string CNT => "ip4SubnetMask";
-        public override string CN => EN;
+        public override string CN => "IP4子网掩码";
         public override string DE => "IP 4 Subnetzmaske";
         public override string EN => "IP 4 Subnet mask";
         public override string ES => EN;
@@ -52,7 +52,7 @@ namespace MKPRG.Naming.TechTerms.Net.TcpIp
         }
 
         public override string CNT => "ip6Address";
-        public override string CN => EN;
+        public override string CN => "IP6地址";
         public override string DE => "IP 6 Adresse";
         public override string EN => "IP 6 Address";
         public override string ES => EN;
@@ -93,7 +93,6 @@ namespace MKPRG.Naming.TechTerms.Net.TcpIp
         public override string EN => "Router";
         public override string ES => EN;
     }
-
 
 
 }

@@ -27,6 +27,8 @@ namespace MKPRG.Naming.TechTerms.Metrology
         public override string EN => "Counter";
 
         public override string ES => "Contador";
+
+        public override string Glyph => Glyphs.Metrology.StopWatch;
     }
 
     /// <summary>
@@ -50,6 +52,8 @@ namespace MKPRG.Naming.TechTerms.Metrology
         public override string EN => "Measured value";
 
         public override string ES => "Valor medido";
+
+        public override string Glyph => Glyphs.Metrology.Ruler;
     }
 
 

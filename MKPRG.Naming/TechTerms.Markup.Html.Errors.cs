@@ -10,10 +10,12 @@ namespace MKPRG.Naming.TechTerms.Markup.Html.Errors
     /// mko, 4.8.2020
     /// </summary>
     public class ClosingTagIsMissing
-        : NamingBase
+        : NamingBase, Grammar.IInProgressActivity
     {
 
         public const long UID = 0x969FC80F;
+
+        public static ClosingTagIsMissing I { get; } = new ClosingTagIsMissing();
 
         public ClosingTagIsMissing()
             : base(UID)
@@ -25,6 +27,8 @@ namespace MKPRG.Naming.TechTerms.Markup.Html.Errors
         public override string DE => "Das schließende HTML- Tag fehlt";
         public override string EN => "The closing HTML Tag is missing";
         public override string ES => "Falta la etiqueta html de cierre";
+
+        public override string Glyph => Glyphs.Signalization.ErrorOccured;
     }
 
 }

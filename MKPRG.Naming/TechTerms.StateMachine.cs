@@ -20,7 +20,7 @@ namespace MKPRG.Naming.TechTerms.StateMachine
         }
 
         public override string CNT => "stateTransition";
-        public override string CN => EN;
+        public override string CN => "状态转换";
         public override string DE => "Zustansübergang";
         public override string EN => "State transistion";
         public override string ES => "Transcripción de estado";
@@ -40,7 +40,7 @@ namespace MKPRG.Naming.TechTerms.StateMachine
         }
 
         public override string CNT => "input";
-        public override string CN => EN;
+        public override string CN => "输入";
         public override string DE => "Eingabe";
         public override string EN => "Input";
         public override string ES => EN;
@@ -60,7 +60,7 @@ namespace MKPRG.Naming.TechTerms.StateMachine
         }
 
         public override string CNT => "inputType";
-        public override string CN => EN;
+        public override string CN => "输入类型";
         public override string DE => "Art der Eingabe";
         public override string EN => "Input type";
         public override string ES => EN;
@@ -78,7 +78,7 @@ namespace MKPRG.Naming.TechTerms.StateMachine
         }
 
         public override string CNT => "output";
-        public override string CN => EN;
+        public override string CN => "产量";
         public override string DE => "Ausgabe";
         public override string EN => "Output";
         public override string ES => EN;
@@ -98,7 +98,7 @@ namespace MKPRG.Naming.TechTerms.StateMachine
         }
 
         public override string CNT => "outputType";
-        public override string CN => EN;
+        public override string CN => "输出类型";
         public override string DE => "Art der Ausgabe";
         public override string EN => "Output type";
         public override string ES => EN;

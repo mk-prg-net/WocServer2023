@@ -19,7 +19,7 @@ namespace MKPRG.Naming.TechTerms.ActiveDirectory
         }
 
         public override string CNT => "adForest";
-        public override string CN => CNT;
+        public override string CN => "活动目录森林";
         public override string DE => "Active Directory Gesamtstruktur (Forest)";
         public override string EN => "Active Directory Forest";
         public override string ES => EN;
@@ -38,7 +38,7 @@ namespace MKPRG.Naming.TechTerms.ActiveDirectory
 
 
         public override string CNT => "domain";
-        public override string CN => CNT;
+        public override string CN => "领域";
         public override string DE => CNT;
         public override string EN => CNT;
         public override string ES => CNT;
@@ -57,7 +57,7 @@ namespace MKPRG.Naming.TechTerms.ActiveDirectory
         }
 
         public override string CNT => "adSubDomain";
-        public override string CN => CNT;
+        public override string CN => "活动目录子域";
         public override string DE => "Active Directory Sub- Domäne";
         public override string EN => "Active Directory sub domain";
         public override string ES => EN;
@@ -75,7 +75,7 @@ namespace MKPRG.Naming.TechTerms.ActiveDirectory
         }
 
         public override string CNT => "adOU";
-        public override string CN => CNT;
+        public override string CN => "活动目录组织单位 OU";
         public override string DE => "Active Directory Organisationseinheit OU";
         public override string EN => "Active Directory organization unit OU";
         public override string ES => "Unidad de organización del Directorio Activo OU";
@@ -97,7 +97,7 @@ namespace MKPRG.Naming.TechTerms.ActiveDirectory
         }
 
         public override string CNT => "adUserAccount";
-        public override string CN => CNT;
+        public override string CN => "活动目录用户账户";
         public override string DE => "Active Directory Benutzerkonto";
         public override string EN => "Active Directory User account";
         public override string ES => "Cuenta de usuario de Active Directory";
@@ -115,7 +115,7 @@ namespace MKPRG.Naming.TechTerms.ActiveDirectory
         }
 
         public override string CNT => "userNameFQN";
-        public override string CN => CNT;
+        public override string CN => "全称";
         public override string DE => "Vollqualfizierter Benutzername";
         public override string EN => "full qualified user name";
         public override string ES => EN;
@@ -134,7 +134,7 @@ namespace MKPRG.Naming.TechTerms.ActiveDirectory
         }
 
         public override string CNT => "adComputerAccount";
-        public override string CN => CNT;
+        public override string CN => "活动目录";
         public override string DE => "Active Directory Computer- Konto";
         public override string EN => "Active Directory computer account";
         public override string ES => "Cuenta de computadora del Directorio Activo";
@@ -152,7 +152,7 @@ namespace MKPRG.Naming.TechTerms.ActiveDirectory
         }
 
         public override string CNT => "computerName";
-        public override string CN => CNT;
+        public override string CN => "计算机名称";
         public override string DE => "Computer Name";
         public override string EN => "Computer name";
         public override string ES => EN;
@@ -170,7 +170,7 @@ namespace MKPRG.Naming.TechTerms.ActiveDirectory
         }
 
         public override string CNT => "adGroup";
-        public override string CN => CNT;
+        public override string CN => "活动目录组";
         public override string DE => "Active Directory Gruppe";
         public override string EN => "Active Directory Group";
         public override string ES => EN;
@@ -188,7 +188,7 @@ namespace MKPRG.Naming.TechTerms.ActiveDirectory
         }
 
         public override string CNT => "adUniversalGroup";
-        public override string CN => CNT;
+        public override string CN => "活动目录通用组";
         public override string DE => "Active Directory universelle Gruppe";
         public override string EN => "Active Directory universal Group";
         public override string ES => EN;
@@ -206,7 +206,7 @@ namespace MKPRG.Naming.TechTerms.ActiveDirectory
         }
 
         public override string CNT => "adGlobalGroup";
-        public override string CN => CNT;
+        public override string CN => "活动目录全局组";
         public override string DE => "Active Directory globale Gruppe";
         public override string EN => "Active Directory global Group";
         public override string ES => EN;
@@ -224,7 +224,7 @@ namespace MKPRG.Naming.TechTerms.ActiveDirectory
         }
 
         public override string CNT => "adPolicy";
-        public override string CN => CNT;
+        public override string CN => "活动目录策略";
         public override string DE => "Active Directory Gruppenrichtlinie";
         public override string EN => "Active Directory policy";
         public override string ES => EN;
@@ -244,7 +244,7 @@ namespace MKPRG.Naming.TechTerms.ActiveDirectory
 
 
         public override string CNT => "gc";
-        public override string CN => CNT;
+        public override string CN => "活动目录全局目录";
         public override string DE => "Active Directory globaler Katalog";
         public override string EN => "Active Directory global Catalog";
         public override string ES => EN;
@@ -263,10 +263,10 @@ namespace MKPRG.Naming.TechTerms.ActiveDirectory
         }
 
         public override string CNT => "adController";
-        public override string CN => CNT;
+        public override string CN => "活动目录控制器";
         public override string DE => "AD Diensthost";
         public override string EN => "AD Controller";
-        public override string ES => CNT;
+        public override string ES => EN;
     }
 
 }

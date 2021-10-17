@@ -19,7 +19,7 @@ namespace MKPRG.Naming.TechTerms.StateMachine.WorkFlows
             : base(UID)
         { }
 
-        public override string CN => EN;
+        public override string CN => "工作流程";
         public override string CNT => "workflow";
         public override string DE => EN;
         public override string EN => "Workflow";
@@ -39,7 +39,7 @@ namespace MKPRG.Naming.TechTerms.StateMachine.WorkFlows
             : base(UID)
         { }
 
-        public override string CN => EN;
+        public override string CN => "工作流程";
         public override string CNT => "workflows";
         public override string DE => "Liste der Workflows";
         public override string EN => "Workflows";
@@ -51,15 +51,17 @@ namespace MKPRG.Naming.TechTerms.StateMachine.WorkFlows
     /// mko, 3.8.20
     /// </summary>
     public class Completed
-        : NamingBase
+        : NamingBase, Grammar.IFinishedActivity
     {
         public const long UID = 0x979B30F6;
+
+        public static Completed I { get; } = new Completed();
 
         public Completed()
             : base(UID)
         { }
 
-        public override string CN => CNT;
+        public override string CN => "空白";
         public override string CNT => "completed";
         public override string DE => "abgelschlossen";
         public override string EN => CNT;

@@ -7,50 +7,185 @@ using System.Threading.Tasks;
 namespace MKPRG.Naming.DocuTerms.Types
 {
 
-    public class DocuTerm
-        : NamingBase
-    {
-        public const long UID = 0xB8B9BBE1;
-
-        public DocuTerm()
-            : base(UID)
-        { }
-
-        public override string CNT => "docuTerm";
-
-        public override string DE => CNT;
-
-        public override string EN => CNT;
-
-        public override string ES => CNT;
-
-        public override string CN => CNT;
-
-        public override string Glyph => Glyphs.VariousSigns.Eye;
-    }
-
-    public class NamedDocuTerm
+    public class DocuTerms
     : NamingBase
     {
-        public const long UID = 0x27CEA248;
+        public const long UID = 0xE51BEACF;
 
-        public NamedDocuTerm()
+        public DocuTerms()
             : base(UID)
         { }
 
-        public override string CNT => "namedDocuTerm";
+        public override string CNT => "docuTerms";
 
-        public override string DE => CNT;
+        public override string DE => "Lib der DocuTerme";
 
-        public override string EN => CNT;
+        public override string EN => "Lib of DocuTerms";
 
-        public override string ES => CNT;
+        public override string ES => EN;
 
-        public override string CN => CNT;
+        public override string CN => EN;
 
-        public override string Glyph => Glyphs.VariousSigns.Eye;
+        public override string Glyph => Glyphs.DocuTerms.DocuTermSign;
     }
 
+
+
+    /// <summary>
+    /// mko, 27.7.2021
+    /// Steht für einen unbekannten bzw. undefinierten Typ von DokuTerm.
+    /// </summary>
+    public class UndefinedDocuTerm
+        : NamingBase
+    {
+        public const long UID = 0xA06CAC27;
+
+        public UndefinedDocuTerm()
+            : base(UID)
+        { }
+
+        public override string CNT => "undef";
+
+        public override string DE => "undefinierter DocuTerm Typ";
+
+        public override string EN => "undefined DocuTerm Type";
+
+        public override string ES => "indefinido DocuTerm Typo";
+
+        public override string CN => "未定义 DocuTerm";
+
+        public override string Glyph => Glyphs.DocuTerms.InvalidDocuTerm;
+    }
+
+    /// <summary>
+    /// mko, 30.9.2021
+    /// </summary>
+    public class UndefinedSubTreePattern
+    : NamingBase
+    {
+        public const long UID = 0x5546CD6;
+
+        public UndefinedSubTreePattern()
+            : base(UID)
+        { }
+
+        public override string CNT => "undefSubTreePattern";
+
+        public override string DE => "undefiniertes SubTreePattern";
+
+        public override string EN => "undefined SubTreePattern";
+
+        public override string ES => "indefinido SubTreePattern";
+
+        public override string CN => "未定义 SubTreePattern";
+
+        public override string Glyph => Glyphs.DocuTerms.InvalidDocuTerm;
+    }
+
+
+    /// <summary>
+    /// mko, 27.7.2021
+    /// Eigenschaften müssen immer einen Wert haben. Wurde beim Erzeugen kein Wert
+    /// definiert, dann werden eigenschaften stets mit diesem NC initialisiert, um
+    /// Nullwerte zu vermeiden (Default- Wert). 
+    /// Sollte eine Eigenschaft diesen Wert haben, dann ist der DocuTerm defekt.
+    /// </summary>
+    public class UndefinedPropertyValue
+        : NamingBase
+    {
+        public const long UID = 0x7560871B;
+
+        public UndefinedPropertyValue()
+            : base(UID)
+        { }
+
+        public override string CNT => "undefPropVal";
+
+        public override string DE => EN;
+
+        public override string EN => "undefined DocuTerm Property Value";
+
+        public override string ES => EN;
+
+        public override string CN => EN;
+
+        public override string Glyph => Glyphs.DocuTerms.InvalidDocuTerm;
+    }
+
+    /// <summary>
+    /// mko, 27.7.2021
+    /// </summary>
+    public class UndefinedEventParameter
+        : NamingBase
+    {
+        public const long UID = 0x14EB8E18;
+
+        public UndefinedEventParameter()
+            : base(UID)
+        { }
+
+        public override string CNT => "undefEventParam";
+
+        public override string DE => EN;
+
+        public override string EN => "undefined Event Param";
+
+        public override string ES => EN;
+
+        public override string CN => EN;
+
+        public override string Glyph => Glyphs.Math.Sets.EmptySet;
+    }
+
+    /// <summary>
+    /// mko, 27.7.2021
+    /// </summary>
+    public class UndefinedReturnValue
+        : NamingBase
+    {
+        public const long UID = 0x82E41F0A;
+
+        public UndefinedReturnValue()
+            : base(UID)
+        { }
+
+        public override string CNT => "undefReturnValue";
+
+        public override string DE => EN;
+
+        public override string EN => "undefined Return value";
+
+        public override string ES => EN;
+
+        public override string CN => EN;
+
+        public override string Glyph => Glyphs.Math.Sets.EmptySet;
+    }
+
+    /// <summary>
+    /// mko, 6.8.2021
+    /// </summary>
+    public class UndefinedNID
+    : NamingBase
+    {
+        public const long UID = 0x932DCB1;
+
+        public UndefinedNID()
+            : base(UID)
+        { }
+
+        public override string CNT => "undefNID";
+
+        public override string DE => EN;
+
+        public override string EN => "undefined Naming ID";
+
+        public override string ES => EN;
+
+        public override string CN => EN;
+
+        public override string Glyph => Glyphs.Math.Sets.EmptySet;
+    }
 
 
     /// <summary>
@@ -77,29 +212,6 @@ namespace MKPRG.Naming.DocuTerms.Types
 
         public override string Glyph => Glyphs.DocuTerms.Instance;
     }
-
-    public class InstanceExpected
-    : NamingBase
-    {
-        public const long UID = 0xA4201AF;
-
-        public InstanceExpected()
-            : base(UID)
-        { }
-
-        public override string CNT => "instanceExpected";
-
-        public override string DE => "Ein Docuterm vom Typ Instanz wurde erwartet.";
-
-        public override string EN => CNT;
-
-        public override string ES => "Instancia";
-
-        public override string CN => "实例";
-
-        public override string Glyph => Glyphs.Weather.flash;
-    }
-
 
     /// <summary>
     /// mko, 24.6.2020
@@ -247,6 +359,8 @@ namespace MKPRG.Naming.DocuTerms.Types
         public override string ES => "Lista";
 
         public override string CN => "列表";
+
+        public override string Glyph => Glyphs.Sets.List;
     }
 
 
@@ -271,6 +385,8 @@ namespace MKPRG.Naming.DocuTerms.Types
         public override string ES => "Texto";
 
         public override string CN => "案文";
+
+        public override string Glyph => Glyphs.DataAndDocuments.DocumentWithText;
     }
 
     /// <summary>
@@ -416,6 +532,7 @@ namespace MKPRG.Naming.DocuTerms.Types
 
         public override string CN => CNT;
     }
+
 
 
 }

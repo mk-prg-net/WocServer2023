@@ -26,6 +26,8 @@ namespace MKPRG.Naming
             public static string Save => Computer.FloppyDiskWhite;
             public static string Delete => VariousSigns.Trashcan;
 
+            public static string Read => VariousSigns.Eye; // Edit.Higlight; 
+
             public static string Write => "&#x1F58E;";
 
             public static string New => LiveCycle.Create;
@@ -35,13 +37,31 @@ namespace MKPRG.Naming
         public static class Aerospace
         {
             public static string Rocket => "&#x1F680;";
-            public static string RocketStarts = "&#x1F66D;";
+            public static string RocketStarts => "&#x1F66D;";
 
             public static string Satellite => "&#x1F6E0;";
 
-            public static string SupersonicJet => "&#xF6E6;";
+            public static string SupersonicJet => "&#x1F6E6;";
             public static string Jet => "&#x1F6E7;";
             public static string FlyingDisk => "&#x1F6F8;";
+
+            public static string MoonLander => "&#x1F736;";
+
+            public static string MoonLanderOfAliens => "&#x1F70E;";
+
+
+            public static string TieFighter => "&#x29F2;";
+
+            /// <summary>
+            /// Star Wars Tie Jäger, schwarz
+            /// </summary>
+            public static string TieFighterBlack => "&#x29F3;";
+
+            public static string TieFighter2 => "&#x1F725;";
+            public static string TieFighter3 => "&#x1F726;";
+            public static string SpaceStation => "&#x1F723;";
+
+            public static string Enterprise => "&#x1F724;";
         }
 
         public static class Animals
@@ -57,6 +77,8 @@ namespace MKPRG.Naming
             public static string Elephant => "&#x1F418;";
 
             public static string Bug => "&#x1F41B;";
+
+            public static string BugEgypt => "&#x131A3;";
 
             public static string Ant => "&#x1F41C;";
 
@@ -76,7 +98,7 @@ namespace MKPRG.Naming
             public static string arrS => @"&#x2193;";
             public static string arrSW => @"&#x2199;";
             public static string arrW => @"&#x2190;";
-            public static string arrNW => @"&#x2196";
+            public static string arrNW => @"&#x2196;";
 
             // Abknickende Pfeile
             public static string arrRightDown => "&#x21B4;";
@@ -88,6 +110,17 @@ namespace MKPRG.Naming
             public static string arrLongDownLeft => "&#x21B2;";
             public static string arrLongDownRight => "&#x21B3;";
 
+            public static string dblArrRight => "&#x21D2;";
+            public static string dblArrLeftFromBar => "&#x2906;";
+            public static string dblArrRightFromBar => "&#x2907;";
+
+            public static string longArrLeft => "&#x27F5;";
+            public static string longArrRight => "&#x27F6;";
+
+            public static string longDblArrLeft => "&#x27F8;";
+            public static string longDblArrRight => "&#x27F9;";
+
+            public static string longDblArrLeftRight => "&#x27FA;";
 
             // Linien
             public static string lineHoriz => "&#x2501;";
@@ -120,6 +153,14 @@ namespace MKPRG.Naming
             /// </summary>
             public static string rotAnticlockwise => @"&#x21BA;";
 
+            public static string uTurnLeft => "&#x2B8C;";
+
+            public static string uTurnRight => "&#x2B8E;";
+
+            public static string uTurnUp => "&#x2B8D;";
+
+            public static string uTurnDown => "&#x2B8F;";
+
         }
 
         public static class Astronomy
@@ -140,10 +181,29 @@ namespace MKPRG.Naming
             public static string Vesta => "&#x26B6;";
             public static string Chiron => "&#x26B7;";
 
-
             public static string Comet => "&#x2604;";
+            public static string CometAlchemist => "&#x1F738;";
             public static string BlackStar => "&#x2605;";
             public static string WhiteStar => "&#x2606;";
+
+            public static string WhiteStarEndlessBorderline => "&#x269D;";
+
+            public static string BlackSun => "&#x2600;";
+            public static string WhiteSun => "&#x263C;";
+            public static string BrightSun => "&#x1F323;";
+
+            public static string MoonQuaterLeft => "&#x263D;";
+            public static string MoonQuaterRight => "&#x263E;";
+
+            public static string MoonPhase0 => "&#x1F311;";
+            public static string MoonPhase25Left => "&#x1F312;";
+            public static string MoonPhase20Left => "&#x1F313;";
+            public static string MoonPhase75Left => "&#x1F314;";
+            public static string MoonPhase100 => "&#x1F315;";
+            public static string MoonPhase75Right => "&#x1F316;";
+            public static string MoonPhase50Right => "&#x1F317;";
+            public static string MoonPhase25Right => "&#x1F318;";
+
         }
 
         public static class Automaton
@@ -167,18 +227,89 @@ namespace MKPRG.Naming
             /// </summary>
             public static string alternate => "&#x2387;";
 
+            public static string optional => "&#x2325;";
+
+            public static string select => Trees.MultiBranchUp;
+
             public static string Program => "&#x2338;"; //"&#x21E3;";
+
+            public static string Sequnce => "&#x21E2;";
+
+            public static string Sequnce2 => "&#x290F;";
+
+            // Next
+
+            public static string NextOp => "&#x2192;";
+
+            public static string NextOpStop => "&#x21E5;";
+
+            public static string NextOpIf => "&#x291E;";
+
+            public static string Step => "&#x21B7;";  //"&#x130BD;";
+
+            public static string Step2 => "&#x130BD;";
+
+
+            public static string CallSub => "&#x21B4;";
+
+            // Skip next
+            public static string SkipNextOp => "&#x2933;";
+            public static string SkipBackOp => "&#x2B3F;";
+
+            public static string JumpForward => "&#x2BA3;"; //"&#x21B7;";
+
+            public static string JumpBackward => "&#x2BA2;"; //"&#x21B6;";
+
+            public static string Return => "&#x2923;";
+
+
+            public static string Loop => "&#x2941;";
+            public static string LoopBack => "&#x2940;";
+
+            public static string LoopOpen => "&#x21BB;";
+
+            public static string Repeat => ArrowsAndLines.uTurnLeft;
+
+            public static string Swap => "&#x2928;";
+
+            public static string Function => Math.Functions.Function;
+
+            public static string CopyToLeft => "&#x2254;";
+
+            public static string CopyToRight => "&#x2255;";
+
+            public static string ShiftToLeft => "&#x226A;";
+
+            public static string ShiftToRight => "&#x226B;";
+
+
 
         }
 
         public static class Authentication
         {
-            public static string ID => "&#x275A;&#x2551;&#x2759;";
-            public static string Name => "&#1302D;";
+            public static string ID => Shapes.squaredIDSymbol;
+            public static string Name => "&#x1302D;";
+
+            public static string User => Smileys.Smiley;
+
+            public static string Members => $"{Smileys.Smiley}{Smileys.SmileyBlack}";
+
+            public static string Role => Chess.KnightWhite;
+            public static string Roles => Chess.KnightBlack + Chess.PawnBlack;
+
+            public static string AdminRole => Chess.QueenBlack;
+
+            public static string Customer => VariousSigns.Crown;
+
         }
 
         public static class Authorization
         {
+
+            public static string Access => Gestures.OpenHand;
+
+
             /// <summary>
             /// Vorhängeschloss geschlossen
             /// </summary>
@@ -189,7 +320,35 @@ namespace MKPRG.Naming
             /// </summary>
             public static string UnLock => "&#x1F513;";
 
-            public static string Forbidden => "&#x1F6C7;";
+            public static string Forbidden => Traffic.ProhibitedSign; // "&#x1F6C7;";
+
+            public static string Granted => Traffic.RightOfWaySign; // "&#x1F6C7;";
+
+            public static string AdminRights => "&#x1F731;";
+
+            public static class ATMO
+            {
+                public static string CustomerView => Authentication.Customer + Computer.Display;
+            }
+
+
+            public static string PermissionVector => $"{Math.Functions.OpenAngleArgList}{Math.r}|{Math.w}|{Math.x}{Math.Functions.CloseAngleArgList}";
+        }
+
+
+        public static class Blocks
+        {
+            public static string Full => "&#x2588;";
+
+            public static string Left_3_4 => "&#x258A;";
+
+            public static string Left_5_8 => "&#x258B;";
+
+            public static string Left_1_2 => "&#x258C;";
+
+            public static string Left_3_8 => "&#x258D;";
+
+            public static string Left_1_4 => "&#x258E;";
 
         }
 
@@ -200,7 +359,7 @@ namespace MKPRG.Naming
             /// <summary>
             /// Reagenzglass
             /// </summary>
-            public static string TestTube => "&#x1F9E4;";
+            public static string TestTube => "&#x1F9EA;";
 
             public static string PetriDish => "&#x1F9EB;";
 
@@ -208,11 +367,27 @@ namespace MKPRG.Naming
 
             public static string Benzol => "&#x23E3;";
 
+            public static string Reactor => "&#x2A50;";
+
+            public static string ReactorEmpty => "&#x2A4C;";
+
         }
 
         public static class Chess
         {
+            public static string PawnWhite => "&#x2659;"; //  Schach, Bauer
+            public static string RookWhite => "&#x2656;"; //  Schach, Turm
+            public static string KnightWhite => "&#x2658;"; //  Schach, Springer
+            public static string BishopWhite => "&#x2657;"; //  Schach, Läufer
             public static string QueenWhite => "&#x2655;"; //  Schach, Dame weiss
+            public static string KingWhite => "&#x2654;"; //  Schach, Dame weiss
+
+
+            public static string PawnBlack => "&#x265F;"; //  Schach, Bauer
+            public static string RookBlack => "&#x265C;"; //  Schach, Turm
+            public static string KnightBlack => "&#x265E;"; //  Schach, Springer
+            public static string BishopBlack => "&#x265D;"; //  Schach, Läufer
+            public static string QueenBlack => "&#x265B;"; //  Schach, Dame weiss
             public static string KingBlack => "&#x265A;"; //  Schach, König schwarz
 
         }
@@ -231,6 +406,11 @@ namespace MKPRG.Naming
 
         }
 
+        public static class Colors
+        {
+            public static string ColorPalette = "&#x1F3A8;";
+        }
+
         public static class Commerce
         {
             /// <summary>
@@ -239,6 +419,27 @@ namespace MKPRG.Naming
             public static string Basket => "&#x1F6D2;";
 
             public static string MoneyBag => "&#x1F4B0;";
+
+
+            public static string KaufmannMinus => "&#x2052;";
+
+            public static string CreditCard => "&#x1F4B3;";
+
+            public static class Currencies
+            {
+
+                public static string Euro => "&#x20AC;";
+                public static string RupiePakistan => "&#x20A8;";
+                public static string RupieIndian => "&#x20B9;";
+                public static string Schekel => "&#x20AA;";
+                public static string Won => "&#x20A9;";
+                public static string Peso => "&#x20B1;";
+                public static string Austral => "&#x20B3;";
+                public static string Hrywnja => "&#x20B4;";
+                public static string TurkLira => "&#x20BA;";
+                public static string Rubel => "&#x20BD;";
+                public static string BitCoin => "&#x20BF;";
+            }
         }
 
         public static class Computer
@@ -249,13 +450,13 @@ namespace MKPRG.Naming
             /// </summary>
             public static string KeyBoard => "&#x2328;";
 
-            public static string Computermouse => "&#x1F5B0";
+            public static string Computermouse => "&#x1F5B0;";
 
             public static string ReturnKey => "&#x23CE;";
 
             public static string PC => "&#x1F5B3;";
 
-            public static string oldPC => "&#x1F4B3;";
+            public static string oldPC => "&#x1F5B3;";
 
             public static string Server => "&#x1F5A5;";
 
@@ -275,7 +476,7 @@ namespace MKPRG.Naming
 
             public static string EnterKey2 => "&#x23CE;";
 
-            public static string ReturnBackspaceKey => $"{Math.bracketOpen}{ReturnKey}{Math.bracketClosed}";
+            public static string ReturnBackspaceKey => $"{Math.Functions.bracketOpen}{ReturnKey}{Math.Functions.bracketClosed}";
 
             public static string FloppyDiskWhite => "&#x1F5AB;";
 
@@ -283,9 +484,14 @@ namespace MKPRG.Naming
 
             public static string StreamerTape => "&#x1F5AD;";
 
+            public static string DataTape => "&#x2707;";
+
+            public static string HDD => "&#x1F5B4;";
+
             public static string Display => "&#x1F5B5;";
 
             public static string SpeechRecognition => "&#x1F5E3;";
+
         }
 
         public static class Communication
@@ -295,12 +501,13 @@ namespace MKPRG.Naming
             /// </summary>
             public static string SpeakingHead => "&#x1F5E3;";
 
-            public static string Lips => "&#1F5E2;";
+            public static string Lips => "&#x1F5E2;";
 
-            public static string SpeechBubbleRight => "&#1F5E8;";
-            public static string SpeechBubbleLeft => "&#1F5E9;";
-            public static string SpeechBubbleDialog => "&#1F5EA;";
-            public static string SpeechBubbleDiscussion => "&#1F5EB;";
+            public static string SpeechBubbleRight => "&#x1F5E8;";
+            public static string SpeechBubbleLeft => "&#x1F5E9;";
+            public static string SpeechBubbleDialog => "&#x1F5EA;";
+            public static string SpeechBubbleDiscussion => "&#x1F5EB;";
+
 
             public static string Telecommunication => Aerospace.Satellite;
 
@@ -312,16 +519,39 @@ namespace MKPRG.Naming
             public static string PhoneWhite => "&#x1F57E;";
             public static string Phone => "&#x1F57F;";
 
-            public static string MobilePhone = "&#x1F4F1;";
+            public static string MobilePhone => "&#x1F4F1;";
 
             public static string TelBox => "&#x2706;";
 
             public static string Airmail => "&#x1F585;";
 
+            public static string JapanesePostalSign => "&#x3036;";
+
+            public static string JapanesePostOffice => "&#x1F3E3;";
+
+            public static string EuropeanPostOffice => "&#x1F3E4;";
+
+            public static string PostalHorn => "&#x1F4EF;";
+
             /// <summary>
             /// Brief
             /// </summary>
             public static string Mail => "&#x1F582;";
+
+            public static string Send => "&#x1F585;";
+            public static string Receive => "&#x1F4E1;";
+
+            public static string Receiver => "&#x1F4FB;";
+
+            public static string IncommingMail => "&#x1F4E8;";
+            public static string DownloadMail => "&#x1F4E9;";
+
+            public static string OutBox => "&#x1F4E4;";
+            public static string InBox => "&#x1F4E5;";
+
+            public static string Sender => "&#x3020;";
+
+            public static string Send2 => "&#x1F4F6;";
 
             public static class Emails
             {
@@ -331,6 +561,8 @@ namespace MKPRG.Naming
 
                 public static string Attachment => "&#x1F4CE;";
             }
+
+
         }
 
         public static class Culture
@@ -345,8 +577,6 @@ namespace MKPRG.Naming
             }
         }
 
-
-
         public static class DataAndDocuments
         {
             public static string Key => "&#x1F511;";
@@ -359,6 +589,14 @@ namespace MKPRG.Naming
             public static string DocumentEmpty => "&#x1F5CB;";
             public static string DocumentWithText => "&#x1F5CE;";
             public static string DocumentWithImage => "&#x1F5BA;";
+            public static string DocumentWithImage2 => "&#x1F5BB;";
+
+            public static string Scroll => "&#x1F4DC;";
+
+            public static string FileStore => "&#x1F5C4;";
+
+            public static string CardIndex => "&#x1F5C2;";
+
 
             public static string Book => "&#x1F56E;";
             public static string Books => "&#x1F4DA;";
@@ -379,6 +617,7 @@ namespace MKPRG.Naming
 
                 public static string DataCompression => "&#x1F5DC;";
 
+
             }
 
             public static class Hyperlinks
@@ -388,15 +627,36 @@ namespace MKPRG.Naming
                 public static string Anchor => Glyphs.VariousSigns.Anchor;
             }
 
+            public static class SemanticMarkup
+            {
+                public static string Article => "§";
+
+                public static string TextParagraph => "&#x00B6;";
+
+                public static string DetailInformations => Shapes.StarFourPointed;
+            }
+
 
             /// <summary>
             /// Datenschutz
             /// </summary>
             public class Protection
             {
-                public static string AntiVirus => Glyphs.War.Protector;
-                public static string LossOfData => Glyphs.VariousSigns.Skull;
+                public static string AntiVirus => War.Protector;
+                public static string LossOfData => VariousSigns.Skull;
                 public static string Sign => "&#x2711;";
+                public static string Signed => "&#x1F396;";
+                public static string DigitallySigned => "&#x1F50F;";
+
+                public static string SafeArea => "&#x1F3F0;";
+            }
+
+            public class Workflow
+            {
+                public static string New => $"{LiveCycle.Create_Add}{DocumentEmpty}";
+                public static string OpenForRead => $"{VariousSigns.Eye}{DocumentWithText}";
+                public static string OpenForWrite => $"{Access.Write}{DocumentWithText}";
+                //public static string Close => Sets.Selections.
             }
 
         }
@@ -410,20 +670,124 @@ namespace MKPRG.Naming
             public static string Day => "&#x263C;";
 
             public static string Night => "&#x263E;";
+
+            public static string Pre => "&#x21E5;";
+
+            public static string Post => "&#x27FC;";
         }
 
+        public static class DFC
+        {
+
+            public static string DFCApp => Shapes.SquaredCircle;
+
+            public static string DFCKEyUser => VariousSigns.OldKey;
+
+            /// <summary>
+            /// DFC- Projekt
+            /// </summary>
+            public static string Project => "&#x24C5;";
+            public static string Project2 => Geographic.Globe;
+
+            public static string ExtensionProject => "&#x24BA;";
+
+            //public static string Station => @"&#x1D4E2;";
+            public static string Station => Shapes.Circled_S;
+
+            /// <summary>
+            /// DFC Prozessmodul
+            /// </summary>
+            public static string Processmodule => Math.Functions.Function;
+
+            public static string MechBom => Tools.Gear;
+
+            public static string ElectroBom => ElectricalEngineering.ElectricalFlash; //Weather.flash;
+
+            public static string Assy => Math.Groups.SquaredPlus;
+
+            /// <summary>
+            /// DFC Einzelteil
+            /// </summary>
+            public static string SinglePart => Shapes.WhiteSquare;
+
+            /// <summary>
+            /// Catalogteil
+            /// </summary>
+            public static string CatalougePart => DataAndDocuments.DocumentWithImage;
+
+
+            // Documents
+
+            public static string ATB => "&#x1D30B;";
+
+            public static string ATB_2 => "&#x1F70E;";
+
+            public static string ATD => "&#x25F2;";
+
+            public static string ATZ => $"{ArrowsAndLines.arrO}{ATD}";
+
+            public static string AT3 => Shapes.UpperRightShadowedWhiteSqare;
+
+            public static string TDP => DataAndDocuments.Book; //DataAndDocuments.DocumentEmpty;
+
+            /// <summary>
+            /// Manuals
+            /// </summary>
+            public static string MAN => DataAndDocuments.Book + Math.M;
+
+            public static string SFC => Tools.HammerAndWrench;
+
+            public static string EDC => Engineering.Zirkel;
+
+            public static string EDC2 => Engineering.Construction;
+
+            public static string CTS => Metrology.StopWatch;
+
+            public static string Eplan => Shapes.SquaredSpiral;
+
+            // Classification
+
+            public static string PartOfMechTronicConstructionKit => "&#x1F5D8;";
+            public static string PartOfMechTronicConstructionKit2 => "&#x2B94;";
+
+            public static string SparePart => Tools.Wrench;
+
+            /// <summary>
+            /// ATMO- Standort
+            /// </summary>
+            public static string ATMOSite => VariousSigns.Factory;
+
+            public static string ATMOEmployee => Support.Rescuer;
+
+            public static string DokuHaken => DataAndDocuments.Book + Sets.Selections.heavyCheckMark;
+
+            public static string MatNo => $"{Math.No} @"; // "&#x2116;";
+
+            public static string DrawingNo => $"{Math.No} {ATD}";
+
+            public static string DokumatNo => $"{Math.No} {DataAndDocuments.Book}";
+
+            // 
+
+            public static string PowerSearch => $"{VariousSigns.Magnifier}{VariousSigns.Bizeps}";
+
+        }
 
         public static class DocuTerms
         {
-            public static string Instance = "&#x1F70E;;";
+            public static string DocuTermSign => "&#x1D53B;&#x1D54B;";
 
-            public static string Method = "&#x2394;";
+            public static string InvalidDocuTerm => $"{Validation.Invalid}&#x1D53B;&#x1D54B;";
 
-            public static string Event = Weather.flash;
+            public static string Instance => "&#x1F70E;";
 
-            public static string Property = Shapes.Circled_Bullet_white;
+            public static string Method => "&#x2394;";
 
-            public static string Return => Transactions.reject;
+            public static string Event => Weather.flash;
+
+            public static string Property => Shapes.Circled_Bullet_white;
+
+            public static string Return => Algorithm.Return;
         }
 
         public static class Edit
@@ -442,13 +806,21 @@ namespace MKPRG.Naming
 
             public static string ClearScreen => "&#x239A;";
             public static string PrintScreen => "&#x2399;";
+
+            public static string NewLineCarriageReturn => "&#x2B92;";
+
         }
 
+        public static class Education
+        {
+            public static string GraduationCap => "&#x1F393;";
+
+        }
 
         public static class ElectricalEngineering
         {
 
-            public static string ElectricalFlash => "&#x2301";
+            public static string ElectricalFlash => "&#x2301;";
 
             public static string ElectricalIntersection => "&#x23E7;";
 
@@ -478,6 +850,9 @@ namespace MKPRG.Naming
 
             public static string Fuse => "&#x23DB;";
 
+            public static string Wave => "&#x301C;";
+            public static string Waves => "&#x3030;";
+
         }
 
         public static class Engineering
@@ -495,8 +870,11 @@ namespace MKPRG.Naming
             /// Bleistift
             /// </summary>
             public static string Pencil => "&#x1F589;";
-        }
 
+            public static string ControlKnobs => "&#x1F39B;";
+
+            public static string LevelSlider => "&#x1F39A;";
+        }
 
         public static class Events
         {
@@ -504,7 +882,7 @@ namespace MKPRG.Naming
             /// <summary>
             /// Fehlersymbol
             /// </summary>
-            public static string Error => Weather.Thunderstrom;
+            public static string Error => Weather.flash;
 
             public static string Success => Gestures.ThumbsUp;
 
@@ -538,6 +916,8 @@ namespace MKPRG.Naming
         public static class Gestures
         {
 
+            public static string OpenHand => "&#x1F590;";
+
             public static string ThumbsUp => "&#x1F592;";
             public static string ThumbsUpFilled => "&#x1F44D;";
 
@@ -548,7 +928,11 @@ namespace MKPRG.Naming
             public static string ForefingerRight => "&#x261E;";
 
             public static string ForefingerLeft => "&#x261C;";
-        }        
+
+            public static string ForeFingerUp => "&#x261D;";
+
+            public static string ForeFingerDown => "&#x261F;";
+        }
 
         public static class LawAndOrder
         {
@@ -563,14 +947,19 @@ namespace MKPRG.Naming
 
         public static class LiveCycle
         {
-            public static string Creator => "&#x1304F;";
+            public static string LiveCycleSign => $"{Creator}{Algorithm.Sequnce}{Death}";
+
+            public static string Creator => Astronomy.BlackSun; //"&#x1304F;";
 
             public static string Create => "&#x1F5E4;";
             public static string Create2 => "&#x15C8;";
             public static string Create_PlusInsideU => "&#x228E;";
             public static string Create_CircledPlus => "&#x2295;";
 
-            public static string Death => "&#x13062;";
+            public static string Create_Add => Math.Groups.HeavyPlus;
+
+            public static string Kill => Sets.Selections.checkNegativeMark;
+            public static string Death => VariousSigns.LatinCross; // "&#x13062;";
 
         }
 
@@ -589,13 +978,123 @@ namespace MKPRG.Naming
 
         public static class Math
         {
+            public static string Count => "&#xFF03;"; // ＃
+
+            public static string Inifnit => "&#x221E;";
+
+            public static string EndOfProof => "&#x220E;";
+
             public static string Alpha => "&#x1D6C2;";
 
-            public static string FracA => "&#x1D56C;";
+            public static string A => "&#x1D400;";
 
-            public static string A => "&#x1D5D4;";
+            public static string B => "&#x1D401;";
 
-            public static string DeltaOp => "&#1D6E5;";
+            public static string C => "&#x1D402;";
+
+            public static string D => "&#x1D403;";
+
+            public static string E => "&#x1D404;";
+
+            public static string F => "&#x1D405;";
+
+            public static string G => "&#x1D406;";
+
+            public static string M => "&#x1D40C;";
+
+            public static string R => "&#x1D411;";
+
+            public static string ASansSerif => "&#x1D5D4;";
+
+            public static string MSansSerif => "&#x1D5E0;";
+
+            public static string AFrac => "&#x1D56C;";
+
+            public static string Rfrac => "&#x1D57D;";
+
+            public static string Mfrac => "&#x1D578;";
+
+            public static string RScript => "&#x211B;";
+
+            public static string a => "&#x1D44E;";
+
+            public static string b => "&#x1D44F;";
+
+            public static string c => "&#x1D450;";
+
+            public static string d => "&#x1D451;";
+
+            public static string e => "&#x1D452;";
+
+            public static string f => "&#x1D453;";
+
+            public static string g => "&#x1D454;";
+
+            public static string i => "&#x1D456;";
+
+            public static string j => "&#x1D457;";
+
+            public static string k => "&#x1D458;";
+
+            public static string l => "&#x1D459;";
+
+            public static string m => "&#x1D45A;";
+
+            public static string n => "&#x1D45B;";
+
+            public static string o => "&#x1D45C;";
+
+            public static string p => "&#x1D45D;";
+
+            public static string q => "&#x1D45E;";
+
+            public static string r => "&#x1D45F;";
+
+            public static string s => "&#x1D460;";
+
+            public static string t => "&#x1D461;";
+
+            public static string u => "&#x1D462;";
+
+            public static string v => "&#x1D463;";
+
+            public static string w => "&#x1D464;";
+
+            public static string x => "&#x1D4CD;";
+
+            public static string y => "&#x1D4CE;";
+
+            public static string z => "&#x1D4CF;";
+
+            public static string aVect => "&#x1D51E;";
+
+            public static string bVect => "&#x1D51F;";
+
+            public static string cVect => "&#x1D520;";
+
+            public static string uVect => "&#x1D532;";
+
+            public static string vVect => "&#x1D533;";
+
+            public static string wVect => "&#x1D534;";
+
+            public static string xVect => "&#x1D535;";
+
+            public static string yVect => "&#x1D536;";
+
+            public static string zVect => "&#x1D537;";
+
+
+            public static string xBold => "&#x1D605;";
+
+            public static string PiBold => "&#x1D77F;";
+
+            public static string DeltaOp => "&#x1D6E5;";
+
+            /// <summary>
+            /// Eingekreistes S
+            /// </summary>
+            public static string CircledS => "&#x24C8;";
 
 
             /// <summary>
@@ -603,69 +1102,13 @@ namespace MKPRG.Naming
             /// </summary>
             public static string No => "&#x2116;";
 
+            public static string Definition => "&#x1D46B;&#x1D486;&#x1D487;";
 
             public static string AllQuantor => "&#x2200;";
 
             public static string ExistQuantor => "&#x2203;";
 
             public static string notExistQuantor => "&#x2204;";
-
-            public static string IsElementOf => "&#x2208;";
-
-            public static string notIsElementOf => "&#x2209;";
-
-            // Mengen
-            public static string OpenSet => "&#x007B;";
-            public static string CloseSet => "&#x007B;";
-
-            public static string Ellipsis => "&#x2026;";
-
-            // Listen von Funktionsargumenten
-            public static string OpenArgList => "(";
-            public static string CloseArgList => ")";
-
-            public static string OpenAngleArgList => "&#x27E8;";
-            public static string CloseAngleArgList => "&#x27E9;";
-
-
-            public static string bracketOpen => "[";
-            public static string bracketClosed => "]";
-
-            /// <summary>
-            /// Zurodnung
-            /// </summary>
-            public static string Mapping => "&#x22B7;";
-
-            /// <summary>
-            /// Eingekreistes Pluszeichen
-            /// </summary>
-            public static string CircledPlus => "&#x2295;";
-
-            /// <summary>
-            /// Eingekreistes S
-            /// </summary>
-            public static string CircledS => "&#x24C8;";
-
-            /// <summary>
-            /// Eingerahmtes Plus
-            /// </summary>
-            public static string SquaredPlus => "&#x229E;";
-
-            /// <summary>
-            /// Kräftiges Pluszeichen
-            /// </summary>
-            public static string HeavyPlus => "&#x2795;";
-
-
-            /// <summary>
-            /// Eingekreistes Minus
-            /// </summary>
-            public static string circledMinus => "&#x2296;";
-
-            /// <summary>
-            /// Eingerahmtes Minus
-            /// </summary>
-            public static string squaredMinus => "&#x229F;";
 
 
             public static string crossProductOp => "&#x2A09;";
@@ -680,7 +1123,7 @@ namespace MKPRG.Naming
             /// </summary>
             public static string heavyMiuns => "&#x2796;";
 
-            public static string SigmaSumme = "&#x03A3;";
+            public static string SigmaSumme => "&#x03A3;";
 
             public static string Quantity => SigmaSumme; //"#";
 
@@ -689,7 +1132,7 @@ namespace MKPRG.Naming
             /// <summary>
             /// 
             /// </summary>
-            public static string Function => "&#x2394;";
+
 
             public static string SquareRoot => "&#x221A;";
 
@@ -697,11 +1140,273 @@ namespace MKPRG.Naming
 
             public static string ForthRoot => "&#x221C;";
 
+            public static class Functions
+            {
+                public static string Sinus => "&#x223F;";
+
+                // Listen von Funktionsargumenten
+                public static string OpenArgList => "(";
+                public static string CloseArgList => ")";
+
+                public static string OpenAngleArgList => "&#x27E8;";
+                public static string CloseAngleArgList => "&#x27E9;";
+
+
+                public static string bracketOpen => "[";
+                public static string bracketClosed => "]";
+
+                public static string hexgonBracketOpen => "&#xFE5D;";
+                public static string hexgonBracketClosed => "&#xFE5E;";
+
+                public static string Domain => "&#x1F74E;";
+                public static string Domain2 => "&#x1F746;";
+                public static string CoDomain => Domain;
+
+                /// <summary>
+                /// Zurodnung
+                /// </summary>
+                public static string Mapping => "&#x22B7;";
+
+                public static string Function => "&#x2394;";
+
+                /// <summary>
+                /// Funktionssymbol f
+                /// </summary>
+                public static string FunctionF => "&#x1D453;";
+
+            }
+
+
+            public static class Relations
+            {
+                public static string identical => "&#x2261;";
+
+                public static string notIdentical => "&#x2262;";
+
+                public static string equal => "=";
+
+                public static string notEqual => "&#x2260;";
+
+                public static string lower => "<";
+
+                public static string lowerOrEqual => "&#x2266;";
+
+                public static string greater => ">";
+
+                public static string greaterOrEqual => "&#x2267;";
+
+                public static string between => "&#x226C;";
+
+            }
+
+            public static class Sets
+            {
+                // Mengen
+
+                public static string Set => $"{OpenSet}{Ellipsis}{CloseSet}"; //"&#x1F74E;";
+
+                public static string OpenSet => "&#x007B;";
+                public static string CloseSet => "&#x007D;";
+
+                public static string Ellipsis => "&#x2026;";
+
+                public static string EmptySet => "&#x2205;";
+
+                public static string NaturalNumbers => "&#x2115;";
+
+                public static string Integers => "&#x2124;";
+
+                public static string RationalNumers => "&#x211A;";
+
+                public static string RealNumbers => "&#x211D;";
+
+                public static string ComplexNumbers => "&#x2102;";
+
+
+                public static string subsetOf => "&#x2282;";
+
+                public static string supersetOf => "&#x2283;";
+
+                public static string IsElementOf => "&#x2208;";
+
+                public static string notIsElementOf => "&#x2209;";
+
+                public static string union => "&#x222A;";
+
+                public static string intersect => "&#x2229;";
+
+
+                public static string unionMultiple => "&#x22C3;";
+
+                public static string intersectMultiple => "&#x22C2;";
+
+
+                public static string NotOutOfRange => $"{x} {IsElementOf} {RScript}";
+
+                public static string OutOfRange => $"{x} {notIsElementOf} {RScript}";
+
+                public static string NotANumber => $"{x} {notIsElementOf} {RationalNumers}";
+
+                public static string NotAnInt => $"{x} {notIsElementOf} {Integers}";
+
+                public static string FilterOp => "&#x2B44;";
+
+                public static string SortAsc => "&#x29C0;";
+
+                public static string SortDesc => "&#x29C1;";
+
+
+            }
+
+            public static class Bool
+            {
+                public static string and => "&#x2227;";
+                public static string or => "&#x2228;";
+                public static string not => "&#x223C;";
+
+                public static string implication => "&#x21D2;";
+            }
+
+            public static class Groups
+            {
+
+                public static string LinkOp => "&#x2218;";
+
+                /// <summary>
+                /// Eingerahmtes Plus
+                /// </summary>
+                public static string SquaredPlus => "&#x229E;";
+
+                /// <summary>
+                /// Kräftiges Pluszeichen
+                /// </summary>
+                public static string HeavyPlus => "&#x2795;";
+
+
+                /// <summary>
+                /// Eingekreistes Minus
+                /// </summary>
+                public static string CircledMinus => "&#x2296;";
+
+                /// <summary>
+                /// Eingerahmtes Minus
+                /// </summary>
+                public static string SquaredMinus => "&#x229F;";
+
+                public static string SquaredMul => "&#x22A0;";
+
+                public static string SquaredPoint => "&#x22A1;";
+
+                /// <summary>
+                /// Eingekreistes Pluszeichen
+                /// </summary>
+                public static string CircledPlus => "&#x2295;";
+
+
+                public static string CircledPoint => "&#x2299;";
+
+                public static string CircledRing => "&#x229A;";
+
+                public static string CircledMul => "&#x229B;";
+
+                public static string CircledEqual => "&#x229C;";
+            }
+
+
+            public static class CircledNumbers
+            {
+                public static string One => "&#x2460;";
+                public static string Two => "&#x2461;";
+                public static string Three => "&#x2462;";
+                public static string Four => "&#x2463;";
+                public static string Five => "&#x2464;";
+                public static string Six => "&#x2465;";
+                public static string Seven => "&#x2466;";
+                public static string Eight => "&#x2467;";
+                public static string Nine => "&#x2468;";
+                public static string Ten => "&#x2469;";
+                public static string Eleven => "&#x246A;";
+                public static string Twelf => "&#x246B;";
+                public static string Thirdteen => "&#x246C;";
+                public static string Fourteen => "&#x246D;";
+                public static string Fiveteen => "&#x246E;";
+                public static string Sixteen => "&#x246F;";
+                public static string Seventeen => "&#x2470;";
+                public static string Eightteen => "&#x2471;";
+                public static string Nineteen => "&#x2472;";
+                public static string Twenty => "&#x2473;";
+
+            }
+
+            public static class RationalNumbers
+            {
+                public static string OneSeventh => "&#x2150;";
+                public static string OneNinth => "&#x2151;";
+                public static string OneTenth => "&#x2152;";
+                public static string OneThird => "&#x2153;";
+                public static string TwoThird => "&#x2154;";
+                public static string OneFifth => "&#x2155;";
+                public static string TwoFifth => "&#x2156;";
+                public static string ThreeFifth => "&#x2157;";
+                public static string FourFifth => "&#x2158;";
+                public static string OneSixth => "&#x2159;";
+                public static string FifeSixth => "&#x215A;";
+                public static string OneEigth => "&#x215B;";
+                public static string ThreeEigth => "&#x215C;";
+            }
+
+            public static class RomanNumbers
+            {
+                public static string One => "&#x2160;";
+                public static string Two => "&#x2161;";
+                public static string Three => "&#x2162;";
+                public static string Four => "&#x2163;";
+                public static string Five => "&#x2164;";
+                public static string Six => "&#x2165;";
+                public static string Seven => "&#x2166;";
+                public static string Eight => "&#x2167;";
+                public static string Nine => "&#x2168;";
+                public static string Ten => "&#x2169;";
+                public static string Eleven => "&#x216A;";
+                public static string Twelve => "&#x216B;";
+                public static string Fifty => "&#x216C;";
+                public static string OneHundred => "&#x216D;";
+                public static string FiveHundret => "&#x216E;";
+                public static string Thousand => "&#x216F;";
+
+                public static string OneSm => "&#x2170;";
+                public static string TwoSm => "&#x2171;";
+                public static string ThreeSm => "&#x2172;";
+                public static string FourSm => "&#x2173;";
+                public static string FiveSm => "&#x2174;";
+                public static string SixSm => "&#x2175;";
+                public static string SevenSm => "&#x2176;";
+                public static string EightSm => "&#x2177;";
+                public static string NineSm => "&#x2178;";
+                public static string TenSm => "&#x2179;";
+                public static string ElevenSm => "&#x217A;";
+                public static string TwelveSm => "&#x217B;";
+                public static string FiftySm => "&#x217C;";
+                public static string OneHundredSm => "&#x217D;";
+                public static string FiveHundredSm => "&#x217E;";
+                public static string ThousandSm => "&#x217F;";
+
+            }
+
         }
 
         public static class MechanicalEngineering
         {
             public static string Gear => Tools.Gear;
+
+            public static string PlanetGear => "&#x1104D;";
+
+            public static string PlanetGearSmallSatellites => "&#x1F71B;";
+
+            public static string BigAndSmallGear => "&#x29C2;";
+
+
+            public static string Transmission => "&#x1F73D;";
 
         }
 
@@ -712,7 +1417,16 @@ namespace MKPRG.Naming
 
             public static string Timer => "&#x23F2;";
 
+            public static string Hourglass => "&#x231B;";
+
             public static string TriangularRuler => "&#x1F4D0;";
+
+            public static string Promille => "&#x2030;";
+            public static string Pro10000 => "&#x2031;";
+
+
+            public static string PromilleArab => "&#x0609;";
+            public static string Pro10000Arab => "&#x060A;";
 
             /// <summary>
             /// Lineal/Maßstab
@@ -731,7 +1445,7 @@ namespace MKPRG.Naming
 
             public static class Mass
             {
-                public static string Ounce => "&#xU2125;";
+                public static string Ounce => "&#x2125;";
             }
 
 
@@ -776,18 +1490,19 @@ namespace MKPRG.Naming
             public static string NextPage => "&#x2398;";
 
             public static string GotoEnd => "&#x2B72;";
-            public static string GotoStart => "&#x2B70";
+            public static string GotoStart => "&#x2B70;";
 
             public static string FastForward => "&#x23F5;";
             public static string FastBackward => "&#x23F4;";
 
             public static string SkipToBeginning => "&#x23EE;";
-            public static string SkipToEnd => "&#x23EDE;";
+            public static string SkipToEnd => "&#x23ED;";
 
             public static string Play => "&#x23F5;";
             public static string StopPlay => "&#x23F9;";
 
             public static string Steuerrad => "&#x2388;";
+
 
 
         }
@@ -804,8 +1519,50 @@ namespace MKPRG.Naming
             public static string Atom => "&#x269B;";
         }
 
+        public static class Places
+        {
+            public static string Camping => "&#x1F3D5;";
+            public static string Plage => "&#x1F3D6;";
+            public static string ConstructionSite => "&#x1F3D7;";
+            public static string SkyLine => "&#x1F3D9;";
+            public static string ClassicBuilding => "&#x1F3DB;";
+            public static string Dessert => "&#x1F3DC;";
+            public static string Island => "&#x1F3DD;";
+            public static string Park => "&#x1F3DE;";
+            public static string Stadion => "&#x1F3DF;";
+            public static string Home => "&#x1F3E0;";
+            public static string HomeWithGarden => "&#x1F3E1;";
+            public static string Office => "&#x1F3E2;";
+
+            public static string Cinema => "&#x1F3A6;";
+        }
+
         public static class Runtime
         {
+            public static string Environment => $"&#x1F733;";
+
+            public static string NewEnvironment => "&#x2312;";
+
+            public static string EnvironmentAsRoof => $"&#x1F702;";
+
+            public static string Session => $"[{Session2}]";
+            public static string Session2 => $"&#x1F73A;";
+
+            public static string SessionUnderRoof => "&#x1F70E;";
+
+            public static string SessionId => Authentication.ID;
+
+            public static string SessionStart => $"{VariousSigns.Explosion}{Session2}"; //"&#x1F719;";
+
+            public static string SessionEnd => $"{Session2}|"; //"&#x1F750;";
+
+
+            public static string ProcessWithThread => Math.Groups.CircledPlus;
+
+            public static string ProcessBegin => $"{VariousSigns.Explosion}{ProcessWithThread})";
+
+            public static string ProcessEnd => $"{ProcessWithThread}{Stop}";
+
             public static string ProcessAndContinue => "&#x27F4;";
 
             public static string ProcessAndBack => "&#x2B32;";
@@ -813,11 +1570,13 @@ namespace MKPRG.Naming
             public static string CircularProcess => "&#x2B94;"; // "&#x27F2;";
 
 
-            public static string Start => Aerospace.RocketStarts;
+            public static string Start => Aerospace.Rocket; // Aerospace.RocketStarts;
 
-            public static string Stop => "&#x1F6CB;";
+            public static string Progress => $"{Blocks.Left_1_2}{Blocks.Left_1_4}";
 
-            public static string RuntimeError => $"{Metrology.Timer}{Weather.flash}";
+            public static string Stop => Traffic.StopSign; //"&#x1F6CB;";
+
+            public static string RuntimeError => $"{Threads.Thread}{Weather.flash}";
 
             public static string Execute => Computer.EnterKey;
 
@@ -827,20 +1586,40 @@ namespace MKPRG.Naming
             /// <summary>
             /// Symbolisiert einen abgebrochnen Prozess
             /// </summary>
-            public static string Aborted => $"{ProcessAndContinue}{CancelX}";
+            public static string Aborted => Threads.ThreadAbort;
 
-            public static string Finished => $"{ProcessAndContinue}|";
+            public static string Finished => Threads.ThreadStop;
+
+            public static string Tracing => "&#x1F4DC;";
+
+            public static string Monitoring => "&#x1F4DD;";
+
+            public static string StartMonitoringOrTracing => "&#x1F3AC;";
+
+
+            public static string Job => "&#x2752;";
+
+            public static string Job2 => "&#x1F4E6;";
+
         }
+
 
         public static class Sets
         {
             public static class Operators
             {
                 public static string ElementOf => "&#x2208;";
-                public static string NotElementOf => "&#x2208;";
+                public static string NotElementOf => "&#x2209;";
 
                 public static string Intersection => "&#x2229;";
                 public static string Union => "&#x222A;";
+
+                public static string LeftIncludedInRight => "&#x2282;";
+                public static string LeftIncludesRight => "&#x2283;";
+
+                public static string LeftNotIncludedInRight => "&#x2284;";
+                public static string LeftNotIncludesRight => "&#x2285;";
+
 
                 public static string DeleteLeft => "&#x232B;";
                 public static string DeleteRight => "&#x2326;";
@@ -854,6 +1633,22 @@ namespace MKPRG.Naming
             /// Allgemeine Liste
             /// </summary>
             public static string List => "&#x25A4;";
+
+            /// <summary>
+            /// Tabelle, Relation
+            /// </summary>
+            public static string Table => "&#x25A6;";
+
+
+
+            /// <summary>
+            /// Datensatz
+            /// </summary>
+            public static string Records => "&#x25A5;";
+
+            public static string Palette => "&#x1F3A8;";
+
+
 
             public static class Selections
             {
@@ -872,6 +1667,18 @@ namespace MKPRG.Naming
                 /// geprüft, ok Haken fein
                 /// </summary>
                 public static string lightCheckMark => "&#x1F5F8;";
+
+                public static string checkedBox => "&#x1F5F9;";
+                public static string checkedNegativeCheckBox => "&#x2612;";
+
+                public static string uncheck => "&#x237B;";
+
+                public static string checkNegativeMark => "&#x2716;";
+                public static string checkNegativeMarkKurisve => "&#x2717;";
+
+
+
+
             }
 
             public static class Quantors
@@ -895,9 +1702,17 @@ namespace MKPRG.Naming
 
             public static string JoinedSquares => "&#x29C9;";
 
+            public static string SquaredStar => "&#x29C6;";
+
+            public static string SquaredCircle => "&#x29C7;";
+
+            public static string SquaredSquare => "&#x29C8;";
+
             public static string SquaredSpiral => "&#xA874;";
 
             public static string SquaredPositionMarks => "&#x2BD0;";
+
+            public static string SquareDiagonal => "&#x303C;";
 
             /// <summary>
             /// Weisses Quadrat
@@ -963,6 +1778,7 @@ namespace MKPRG.Naming
             public static string Hexagon => "&#x2B21;";
 
             public static string OctagonBlack => "&#x2B21;";
+
         }
 
         /// <summary>
@@ -974,7 +1790,13 @@ namespace MKPRG.Naming
 
             public static string Alarm => VariousSigns.Alarm;
 
-            public static string Attention => VariousSigns.Alarm;
+            public static string Trumpet => "&#x1F3BA;";
+
+            public static string Melody => "&#x1F3B6;";
+
+            public static string Alarm2 => "&#x1F6A8;";
+
+            public static string Attention => Gestures.ForeFingerUp;
 
             public static string Warning => VariousSigns.WarningSign;
 
@@ -982,28 +1804,41 @@ namespace MKPRG.Naming
 
             public static string Danger => VariousSigns.Explosion;
 
+            public static string WarningUnderConstruction => VariousSigns.UnderConstruction;
+
+            public static string SupportNeeded => Shapes.squaredSOSSymbol;
+
+            public static string NewItem => Shapes.squaredNewSymbol;
+
+            /// <summary>
+            /// Gibt es für umsonst
+            /// </summary>
+            public static string ItsForFree => Shapes.squaredFreeSymbol;
+
+            public static string ItsOk => Shapes.squaredOKSymbol;
+
+            public static string TargetReachedFlag => "&#x1F3C1;";
         }
-
-
 
         public static class Smileys
         {
             public static string Smiley => "&#x263A;";
+            public static string SmileyBlack => "&#x263B;";
 
             public static string NonSmiley => "&#x2639;";
         }
 
         public static class Software
         {
-            public static string SoftwareEngineering => "&#x29F0";
+            public static string SoftwareEngineering => "&#x29F0;";
 
-            public static string Compiler => $"{Math.Alpha}{Math.Mapping}{Math.A}";
+            public static string Compiler => $"{Math.Alpha}{Math.Functions.Mapping}{Math.AFrac}";
 
-            public static string APLFunctionUnderlined = "&#x236E;";
+            public static string APLFunctionUnderlined => "&#x236E;";
 
             public static string SyntaxError => $"&#x2376;{Weather.flash}";
 
-            public static string Debugger => Animals.Bug;
+            public static string Debugger => Animals.BugEgypt;
 
         }
 
@@ -1021,8 +1856,33 @@ namespace MKPRG.Naming
 
         public static class Text
         {
-            public static string SPC = "&nbsp;";
-            public static string SPCsmall = "&nnbsp;";
+            public static string SPC => "&nbsp;";
+            public static string SPCsmall => "&nnbsp;";
+        }
+
+        public static class TicketSystem
+        {
+            public static string Tickets => "&#x1F39F;";
+        }
+
+        public static class Threads
+        {
+
+            public static string Thread => "&#x27FF;";
+
+            public static string ThreadStart => $"{VariousSigns.Explosion}{Thread}";
+
+            public static string ThreadStop => $"{Thread}{Runtime.Stop}";
+
+            public static string ThreadAbort => $"{Thread}{Runtime.CancelX}";
+
+            public static string ThreadVertical => "&#x1D184;";
+
+            public static string Join => "&#x2B43;";
+
+            public static string parallelExec => "&#x2B86;";
+
+            public static string massiveParallelExec => "&#x21F6;";
         }
 
         public static class Tools
@@ -1037,6 +1897,14 @@ namespace MKPRG.Naming
             /// Hammer gekreuzt mit Schraubenschlüssel
             /// </summary>
             public static string HammerAndWrench => "&#x1F6E0;";
+
+            public static string HammerAndHammer => "&#x2692;";
+
+            public static string Hammer => "&#x1F528;";
+
+            public static string Spitzhacke => "&#x26CF;";
+
+            public static string Chains => "&#x26D3;";
 
             /// <summary>
             /// Schraubschlüssel
@@ -1063,7 +1931,7 @@ namespace MKPRG.Naming
             public static string OncomingTraffic => "&#x26D7;";
 
             public static string PetrolStation => "&#x26FD;";
-            
+
             /// <summary>
             /// LKW
             /// </summary>
@@ -1086,12 +1954,20 @@ namespace MKPRG.Naming
 
             public static string NoEntry => "&#x26D4;";
 
-            
+            public static string ProhibitedSign2 => "&#x1F6C7;";
+
+            public static string ProhibitedSign => "&#x1F6C7;";
+            public static string RightOfWaySign => "&#x1F79B;";
+
+            public static string StopSign => "&#x1F6D1;";
+
+
 
         }
 
         public static class Transactions
         {
+            public static string Transaction => Runtime.Session2;
 
             /// <summary>
             /// Symbol für Widerruf
@@ -1108,6 +1984,11 @@ namespace MKPRG.Naming
             /// </summary>
             public static string Undo => "&#x238C;";
 
+
+            public static string Rollback => "&#x238C;";
+
+            public static string Cancel => Runtime.Aborted;
+
         }
 
         public static class Trees
@@ -1115,6 +1996,15 @@ namespace MKPRG.Naming
             public static string Tree => "&#x2F4A;"; //"&#x312D;"; "&#x2C00"; "&#x1210;";
 
             public static string TreeUp => "&#x15D0;";
+
+            public static string TreeUpWithNodes => "&#x1F762;";
+
+            public static string BranchUp => "&#x1F709;";
+
+            public static string BranchDown => "&#x1F753;";
+
+            public static string MultiBranchUp => "&#x10299;";
+
 
             public static string TreeDown => "&#x15D1;";
 
@@ -1130,6 +2020,33 @@ namespace MKPRG.Naming
             public static string Root => "&#x1430;"; //  Math.CubeRoot;
         }
 
+        public static class Validation
+        {
+            public static string Check => VariousSigns.Microscope; //"&#x1FA7A;";
+
+            public static string CheckPreCond => VariousSigns.Microscope + DateAndTime.Pre;
+
+            public static string CheckPostCond => DateAndTime.Post + VariousSigns.Microscope;
+
+            public static string CheckNotOutOfRange => $"{Check}: {Math.x} {Math.Sets.IsElementOf} {Math.RScript}";
+
+            public static string CheckOutOfRange => $"{Check}: {Math.x} {Math.Sets.notIsElementOf} {Math.RScript}";
+
+            public static string NotOutOfRange => $"{Math.x} {Math.Sets.IsElementOf} {Math.RScript}";
+
+            public static string OutOfRange => $"{Math.x} {Math.Sets.notIsElementOf} {Math.RScript}";
+
+            public static string NotANumber => $"{Math.x} {Math.Sets.notIsElementOf} {Math.Sets.RationalNumers}";
+
+            public static string NotAnInt => $"{Math.x} {Math.Sets.notIsElementOf} {Math.Sets.Integers}";
+
+            public static string Valid => "&#x1F5F8;";
+
+            public static string Invalid => "&#x1F5F2;";
+
+
+        }
+
         public static class VariousSigns
         {
             public static string WarningSign => "&#x26A0;";
@@ -1139,6 +2056,7 @@ namespace MKPRG.Naming
             public static string Diameter => "&#x2300;";
 
             public static string Magnifier => "&#x1F50E;";
+            public static string MagnifierRight => "&#x1F50D;";
 
             /// <summary>
             /// Radioaktivitäts- Warnzeichen
@@ -1152,10 +2070,23 @@ namespace MKPRG.Naming
             /// </summary>
             public static string Skull => "&#x2620;";
 
+            public static string LatinCross => "&#x271D;";
+
+            public static string WestSyrianCross => "&#x2670;";
+            public static string EastSyrianCross => "&#x2671;";
+
+            public static string OrthodoxCross => "&#x2626;";
+
+            public static string LotringCross => "&#x2628;";
+            public static string JerusalemCross => "&#x2629;";
+            public static string DingbatCross => "&#x271E;";
+
             /// <summary>
             /// Wiederverwertung
             /// </summary>
             public static string Recycling => "&#x2672;";
+
+            public static string RecyclingThin => "&#x267A;";
 
             /// <summary>
             /// Mülleimer
@@ -1188,6 +2119,8 @@ namespace MKPRG.Naming
             /// </summary>
             public static string BoxedKey => "&#x26BF;";
 
+            public static string OldKey => "&#x1F5DD;";
+
             public static string Collision => "&#x1F4A5;";
 
             public static string Joker => "&#x1F0BF;";
@@ -1209,12 +2142,20 @@ namespace MKPRG.Naming
             public static string Eye => "&#x1F441;";
             public static string Eyes => "&#x1F440;";
 
+            public static string Bizeps => "&#x1F4AA;";
+
             /// <summary>
             /// Bombe
             /// </summary>
             public static string Bomb => "&#x1F4A3;";
 
+            public static string Balloon => "&#x1F388;";
+
             public static string Explosion => "&#x1F4A5;";
+
+            public static string FireworkSparkler => "&#x1F387;";
+
+            public static string Firework => "&#x1F386;";
 
             public static string Bell => "&#x1F56D;";
             public static string BellOff => "&#x1F515;";
@@ -1223,10 +2164,14 @@ namespace MKPRG.Naming
 
             public static string Bierzelt => "&#x1F3AA;";
 
+            public static string ChrismasTree => "&#x1F384;";
+
+            public static string ChampagnerBottle => "&#x1F37E;";
+
             /// <summary>
             /// Schwarze Scheere
             /// </summary>
-            public static string BlackScissors = "&#x2702;";
+            public static string BlackScissors => "&#x2702;";
 
             public static string PrismenRaster => "&#x1246E;";
 
@@ -1239,16 +2184,21 @@ namespace MKPRG.Naming
             public static string Doppelquadratschnecke => "&#xA875;";
 
 
+            public static string CupOfCoffee => "&#x26FE;";
 
-        }
+            public static string Crown => "&#x1F732;";
 
-        public static class Validation
-        {
-            public static string Contradiction => Weather.flash;
+            public static string ElectricBulb => "&#x1F4A1;";
 
-            public static string Valid => "&#x1F5F8;";
+            /// <summary>
+            /// Taschenlampe
+            /// </summary>
+            public static string Torch => "&#x1F526;";
 
-            public static string Invalid => "&#x1F5F4;";
+            public static string Microscope => "&#x1F52C;";
+
+            public static string Brick => "&#x1F759;";
+
         }
 
         public static class War
@@ -1263,6 +2213,8 @@ namespace MKPRG.Naming
             /// </summary>
             public static string Protector => "&#x1F6E1;";
 
+            public static string ProtectorWithBlackCross => "&#x26E8;";
+
             /// <summary>
             /// Abfangjäger
             /// </summary>
@@ -1270,6 +2222,8 @@ namespace MKPRG.Naming
 
 
             public static string Death => VariousSigns.Skull;
+
+            public static string Cementary => "&#x26FC;";
 
             /// <summary>
             /// Star Wars Tie Jäger, weiss
@@ -1280,6 +2234,11 @@ namespace MKPRG.Naming
             /// Star Wars Tie Jäger, schwarz
             /// </summary>
             public static string TieFighterBlack => "&#x29F3;";
+
+
+            public static string Castle => "&#x26EB;";
+
+
 
         }
 
@@ -1298,12 +2257,24 @@ namespace MKPRG.Naming
 
             public static string Cloud => "&#x2601;";
 
-            public static string BlackSun => "&#x2600;";
+            public static string BlackSun => Astronomy.BlackSun;
+            public static string WhiteSun => Astronomy.WhiteSun;
+            public static string BrightSun => Astronomy.BrightSun;
+        }
 
-            public static string WhiteSun => "&#x263C;";
+        public static class Workflows
+        {
 
-            public static string BightkSun => "&#x1F323;";
+            public static string Start => Threads.ThreadStart;
+            public static string StartRocket => Aerospace.Rocket;
 
+
+
+
+            public static string Stop => $"{Threads.Thread}{Traffic.StopSign}";
+            public static string Cancel => "&#x1F5D9;";
+
+            public static string FinalState => "&#x1F3C1;";
 
         }
 

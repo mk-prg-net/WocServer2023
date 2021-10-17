@@ -22,10 +22,13 @@ namespace MKPRG.Naming.TechTerms.Culture
 
 
         public override string CNT => "lng";
-        public override string CN => EN;
+        public override string CN => "语种";
         public override string DE => "Sprache";
         public override string EN => "Language";
         public override string ES => "Idioma";
+
+        public override string Glyph => Glyphs.Communication.SpeakingHead;
+
     }
 
     /// <summary>
@@ -43,9 +46,12 @@ namespace MKPRG.Naming.TechTerms.Culture
         }
 
         public override string CNT => "lngSettings";
-        public override string CN => EN;
+        public override string CN => "语言设置";
         public override string DE => "Spracheinstellungen";
         public override string EN => "Language settings";
         public override string ES => "Configuración del idioma";
+
+        public override string Glyph => Glyphs.Communication.SpeakingHead + Glyphs.Algorithm.alternate;
     }
+
 }

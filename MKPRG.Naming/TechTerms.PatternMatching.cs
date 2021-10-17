@@ -22,11 +22,11 @@ namespace MKPRG.Naming.TechTerms.PatternMatching
         }
 
         public override string CNT => "pattern";
-        public override string CN => EN;
+        public override string CN => "模式";
         public override string DE => "Vergleichsmuster";
         public override string EN => "Pattern";
         public override string ES => EN;
-        
+
     }
 
     public class mTestIfMatch
@@ -41,7 +41,7 @@ namespace MKPRG.Naming.TechTerms.PatternMatching
         }
 
         public override string CNT => "testIfMatch";
-        public override string CN => EN;
+        public override string CN => "测试模式是否匹配";
         public override string DE => "Prüfen auf Übereinstimmung mit dem Muster";
         public override string EN => "Test if pattern is matches";
         public override string ES => "Pruebe si el patrón coincide";
@@ -60,16 +60,31 @@ namespace MKPRG.Naming.TechTerms.PatternMatching
         }
 
         public override string CNT => "isNullEmptyOrWhitespace";
-
-        public override string CN => EN;
-
+        public override string CN => "零是空的还是空白的";
         public override string DE => "Prüfen auf Nullwerte bzw. Leerzeichen";
-
         public override string EN => "Is Null Empty Or Whitespace";
-
         public override string ES => "Compruebe si hay valores cero o espacios";
 
     }
+
+    public class mIsNotNullEmptyOrWhitespace
+    : NamingBase
+    {
+
+        public const long UID = 0xBF63A830;
+
+        public mIsNotNullEmptyOrWhitespace()
+            : base(UID)
+        {
+        }
+
+        public override string CNT => "isNotNullEmptyOrWhitespace";
+        public override string CN => "不是空的，空的或空白的。";
+        public override string DE => "Sicherstellen, das Feld nicht leer ist";
+        public override string EN => "Is not Null, Empty Or Whitespace";
+        public override string ES => "Compruebe si hay valores cero o espacios";
+    }
+
 
     public class pRegularExpression
     : NamingBase
@@ -83,13 +98,9 @@ namespace MKPRG.Naming.TechTerms.PatternMatching
         }
 
         public override string CNT => "regEx";
-
-        public override string CN => EN;
-
+        public override string CN => "正则表达式";
         public override string DE => "regulärer Ausdruck";
-
         public override string EN => "regular Expression";
-
         public override string ES => "La expresión regular";
     }
 
@@ -105,13 +116,9 @@ namespace MKPRG.Naming.TechTerms.PatternMatching
         }
 
         public override string CNT => "similarityLevel";
-
-        public override string CN => EN;
-
+        public override string CN => "相似度";
         public override string DE => "Grad der Ähnlichkeit";
-
         public override string EN => "degree of similarity";
-
         public override string ES => "grado de similitud";
     }
 
@@ -128,13 +135,9 @@ namespace MKPRG.Naming.TechTerms.PatternMatching
         }
 
         public override string CNT => "identical";
-
-        public override string CN => EN;
-
+        public override string CN => "一模一样";
         public override string DE => "identisch";
-
         public override string EN => "identical";
-
         public override string ES => "idéntico";
     }
 
@@ -150,13 +153,9 @@ namespace MKPRG.Naming.TechTerms.PatternMatching
         }
 
         public override string CNT => "similar";
-
-        public override string CN => EN;
-
+        public override string CN => "大同小异";
         public override string DE => "sehr ähnlich, aber nicht identisch";
-
         public override string EN => "very similar, but not identical";
-
         public override string ES => "muy similar, pero no idéntico";
     }
 
@@ -172,13 +171,9 @@ namespace MKPRG.Naming.TechTerms.PatternMatching
         }
 
         public override string CNT => "partlySimilar";
-
-        public override string CN => EN;
-
+        public override string CN => "有几分相似";
         public override string DE => "ähnlich";
-
         public override string EN => "partly similar";
-
         public override string ES => "similar a";
     }
 
@@ -194,13 +189,9 @@ namespace MKPRG.Naming.TechTerms.PatternMatching
         }
 
         public override string CNT => "notSimilar";
-
-        public override string CN => EN;
-
-        public override string DE => "ähnlich";
-
-        public override string EN => "partly similar";
-
-        public override string ES => "similar a";
+        public override string CN => "不相上下";
+        public override string DE => "nicht ähnlich";
+        public override string EN => "not similar";
+        public override string ES => "no similar";
     }
 }

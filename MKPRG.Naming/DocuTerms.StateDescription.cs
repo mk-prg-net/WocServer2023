@@ -27,7 +27,9 @@ namespace MKPRG.Naming.DocuTerms.StateDescription
         public override string CN => "细节";
         public override string DE => "Details";
         public override string EN => "Details";
-        public override string ES => "Detalles";        
+        public override string ES => "Detalles";
+
+        public override string Glyph => Glyphs.DataAndDocuments.SemanticMarkup.DetailInformations;
     }
 
     /// <summary>
@@ -48,7 +50,9 @@ namespace MKPRG.Naming.DocuTerms.StateDescription
         public override string CN => "什么事";
         public override string DE => "Was ist los?";
         public override string EN => "Whats up?";
-        public override string ES => "¿Qué pasa?";        
+        public override string ES => "¿Qué pasa?";
+
+        public override string Glyph => Glyphs.Signalization.Attention;
     }
 
     /// <summary>
@@ -68,7 +72,9 @@ namespace MKPRG.Naming.DocuTerms.StateDescription
         public override string CN => "何以";
         public override string DE => "Warum?";
         public override string EN => "Why?";
-        public override string ES => "Por qué";        
+        public override string ES => "Por qué";
+
+        public override string Glyph => Glyphs.Signalization.PleaseNote;
     }
 
     /// <summary>
@@ -88,7 +94,9 @@ namespace MKPRG.Naming.DocuTerms.StateDescription
         public override string CN => "现状";
         public override string DE => "aktueller Zustand";
         public override string EN => "current State";
-        public override string ES => "estado actual";        
+        public override string ES => "estado actual";
+
+        public override string Glyph => Glyphs.Automaton.ActiveState;
     }
 
     /// <summary>
@@ -98,7 +106,7 @@ namespace MKPRG.Naming.DocuTerms.StateDescription
     /// Ursachen beschrieben.
     /// 
     /// mko, 19.6.2020
-    /// Umstellung auf MKPRG.Naming
+    /// Umstellung auf ATMO.DFC.Naming
     /// </summary>
     public class FinStateDescr
     : NamingBase
@@ -115,7 +123,8 @@ namespace MKPRG.Naming.DocuTerms.StateDescription
         public override string DE => "Beschreibung des Endzustandes";
         public override string EN => "Description of final state";
         public override string ES => "Descripción del estado final";
-        
+
+        public override string Glyph => Glyphs.Workflows.FinalState;
     }
 
     /// <summary>
@@ -136,7 +145,29 @@ namespace MKPRG.Naming.DocuTerms.StateDescription
         public override string DE => "Endzustand";
         public override string EN => "Final state";
         public override string ES => "Estado final";
+
+        public override string Glyph => Glyphs.Workflows.FinalState;
     }
 
+    /// <summary>
+    /// mko, 9.7.2020
+    /// </summary>
+    public class Contradiction
+        : NamingBase
+    {
+        public const long UID = 0xBE379C68;
 
+        public Contradiction()
+            : base(UID)
+        {
+        }
+
+        public override string CNT => "contradiction";
+        public override string CN => "矛盾";
+        public override string DE => "Widerspruch";
+        public override string EN => "Contradiction";
+        public override string ES => "Contradicción";
+
+        public override string Glyph => Glyphs.Weather.flash;
+    }
 }

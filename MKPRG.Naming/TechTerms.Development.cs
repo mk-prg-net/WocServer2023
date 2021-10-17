@@ -6,6 +6,50 @@ using System.Threading.Tasks;
 
 namespace MKPRG.Naming.TechTerms.Development
 {
+    public class UnderConstruction
+    : NamingBase, Grammar.IInProgressActivity, Grammar.Adverbs.IAdverb
+    {
+
+        public const long UID = 0x3C0A2E2B;
+
+        public UnderConstruction()
+            : base(UID)
+        {
+        }
+
+        public override string CNT => "underConstruction";
+        public override string CN => "建设中";
+        public override string DE => "in Arbeit";
+        public override string EN => "under construction";
+        public override string ES => "en construcción";
+
+        public override string Glyph => Glyphs.VariousSigns.UnderConstruction;
+
+    }
+
+    public class ProgramFunction
+    : NamingBase
+    {
+
+        public const long UID = 0x21015654;
+
+        public ProgramFunction()
+            : base(UID)
+        {
+        }
+
+        public override string CNT => "progFunc";
+        public override string CN => "程序功能";
+        public override string DE => "Programmfunktion";
+        public override string EN => "Program function";
+        public override string ES => "Función del programa";
+
+        public override string Glyph => Glyphs.Algorithm.Function;
+
+    }
+
+
+
     /// <summary>
     /// mko, 4.8.2020
     /// </summary>
@@ -25,6 +69,8 @@ namespace MKPRG.Naming.TechTerms.Development
         public override string DE => EN;
         public override string EN => "Software";
         public override string ES => EN;
+
+        public override string Glyph => Glyphs.Computer.FloppyDiskBlack;
 
     }
 
@@ -48,6 +94,8 @@ namespace MKPRG.Naming.TechTerms.Development
         public override string DE => EN;
         public override string EN => "Hardware";
         public override string ES => EN;
+
+        public override string Glyph => Glyphs.Computer.oldPC;
     }
 
     /// <summary>
@@ -117,6 +165,8 @@ namespace MKPRG.Naming.TechTerms.Development
         public override string DE => "Computer Programm";
         public override string EN => "Computer program";
         public override string ES => "programa de ordenador";
+
+        public override string Glyph => Glyphs.Software.SoftwareEngineering;
     }
 
 
@@ -186,7 +236,7 @@ namespace MKPRG.Naming.TechTerms.Development
         public override string EN => "Debugger";
         public override string ES => EN;
 
-        public override string Glyph => Glyphs.Animals.Bug;
+        public override string Glyph => Glyphs.Software.Debugger;
     }
 
     /// <summary>
@@ -209,7 +259,7 @@ namespace MKPRG.Naming.TechTerms.Development
         public override string EN => "debug";
         public override string ES => "Resolución de problemas (debug)";
 
-        public override string Glyph => Glyphs.Animals.Bug;
+        public override string Glyph => Glyphs.Software.Debugger;
     }
 
 
@@ -232,6 +282,8 @@ namespace MKPRG.Naming.TechTerms.Development
         public override string DE => "Laufzeitprotokoll (Trace)";
         public override string EN => "Runtime Protocol (Trace)";
         public override string ES => "Protocolo de ejecución (Trace)";
+
+
     }
 
 
@@ -282,16 +334,39 @@ namespace MKPRG.Naming.TechTerms.Development
         public override string CN => "版本";
         public override string DE => "Version";
         public override string EN => "Version";
-        public override string ES => "Versión";        
+        public override string ES => "Versión";
 
     }
+
+    public class Versionen
+        : PluralForm
+    {
+
+        public const long UID = 0x15C65056;
+
+        public Versionen()
+            : base(UID)
+        {
+        }
+
+
+        public override string CNT => "ver";
+        public override string CN => "版本";
+        public override string DE => "Version";
+        public override string EN => "Version";
+        public override string ES => "Versión";
+
+        public override long PluralFormOfNameInSingluarNID => Version.UID;
+
+    }
+
 
     /// <summary>
     /// mko, 21.2.2020
     /// Name einer Anwendung
     /// </summary>
     public class ApplicationName
-    : NamingBase
+        : NamingBase
     {
         public const long UID = 0x32C9DC39;
 
@@ -307,7 +382,7 @@ namespace MKPRG.Naming.TechTerms.Development
         public override string ES => "Nombre de la aplicación";
     }
 
-    
+
 
     /// <summary>
     /// mko, 21.2.2020
@@ -326,11 +401,13 @@ namespace MKPRG.Naming.TechTerms.Development
         public override string CNT => "setup";
         public override string CN => "设置";
         public override string DE => "Setup";
-        public override string EN => "Setup";        
+        public override string EN => "Setup";
         public override string ES => "Setup";
+
+        public override string Glyph => Glyphs.Computer.FloppyDiskWhite;
     }
 
-    
+
 
     /// <summary>
     /// mko, 21.2.2020
@@ -353,7 +430,7 @@ namespace MKPRG.Naming.TechTerms.Development
         public override string ES => "Instalación";
     }
 
-    
+
 
 
     /// <summary>
@@ -398,6 +475,5 @@ namespace MKPRG.Naming.TechTerms.Development
         public override string EN => "Installation package";
         public override string ES => "Paquete de instalación";
     }
-
 }
 

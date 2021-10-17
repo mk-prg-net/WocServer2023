@@ -25,6 +25,8 @@ namespace MKPRG.Naming.TechTerms.Access.Datasources.WellKnown.FileSystem
         public override string DE => "Dateisystem";
         public override string EN => "File system";
         public override string ES => "Sistema de archivos";
+
+        public override string Glyph => Glyphs.DataAndDocuments.FileStore;
     }
 
     /// <summary>
@@ -46,7 +48,36 @@ namespace MKPRG.Naming.TechTerms.Access.Datasources.WellKnown.FileSystem
         public override string DE => "Dateiverzeichnis";
         public override string EN => "File directory";
         public override string ES => "Directorio de archivos";
+
+        public override string Glyph => Glyphs.DataAndDocuments.Folder;
     }
+
+    /// <summary>
+    /// mko, 7.5.2021
+    /// Mehrzahl von Dateiverzeichnissen
+    /// </summary>
+    public class FileDirs
+        : PluralForm
+    {
+        public const long UID = 0x18A55DD5;
+
+        public FileDirs()
+            : base(UID)
+        {
+        }
+
+        public override string CNT => "fileDirs";
+        public override string CN => "多个文件目录";
+        public override string DE => "Dateiverzeichnisse";
+        public override string EN => "File directories";
+        public override string ES => "Directorios de archivos";
+
+        public override long PluralFormOfNameInSingluarNID => FileDir.UID;
+
+        public override string Glyph => Glyphs.DataAndDocuments.Folder;
+    }
+
+
 
     /// <summary>
     /// mko, 22.7.2020
@@ -67,7 +98,36 @@ namespace MKPRG.Naming.TechTerms.Access.Datasources.WellKnown.FileSystem
         public override string DE => "Datei";
         public override string EN => "File";
         public override string ES => "Archivo";
+
+        public override string Glyph => Glyphs.DataAndDocuments.DocumentEmpty;
     }
+
+    /// <summary>
+    /// mko, 7.5.2021
+    /// Mehrzahl von Dateien
+    /// </summary>
+    public class Files
+        : PluralForm
+    {
+        public const long UID = 0xAB10739C;
+
+        public Files()
+            : base(UID)
+        {
+        }
+
+        public override string CNT => "files";
+        public override string CN => "多个文件";
+        public override string DE => "Dateien";
+        public override string EN => "Files";
+        public override string ES => "Archivos";
+
+        public override long PluralFormOfNameInSingluarNID => File.UID;
+
+        public override string Glyph => Glyphs.DataAndDocuments.DocumentEmpty;
+    }
+
+
 
     /// <summary>
     /// mko, 16.02.2021

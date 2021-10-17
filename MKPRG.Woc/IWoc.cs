@@ -8,9 +8,10 @@ namespace MKPRG.Woc
 {
     /// <summary>
     /// mko, 25.3.2021
-    /// Liste der wichtigsten eigenschaften eines Web- Documents (Woc)
+    /// Liste der wichtigsten Eigenschaften eines Web- Documents (Woc)
     /// </summary>
     public interface IWoc  
+
         : IWocVersion,
         IWocContext
     {

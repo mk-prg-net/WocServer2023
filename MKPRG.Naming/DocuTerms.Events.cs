@@ -8,6 +8,8 @@ namespace MKPRG.Naming.DocuTerms.Event
 {
     /// <summary>
     /// mko, 21.2.2020
+    /// <summary>
+    /// mko, 21.2.2020
     /// Erfolgsmeldung
     /// </summary>
     public class Succeeded
@@ -27,13 +29,11 @@ namespace MKPRG.Naming.DocuTerms.Event
 
         public override string CN => "成功的";
 
-        public override string DE => "Erfolgreich";
+        public override string DE => "erfolgreich";
 
         public override string EN => "succeeded";
 
-        public override string ES => "Exitoso";
-
-        public static Succeeded _() => new Succeeded();
+        public override string ES => "exitoso";
 
         public override string Glyph => Glyphs.Events.Success;
     }
@@ -43,7 +43,8 @@ namespace MKPRG.Naming.DocuTerms.Event
     /// Fehlermeldung
     /// </summary>
     public class Fails
-        : NamingBase
+        : NamingBase, TechTerms.Grammar.IInProgressActivity,
+        TechTerms.Grammar.Adverbs.IAdverb
     {
         /// <summary>
         /// Unique Identifier of eFails
@@ -63,16 +64,47 @@ namespace MKPRG.Naming.DocuTerms.Event
 
         public override string CN => "错误";
 
-        public override string DE => "Fehler";
+        public override string DE => "scheitert";
 
-        public override string EN => "Error";
+        public override string EN => "fails";
 
-        public override string ES => EN;
-
-        public static Fails _() => new Fails();
+        public override string ES => "falla";
 
         public override string Glyph => Glyphs.Events.Error;
     }
+
+    /// <summary>
+    /// mko, 25.6.2021
+    /// </summary>
+    public class Failed
+        : NamingBase, TechTerms.Grammar.IFinishedActivity,
+        TechTerms.Grammar.Adverbs.IAdverb
+    {
+        /// <summary>
+        /// Unique Identifier of eFails
+        /// </summary>
+        public const long UID = 0x33AFC7D8;
+
+        public Failed()
+            : base(UID)
+        {
+        }
+
+        public override string CNT => "failed";
+
+        public override string CN => "没成功";
+
+        public override string DE => "gescheitert";
+
+        public override string EN => "failed";
+
+        public override string ES => "falló";
+
+        public override string Glyph => Glyphs.Events.Error;
+    }
+
+
+
 
     /// <summary>
     /// mko, 21.2.2020
@@ -100,8 +132,6 @@ namespace MKPRG.Naming.DocuTerms.Event
         public override string EN => "Warning";
 
         public override string ES => "Advertencia";
-
-        public static Warn _() => new Warn();
 
         public override string Glyph => Glyphs.VariousSigns.WarningSign;
     }
@@ -138,8 +168,6 @@ namespace MKPRG.Naming.DocuTerms.Event
 
         public override string ES => "Información";
 
-        public static Info _() => new Info();
-
         public override string Glyph => Glyphs.Events.Info;
     }
 
@@ -170,9 +198,7 @@ namespace MKPRG.Naming.DocuTerms.Event
 
         public override string ES => "Comienza";
 
-        public static Start _() => new Start();
-
-        public override string Glyph => Glyphs.Navigation.GotoStart;
+        public override string Glyph => Glyphs.Runtime.Start;
     }
 
 
@@ -204,9 +230,7 @@ namespace MKPRG.Naming.DocuTerms.Event
 
         public override string ES => "Fin";
 
-        public static End _() => new End();
-
-        public override string Glyph => Glyphs.Navigation.GotoEnd;
+        public override string Glyph => Glyphs.Runtime.Stop;
     }
 
 
@@ -237,8 +261,6 @@ namespace MKPRG.Naming.DocuTerms.Event
         public override string EN => "Not completed";
 
         public override string ES => "No se completó";
-
-        public static End _() => new End();
 
         public override string Glyph => Glyphs.VariousSigns.WarningSign;
     }

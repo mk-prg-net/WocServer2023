@@ -20,10 +20,12 @@ namespace MKPRG.Naming.TechTerms.Access.Datasources
         }
 
         public override string CNT => "datasource";
-        public override string CN => EN;
+        public override string CN => "数据源";
         public override string DE => "Datenquelle";
         public override string EN => "Datasource";
         public override string ES => "Fuente de datos";
+
+        public override string Glyph => Glyphs.Computer.DataTape;
     }
 
     /// <summary>
@@ -40,10 +42,12 @@ namespace MKPRG.Naming.TechTerms.Access.Datasources
         }
 
         public override string CNT => "dataField";
-        public override string CN => EN;
+        public override string CN => "数据字段";
         public override string DE => "Datenfeld";
         public override string EN => "data field";
         public override string ES => EN;
+
+        public override string Glyph => Glyphs.Sets.Records;
     }
 
 
@@ -61,7 +65,7 @@ namespace MKPRG.Naming.TechTerms.Access.Datasources
         }
 
         public override string CNT => "attribValue";
-        public override string CN => EN;
+        public override string CN => "属性值对";
         public override string DE => "Attribut- Wertepaar";
         public override string EN => "attribute- value pair";
         public override string ES => EN;
@@ -81,7 +85,7 @@ namespace MKPRG.Naming.TechTerms.Access.Datasources
         }
 
         public override string CNT => "attribName";
-        public override string CN => EN;
+        public override string CN => "属性名";
         public override string DE => "Attributname";
         public override string EN => "attribute name";
         public override string ES => EN;
@@ -101,7 +105,7 @@ namespace MKPRG.Naming.TechTerms.Access.Datasources
         }
 
         public override string CNT => "attribValue";
-        public override string CN => EN;
+        public override string CN => "属性值";
         public override string DE => "Attributwert";
         public override string EN => "attribute value";
         public override string ES => EN;
@@ -119,7 +123,7 @@ namespace MKPRG.Naming.TechTerms.Access.Datasources
         }
 
         public override string CNT => "dataIntegrity";
-        public override string CN => EN;
+        public override string CN => "数据完整性";
         public override string DE => "Dateninterität";
         public override string EN => "Data integrity";
         public override string ES => "Integridad de los datos";
@@ -135,10 +139,12 @@ namespace MKPRG.Naming.TechTerms.Access.Datasources
         }
 
         public override string CNT => "dataInconsistency";
-        public override string CN => EN;
+        public override string CN => "数据不一致";
         public override string DE => "Dateninkonsitenz";
         public override string EN => "Data inconsistency";
         public override string ES => "Inconsistencia de los datos";
+
+        public override string Glyph => $"{Glyphs.Computer.DataTape}{Glyphs.Signalization.Warning}";
     }
 
     public class DataIntegrityCheck : NamingBase
@@ -151,10 +157,13 @@ namespace MKPRG.Naming.TechTerms.Access.Datasources
         }
 
         public override string CNT => "dataIntegrityCheck";
-        public override string CN => EN;
+        public override string CN => "数据完整性检查";
         public override string DE => "Prüfung der Datenintegrität";
         public override string EN => "Data integrity check";
         public override string ES => "Comprobación de la integridad de los datos";
+
+        public override string Glyph => $"{Glyphs.Computer.DataTape}{Glyphs.Validation.Check}";
+
     }
 
 
@@ -168,10 +177,12 @@ namespace MKPRG.Naming.TechTerms.Access.Datasources
         }
 
         public override string CNT => "dataConsistencyCheck";
-        public override string CN => EN;
+        public override string CN => "数据一致性检查";
         public override string DE => "Datenkonsitenzprüfung";
         public override string EN => "Data consistency check";
         public override string ES => "Comprobación de la consistencia de los datos";
+
+        public override string Glyph => $"{Glyphs.Computer.DataTape}{Glyphs.Validation.Check}";
     }
 
 

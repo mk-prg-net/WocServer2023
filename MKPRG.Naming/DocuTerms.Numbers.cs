@@ -87,8 +87,4 @@ namespace MKPRG.Naming.DocuTerms.Numbers
 
         public static Mantissa _() => new Mantissa();
     }
-
-
-
-
 }

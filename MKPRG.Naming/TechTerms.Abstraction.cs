@@ -14,8 +14,12 @@ namespace MKPRG.Naming.TechTerms.Abstraction
     : NamingBase
     {
         public _AbstractionBase(long UID, int WocVersion)
-            : base(UID, WocVersion, Wocs.TechTerms._TypeTechTerms.UID, Wocs.Authors.KorneffelMartin.UID, Wocs.Nodes.DLL.MkprgNamingDll.UID,
-                   new (long WocType, long Ref)[]
+            : base(UID,
+                    WocVersion, 
+                    Wocs.TechTerms._TypeTechTerms.UID, 
+                    Wocs.Authors.KorneffelMartin.UID, 
+                    Wocs.Nodes.DLL.MkprgNamingDll.UID,
+                    new (long WocType, long Ref)[]
                     {
                         (Wocs._WocTypeNamespace.UID, Abstraction.UID)
                     })
@@ -25,7 +29,7 @@ namespace MKPRG.Naming.TechTerms.Abstraction
     /// <summary>
     /// mko, 3.8.2020
     /// 
-    /// mko, 26.3.2026
+    /// mko, 26.3.2021
     /// Zur Woc- Namespacedefinition erweitert.
     /// </summary>
     public class Abstraction
@@ -35,7 +39,11 @@ namespace MKPRG.Naming.TechTerms.Abstraction
         public const long UID = 0x95FD5F45;
 
         public Abstraction()
-            : base(UID, 1, Wocs.TechTerms._TypeTechTerms.UID, Wocs.Authors.KorneffelMartin.UID, Wocs.Nodes.DLL.MkprgNamingDll.UID,
+            : base(UID, 
+                    1, 
+                    Wocs.TechTerms._TypeTechTerms.UID, 
+                    Wocs.Authors.KorneffelMartin.UID, 
+                    Wocs.Nodes.DLL.MkprgNamingDll.UID,
                     new (long RefTypeId, long WocId)[]
                     {
                         (Wocs._WocTypeNamespace.UID, Wocs.TechTerms._TypeTechTerms.UID)

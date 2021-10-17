@@ -25,6 +25,8 @@ namespace MKPRG.Naming.TechTerms.Access.Datasources.WellKnown.FileSystem.Errors
         public override string DE => "Die Datei ist nicht vorhanden";
         public override string EN => "File not exists";
         public override string ES => "El archivo no existe";
+
+        public override string Glyph => Glyphs.Signalization.ErrorOccured;
     }
 
     /// <summary>
@@ -46,5 +48,7 @@ namespace MKPRG.Naming.TechTerms.Access.Datasources.WellKnown.FileSystem.Errors
         public override string DE => "Das Dateiverzeichnis ist nicht vorhanden";
         public override string EN => "File directory not exists";
         public override string ES => "El directorio de archivos no existe";
+
+        public override string Glyph => Glyphs.Signalization.ErrorOccured;
     }
 }

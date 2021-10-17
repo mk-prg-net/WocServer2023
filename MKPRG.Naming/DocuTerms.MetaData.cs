@@ -11,8 +11,11 @@ using System.Threading.Tasks;
 /// </summary>
 namespace MKPRG.Naming.DocuTerms.MetaData
 {
+    /// <summary>
+    /// Typname
+    /// </summary>
     public class Type
-    : NamingBase
+        : NamingBase
     {
         public const long UID = 0xAFC52BFA;
 
@@ -30,7 +33,7 @@ namespace MKPRG.Naming.DocuTerms.MetaData
         public override string EN => "Type";
 
         public override string ES => "Tipo";
-        
+
     }
 
 
@@ -59,6 +62,33 @@ namespace MKPRG.Naming.DocuTerms.MetaData
         public override string ES => "Mensaje";
 
     }
+
+    /// <summary>
+    /// mko, 3.2.2021
+    /// Kommentar
+    /// </summary>
+    public class Comment
+    : NamingBase
+    {
+        public const long UID = 0x6F73673A;
+
+        public Comment()
+            : base(UID)
+        {
+        }
+
+        public override string CNT => "comment";
+
+        public override string CN => "评论";
+
+        public override string DE => "Kommentar";
+
+        public override string EN => "Comment";
+
+        public override string ES => "Comentario";
+
+    }
+
 
     /// <summary>
     /// mko, 21.2.2020
@@ -184,6 +214,7 @@ namespace MKPRG.Naming.DocuTerms.MetaData
 
     /// <summary>
     /// Kompnente/Modul
+    /// Kopfzeile, Überschrift, Thematik
     /// </summary>
     public class Header
         : NamingBase
@@ -257,7 +288,7 @@ namespace MKPRG.Naming.DocuTerms.MetaData
     /// Name einer Eigenschalft, welche z.B als  Methodenparameter den semantischen Kontext des Methodenaufrufes.
     /// </summary>
     public class SemCtx
-:       NamingBase
+: NamingBase
     {
         public const long UID = 0xB8025B9D;
 
@@ -291,14 +322,18 @@ namespace MKPRG.Naming.DocuTerms.MetaData
         }
 
         public override string CNT => "namespace";
+
         public override string CN => "命名空间";
+
         public override string DE => "Namensraum";
+
         public override string EN => "Namespace";
+
         public override string ES => EN;
     }
 
     /// <summary>
-    /// Name einer Eigenschalft, welche z.B als  Methodenparameter den semantischen Kontext des Methodenaufrufes.
+    /// Name einer Eigenschaft, welche z.B als  Methodenparameter den semantischen Kontext des Methodenaufrufes.
     /// </summary>
     public class Name
         : NamingBase
@@ -318,7 +353,51 @@ namespace MKPRG.Naming.DocuTerms.MetaData
 
         public override string EN => CNT;
 
-        public override string ES => "Nombre";        
+        public override string ES => "Nombre";
+    }
+
+    /// <summary>
+    /// Beschreibung eines Schaverhaltes, Gegenstandes
+    /// </summary>
+    public class Description
+        : NamingBase
+    {
+        public const long UID = 0x851E0B68;
+
+        public Description()
+            : base(UID)
+        {
+        }
+
+        public override string CNT => "descr";
+
+        public override string CN => "说明";
+
+        public override string DE => "Beschreibung";
+
+        public override string EN => "Description";
+
+        public override string ES => "Descripción";
+    }
+
+    /// <summary>
+    /// mko, 12.4.2021
+    /// </summary>
+    public class ObjectContent
+    : NamingBase
+    {
+        public const long UID = 0xD937A5BE;
+
+        public ObjectContent()
+            : base(UID)
+        {
+        }
+
+        public override string CNT => "objectContent";
+        public override string CN => "对象内容";
+        public override string DE => "Inhlt eines Objektes";
+        public override string EN => "Object content";
+        public override string ES => "Contenido del objeto";
     }
 
 }

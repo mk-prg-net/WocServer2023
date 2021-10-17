@@ -21,7 +21,7 @@ namespace MKPRG.Naming.TechTerms.Metrology.DimensionsAnWeights.IT
 
         public override string CNT => "fetch";
         public override string CN => "文件大小";
-        public override string DE => "Dateigröße"; 
+        public override string DE => "Dateigröße";
         public override string EN => "File size";
         public override string ES => "Tamaño del fichero";
     }
@@ -41,7 +41,7 @@ namespace MKPRG.Naming.TechTerms.Metrology.DimensionsAnWeights.IT
         public override string EN => "Bit";
         public override string ES => EN;
 
-        public override string Glyph => "bit"; 
+        public override string Glyph => "bit";
     }
 
 
@@ -134,7 +134,6 @@ namespace MKPRG.Naming.TechTerms.Metrology.DimensionsAnWeights.IT
 
         public override string Glyph => "TByte";
     }
-
 
 
 
