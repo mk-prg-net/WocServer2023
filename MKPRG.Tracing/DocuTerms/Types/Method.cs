@@ -13,26 +13,51 @@ namespace MKPRG.Tracing.DocuTerms
         : DocuEntity,
         IMethod
     {
-        public Method(IFormater fmt, NID nid, IDTList MethodParamsEncapsulatedInList)
-            : base(fmt, DocuEntityTypes.Method, nid, MethodParamsEncapsulatedInList)
+        public Method()
+            : base(DocuEntityTypes.Method)
         {
         }
 
-        public Method(IFormater fmt, NID nid)
-            : base(fmt, DocuEntityTypes.Method, nid, new DTList(fmt))
+        public Method(IMethodParameter[] methodParams)
+            : base(DocuEntityTypes.Method)
         {
+            if (Parameters != null)
+            {
+                var fullList = methodParams;
+
+                // Auflösen der Einbettungen
+                if (methodParams.Any(r => r is IMethodParametersToEmbed))
+                {
+                    var newList = new List<IMethodParameter>(methodParams.Length + 10);
+                    foreach (var param in methodParams)
+                    {
+                        if (param is IMethodParametersToEmbed eList)
+                        {
+                            newList.AddRange(eList.MethodParametersToEmbed);
+                        }
+                        else
+                        {
+                            newList.Add(param);
+                        }
+                    }
+
+                    fullList = newList.ToArray();
+                }
+
+                if (fullList.Any(r => r is IKillMethodPrarmeterIfNot))
+                {
+                    Parameters = fullList.Where(r => (r is IKillMethodPrarmeterIfNot k && k.Condition) || !(r is IKillMethodPrarmeterIfNot))
+                                         .Select(r => r is IKillMethodPrarmeterIfNot k ? k.MethodParameter : r)
+                                         .ToArray();
+
+                }
+                else
+                {
+                    Parameters = fullList;
+                }
+            }
         }
 
-        public Method(IFormater fmt, String name, IDTList MethodParamsEncapsulatedInList)
-            : base(fmt, DocuEntityTypes.Method, name, MethodParamsEncapsulatedInList)
-        {
-        }
-
-        public Method(IFormater fmt, String name)
-            : base(fmt, DocuEntityTypes.Method, name, new DTList(fmt))
-        {
-        }
-
-        public IMethodParameter[] Parameters => ((IDTList)Childs.Skip(1).First()).ListMembers.Select(m => (IMethodParameter)m).ToArray();
+        public IMethodParameter[] Parameters { get; } = new IMethodParameter[] { };
     }
 }

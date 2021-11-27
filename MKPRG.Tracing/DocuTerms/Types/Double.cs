@@ -7,27 +7,18 @@ using System.Threading.Tasks;
 namespace MKPRG.Tracing.DocuTerms
 {
     /// <summary>
-    /// mko, 8.6.2020
-    /// 
+    /// mko, 27.11.2021
     /// </summary>
     public class Double
       : DocuEntity,
-        IPropertyValue
-        //IEventParameter,
-        //IReturnValue
+        IDouble
     {
-        public Double(double val, IFormater fmt)
-            : base(fmt, DocuEntityTypes.Float)
+        public Double(double val)
+            : base(DocuEntityTypes.Float)
         {
-            Value = val;
+            ValueAsDouble = val;
         }
 
-        public override int CountOfEvaluatedTokens => 1;
-
-        /// <summary>
-        /// Der extakte boolsche Wert 
-        /// </summary>
-        public double Value { get; }
+        public double ValueAsDouble { get; } = 0.0;
     }
-
 }

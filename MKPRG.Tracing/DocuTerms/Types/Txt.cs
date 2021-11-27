@@ -13,10 +13,15 @@ namespace MKPRG.Tracing.DocuTerms
         : DocuEntity,
         ITxt
     {
-        public Txt(IFormater fmt, params String[] words)
-            : base(fmt, DocuEntityTypes.Text, words)
-        { }
+        public Txt(params String[] words)
+            : base(DocuEntityTypes.Text)
+        {
+            if (words != null)
+            {
+                Words = words;
+            }
+        }
 
-        public String[] Words => Childs.Select(w => (String)w).ToArray();
+        public IString[] Words { get; } = new String[] { };
     }
 }

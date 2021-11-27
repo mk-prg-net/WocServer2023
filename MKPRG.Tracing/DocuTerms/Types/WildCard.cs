@@ -20,9 +20,10 @@ namespace MKPRG.Tracing.DocuTerms
         /// ersetzt werden kann.
         /// </summary>
         /// <param name="fmt"></param>
-        public WildCard(IFormater fmt)
-            : base(fmt, DocuEntityTypes.WildCard)
-        {            
+        public WildCard()
+            : base(DocuEntityTypes.WildCard)
+        {
+            HasSubTreeConstraint = false;
         }
 
         /// <summary>
@@ -32,12 +33,17 @@ namespace MKPRG.Tracing.DocuTerms
         /// </summary>
         /// <param name="fmt"></param>
         /// <param name="subTree"></param>
-        public WildCard(IFormater fmt, IDocuEntity subTree)
-           : base(fmt, DocuEntityTypes.WildCard, subTree)
+        public WildCard(IDocuEntity subTree)
+           : base(DocuEntityTypes.WildCard)
         {
+            HasSubTreeConstraint = true;
+
+            if (subTree != null)
+                SubTreeConstraint = subTree;
         }
 
+        public bool HasSubTreeConstraint { get; }
 
-        public override int CountOfEvaluatedTokens => 1;
+        public IDocuEntity SubTreeConstraint { get; } = new NID(TTD.Types.UndefinedPropertyValue.UID);
     }
 }

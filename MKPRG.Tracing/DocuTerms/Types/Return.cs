@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using TTD = MKPRG.Naming.DocuTerms;
+
 namespace MKPRG.Tracing.DocuTerms
 {
     /// <summary>
@@ -13,15 +15,26 @@ namespace MKPRG.Tracing.DocuTerms
         : DocuEntity,
         IReturn
     {
-        //public Return(IFormater fmt, IDTList retValsEncapsulatedInList)
-        //    : base(fmt, DocuEntityTypes.ReturnValue, retValsEncapsulatedInList)
-        //{ }
 
-        public Return(IFormater fmt, IReturnValue retVal)
-            : base(fmt, DocuEntityTypes.ReturnValue, retVal)
-        { }
+        public Return()
+            : base(DocuEntityTypes.ReturnValue)
+    { }
 
-
-        public IReturnValue ReturnValue => (IReturnValue)Childs.FirstOrDefault();
+    public Return(IReturnValue retVal)
+        : base(DocuEntityTypes.ReturnValue)
+    {
+        if (retVal != null)
+            ReturnValue = retVal;
     }
+
+
+    protected static InstanceWithNameAsNID _defaultValue = new InstanceWithNameAsNID(new NID(TTD.Types.UndefinedReturnValue.UID));
+
+    public IReturnValue ReturnValue { get; } = _defaultValue;
+
+    public IReturnValue DocuTermDefaultValue => _defaultValue;
+
+    public bool IsSetToDefaultValue => ReturnValue is IDocuEntityWithNameAsNid nid && nid.DocuTermNid.NamingId == TTD.Types.UndefinedReturnValue.UID;
+}
+
 }

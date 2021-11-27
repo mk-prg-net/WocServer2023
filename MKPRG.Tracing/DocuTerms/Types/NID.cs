@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using TTD = MKPRG.Naming.DocuTerms;
+
 namespace MKPRG.Tracing.DocuTerms
 {
     /// <summary>
@@ -12,22 +14,22 @@ namespace MKPRG.Tracing.DocuTerms
     /// </summary>
     public class NID
       : DocuEntity,
-        IPropertyValue       
-        //IEventParameter,
-        //IReturnValue
+        INID
     {
-        public NID(IFormater fmt, long nid)
-            : base(fmt, DocuEntityTypes.NID)
+        public NID(long nid)
+            : base(DocuEntityTypes.NID)
         {
-            NamingId = nid;            
+            NamingId = nid;
         }
 
-        public override int CountOfEvaluatedTokens => 1;
+        //public override int CountOfEvaluatedTokens => 1;
 
         /// <summary>
         /// Die exakte Naming- ID
         /// </summary>
-        public long NamingId { get; }
+        public long NamingId { get; } = TTD.Types.UndefinedNID.UID;
+
+        public static NID UndefinedNID = new NID(TTD.Types.UndefinedNID.UID);
 
 
     }

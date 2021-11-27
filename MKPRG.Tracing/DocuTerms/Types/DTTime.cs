@@ -7,22 +7,27 @@ using System.Threading.Tasks;
 namespace MKPRG.Tracing.DocuTerms
 {
     /// <summary>
-    /// mko, 16.6.2020
+    /// mko, 27.11.2021
     /// </summary>
     public class DTTime
         : DocuEntity,
         ITime
     {
-        public DTTime(IFormater fmt, Integer Hour, Integer Minute, Integer Sec, Integer MilliSec)
-            : base(fmt, DocuEntityTypes.Time, Hour, Minute, Sec, MilliSec)
-        { }
+        public DTTime(int Hour, int Minutes, int Sec, int MilliSec)
+            : base(DocuEntityTypes.Time)
+        {
+            this.Hour = Hour;
+            this.Minutes = Minutes;
+            this.Seconds = Sec;
+            this.Milliseconds = Milliseconds;
+        }
 
-        public int Hour => ((Integer)Childs.First()).ValueAsInteger;
+        public int Hour { get; } = 0;
 
-        public int Minutes => ((Integer)Childs.Skip(1).First()).ValueAsInteger;
+        public int Minutes { get; } = 0;
 
-        public int Seconds => ((Integer)Childs.Skip(2).First()).ValueAsInteger;
+        public int Seconds { get; } = 0;
 
-        public int Milliseconds => ((Integer)Childs.Skip(3)?.FirstOrDefault())?.ValueAsInteger ?? 0;
+        public int Milliseconds { get; } = 0;
     }
 }

@@ -20,7 +20,7 @@ namespace MKPRG.Tracing.DocuTerms
     /// Komplexe Strukturen zur Dokumentation von Programmzuständen wie Fehlern oder Statuswechseln in einer standardisierten Form
     /// erzeugen. Dadurch wird eine automatisierte Auswertung dieser Strukturen ermöglicht.
     /// </summary>
-    public static class ComposerSubTrees
+    public static partial class ComposerSubTrees
     {
         //-------------------------------------------------------------------------------------------------------------------------
         // Common
@@ -35,13 +35,13 @@ namespace MKPRG.Tracing.DocuTerms
         /// <param name="MethodParameters"></param>
         /// <returns></returns>
         public static IInstance ReturnNotCompleted(
-            this IComposer dct, 
-            string MethodName, 
+            this IComposer dct,
+            string MethodName,
             params IMethodParameter[] MethodParameters)
             => dct.i(TTD.StateDescription.FinStateDescr.UID,
                     dct.m(MethodName,
                         // MethodParameters == null ist in EmbedMembers berücksichtigt
-                        dct.EmbedMembers(MethodParameters),
+                        dct.EmbedMethodParameters(MethodParameters),
                         dct.eNotCompleted()));
 
         /// <summary>
@@ -53,84 +53,84 @@ namespace MKPRG.Tracing.DocuTerms
         /// <param name="MethodParameters"></param>
         /// <returns></returns>
         public static IInstance ReturnAfterSuccess(
-            this IComposer dct, 
-            string MethodName, 
+            this IComposer dct,
+            string MethodName,
             params IMethodParameter[] MethodParameters)
             => dct.i(TTD.StateDescription.FinStateDescr.UID,
                     dct.m(MethodName,
-                        dct.EmbedMembers(MethodParameters),
+                        dct.EmbedMethodParameters(MethodParameters),
                         dct.ret(dct.eSucceeded())));
 
         public static IInstance ReturnAfterSuccess(
-            this IComposer dct, 
-            long MethodNameNID, 
+            this IComposer dct,
+            long MethodNameNID,
             params IMethodParameter[] MethodParameters)
             => dct.i(TTD.StateDescription.FinStateDescr.UID,
                     dct.m(MethodNameNID,
-                        dct.EmbedMembers(MethodParameters),
+                        dct.EmbedMethodParameters(MethodParameters),
                         dct.ret(dct.eSucceeded())));
 
 
         public static IInstance ReturnAfterSuccessWithDetails(
-            this IComposer dct, 
-            string MethodName, 
-            IEventParameter Details, 
+            this IComposer dct,
+            string MethodName,
+            IEventParameter Details,
             params IMethodParameter[] MethodParameters)
             => dct.i(TTD.StateDescription.FinStateDescr.UID,
                 dct.m(MethodName,
-                    dct.EmbedMembers(MethodParameters),
+                    dct.EmbedMethodParameters(MethodParameters),
                     dct.ret(dct.eSucceeded(Details))));
 
         public static IInstance ReturnAfterSuccessWithDetails(
-            this IComposer dct, 
-            long MethodNameNID, 
-            IEventParameter Details, 
+            this IComposer dct,
+            long MethodNameNID,
+            IEventParameter Details,
             params IMethodParameter[] MethodParameters)
             => dct.i(TTD.StateDescription.FinStateDescr.UID,
                     dct.m(MethodNameNID,
-                        dct.EmbedMembers(MethodParameters),
+                        dct.EmbedMethodParameters(MethodParameters),
                         dct.ret(dct.eSucceeded(Details))));
 
 
         // After Failure
 
         public static IInstance ReturnAfterFailure(
-            this IComposer dct, 
-            string MethodName, 
+            this IComposer dct,
+            string MethodName,
             params IMethodParameter[] MethodParameters)
             => dct.i(TTD.StateDescription.FinStateDescr.UID,
                 dct.m(MethodName,
-                    dct.EmbedMembers(MethodParameters),
+                    dct.EmbedMethodParameters(MethodParameters),
                     dct.ret(dct.eFails())));
 
         public static IInstance ReturnAfterFailure(
-            this IComposer dct, 
-            long MethodNameNID, 
+            this IComposer dct,
+            long MethodNameNID,
             params IMethodParameter[] MethodParameters)
             => dct.i(TTD.StateDescription.FinStateDescr.UID,
                     dct.m(MethodNameNID,
-                        dct.EmbedMembers(MethodParameters),
+                        dct.EmbedMethodParameters(MethodParameters),
                         dct.ret(dct.eFails())));
 
 
         public static IInstance ReturnAfterFailureWithDetails(
-            this IComposer dct, 
-            string MethodName, 
-            IEventParameter Details, 
+            this IComposer dct,
+            string MethodName,
+            IEventParameter Details,
             params IMethodParameter[] MethodParameters)
             => dct.i(TTD.StateDescription.FinStateDescr.UID,
                 dct.m(MethodName,
-                    dct.EmbedMembers(MethodParameters),
+                    dct.EmbedMethodParameters(MethodParameters),
                     dct.ret(dct.eFails(Details))));
 
         public static IInstance ReturnAfterFailureWithDetails(
-            this IComposer dct, 
-            long MethodNameNID, 
-            IEventParameter Details, 
+            this IComposer dct,
+            long MethodNameNID,
+            IEventParameter Details,
             params IMethodParameter[] MethodParameters)
             => dct.i(TTD.StateDescription.FinStateDescr.UID,
                     dct.m(MethodNameNID,
-                        dct.EmbedMembers(MethodParameters),
+                        dct.EmbedMethodParameters(MethodParameters),
                         dct.ret(dct.eFails(Details))));
 
         //-------------------------------------------------------------------------------------------------------------------------
@@ -148,16 +148,16 @@ namespace MKPRG.Tracing.DocuTerms
         /// <param name="CompositeKeyParts">Schlüsselattribute, die beim Abruf verwendet wurden</param>
         /// <returns></returns>
         public static IInstance ReturnFetch(
-            this IComposer dct, 
-            bool Succeeded, 
-            IPropertyValue DataSource, 
+            this IComposer dct,
+            bool Succeeded,
+            IPropertyValue DataSource,
             params IPropertyValue[] CompositeKeyParts)
             => dct.i(TTD.StateDescription.FinStateDescr.UID,
                     dct.m(TT.Access.Fetch.UID,
                                 dct.p(TT.Access.Datasources.DataSource.UID, DataSource),
                                 // alle Schlüsselkomponenten als Key- Properties auflisten
-                                dct.EmbedMembers(CompositeKeyParts?.Select(kp => dct.p(TT.Search.Key.UID, kp)).ToArray()),
-                                dct.ret(dct.IfElse(Succeeded, () => (IReturnValue)dct.eSucceeded(), () => dct.eFails()))));
+                                dct.EmbedMethodParameters(CompositeKeyParts?.Select(kp => dct.p(TT.Search.Key.UID, kp)).ToArray()),
+                                dct.ret(dct.IfElseRet(Succeeded, () => dct.eSucceeded(), () => dct.eFails()))));
 
         /// <summary>
         /// 
@@ -170,16 +170,16 @@ namespace MKPRG.Tracing.DocuTerms
         /// <param name="CompositeKeyParts"></param>
         /// <returns></returns>
         public static IInstance ReturnFetch(
-            this IComposer dct, 
-            bool Succeeded, 
-            long UID_of_DataSourceName, 
+            this IComposer dct,
+            bool Succeeded,
+            long UID_of_DataSourceName,
             params IPropertyValue[] CompositeKeyParts)
             => dct.i(TTD.StateDescription.FinStateDescr.UID,
                     dct.m(TT.Access.Fetch.UID,
                                 dct.p_NID(TT.Access.Datasources.DataSource.UID, UID_of_DataSourceName),
                                 // alle Schlüsselkomponenten als Key- Properties auflisten
-                                dct.EmbedMembers(CompositeKeyParts?.Select(kp => dct.p(TT.Search.Key.UID, kp)).ToArray()),
-                                dct.ret(dct.IfElse(Succeeded, () => (IReturnValue)dct.eSucceeded(), () => dct.eFails()))));
+                                dct.EmbedMethodParameters(CompositeKeyParts?.Select(kp => dct.p(TT.Search.Key.UID, kp)).ToArray()),
+                                dct.ret(dct.IfElseRet(Succeeded, () => dct.eSucceeded(), () => dct.eFails()))));
 
         /// <summary>
         /// mko, 2.7.2020
@@ -190,8 +190,8 @@ namespace MKPRG.Tracing.DocuTerms
         /// <param name="mParams"></param>
         /// <returns></returns>
         public static IMethod Predicate(
-            this IComposer dct, 
-            long UID_Operation, 
+            this IComposer dct,
+            long UID_Operation,
             params IMethodParameter[] mParams)
             => dct.m(UID_Operation, mParams);
 
@@ -220,8 +220,8 @@ namespace MKPRG.Tracing.DocuTerms
                         dct.p_NID(TT.Access.Datasources.DataSource.UID, UID_of_DataSource),
                         dct.p_NID(TT.Access.DataType.UID, UID_of_DataType),
                         // alle Schlüsselkomponenten als Key- Properties auflisten
-                        dct.EmbedMembers(CompositeKeyParts?.Select(kp => dct.p(TT.Search.Key.UID, kp)).ToArray()),
-                        dct.ret(dct.IfElse(Succeeded, () => (IReturnValue)dct.eSucceeded(), () => dct.eFails()))));
+                        dct.EmbedMethodParameters(CompositeKeyParts?.Select(kp => dct.p(TT.Search.Key.UID, kp)).ToArray()),
+                        dct.ret(dct.IfElseRet(Succeeded, () => dct.eSucceeded(), () => dct.eFails()))));
 
 
 
@@ -240,17 +240,17 @@ namespace MKPRG.Tracing.DocuTerms
         /// <param name="CompositeKeyParts">Details zum Schlüssel</param>
         /// <returns></returns>
         public static IInstance ReturnFetchWithDetails(
-            this IComposer dct, 
-            bool Succeeded, 
-            IPropertyValue DataSource, 
-            IEventParameter Details, 
+            this IComposer dct,
+            bool Succeeded,
+            IPropertyValue DataSource,
+            IEventParameter Details,
             params IPropertyValue[] CompositeKeyParts)
             => dct.i(TTD.StateDescription.FinStateDescr.UID,
                     dct.m(TT.Access.Fetch.UID,
                                 dct.p(TT.Access.Datasources.DataSource.UID, DataSource),
                                 // alle Schlüsselkomponenten als Key- Properties auflisten
-                                dct.EmbedMembers(CompositeKeyParts?.Select(kp => dct.p(TT.Search.Key.UID, kp)).ToArray()),
-                                dct.ret(dct.IfElse(Succeeded, () => (IReturnValue)dct.eSucceeded(Details), () => dct.eFails(Details)))));
+                                dct.EmbedMethodParameters(CompositeKeyParts?.Select(kp => dct.p(TT.Search.Key.UID, kp)).ToArray()),
+                                dct.ret(dct.IfElseRet(Succeeded, () => dct.eSucceeded(Details), () => dct.eFails(Details)))));
 
         /// <summary>
         /// mko, 18.12.2020
@@ -271,8 +271,8 @@ namespace MKPRG.Tracing.DocuTerms
                     dct.m(TT.Access.Fetch.UID,
                                 dct.p_NID(TT.Access.Datasources.DataSource.UID, DataSourceNID),
                                 // alle Schlüsselkomponenten als Key- Properties auflisten
-                                dct.EmbedMembers(CompositeKeyParts?.Select(kp => dct.p(TT.Search.Key.UID, kp)).ToArray()),
-                                dct.ret(dct.IfElse(Succeeded, () => (IReturnValue)dct.eSucceeded(Details), () => dct.eFails(Details)))));
+                                dct.EmbedMethodParameters(CompositeKeyParts?.Select(kp => dct.p(TT.Search.Key.UID, kp)).ToArray()),
+                                dct.ret(dct.IfElseRet(Succeeded, () => dct.eSucceeded(Details), () => dct.eFails(Details)))));
 
 
         /// <summary>
@@ -281,6 +281,10 @@ namespace MKPRG.Tracing.DocuTerms
         /// 
         /// mko, 4.12.2020
         /// CompositeKeyParts.Select -: CompositeKeyParts?.Select
+        /// 
+        /// mko, 22.6.2021
+        /// If-Elese Zweige bei Ausgabe der Details waren so vertauscht, das im Falle
+        /// existenter Details eben keine ausgegeben wurden. Korrigiert.
         /// </summary>
         public static IInstance ReturnFetchWithDetails(
             this IComposer dct,
@@ -294,14 +298,14 @@ namespace MKPRG.Tracing.DocuTerms
                                 dct.p_NID(TT.Access.Datasources.DataSource.UID, UID_of_DataSource),
                                 dct.p_NID(TT.Access.DataType.UID, UID_of_DataType),
                                 // alle Schlüsselkomponenten als Key- Properties auflisten
-                                dct.EmbedMembers(CompositeKeyParts?.Select(kp => dct.p(TT.Search.Key.UID, kp)).ToArray()),
-                                dct.ret(dct.IfElse(Details != null,
-                                    () => dct.IfElse(Succeeded,
-                                                () => (IReturnValue)dct.eSucceeded(),
-                                                () => dct.eFails()),
-                                    () => dct.IfElse(Succeeded,
-                                                () => (IReturnValue)dct.eSucceeded(Details),
-                                                () => dct.eFails(Details))))));
+                                dct.EmbedMethodParameters(CompositeKeyParts?.Select(kp => dct.p(TT.Search.Key.UID, kp)).ToArray()),
+                                dct.ret(dct.IfElseRet(Details != null,
+                                    () => dct.IfElseRet(Succeeded,
+                                                () => dct.eSucceeded(Details),
+                                                () => dct.eFails(Details)),
+                                    () => dct.IfElseRet(Succeeded,
+                                                () => dct.eSucceeded(),
+                                                () => dct.eFails())))));
 
         // dct.ret(dct.IfElse(Succeeded, () =>  Details != null ? dct.eSucceeded(Details) : dct.eSucceeded(), () => dct.eFails(Details)))));
 
@@ -318,16 +322,16 @@ namespace MKPRG.Tracing.DocuTerms
         /// <param name="CompositeKeyParts"></param>
         /// <returns></returns>
         public static IInstance ReturnFetchNotFound(
-            this IComposer dct, 
-            long UID_of_DataSource, 
-            long UID_of_DataType, 
+            this IComposer dct,
+            long UID_of_DataSource,
+            long UID_of_DataType,
             params IPropertyValue[] CompositeKeyParts)
              => dct.i(TTD.StateDescription.FinStateDescr.UID,
                      dct.m(TT.Access.Fetch.UID,
                                  dct.p_NID(TT.Access.Datasources.DataSource.UID, UID_of_DataSource),
                                  dct.p_NID(TT.Access.DataType.UID, UID_of_DataType),
                                  // alle Schlüsselkomponenten als Key- Properties auflisten
-                                 dct.EmbedMembers(CompositeKeyParts?.Select(kp => dct.p(TT.Search.Key.UID, kp)).ToArray()),
+                                 dct.EmbedMethodParameters(CompositeKeyParts?.Select(kp => dct.p(TT.Search.Key.UID, kp)).ToArray()),
                                  dct.ret(
                                      dct.eFails(
                                          dct.List(
@@ -354,11 +358,11 @@ namespace MKPRG.Tracing.DocuTerms
                                  dct.p_NID(TT.Access.Datasources.DataSource.UID, UID_of_DataSource),
                                  dct.p_NID(TT.Access.DataType.UID, UID_of_DataType),
                                  // alle Schlüsselkomponenten als Key- Properties auflisten
-                                 dct.EmbedMembers(CompositeKeyParts?.Select(kp => dct.p(TT.Search.Key.UID, kp)).ToArray()),
+                                 dct.EmbedMethodParameters(CompositeKeyParts?.Select(kp => dct.p(TT.Search.Key.UID, kp)).ToArray()),
                                  dct.ret(
                                      dct.eFails(
                                          dct.List(
-                                             dct.p_NID(TTD.StateDescription.WhatsUp.UID, ANC.TechTerms.Search.NotFound.UID),
+                                             dct.p_NID(TTD.StateDescription.WhatsUp.UID, TT.Search.NotFound.UID),
                                              dct.p(TTD.StateDescription.Why.UID, Details))))));
 
 
@@ -377,16 +381,16 @@ namespace MKPRG.Tracing.DocuTerms
         /// <param name="CompositeKeyParts"></param>
         /// <returns></returns>
         public static IInstance ReturnFetchWarnEmptySet(
-            this IComposer dct, 
-            long UID_of_DataSource, 
-            long UID_of_DataType, 
+            this IComposer dct,
+            long UID_of_DataSource,
+            long UID_of_DataType,
             params IPropertyValue[] CompositeKeyParts)
              => dct.i(TTD.StateDescription.FinStateDescr.UID,
                      dct.m(TT.Access.Fetch.UID,
                                  dct.p_NID(TT.Access.Datasources.DataSource.UID, UID_of_DataSource),
                                  dct.p_NID(TT.Access.DataType.UID, UID_of_DataType),
                                  // alle Schlüsselkomponenten als Key- Properties auflisten
-                                 dct.EmbedMembers(CompositeKeyParts?.Select(kp => dct.p(TT.Search.Key.UID, kp)).ToArray()),
+                                 dct.EmbedMethodParameters(CompositeKeyParts?.Select(kp => dct.p(TT.Search.Key.UID, kp)).ToArray()),
                                    dct.ret(
                                      dct.eWarn(
                                          dct.List(
@@ -415,7 +419,7 @@ namespace MKPRG.Tracing.DocuTerms
                                  dct.p_NID(TT.Access.Datasources.DataSource.UID, UID_of_DataSource),
                                  dct.p_NID(TT.Access.DataType.UID, UID_of_DataType),
                                  // alle Schlüsselkomponenten als Key- Properties auflisten
-                                 dct.EmbedMembers(CompositeKeyParts?.Select(kp => dct.p(TT.Search.Key.UID, kp)).ToArray()),
+                                 dct.EmbedMethodParameters(CompositeKeyParts?.Select(kp => dct.p(TT.Search.Key.UID, kp)).ToArray()),
                                    dct.ret(
                                      dct.eWarn(
                                          dct.List(
@@ -437,15 +441,15 @@ namespace MKPRG.Tracing.DocuTerms
         /// <param name="CompositeKeyParts"></param>
         /// <returns></returns>
         public static IInstance ReturnFetchWithWarnings(
-            this IComposer dct, 
-            IPropertyValue DataSource, 
-            IEventParameter Warnings, 
+            this IComposer dct,
+            IPropertyValue DataSource,
+            IEventParameter Warnings,
             params IPropertyValue[] CompositeKeyParts)
             => dct.i(TTD.StateDescription.FinStateDescr.UID,
                     dct.m(TT.Access.Fetch.UID,
                                 dct.p(TT.Access.Datasources.DataSource.UID, DataSource),
                                 // alle Schlüsselkomponenten als Key- Properties auflisten
-                                dct.EmbedMembers(CompositeKeyParts?.Select(kp => dct.p(TT.Search.Key.UID, kp)).ToArray()),
+                                dct.EmbedMethodParameters(CompositeKeyParts?.Select(kp => dct.p(TT.Search.Key.UID, kp)).ToArray()),
                                 dct.ret(dct.eWarn(Warnings))));
 
         //-------------------------------------------------------------------------------------------------------------------------
@@ -462,6 +466,10 @@ namespace MKPRG.Tracing.DocuTerms
         /// 
         /// mko, 4.12.2020
         /// Results.Select -: Results?.Select
+        /// 
+        /// mko, 10.9.2021
+        /// Eigenschaft Counter wird jetzt nicht mehr berechnet durch Results?.Count() ?? 0, sondern durch den Parameter countResults
+        /// direkt gesetzt.
         /// </summary>
         /// <param name="dct"></param>
         /// <param name="countResults"></param>
@@ -470,16 +478,16 @@ namespace MKPRG.Tracing.DocuTerms
         /// <returns></returns>
         public static IInstance CreateSearchResult(
             this IComposer dct,
-            long countResults, 
-            IEnumerable<IPropertyValue> Results, 
+            long countResults,
+            IEnumerable<IPropertyValue> Results,
             IPropertyValue details)
             => dct.i(TTD.MetaData.Result.UID,
                     dct.p_NID(TT.Grammar.Subject.UID, TT.Search.Search.UID),
-                    dct.p(TT.Metrology.Counter.UID, Results?.Count() ?? 0),
-                    dct.KillIf(details == null, () => dct.p(TTD.MetaData.Details.UID, details)),
-                    dct.IfElse(countResults == 0L,
+                    dct.p(TT.Metrology.Counter.UID, countResults),
+                    dct.KillInstanceMemberIf(details == null, () => dct.p(TTD.MetaData.Details.UID, details)),
+                    dct.IfElseInstMember(countResults == 0L,
                          () => dct.p_NID(TTD.MetaData.Val.UID, TT.Sets.EmptySet.UID),
-                         () => dct.EmbedMembers(Results?.Select(res => dct.p(TTD.MetaData.Val.UID, res)).ToArray())));
+                         () => dct.EmbedInstanceMembers(Results?.Select(res => dct.p(TTD.MetaData.Val.UID, res)).ToArray())));
 
         /// <summary>
         /// mko, 6.7.2020
@@ -490,7 +498,7 @@ namespace MKPRG.Tracing.DocuTerms
         public static IInstance SearchResult(this IComposer dct)
             => dct.i(TTD.MetaData.Result.UID,
                     dct.p_NID(TT.Grammar.Subject.UID, TT.Search.Search.UID),
-                    dct.p(TT.Metrology.Counter.UID, dct._()));
+                    dct.p(TT.Metrology.Counter.UID, dct._v()));
 
         /// <summary>
         /// mko, 6.7.2020
@@ -516,21 +524,21 @@ namespace MKPRG.Tracing.DocuTerms
         /// <param name="FilterTerms"></param>
         /// <returns></returns>
         public static IInstance ReturnSearchOk(
-            this IComposer dct, 
-            long countResults, 
-            IEnumerable<IPropertyValue> Results, 
-            IPropertyValue details, 
+            this IComposer dct,
+            long countResults,
+            IEnumerable<IPropertyValue> Results,
+            IPropertyValue details,
             params IPropertyValue[] FilterTerms)
             => dct.i(TTD.StateDescription.FinStateDescr.UID,
                     dct.m(TT.Search.Search.UID,
 
                             // alle angewendeten Filter als Filter- Properties auflisten
-                            dct.EmbedMembers(FilterTerms?.Select(flt => dct.p(TT.Search.Filter.UID, flt)).ToArray()),
+                            dct.EmbedMethodParameters(FilterTerms?.Select(flt => dct.p(TT.Search.Filter.UID, flt)).ToArray()),
 
                             // Dokumentation des leeren Menge als Ergebnis (Warnung)
                             dct.ret(
-                                dct.IfElse(countResults == 0,
-                                    () => (IReturnValue)dct.eWarn(dct.CreateSearchResult(0L, new IPropertyValue[] { }, details)),
+                                dct.IfElseRet(countResults == 0,
+                                    () => dct.eWarn(dct.CreateSearchResult(0L, new IPropertyValue[] { }, details)),
                                     () => dct.eSucceeded(dct.CreateSearchResult(countResults, Results, details))))));
 
         /// <summary>
@@ -561,12 +569,12 @@ namespace MKPRG.Tracing.DocuTerms
                             dct.p(TT.Access.Datasources.WellKnown.DataBaseTable.UID, TableName),
 
                             // alle angewendeten Filter als Filter- Properties auflisten
-                            dct.EmbedMembers(FilterTerms?.Select(flt => dct.p(TT.Search.Filter.UID, flt)).ToArray()),
+                            dct.EmbedMethodParameters(FilterTerms?.Select(flt => dct.p(TT.Search.Filter.UID, flt)).ToArray()),
 
                             // Dokumentation des leeren Menge als Ergebnis (Warnung)
                             dct.ret(
-                                dct.IfElse(countResults == 0,
-                                    () => (IReturnValue)dct.eWarn(dct.CreateSearchResult(0L, null, details)),
+                                dct.IfElseRet(countResults == 0,
+                                    () => dct.eWarn(dct.CreateSearchResult(0L, null, details)),
                                     () => dct.eSucceeded(dct.CreateSearchResult(countResults, Results, details))))));
 
 
@@ -584,16 +592,16 @@ namespace MKPRG.Tracing.DocuTerms
         /// <param name="FilterTerms"></param>
         /// <returns></returns>
         public static IInstance ReturnWarnEmptyResult(
-            this IComposer dct, 
-            string TableName, 
+            this IComposer dct,
+            string TableName,
             params IPropertyValue[] FilterTerms)
             => dct.i(TTD.StateDescription.FinStateDescr.UID,
                     dct.m(TT.Search.Search.UID,
 
-                            dct.KillIf(string.IsNullOrWhiteSpace(TableName), () => dct.p(TT.Access.Datasources.WellKnown.DataBaseTable.UID, TableName)),
+                            dct.KillMethodParamIf(string.IsNullOrWhiteSpace(TableName), () => dct.p(TT.Access.Datasources.WellKnown.DataBaseTable.UID, TableName)),
 
                             // alle angewendeten Filter als Filter- Properties auflisten
-                            dct.EmbedMembers(FilterTerms?.Select(flt => dct.p(TT.Search.Filter.UID, flt)).ToArray()),
+                            dct.EmbedMethodParameters(FilterTerms?.Select(flt => dct.p(TT.Search.Filter.UID, flt)).ToArray()),
 
                             // Dokumentation des leeren Menge als Ergebnis (Warnung)
                             dct.ret(dct.eWarn(dct.CreateSearchResult(0L, new IPropertyValue[] { }, null)))));
@@ -612,16 +620,16 @@ namespace MKPRG.Tracing.DocuTerms
         /// <param name="FilterTerms"></param>
         /// <returns></returns>
         public static IInstance ReturnFailEmptyResult(
-            this IComposer dct, 
-            string TableName, 
+            this IComposer dct,
+            string TableName,
             params IPropertyValue[] FilterTerms)
             => dct.i(TTD.StateDescription.FinStateDescr.UID,
                     dct.m(TT.Search.Search.UID,
 
-                            dct.KillIf(string.IsNullOrWhiteSpace(TableName), () => dct.p(TT.Access.Datasources.WellKnown.DataBaseTable.UID, TableName)),
+                            dct.KillMethodParamIf(string.IsNullOrWhiteSpace(TableName), () => dct.p(TT.Access.Datasources.WellKnown.DataBaseTable.UID, TableName)),
 
                             // alle angewendeten Filter als Filter- Properties auflisten
-                            dct.EmbedMembers(FilterTerms?.Select(flt => dct.p(TT.Search.Filter.UID, flt)).ToArray()),
+                            dct.EmbedMethodParameters(FilterTerms?.Select(flt => dct.p(TT.Search.Filter.UID, flt)).ToArray()),
 
                             // Dokumentation des leeren Menge als Ergebnis (Warnung)
                             dct.ret(dct.eFails(dct.CreateSearchResult(0L, null, null)))));
@@ -638,9 +646,9 @@ namespace MKPRG.Tracing.DocuTerms
         /// <param name="FilterTerms"></param>
         /// <returns></returns>
         public static IInstance ReturnSearchOk(
-            this IComposer dct, 
-            long countResults, 
-            IPropertyValue details, 
+            this IComposer dct,
+            long countResults,
+            IPropertyValue details,
             params IPropertyValue[] FilterTerms)
             => dct.ReturnSearchOk(countResults, null, details, FilterTerms);
 
@@ -652,8 +660,8 @@ namespace MKPRG.Tracing.DocuTerms
         /// <param name="FilterTerms"></param>
         /// <returns></returns>
         public static IInstance ReturnSearchOk(
-            this IComposer dct, 
-            IEnumerable<IPropertyValue> Results, 
+            this IComposer dct,
+            IEnumerable<IPropertyValue> Results,
             params IPropertyValue[] FilterTerms)
             => dct.ReturnSearchOk(Results.Count(), Results, null, FilterTerms);
 
@@ -665,7 +673,7 @@ namespace MKPRG.Tracing.DocuTerms
         /// <param name="dct"></param>
         /// <returns></returns>
         public static IInstance ReturnSearchWarnEmptyResult(
-            this IComposer dct, 
+            this IComposer dct,
             params IPropertyValue[] FilterTerms)
             => dct.ReturnWarnEmptyResult(null, FilterTerms);
 
@@ -678,8 +686,8 @@ namespace MKPRG.Tracing.DocuTerms
         /// <param name="FilterTerms"></param>
         /// <returns></returns>
         public static IInstance ReturnSearchWarnEmptyResult(
-            this IComposer dct, 
-            string TableName, 
+            this IComposer dct,
+            string TableName,
             params IPropertyValue[] FilterTerms)
             => dct.ReturnWarnEmptyResult(TableName, FilterTerms);
 
@@ -692,7 +700,7 @@ namespace MKPRG.Tracing.DocuTerms
         /// <param name="FilterTerms"></param>
         /// <returns></returns>
         public static IInstance ReturnSearchFailsEmptyResult(
-            this IComposer dct, 
+            this IComposer dct,
             params IPropertyValue[] FilterTerms)
             => dct.ReturnFailEmptyResult(null, FilterTerms);
 
@@ -704,8 +712,8 @@ namespace MKPRG.Tracing.DocuTerms
         /// <param name="FilterTerms"></param>
         /// <returns></returns>
         public static IInstance ReturnSearchFailsEmptyResult(
-            this IComposer dct, 
-            string TableName, 
+            this IComposer dct,
+            string TableName,
             params IPropertyValue[] FilterTerms)
             => dct.ReturnFailEmptyResult(TableName, FilterTerms);
 
@@ -718,23 +726,23 @@ namespace MKPRG.Tracing.DocuTerms
         /// <param name="FilterTerms"></param>
         /// <returns></returns>
         public static IInstance ReturnSearchFailsDueInconsistenciesResult(
-            this IComposer dct, 
-            string TableName, 
-            IPropertyValue descriptionOfInconsistencies, 
+            this IComposer dct,
+            string TableName,
+            IPropertyValue descriptionOfInconsistencies,
             params IPropertyValue[] FilterTerms)
             => dct.i(TTD.StateDescription.FinStateDescr.UID,
                     dct.m(TT.Search.Search.UID,
 
-                            dct.KillIf(string.IsNullOrWhiteSpace(TableName), () =>  dct.p(TT.Access.Datasources.WellKnown.DataBaseTable.UID, TableName)),
+                            dct.KillMethodParamIf(string.IsNullOrWhiteSpace(TableName), () => dct.p(TT.Access.Datasources.WellKnown.DataBaseTable.UID, TableName)),
 
                             // alle angewendeten Filter als Filter- Properties auflisten
-                            dct.EmbedMembers(FilterTerms?.Select(flt => dct.p(TT.Search.Filter.UID, flt)).ToArray()),
+                            dct.EmbedMethodParameters(FilterTerms?.Select(flt => dct.p(TT.Search.Filter.UID, flt)).ToArray()),
 
                             // Dokumentation des leeren Menge als Ergebnis
-                            dct.ret(dct.eFails(                                
+                            dct.ret(dct.eFails(
                                 dct.i(TTD.StateDescription.Details.UID,
                                     dct.p_NID(TTD.StateDescription.WhatsUp.UID, TT.Access.Datasources.DataInconsistency.UID),
-                                    dct.KillIf(descriptionOfInconsistencies == null, () =>  dct.p(TTD.StateDescription.Why.UID, descriptionOfInconsistencies)))))));
+                                    dct.KillInstanceMemberIf(descriptionOfInconsistencies == null, () => dct.p(TTD.StateDescription.Why.UID, descriptionOfInconsistencies)))))));
 
 
         /// <summary>
@@ -745,20 +753,20 @@ namespace MKPRG.Tracing.DocuTerms
         /// <param name="FilterTerms"></param>
         /// <returns></returns>
         public static IInstance ReturnSearchFailsDueInconsistenciesResult(
-            this IComposer dct,            
+            this IComposer dct,
             IPropertyValue descriptionOfInconsistencies,
             params IPropertyValue[] FilterTerms)
             => dct.i(TTD.StateDescription.FinStateDescr.UID,
-                    dct.m(TT.Search.Search.UID,                            
+                    dct.m(TT.Search.Search.UID,
 
                             // alle angewendeten Filter als Filter- Properties auflisten
-                            dct.EmbedMembers(FilterTerms?.Select(flt => dct.p(TT.Search.Filter.UID, flt)).ToArray()),
+                            dct.EmbedMethodParameters(FilterTerms?.Select(flt => dct.p(TT.Search.Filter.UID, flt)).ToArray()),
 
                             // Dokumentation der Aufgetretenen inkonsitenzen und Wertung als Fehler
                             dct.ret(dct.eFails(
                                 dct.i(TTD.StateDescription.Details.UID,
                                     dct.p_NID(TTD.StateDescription.WhatsUp.UID, TT.Access.Datasources.DataInconsistency.UID),
-                                    dct.KillIf(descriptionOfInconsistencies == null, () => dct.p(TTD.StateDescription.Why.UID, descriptionOfInconsistencies)))))));
+                                    dct.KillInstanceMemberIf(descriptionOfInconsistencies == null, () => dct.p(TTD.StateDescription.Why.UID, descriptionOfInconsistencies)))))));
 
 
         /// <summary>
@@ -781,13 +789,13 @@ namespace MKPRG.Tracing.DocuTerms
 
 
         public static IInstance ReturnSearchFails(
-            this IComposer dct, 
+            this IComposer dct,
             params IPropertyValue[] FilterTerms)
             => dct.i(TTD.StateDescription.FinStateDescr.UID,
                     dct.m(TT.Search.Search.UID,
 
                             // alle angewendeten Filter als Filter- Properties auflisten
-                            dct.EmbedMembers(FilterTerms?.Select(flt => dct.p(TT.Search.Filter.UID, flt)).ToArray()),
+                            dct.EmbedMethodParameters(FilterTerms?.Select(flt => dct.p(TT.Search.Filter.UID, flt)).ToArray()),
 
                             // Dokumentation des leeren Menge als Ergebnis
                             dct.ret(dct.eFails())));
@@ -803,7 +811,7 @@ namespace MKPRG.Tracing.DocuTerms
         /// <param name="reasons"></param>
         /// <returns></returns>
         public static IInstance ReturnSearchExecutionFails(
-            this IComposer dct, 
+            this IComposer dct,
             params IPropertyValue[] reasons)
             => dct.i(TTD.StateDescription.FinStateDescr.UID,
                     dct.m(TT.Search.Search.UID,
@@ -812,10 +820,10 @@ namespace MKPRG.Tracing.DocuTerms
                             dct.ret(dct.eFails(
                                 dct.i(TTD.MetaData.Details.UID,
 
-                                    dct.p_NID(TTD.StateDescription.CurrentState.UID, ANC.TechTerms.Runtime.Execute.UID),
+                                    dct.p_NID(TTD.StateDescription.CurrentState.UID, TT.Runtime.Execute.UID),
 
                                     // alle angewendeten Filter als Filter- Properties auflisten
-                                    dct.EmbedMembers(reasons?.Select(err => dct.p(TTD.MetaData.Error.UID, err)).ToArray()))))));
+                                    dct.EmbedInstanceMembers(reasons?.Select(err => dct.p(TTD.MetaData.Error.UID, err)).ToArray()))))));
 
         /// <summary>
         /// mko, 7.12.2020
@@ -825,14 +833,14 @@ namespace MKPRG.Tracing.DocuTerms
         /// <param name="FilterTerms"></param>
         /// <returns></returns>
         public static IInstance ReturnSearchExecutionFails(
-            this IComposer dct,            
+            this IComposer dct,
             IPropertyValue reason,
             params IPropertyValue[] FilterTerms)
             => dct.i(TTD.StateDescription.FinStateDescr.UID,
-                    dct.m(TT.Search.Search.UID,                            
+                    dct.m(TT.Search.Search.UID,
 
                             // alle angewendeten Filter als Filter- Properties auflisten
-                            dct.EmbedMembers(FilterTerms?.Select(flt => dct.p(TT.Search.Filter.UID, flt)).ToArray()),
+                            dct.EmbedMethodParameters(FilterTerms?.Select(flt => dct.p(TT.Search.Filter.UID, flt)).ToArray()),
 
                             // Dokumentation des leeren Menge als Ergebnis
                             dct.ret(dct.eFails(
@@ -840,7 +848,7 @@ namespace MKPRG.Tracing.DocuTerms
 
                                     dct.p_NID(TTD.StateDescription.CurrentState.UID, TT.Runtime.Execute.UID),
 
-                                    dct.KillIf(reason == null, () => dct.p(TTD.StateDescription.WhatsUp.UID, reason)))))));
+                                    dct.KillInstanceMemberIf(reason == null, () => dct.p(TTD.StateDescription.WhatsUp.UID, reason)))))));
 
 
 
@@ -857,17 +865,17 @@ namespace MKPRG.Tracing.DocuTerms
         /// <param name="FilterTerms"></param>
         /// <returns></returns>
         public static IInstance ReturnSearchExecutionFails(
-            this IComposer dct, 
-            string TableName, 
-            IPropertyValue reason, 
+            this IComposer dct,
+            string TableName,
+            IPropertyValue reason,
             params IPropertyValue[] FilterTerms)
             => dct.i(TTD.StateDescription.FinStateDescr.UID,
                     dct.m(TT.Search.Search.UID,
 
-                            dct.KillIf(string.IsNullOrWhiteSpace(TableName), () => dct.p(TT.Access.Datasources.WellKnown.DataBaseTable.UID, TableName)),
+                            dct.KillMethodParamIf(string.IsNullOrWhiteSpace(TableName), () => dct.p(TT.Access.Datasources.WellKnown.DataBaseTable.UID, TableName)),
 
                             // alle angewendeten Filter als Filter- Properties auflisten
-                            dct.EmbedMembers(FilterTerms?.Select(flt => dct.p(TT.Search.Filter.UID, flt)).ToArray()),
+                            dct.EmbedMethodParameters(FilterTerms?.Select(flt => dct.p(TT.Search.Filter.UID, flt)).ToArray()),
 
                             // Dokumentation des leeren Menge als Ergebnis
                             dct.ret(dct.eFails(
@@ -875,7 +883,7 @@ namespace MKPRG.Tracing.DocuTerms
 
                                     dct.p_NID(TTD.StateDescription.CurrentState.UID, TT.Runtime.Execute.UID),
 
-                                    dct.KillIf(reason == null, () => dct.p(TTD.StateDescription.WhatsUp.UID, reason)))))));
+                                    dct.KillInstanceMemberIf(reason == null, () => dct.p(TTD.StateDescription.WhatsUp.UID, reason)))))));
 
 
         //--------------------------------------------------------------------------------------------------------------------------
@@ -890,8 +898,8 @@ namespace MKPRG.Tracing.DocuTerms
         /// <param name="Range">Optional: Definition des Bereiches</param>
         /// <returns></returns>
         public static IInstance ReturnValidatePreconditionFailedArgumentOutOfRange(
-            this IComposer dct, 
-            IMethodParameter Argument, 
+            this IComposer dct,
+            IMethodParameter Argument,
             IPropertyValue Range = null)
             => dct.i(TTD.StateDescription.FinStateDescr.UID,
                     dct.m(TT.Validation.Validate.UID,
@@ -919,8 +927,8 @@ namespace MKPRG.Tracing.DocuTerms
         /// <param name="end"></param>
         /// <returns></returns>
         public static IInstance Range(
-            this IComposer dct, 
-            long begin, 
+            this IComposer dct,
+            long begin,
             long end)
             => dct.i(TT.Sets.Range.UID,
                     dct.p(TT.Sets.Begin.UID, begin),
@@ -935,8 +943,8 @@ namespace MKPRG.Tracing.DocuTerms
         /// <param name="end"></param>
         /// <returns></returns>
         public static IInstance Range(
-            this IComposer dct, 
-            int begin, 
+            this IComposer dct,
+            int begin,
             int end)
             => dct.i(TT.Sets.Range.UID,
                     dct.p(TT.Sets.Begin.UID, begin),
@@ -952,8 +960,8 @@ namespace MKPRG.Tracing.DocuTerms
         /// <param name="end"></param>
         /// <returns></returns>
         public static IInstance Range(
-            this IComposer dct, 
-            double begin, 
+            this IComposer dct,
+            double begin,
             double end)
             => dct.i(TT.Sets.Range.UID,
                     dct.p(TT.Sets.Begin.UID, begin),
@@ -977,12 +985,12 @@ namespace MKPRG.Tracing.DocuTerms
         /// <param name="PreconditionAsPredicate"></param>
         /// <returns></returns>
         public static IInstance ReturnValidatePreconditionFailed(
-            this IComposer dct, 
+            this IComposer dct,
             params IMethod[] PreconditionAsPredicate)
             => dct.i(TTD.StateDescription.FinStateDescr.UID,
                     dct.m(TT.Validation.Validate.UID,
 
-                            dct.EmbedMembers(PreconditionAsPredicate?.Select(p => dct.p(TT.Validation.PreCondition.UID, p)).ToArray()),
+                            dct.EmbedMethodParameters(PreconditionAsPredicate?.Select(p => dct.p(TT.Validation.PreCondition.UID, p)).ToArray()),
 
                             // Anzeige, das Validierung gescheitert ist
                             dct.ret(dct.eFails())));
@@ -1001,7 +1009,7 @@ namespace MKPRG.Tracing.DocuTerms
             => dct.i(TTD.StateDescription.FinStateDescr.UID,
                     dct.m(TT.Validation.Validate.UID,
 
-                            dct.EmbedMembers(PreconditionAsPredicate?.Select(p => dct.p(TT.Validation.PreCondition.UID, p)).ToArray()),
+                            dct.EmbedMethodParameters(PreconditionAsPredicate?.Select(p => dct.p(TT.Validation.PreCondition.UID, p)).ToArray()),
 
                             // Anzeige, das Validierung gescheitert ist
                             dct.ret(dct.eFails(
@@ -1012,11 +1020,11 @@ namespace MKPRG.Tracing.DocuTerms
 
 
         public static IInstance ReturnValidatePreconditionNotNullFailed(
-            this IComposer dct, 
+            this IComposer dct,
             IMethodParameter PropertyArgToBeNotNull)
             => dct.ReturnValidatePreconditionFailed(
                     dct.m(TT.Operators.Sets.NotIsNullValue.UID,
-                        dct.EmbedMembers(PropertyArgToBeNotNull),
+                        dct.EmbedMethodParameters(PropertyArgToBeNotNull),
                         dct.ret(false)));
 
         //-----------------------------------------------------------------------------------------------
@@ -1040,8 +1048,11 @@ namespace MKPRG.Tracing.DocuTerms
             IEventParameter ErrorDescription = null)
             => pnL.i(TTD.StateDescription.FinStateDescr.UID,
                 pnL.m(TT.Authentication.Login.UID,
-                        pnL.KillIf(UserId == null, () => pnL.p(TT.Authentication.UserId.UID, UserId)),
-                        pnL.KillIf(LoginStep == null, () => pnL.p(TTD.StateDescription.CurrentState.UID, LoginStep)),
+                        // Wegen Nullfestigkeit der DT die KillMethodParamIf- Terme entfernt
+                        //pnL.KillMethodParamIf(UserId == null, () => pnL.p(TT.Authentication.UserId.UID, UserId)),
+                        //pnL.KillMethodParamIf(LoginStep == null, () => pnL.p(TTD.StateDescription.CurrentState.UID, LoginStep)),
+                        pnL.p(TT.Authentication.UserId.UID, UserId),
+                        pnL.p(TTD.StateDescription.CurrentState.UID, LoginStep),
                         pnL.ret(pnL.eFails(ErrorDescription))));
 
         /// <summary>
@@ -1084,7 +1095,6 @@ namespace MKPRG.Tracing.DocuTerms
                 pnL.NID(UID_LoginStep),
                 ErrorDescription);
 
-
         //-----------------------------------------------------------------------------------------------
         // Authorisierung
 
@@ -1094,7 +1104,7 @@ namespace MKPRG.Tracing.DocuTerms
         /// </summary>
         /// <param name="pnL"></param>
         /// <returns></returns>
-        public static IInstance ReturnFetchAccessDenied(this IComposer pnL)        
+        public static IInstance ReturnFetchAccessDenied(this IComposer pnL)
             => pnL.i(TTD.StateDescription.FinStateDescr.UID,
                     pnL.m(TT.Access.Fetch.UID,
                             pnL.ret(
@@ -1124,13 +1134,14 @@ namespace MKPRG.Tracing.DocuTerms
         /// <param name="Reason"></param>
         /// <returns></returns>
         public static IInstance ReturnFetchAccessDenied(this IComposer pnL, long DataSourceNid, IPropertyValue Reason)
-            => pnL.i(TTD.StateDescription.FinStateDescr.UID,            
+            => pnL.i(TTD.StateDescription.FinStateDescr.UID,
                     pnL.m(TT.Access.Fetch.UID,
                         pnL.p_NID(TT.Access.Datasources.DataSource.UID, DataSourceNid),
                         pnL.ret(
-                            pnL.eFails(pnL.i(TTD.MetaData.Details.UID,
-                                pnL.p_NID(TTD.StateDescription.WhatsUp.UID, TT.Authorization.AccessDenied.UID),
-                                pnL.KillIf(Reason == null, () => pnL.p(TTD.StateDescription.Why.UID, Reason)))))));
+                            pnL.eFails(
+                                pnL.i(TTD.MetaData.Details.UID,
+                                    pnL.p_NID(TTD.StateDescription.WhatsUp.UID, TT.Authorization.AccessDenied.UID),
+                                    pnL.KillInstanceMemberIf(Reason == null, () => pnL.p(TTD.StateDescription.Why.UID, Reason)))))));
 
         /// <summary>
         /// mko, 18.12.2020
@@ -1145,9 +1156,10 @@ namespace MKPRG.Tracing.DocuTerms
                     pnL.m(TT.Access.Fetch.UID,
                         pnL.p(TT.Access.Datasources.DataSource.UID, DataSource),
                         pnL.ret(
-                            pnL.eFails(pnL.i(TTD.MetaData.Details.UID,
-                                pnL.p_NID(TTD.StateDescription.WhatsUp.UID, TT.Authorization.AccessDenied.UID),
-                                pnL.KillIf(Reason == null, () => pnL.p(TTD.StateDescription.Why.UID, Reason)))))));
+                            pnL.eFails(
+                                pnL.i(TTD.MetaData.Details.UID,
+                                    pnL.p_NID(TTD.StateDescription.WhatsUp.UID, TT.Authorization.AccessDenied.UID),
+                                    pnL.KillInstanceMemberIf(Reason == null, () => pnL.p(TTD.StateDescription.Why.UID, Reason)))))));
 
         /// <summary>
         /// mko, 18.12.2020
@@ -1161,9 +1173,10 @@ namespace MKPRG.Tracing.DocuTerms
                     pnL.m(TT.Access.Fetch.UID,
                         pnL.p(TT.Access.Datasources.DataSource.UID, DataSource),
                         pnL.ret(
-                            pnL.eFails(pnL.i(TTD.MetaData.Details.UID,
-                                pnL.p_NID(TTD.StateDescription.WhatsUp.UID, TT.Authorization.AccessDenied.UID),
-                                pnL.KillIf(Reason == null, () => pnL.p(TTD.StateDescription.Why.UID, Reason)))))));
+                            pnL.eFails(
+                                pnL.i(TTD.MetaData.Details.UID,
+                                    pnL.p_NID(TTD.StateDescription.WhatsUp.UID, TT.Authorization.AccessDenied.UID),
+                                    pnL.KillInstanceMemberIf(Reason == null, () => pnL.p(TTD.StateDescription.Why.UID, Reason)))))));
 
         /// <summary>
         /// mko, 18.12.2020
@@ -1173,11 +1186,12 @@ namespace MKPRG.Tracing.DocuTerms
         /// <returns></returns>
         public static IInstance ReturnFetchAccessDenied(this IComposer pnL, IPropertyValue Reason)
             => pnL.i(TTD.StateDescription.FinStateDescr.UID,
-                    pnL.m(TT.Access.Fetch.UID,                            
+                    pnL.m(TT.Access.Fetch.UID,
                         pnL.ret(
-                            pnL.eFails(pnL.i(TTD.MetaData.Details.UID,
+                            pnL.eFails(
+                                pnL.i(TTD.MetaData.Details.UID,
                                     pnL.p_NID(TTD.StateDescription.WhatsUp.UID, TT.Authorization.AccessDenied.UID),
-                                    pnL.KillIf(Reason == null, () => pnL.p(TTD.StateDescription.Why.UID, Reason)))))));
+                                    pnL.KillInstanceMemberIf(Reason == null, () => pnL.p(TTD.StateDescription.Why.UID, Reason)))))));
 
         /// <summary>
         /// mko, 18.12.2020
@@ -1217,9 +1231,10 @@ namespace MKPRG.Tracing.DocuTerms
             => pnL.i(TTD.StateDescription.FinStateDescr.UID,
                 pnL.m(TT.Access.Write.UID,
                     pnL.ret(
-                        pnL.eFails(pnL.i(TTD.MetaData.Details.UID,
+                        pnL.eFails(
+                            pnL.i(TTD.MetaData.Details.UID,
                                 pnL.p_NID(TTD.StateDescription.WhatsUp.UID, TT.Authorization.AccessDenied.UID),
-                                pnL.KillIf(Reason == null, () => pnL.p(TTD.StateDescription.Why.UID, Reason)))))));
+                                pnL.KillInstanceMemberIf(Reason == null, () => pnL.p(TTD.StateDescription.Why.UID, Reason)))))));
 
 
         /// <summary>
@@ -1235,9 +1250,10 @@ namespace MKPRG.Tracing.DocuTerms
                     pnL.m(TT.Access.Write.UID,
                         pnL.p_NID(TT.Access.Datasources.DataSource.UID, DataSourceNid),
                         pnL.ret(
-                            pnL.eFails(pnL.i(TTD.MetaData.Details.UID,
-                                pnL.p_NID(TTD.StateDescription.WhatsUp.UID, TT.Authorization.AccessDenied.UID),
-                                pnL.KillIf(Reason == null, () => pnL.p(TTD.StateDescription.Why.UID, Reason)))))));
+                            pnL.eFails(
+                                pnL.i(TTD.MetaData.Details.UID,
+                                    pnL.p_NID(TTD.StateDescription.WhatsUp.UID, TT.Authorization.AccessDenied.UID),
+                                    pnL.KillInstanceMemberIf(Reason == null, () => pnL.p(TTD.StateDescription.Why.UID, Reason)))))));
 
         /// <summary>
         /// mko, 18.12.2020
@@ -1252,9 +1268,10 @@ namespace MKPRG.Tracing.DocuTerms
                     pnL.m(TT.Access.Write.UID,
                         pnL.p(TT.Access.Datasources.DataSource.UID, DataSource),
                         pnL.ret(
-                            pnL.eFails(pnL.i(TTD.MetaData.Details.UID,
-                                pnL.p_NID(TTD.StateDescription.WhatsUp.UID, TT.Authorization.AccessDenied.UID),
-                                pnL.KillIf(Reason == null, () => pnL.p(TTD.StateDescription.Why.UID, Reason)))))));
+                            pnL.eFails(
+                                pnL.i(TTD.MetaData.Details.UID,
+                                    pnL.p_NID(TTD.StateDescription.WhatsUp.UID, TT.Authorization.AccessDenied.UID),
+                                    pnL.KillInstanceMemberIf(Reason == null, () => pnL.p(TTD.StateDescription.Why.UID, Reason)))))));
 
         /// <summary>
         /// mko, 18.12.2020
@@ -1268,9 +1285,11 @@ namespace MKPRG.Tracing.DocuTerms
                     pnL.m(TT.Access.Write.UID,
                         pnL.p(TT.Access.Datasources.DataSource.UID, DataSource),
                         pnL.ret(
-                            pnL.eFails(pnL.i(TTD.MetaData.Details.UID,
-                                pnL.p_NID(TTD.StateDescription.WhatsUp.UID, TT.Authorization.AccessDenied.UID),
-                                pnL.KillIf(Reason == null, () => pnL.p(TTD.StateDescription.Why.UID, Reason)))))));
+                            pnL.eFails(
+                                pnL.i(
+                                    TTD.MetaData.Details.UID,
+                                        pnL.p_NID(TTD.StateDescription.WhatsUp.UID, TT.Authorization.AccessDenied.UID),
+                                        pnL.KillInstanceMemberIf(Reason == null, () => pnL.p(TTD.StateDescription.Why.UID, Reason)))))));
 
 
         //-----------------------------------------------------------------------------------------------

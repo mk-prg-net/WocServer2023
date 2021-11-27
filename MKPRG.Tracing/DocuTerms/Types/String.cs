@@ -13,57 +13,36 @@ namespace MKPRG.Tracing.DocuTerms
     /// mko, 18.12.2018
     /// Decodiert automatisch Zeichenumschreibungen in Strings
     /// </summary>
-    public class String 
-        : IDocuEntity,
-        IPropertyValue
-        //IEventParameter,
-        //IReturnValue
+    public class String
+    : DocuEntity,
+    IString
     {
         /// <summary>
         /// mko, 4.11.2020
         /// Hinzugefügt, um in anderen Funktionen wie txt die Fälle value==null effizient behandeln zu können.
         /// </summary>
         public String()
+            : base(DocuEntityTypes.String)
         {
-            Value = "";
+            ValueAsString = "";
         }
 
         public String(string value)
+            : base(DocuEntityTypes.String)
         {
             // mko, 18.12.2018
             // Zeichenumschreibungen werden automatisch dekodiert
             // mko, 4.12.2020
             // Fall value == null behandelt.
             if (value != null)
-                this.Value = UrlSaveStringEncoder.RPNUrlSaveStringDecodeIf(value, true);
-            else
-                this.Value = "";
+                ValueAsString = UrlSaveStringEncoder.RPNUrlSaveStringDecodeIf(value, true);
         }
 
-        public DocuEntityTypes EntityType => DocuEntityTypes.String;
+        public string ValueAsString { get; } = "";
 
-        public string Value { get; }
+        //public static String NameIsNull = new String(RCV3.NC[TTD.Composer.Errors.NameIsNull.UID].CNT);
+        public static String NameIsNull = new String("Name is null");
 
-        public int CountOfEvaluatedTokens => 1;
-
-        public IEnumerable<IDocuEntity> Childs => new IDocuEntity[]{};
-
-        public bool IsFunctionName => true;
-
-        public bool IsInteger => false;
-
-        public bool IsBoolean => false;
-
-        public bool IsNummeric => false;
-
-        public IToken Copy()
-        {
-            return new String(Value);
-        }
-
-        public override string ToString()
-        {
-            return Value;
-        }
     }
+
 }

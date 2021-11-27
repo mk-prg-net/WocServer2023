@@ -58,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ArgumentExceptionWithDocuTermDescription.cs" />
+    <Compile Include="DocuTerms\Composer\Composer.SubTrees.Sentences.cs" />
     <Compile Include="DocuTerms\Formater\IFormater.cs" />
     <Compile Include="DocuTerms\Formater\IndentedTextFormatter.cs" />
     <Compile Include="DocuTerms\Formater\PNFormater.cs" />
@@ -106,7 +107,17 @@
     <Compile Include="DocuTerms\Interfaces\ITxt.cs" />
     <Compile Include="DocuTerms\Interfaces\IVer.cs" />
     <Compile Include="DocuTerms\Interfaces\IWildCard.cs" />
-    <Compile Include="DocuTerms\Types\NN.cs" />
+    <Compile Include="DocuTerms\Types\EventWithNameAsNID.cs" />
+    <Compile Include="DocuTerms\Types\EventWithNameAsString.cs" />
+    <Compile Include="DocuTerms\Types\InstanceMembersToEmbedClass.cs" />
+    <Compile Include="DocuTerms\Types\InstanceWithNameAsNID.cs" />
+    <Compile Include="DocuTerms\Types\InstanceWithNameAsString.cs" />
+    <Compile Include="DocuTerms\Types\KillListMembersIfNot.cs" />
+    <Compile Include="DocuTerms\Types\MethodParametersToEmbedClass.cs" />
+    <Compile Include="DocuTerms\Types\MethodWithNameAsNID.cs" />
+    <Compile Include="DocuTerms\Types\MethodWithNameAsString.cs" />
+    <Compile Include="DocuTerms\Types\PropertyWithNameAsNID.cs" />
+    <Compile Include="DocuTerms\Types\PropertyWithNameAsString.cs" />
     <Compile Include="ExceptionWithDocuTermDescription.cs" />
     <Compile Include="IExceptionWithDocuTermDescription.cs" />
     <Compile Include="IndexOutOfRangeExceptionWithDocuTermDescription.cs" />
@@ -115,18 +126,14 @@
     <Compile Include="IValue.cs" />
     <Compile Include="DocuTerms\Composer\Composer.cs" />
     <Compile Include="DocuTerms\Composer\Composer.SubTrees.cs" />
-    <Compile Include="DocuTerms\Composer\Composer.TechTerms.cs" />
     <Compile Include="DocuTerms\Composer\IComposer.cs" />
     <Compile Include="DocuTerms\Composer\IXTabGenerator.cs" />
     <Compile Include="DocuTerms\Composer\XTabGenerator.cs" />
     <Compile Include="DocuTerms\Composer\XTabGeneratorCols.cs" />
     <Compile Include="DocuTerms\Composer\XTabGeneratorRows.cs" />
-    <Compile Include="DocuTerms\DocuEntity.cs" />
+    <Compile Include="DocuTerms\Types\DocuEntity.cs" />
     <Compile Include="DocuTerms\DocuEntityHlp.cs" />
     <Compile Include="DocuTerms\Interfaces\IDocuEntity.cs" />
-    <Compile Include="DocuTerms\Linq\DocuEntityAsPropertyLinqDeco.cs" />
-    <Compile Include="DocuTerms\Linq\DocuEntityLinqDeco.cs" />
-    <Compile Include="DocuTerms\Linq\DocuEntityWithNameLinqDeco.cs" />
     <Compile Include="DocuTerms\PatternMatching\DocuEntityHlp.PatternMatching.cs" />
     <Compile Include="DocuTerms\Types\Boolean.cs" />
     <Compile Include="DocuTerms\Types\Double.cs" />

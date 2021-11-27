@@ -6,18 +6,25 @@ using System.Threading.Tasks;
 
 namespace MKPRG.Tracing.DocuTerms
 {
+    /// <summary>
+    /// mko, 27.11.2021
+    /// </summary>
     public class DTDate
         : DocuEntity,
         IDate
     {
-        public DTDate(IFormater fmt, Integer Year, Integer month, Integer day)
-            : base(fmt, DocuEntityTypes.Date, Year, month, day)
-        { }
+        public DTDate(int Year, int Month, int Day)
+            : base(DocuEntityTypes.Date)
+        {
+            this.Year = Year;
+            this.Month = Month;
+            this.Day = Day;
+        }
 
-        public int Year => ((Integer)Childs.First()).ValueAsInteger;
+        public int Year { get; } = 1900;
 
-        public int Month => ((Integer)Childs.Skip(1).First()).ValueAsInteger;
+        public int Month { get; } = 1;
 
-        public int Day => ((Integer)Childs.Skip(2).First()).ValueAsInteger;
+        public int Day { get; } = 1;
     }
 }

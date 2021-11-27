@@ -13,12 +13,20 @@ namespace MKPRG.Tracing.DocuTerms
         : DocuEntity,
         IVer
     {
-        public Ver(IFormater fmt, String verString)
-            : base(fmt, DocuEntityTypes.Version, verString)
+        public Ver(IString verString)
+            : base(DocuEntityTypes.Version)
         {
-
+            if (verString != null)
+                VersionString = verString.ValueAsString;
         }
 
-        public string VersionString => ((String)Childs.First()).Value;
+        public Ver(string verString)
+            : base(DocuEntityTypes.Version)
+        {
+            if (verString != null)
+                VersionString = verString;
+        }
+
+        public string VersionString { get; } = "0.0.0";
     }
 }

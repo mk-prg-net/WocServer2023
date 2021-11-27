@@ -16,39 +16,22 @@ namespace MKPRG.Tracing.DocuTerms
     /// 
     /// mko, 4.12.2020
     /// Behandlung von null- Werten im Fall, ToEmbed ist null
-    /// </summary>
-    public class ListToEmbed 
-        : IListToEmbed
+    /// </summary>    
+    public class ListMembersToEmbedClass 
+        : DocuEntity,
+        IListMembersToEmbed
     {
 
-        public ListToEmbed(IEnumerable<IListMember> ToEmbed)
-        {
-            // mko, 4.12.2020
-            // Behandlung von null- Wert
-            Childs =  ToEmbed != null ? ToEmbed : new IListMember[] { };
-        }
-
-        public DocuEntityTypes EntityType => DocuEntityTypes.ListToEmbed;
-
-        public IEnumerable<IListMember> ToEmbed => Childs.Select(r => (IListMember)r);
-
-        public IEnumerable<IDocuEntity> Childs { get; }
-
-        public bool IsFunctionName => throw new NotImplementedException();
-
-        public bool IsInteger => throw new NotImplementedException();
-
-        public bool IsBoolean => throw new NotImplementedException();
-
-        public bool IsNummeric => throw new NotImplementedException();
-
-        public string Value => throw new NotImplementedException();
-
-        public int CountOfEvaluatedTokens => throw new NotImplementedException();
-
-        public IToken Copy()
-        {
-            throw new NotImplementedException();
-        }
+        public ListMembersToEmbedClass(IEnumerable<IListMember> ToEmbed)
+            : base(DocuEntityTypes.KillIfNot)
+    {
+        // mko, 4.12.2020
+        // Behandlung von null- Wert
+        if (ToEmbed != null)
+            ListMembersToEmbed = ToEmbed;
     }
+
+    public IEnumerable<IListMember> ListMembersToEmbed { get; } = new IListMember[] { };
+}
+
 }

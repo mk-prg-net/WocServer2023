@@ -5,47 +5,35 @@ using System.Text;
 using System.Threading.Tasks;
 using mko.RPN;
 
+using TTD = MKPRG.Naming.DocuTerms;
+
 namespace MKPRG.Tracing.DocuTerms
 {
     /// <summary>
-    /// mko, 18.6.2020
+    /// mko, 27.11.2021
     /// </summary>
+    /// 
     public class KillMethodParameterIfNot
-        : IKillMethodPrarmeterIfNot
+    : DocuEntity,
+    IKillMethodPrarmeterIfNot
     {
         public KillMethodParameterIfNot(bool Condition, Func<IMethodParameter> createMethodParameter)
+            : base(DocuEntityTypes.KillIfNot)
         {
             this.Condition = Condition;
-            _createMethodParameter = createMethodParameter;
+
+            if (createMethodParameter != null)
+                _createMethodParameter = createMethodParameter;
         }
 
-        Func<IMethodParameter> _createMethodParameter;
+        public static InstanceWithNameAsNID _defaultValue = new InstanceWithNameAsNID(new NID(TTD.Composer.Errors.KillIfNotParamIsNull.UID));
 
-        public IMethodParameter MethodParameters => _createMethodParameter();
+        Func<IMethodParameter> _createMethodParameter = new Func<IMethodParameter>(() => _defaultValue);
+
+        public IMethodParameter MethodParameter => _createMethodParameter();
 
         public bool Condition { get; }
 
-        public IListMember DocuEntity => _createMethodParameter();
-
-        public DocuEntityTypes EntityType => DocuEntityTypes.KillIfNot;
-
-        public IEnumerable<IDocuEntity> Childs => throw new NotImplementedException();
-
-        public bool IsFunctionName => throw new NotImplementedException();
-
-        public bool IsInteger => throw new NotImplementedException();
-
-        public bool IsBoolean => throw new NotImplementedException();
-
-        public bool IsNummeric => throw new NotImplementedException();
-
-        public string Value => throw new NotImplementedException();
-
-        public int CountOfEvaluatedTokens => throw new NotImplementedException();
-
-        public IToken Copy()
-        {
-            throw new NotImplementedException();
-        }
     }
+
 }
