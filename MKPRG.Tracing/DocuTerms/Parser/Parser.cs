@@ -5,10 +5,15 @@ using System.Text;
 using System.Threading.Tasks;
 
 using mko.RPN;
-
 using ANC = MKPRG.Naming;
+using TT = MKPRG.Naming.TechTerms;
+using TTD = MKPRG.Naming.DocuTerms;
 
-namespace MKPRG.Tracing.DocuTerms.Parser.Parser
+using PN = MKPRG.Tracing.DocuTerms.Parser;
+using DT = MKPRG.Tracing.DocuTerms;
+using static MKPRG.Tracing.DocuTerms.ComposerSubTrees;
+
+namespace MKPRG.Tracing.DocuTerms.Parser
 {
     /// <summary>
     /// mko, 27.3.2018
@@ -18,7 +23,7 @@ namespace MKPRG.Tracing.DocuTerms.Parser.Parser
         /// <summary>
         /// mko, 16.4.2018
         /// </summary>
-        //public static PNDocuTerms.DocuTerms.Composer Composer = new DocuTerms.Composer();        
+        //public static PNDocuTerms.DocuEntities.Composer Composer = new DocuEntities.Composer();        
 
         /// <summary>
         /// mko, 27.3.2018
@@ -34,19 +39,19 @@ namespace MKPRG.Tracing.DocuTerms.Parser.Parser
             RC<IDocuEntity> rc = null;
             IDocuEntity NullEntity = null;
 
-            var pnL = new DocuTerms.Composer();
+            var pnL = new Composer();
 
-            var ncTools = new MKPRG.Naming.Tools();
-            var getNC = ncTools.GetNamingConcurrentDictOf("MKPRG.Naming", pnL);
+            var ncTools = new ANC.Tools();
+            var getNC = ncTools.GetNamingConcurrentDictOf("ATMO.DFC.Naming", pnL);
 
             if (!getNC.Succeeded)
             {
-                rc = RC<IDocuEntity>.Failed(getNC.Message);
+                rc = RC<DT.IDocuEntity>.Failed(getNC.Message);
             }
             else
             {
 
-                var fmt = new DocuTerms.PNFormater(fn, getNC.Value);
+                var fmt = new DT.PNFormater(fn, getNC.Value);
                 var evalTab = new FunctionEvaluatorTable(new FunctionEvalMapperFunctor(fn, pnL));
                 var _parser = new ParserV2(evalTab.FuncEvaluators);
 
@@ -56,9 +61,9 @@ namespace MKPRG.Tracing.DocuTerms.Parser.Parser
                 {
                     var rcp = _parser.Parse(rcT.Value);
 
-                    IDocuEntity val = rcp.Value.Stack.Peek() is IDocuEntity
+                    DT.IDocuEntity val = rcp.Value.Stack.Count > 0 && rcp.Value.Stack.Peek() is IDocuEntity
                                                                     ? (IDocuEntity)rcp.Value.Stack.Peek()
-                                                                    : pnL.txt(rcp.Value.Stack.Peek().ToString());
+                                                                    : rcp.Value.Stack.Count > 0 ? pnL.txt(rcp.Value.Stack.Peek().ToString()) : pnL.txt("No Result, Parser Stack is empty");
 
                     if (rcp.Succeeded && rcp.Value.Stack.Count == 1)
                     {
@@ -66,12 +71,12 @@ namespace MKPRG.Tracing.DocuTerms.Parser.Parser
                     }
                     else
                     {
-                        rc = RC<IDocuEntity>.Failed(NullEntity, ErrorDescription: pnL.eFails("Parse failed"));
+                        rc = RC<IDocuEntity>.Failed(NullEntity, ErrorDescription: "Parse failed", inner: new RC<IToken>(rcp));
                     }
                 }
                 else
                 {
-                    rc = RC<IDocuEntity>.Failed(NullEntity, ErrorDescription: pnL.eFails("Tokenizer failed"));
+                    rc = RC<IDocuEntity>.Failed(NullEntity, ErrorDescription: pnL.txt("Tokenizer failed"));
                 }
             }
 
@@ -87,12 +92,12 @@ namespace MKPRG.Tracing.DocuTerms.Parser.Parser
         /// <param name="fn"></param>
         /// <param name="pnL"></param>
         /// <returns></returns>
-        public static RC<IDocuEntity> Parse18_11(string pn, IFn fn, DocuTerms.IComposer pnL, bool doRPNUrlDecode = true)
+        public static RC<IDocuEntity> Parse18_11(string pn, IFn fn, DT.IComposer pnL, bool doRPNUrlDecode = true)
         {
             RC<IDocuEntity> rc = null;
             IDocuEntity NullEntity = null;
 
-            var fmt = new DocuTerms.PNFormater(fn, new ANC.Tools().GetNamingContainerAsConcurrentDict("MKPRG.Naming"), ANC.Language.CNT);
+            var fmt = new PNFormater(fn, RC.NC, ANC.Language.CNT);
 
             try
             {
@@ -107,7 +112,7 @@ namespace MKPRG.Tracing.DocuTerms.Parser.Parser
                 {
                     var rcp = _parser.Parse(rcT.Value);
 
-                    IDocuEntity val = rcp.Value.Stack.Peek() is IDocuEntity
+                    DT.IDocuEntity val = rcp.Value.Stack.Peek() is IDocuEntity
                                                                     ? (IDocuEntity)rcp.Value.Stack.Peek()
                                                                     : pnL.txt(rcp.Value.Stack.Peek().ToString());
 
@@ -117,12 +122,12 @@ namespace MKPRG.Tracing.DocuTerms.Parser.Parser
                     }
                     else
                     {
-                        rc = RC<IDocuEntity>.Failed(NullEntity, ErrorDescription: pnL.m("Parse", pnL.ret(pnL.eFails())));
+                        rc = RC<IDocuEntity>.Failed(NullEntity, ErrorDescription: pnL.m("Parse", pnL.ret(pnL.eFails())), inner: RC.TranformToRCV3(rcp));
                     }
                 }
                 else
                 {
-                    rc = RC<IDocuEntity>.Failed(NullEntity, ErrorDescription: pnL.i("Tokenizer", pnL.m("Tokenize", pnL.ret(pnL.eFails()))));
+                    rc = RC<IDocuEntity>.Failed(NullEntity, ErrorDescription: pnL.i("Tokenizer", pnL.m("Tokenize", pnL.ret(pnL.eFails()))), inner: RC.TranformToRCV3(rcT));
                 }
             }
             catch (Exception ex)
@@ -186,69 +191,111 @@ namespace MKPRG.Tracing.DocuTerms.Parser.Parser
         /// mko, 8.6.2020
         /// Diese Reimplementierung basiert auf den neuen mko.RPN.ParserV3. Für boolsche Werte, Zahlen und Datumswerte werden 
         /// jetzt streng typisierte Dokuterme erzeugt. Zudem werden Naming- Ids erkannt.
+        /// 
+        /// mko, 9.8.2021
+        /// Eingabe pn auf null und leer hin geprüft, und Fehler behandelt.
+        /// Auswertung des Parser- Ergebnisses jetzt genauer: Leere Stacks werden jetzt explizit erkannt, und eine Fehlermeldung 
+        /// zurückgegeben.
         /// </summary>
         /// <param name="pn"></param>
         /// <param name="fn"></param>
         /// <param name="pnL"></param>
         /// <param name="doRPNUrlDecode"></param>
         /// <returns></returns>
-        public static RC<IDocuEntity> Parse20_06(
-            string pn, 
-            IFn fn, 
-            DocuTerms.IComposer pnL,
-            //DocuTerms.IFormater fmt,
+        public static RCV3sV<DT.IDocuEntity> Parse20_06(
+            string pn,
+            IFn fn,
+            DT.IComposer pnL,
+            //DocuEntities.IFormater fmt,
             bool doRPNUrlDecode = true)
         {
-            RC<IDocuEntity> rc = null;
-            DocuTerms.IDocuEntity NullEntity = null;
+            RCV3sV<DT.IDocuEntity> rc = null;
+            DT.IDocuEntity NullEntity = null;
 
             try
             {
-                var evalTab = new FunctionEvaluatorTable(new FunctionEvalMapperFunctor(fn, pnL));
-                var parser = new ParserV3(evalTab.FuncEvaluators);
-
-                // mko, 19.11.2020
-                // Entfernen von HTML kodierten Leerzeichen
-                if (doRPNUrlDecode)
+                if (!string.IsNullOrWhiteSpace(pn))
                 {
-                    pn = pn.Replace("%20", " ");
-                }
 
-                pn = NormalizePN(pn, fn);
+                    var evalTab = new FunctionEvaluatorTable(new FunctionEvalMapperFunctor(fn, pnL));
+                    var parser = new ParserV3(evalTab.FuncEvaluators);
 
-                var getParsed = parser.Parse(pn, false, doRPNUrlDecode);
+                    // mko, 19.11.2020
+                    // Entfernen von HTML kodierten Leerzeichen
+                    if (doRPNUrlDecode)
+                    {
+                        pn = pn.Replace("%20", " ");
+                    }
 
-                if (!getParsed.Succeeded || getParsed.Value.Stack.Count != 1)
-                {
-                    rc = RC<IDocuEntity>.Failed(NullEntity,
-                        ErrorDescription: 
-                        pnL.i(ANC.DocuTerms.StateDescription.FinStateDescr.UID, 
-                            pnL.m(ANC.TechTerms.Parser.Parse.UID,
-                                pnL.ret(pnL.eFails(
-                                        pnL.i(ANC.TechTerms.Parser.SyntaxError.UID,
-                                            pnL.KillIf(getParsed.Value.LastParserException == null || !(getParsed.Value.LastParserException is IExceptionWithDocuTermDescription), () => pnL.p(ANC.DocuTerms.StateDescription.WhatsUp.UID, getParsed.Message)),
-                                            pnL.KillIf(getParsed.Value.LastParserException != null && getParsed.Value.LastParserException is IExceptionWithDocuTermDescription, () => pnL.p(ANC.DocuTerms.StateDescription.WhatsUp.UID, pnL.EncapsulateAsPropertyValue(((IExceptionWithDocuTermDescription)getParsed.Value.LastParserException)?.MessageAsDocuTerm))),                                            
-                                            pnL.KillIf(getParsed.Value.ResultOfTokenizer.Succeeded, 
-                                                () => pnL.p(ANC.DocuTerms.StateDescription.Why.UID,
-                                                        pnL.i(ANC.TechTerms.Parser.Tokenizer.UID,                                                            
-                                                            pnL.p("IxLastProcessedToken", getParsed.Value.IndexOfLastProcessedToken),
-                                                            pnL.m(ANC.TechTerms.Parser.Tokenize.UID,
-                                                                pnL.eFails(getParsed.Value.ResultOfTokenizer.Message)))))))))));
+                    pn = NormalizePN(pn, fn);
+
+                    var getParsed = parser.Parse(pn, false, doRPNUrlDecode);
+
+                    if (!getParsed.Succeeded || getParsed.Value.Stack.Count != 1)
+                    {
+                        rc = RC<IDocuEntity>.Failed(
+                            value: NullEntity,
+                            ErrorDescription:
+                            pnL.i(TTD.StateDescription.FinStateDescr.UID,
+                                pnL.m(TT.Parser.Parse.UID,
+                                    pnL.p(TTD.MetaData.Name.UID, "Parse20_06"),
+                                    pnL.ret(pnL.eFails(
+                                            pnL.i(TT.Parser.SyntaxError.UID,
+                                                pnL.KillInstanceMemberIf(getParsed.Value.LastParserException == null || !(getParsed.Value.LastParserException is IExceptionWithDocuTermDescription), () => pnL.p(TTD.StateDescription.WhatsUp.UID, getParsed.Message)),
+                                                pnL.KillInstanceMemberIf(getParsed.Value.LastParserException != null && getParsed.Value.LastParserException is IExceptionWithDocuTermDescription, () => pnL.p(TTD.StateDescription.WhatsUp.UID, pnL.EncapsulateAsPropertyValue(((IExceptionWithDocuTermDescription)getParsed.Value.LastParserException)?.MessageAsDocuTerm))),
+                                                pnL.KillInstanceMemberIf(getParsed.Value.ResultOfTokenizer.Succeeded,
+                                                    () => pnL.p(TTD.StateDescription.Why.UID,
+                                                            pnL.i(TT.Parser.Tokenizer.UID,
+                                                                pnL.p("IxLastProcessedToken", getParsed.Value.IndexOfLastProcessedToken),
+                                                                pnL.m(TT.Parser.Tokenize.UID,
+                                                                    pnL.eFails(getParsed.Value.ResultOfTokenizer.Message)))))))))));
+                    }
+                    else
+                    {
+                        // Fall: auf dem Stapel liegt genau ein Ergebnis
+
+                        DT.IDocuEntity val = null;
+
+                        if (getParsed.Value.Stack.Peek() is DT.IDocuEntity docE)
+                        {
+                            val = docE;
+                        }
+                        else if (getParsed.Value.Stack.Peek() is global::mko.RPN.StringToken strtok)
+                        {
+                            val = pnL.txt(strtok.Value);
+                        }
+                        else if (getParsed.Value.Stack.Peek() is IToken tok)
+                        {
+                            val = pnL.txt(tok.ToString());
+                        }
+
+                        rc = RC<IDocuEntity>.Ok(val);
+                    }
                 }
                 else
                 {
-                    DocuTerms.IDocuEntity val = getParsed.Value.Stack.Peek() is DocuTerms.IDocuEntity docE
-                                                    ? docE
-                                                    : pnL.txt(getParsed.Value.Stack.Peek().ToString());
+                    // Fall: Der zu parsende DocuTerm ist leer.
+                    var nh = new ANC.NamingHelper(RC.NC);
 
-
-                    rc = RC<IDocuEntity>.Ok(val);
+                    rc = RC<IDocuEntity>.Failed(
+                                value: NullEntity,
+                                ErrorDescription:                                
+                                pnL.ReturnAfterFailureWithDetails(
+                                    TT.Parser.Parse.UID,
+                                    pnL.i(TTD.MetaData.Block.UID,
+                                        pnL.p(TTD.MetaData.Name.UID, "Parse20_06"),
+                                        pnL.p(TTD.MetaData.Description.UID,
+                                            pnL.FinishedActivityStatement(
+                                                TTD.Parser.RPNDocuTerm.UID,
+                                                nh.fA(TT.Grammar.Verbs.Was.UID),
+                                                pnL.DefObject(TT.Sets.EmptySet.UID))))));
                 }
             }
             catch (Exception ex)
             {
-                rc = RC<IDocuEntity>.Failed(NullEntity, 
-                    ErrorDescription: pnL.i(ANC.TechTerms.Parser.Parser.UID, 
+                rc = RC<IDocuEntity>.Failed(
+                    value: NullEntity,
+                    ErrorDescription: pnL.i(TT.Parser.Parser.UID,
                                         pnL.eFails(pnL.EncapsulateAsEventParameter(TraceHlp.FlattenExceptionMessagesPN(ex)))));
             }
 

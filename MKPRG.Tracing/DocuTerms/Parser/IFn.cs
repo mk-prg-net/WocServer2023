@@ -11,7 +11,7 @@ namespace MKPRG.Tracing.DocuTerms.Parser
     /// mko, 2018
     /// 
     /// mko, 8.6.2020
-    /// Prefixe für Boolean, Int, Double und MKPRG.Naming NID's hinzugefügt
+    /// Prefixe für Boolean, Int, Double und ATMO.DFC.Naming NID's hinzugefügt
     /// </summary>
     public interface IFn : global::mko.RPN.IFunctionNames
     {
@@ -116,7 +116,7 @@ namespace MKPRG.Tracing.DocuTerms.Parser
         /// <summary>
         /// Prefix for DFC Naming- ID.
         /// A Naming ID stand for a technical term, expressed in different languages. For more information
-        /// see MKPRG.Naming
+        /// see ATMO.DFC.Naming
         /// </summary>
         string Nid { get; }
 

@@ -5,44 +5,38 @@ using System.Text;
 using System.Threading.Tasks;
 using mko.RPN;
 
+using TTD = MKPRG.Naming.DocuTerms;
+
 namespace MKPRG.Tracing.DocuTerms
 {
+
+    /// <summary>
+    /// mko, 12.7.2021
+    /// Strenger typisiert- Keine Eigenschaften mit allgemeinen Typ IDocuEntity mehr enthalten.
+    /// 
+    /// mko, 9.8.2021
+    /// Gehärtet gegen Null- Werte
+    /// </summary>
     public class KillEventParamIfNot
-        : IKillEventParamIfNot
+        : DocuEntity,
+        IKillEventParamIfNot
     {
         public KillEventParamIfNot(bool Condition, Func<IEventParameter> createEventParameter)
+            : base(DocuEntityTypes.KillIfNot)
         {
             this.Condition = Condition;
-            _createEventParameter = createEventParameter;
+
+            if(createEventParameter != null)
+                _createEventParameter = createEventParameter;
         }
 
-        Func<IEventParameter> _createEventParameter { get; }
+        public static InstanceWithNameAsNID _defaultValue = new InstanceWithNameAsNID(new NID(TTD.Composer.Errors.KillIfNotParamIsNull.UID));
+
+        Func<IEventParameter> _createEventParameter { get; } = new Func<IEventParameter>(() => _defaultValue);
 
         public IEventParameter EventParameter => _createEventParameter();
 
         public bool Condition { get; }
-
-        public IListMember DocuEntity => _createEventParameter();
-
-        public DocuEntityTypes EntityType => DocuEntityTypes.KillIfNot;
-
-        public IEnumerable<IDocuEntity> Childs => throw new NotImplementedException();
-
-        public bool IsFunctionName => throw new NotImplementedException();
-
-        public bool IsInteger => throw new NotImplementedException();
-
-        public bool IsBoolean => throw new NotImplementedException();
-
-        public bool IsNummeric => throw new NotImplementedException();
-
-        public string Value => throw new NotImplementedException();
-
-        public int CountOfEvaluatedTokens => throw new NotImplementedException();
-
-        public IToken Copy()
-        {
-            throw new NotImplementedException();
-        }
+        
     }
 }

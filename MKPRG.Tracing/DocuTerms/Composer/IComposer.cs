@@ -12,22 +12,27 @@ namespace MKPRG.Tracing.DocuTerms
     /// 
     /// mko, 22.7.2020
     /// Schnittstelle IXTabGenerator hinzugefügt
+    /// 
+    /// mko, 15.3.2021
+    /// Die Namen von Methoden und Instanzen können jetzt duch einen 
+    /// Wildcard definiert werden. Hierdurch wird die Mächtigkeit von 
+    /// Musterausdrücken für SubTree- Analysen vergrößert.
     /// </summary>
-    public interface IComposer   
+    public interface IComposer
         : IXTabGenerator
     {
+
+
         IDTList List(params IListMember[] entities);
 
 
-        Boolean boolean(bool b);
+        IBoolean boolean(bool b);
 
-        Integer integer(long i);
+        IInteger integer(long i);
 
-        NN NN(ulong u);
+        IDouble dbl(double d);
 
-        Double dbl(double d);
-
-        String str(string s);
+        IString str(string s);
 
 
         IInstance i(string name, params IInstanceMember[] pn);
@@ -39,6 +44,17 @@ namespace MKPRG.Tracing.DocuTerms
         /// <param name="pn"></param>
         /// <returns></returns>
         IInstance i(long NID, params IInstanceMember[] pn);
+
+        /// <summary>
+        /// mko, 15.3.2021
+        /// 
+        /// Für Mustervergleiche kann jetzt eine Instanz mit beliebigen Namen (Wildcard) erzeugt werden
+        /// </summary>
+        /// <param name="wc"></param>
+        /// <param name="pn"></param>
+        /// <returns></returns>
+        //IInstance i(IWildCard wc, params IInstanceMember[] pn);
+
 
         /// <summary>
         /// Defines a vrsion number of an object or method
@@ -63,9 +79,19 @@ namespace MKPRG.Tracing.DocuTerms
         /// <returns></returns>
         IMethod m(long NID, params IMethodParameter[] pn);
 
+        /// <summary>
+        /// mko, 15.3.2021
+        /// </summary>
+        /// <param name="wc"></param>
+        /// <param name="pn"></param>
+        /// <returns></returns>
+        //IMethod m(IWildCard wc, params IMethodParameter[] pn);
+
 
         /// <summary>
         /// mko, 10.4.2018
+        /// 
+        /// Für Mustervergleiche kann jetzt eine Methode mit beliebigen Namen (Wildcard) erzeugt werden
         /// Returnvalue
         /// </summary>
         /// <param name="pn"></param>
@@ -228,25 +254,6 @@ namespace MKPRG.Tracing.DocuTerms
         IProperty p(long NID, long Value);
 
         /// <summary>
-        /// mko, 28.02.2021
-        /// Eigenschaft mit ulong- Wert
-        /// </summary>
-        /// <param name="Name"></param>
-        /// <param name="Value"></param>
-        /// <returns></returns>
-        IProperty p(string Name, ulong Value);
-
-        /// <summary>
-        /// mko, 21.2.2021
-        /// eigenschaft mit ulong Wert
-        /// </summary>
-        /// <param name="NID"></param>
-        /// <param name="Value"></param>
-        /// <returns></returns>
-        IProperty p(long NID, ulong Value);
-
-
-        /// <summary>
         /// mko, 27.2.2019
         /// Eigenschaft mit bool- Wert
         /// </summary>
@@ -283,15 +290,24 @@ namespace MKPRG.Tracing.DocuTerms
         // == Wildcards/Paltzhalter ====== ====== ======
 
         /// <summary>
+        /// mko, 28.7.2021
+        /// Neu: Spezieller Wildcard für Namen
+        /// </summary>
+        long _n { get; }
+
+        /// <summary>
         /// mko, 15.6.2020
         /// DocuTerm, der einen Platzhalter für den Wert eines Eigenschaftsausdruckes darstellt.
         /// Wird beim Pattern- Matching berücksichtigt.
         /// 
         /// Bsp.:
         /// pnL.m("Query", pnL.p("MatNr", pnL._()))
+        /// 
+        /// mko, 28.7.2021
+        /// Umbenannt von _() in _v()
         /// </summary>
         /// <returns></returns>
-        IWildCard _();
+        IWildCard _v();
 
         /// <summary>
         /// mko, 16.6.2020
@@ -305,10 +321,13 @@ namespace MKPRG.Tracing.DocuTerms
         /// pnL.m("Query", 
         ///      pnL.p("MatNr", pnL._()),
         ///      pnL.eFails(pnL._(pnL.eSucceded(_pnL._())))).IsSubTreeOf(X);
+        ///      
+        /// mko, 28.7.2021
+        /// Umbenannt von _(...) in _v(...)
         /// </summary>
         /// <param name="subTreePattern"></param>
         /// <returns></returns>
-        IWildCard _(IDocuEntity subTreePattern);
+        IWildCard _v(IDocuEntity subTreePattern);
 
 
         /// <summary>
@@ -351,9 +370,9 @@ namespace MKPRG.Tracing.DocuTerms
 
         IEvent e(string name);
 
-        IEvent e(String name, IEventParameter value);
+        IEvent e(IString name, IEventParameter value);
 
-        IEvent e(String name);
+        IEvent e(IString name);
 
         /// <summary>
         /// mko, 3.3.2020
@@ -365,21 +384,25 @@ namespace MKPRG.Tracing.DocuTerms
 
         IEvent e(long NID);
 
-        IEvent e(NID nid, IEventParameter value);
+        IEvent e(INID nid, IEventParameter value);
 
-        IEvent e(NID nid);
+        IEvent e(INID nid);
 
         /// <summary>
         /// mko, 17.6.2020
         /// Erzeugt einen EventParameter nur dann, wenn eine Bedingung erfüllt ist.
         /// Sonst wird nur ein einfach benanntes Event ohne Parameter erzeugt.
+        /// 
+        /// mko, 10.8.2021
+        /// Wieder entfernt. `IKillEventParam` ist ein `IEventParam` und wird von den        
+        /// Funktionen, die diese Parametertypen haben, abgedeckt.
         /// </summary>
         /// <param name="nid"></param>
         /// <param name="killIfNot"></param>
         /// <returns></returns>
-        IEvent e(long nid, IKillEventParamIfNot killIfNot);
+        //IEvent e(long nid, IKillEventParamIfNot killIfNot);
 
-        IEvent e(string name, IKillEventParamIfNot killIfNot);
+        //IEvent e(string name, IKillEventParamIfNot killIfNot);
 
         // == Meldung des Beginns einer Transkaktion ====== ====== ======
 
@@ -395,7 +418,7 @@ namespace MKPRG.Tracing.DocuTerms
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        IEvent eStart(IKillEventParamIfNot value);
+        // IEvent eStart(IKillEventParamIfNot value);
 
         /// <summary>
         /// mko, 22.2.2019
@@ -429,7 +452,7 @@ namespace MKPRG.Tracing.DocuTerms
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        IEvent eEnd(IKillEventParamIfNot value);
+        //IEvent eEnd(IKillEventParamIfNot value);
 
         /// <summary>
         /// mko, 22.2.2019
@@ -463,7 +486,7 @@ namespace MKPRG.Tracing.DocuTerms
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        IEvent eNotCompleted(IKillEventParamIfNot value);
+        //IEvent eNotCompleted(IKillEventParamIfNot value);
 
         /// <summary>
         /// mko, 28.5.2020
@@ -488,7 +511,7 @@ namespace MKPRG.Tracing.DocuTerms
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        IEvent eFails(IKillEventParamIfNot value);
+        //IEvent eFails(IKillEventParamIfNot value);
 
         /// <summary>
         /// mko, 22.2.2019
@@ -520,7 +543,7 @@ namespace MKPRG.Tracing.DocuTerms
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        IEvent eWarn(IKillEventParamIfNot value);
+        //IEvent eWarn(IKillEventParamIfNot value);
 
         /// <summary>
         /// mko, 22.2.2019
@@ -533,7 +556,7 @@ namespace MKPRG.Tracing.DocuTerms
         /// mko, 28.5.2020
         /// Event durch eine mehrsprachig abrufbare NID beschreiben
         /// </summary>
-        /// <param name="NID">MKPRG.Naming- ID</param>
+        /// <param name="NID">ATMO.DFC.Naming- ID</param>
         /// <returns></returns>
         IEvent eWarn(long NID);
 
@@ -557,7 +580,7 @@ namespace MKPRG.Tracing.DocuTerms
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        IEvent eInfo(IKillEventParamIfNot value);
+        //IEvent eInfo(IKillEventParamIfNot value);
 
         /// <summary>
         /// mko, 28.5.2020
@@ -594,7 +617,7 @@ namespace MKPRG.Tracing.DocuTerms
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        IEvent eSucceeded(IKillEventParamIfNot value);
+        //IEvent eSucceeded(IKillEventParamIfNot value);
 
         /// <summary>
         /// mko, 22.2.2019
@@ -628,7 +651,7 @@ namespace MKPRG.Tracing.DocuTerms
         /// </summary>
         /// <param name="nid"></param>
         /// <returns></returns>
-        NID NID(long nid);
+        INID NID(long nid);
 
 
         /// <summary>
@@ -652,17 +675,9 @@ namespace MKPRG.Tracing.DocuTerms
 
         // == KillIf ====== ====== ======
 
-        IKillIfNot KillIfNot(bool Condition, Func<IListMember> docuEntityFactory);
+        IKillListElementIfNot KillListMemberIfNot(bool Condition, Func<IListMember> docuEntityFactory);
 
-        IKillIfNot KillIf(bool Condition, Func<IListMember> docuEntityFactory);
-
-        /// <summary>
-        /// mko, 17.6.2020
-        /// </summary>
-        /// <param name="Condition"></param>
-        /// <param name="docuEntityFactory"></param>
-        /// <returns></returns>
-        IKillEventParamIfNot KillIfNot(bool Condition, Func<IEventParameter> docuEntityFactory);
+        IKillListElementIfNot KillListMemberIf(bool Condition, Func<IListMember> docuEntityFactory);
 
         /// <summary>
         /// mko, 17.6.2020
@@ -670,7 +685,52 @@ namespace MKPRG.Tracing.DocuTerms
         /// <param name="Condition"></param>
         /// <param name="docuEntityFactory"></param>
         /// <returns></returns>
-        IKillEventParamIfNot KillIf(bool Condition, Func<IEventParameter> docuEntityFactory);
+        IKillEventParamIfNot KillEventParamIfNot(bool Condition, Func<IEventParameter> docuEntityFactory);
+
+        /// <summary>
+        /// mko, 17.6.2020
+        /// </summary>
+        /// <param name="Condition"></param>
+        /// <param name="docuEntityFactory"></param>
+        /// <returns></returns>
+        IKillEventParamIfNot KillEventParamIf(bool Condition, Func<IEventParameter> docuEntityFactory);
+
+
+        /// <summary>
+        /// mko, 6.8.2021
+        /// </summary>
+        /// <param name="Condition"></param>
+        /// <param name="docuEntityFactory"></param>
+        /// <returns></returns>
+        IKillMethodPrarmeterIfNot KillMethodParamIfNot(bool Condition, Func<IMethodParameter> docuEntityFactory);
+        
+        /// <summary>
+        /// mko, 6.8.2021
+        /// </summary>
+        /// <param name="Condition"></param>
+        /// <param name="docuEntityFactory"></param>
+        /// <returns></returns>
+        IKillMethodPrarmeterIfNot KillMethodParamIf(bool Condition, Func<IMethodParameter> docuEntityFactory);
+
+        /// <summary>
+        /// mko, 6.8.2021
+        /// </summary>
+        /// <param name="Condition"></param>
+        /// <param name="docuEntityFactory"></param>
+        /// <returns></returns>
+        IKillInstanceMemberIfNot KillInstanceMemberIfNot(bool Condition, Func<IInstanceMember> docuEntityFactory);
+
+        /// <summary>
+        /// mko, 6.8.2021
+        /// </summary>
+        /// <param name="Condition"></param>
+        /// <param name="docuEntityFactory"></param>
+        /// <returns></returns>
+        IKillInstanceMemberIfNot KillInstanceMemberIf(bool Condition, Func<IInstanceMember> docuEntityFactory);
+
+
+        
+
 
         // == IfElse ====== ====== ======
 
@@ -696,7 +756,17 @@ namespace MKPRG.Tracing.DocuTerms
         /// <param name="memberIfTrue"></param>
         /// <param name="memberIfFalse"></param>
         /// <returns></returns>
-        IReturnValue IfElse(bool Condition, Func<IReturnValue> memberIfTrue, Func<IReturnValue> memberIfFalse);
+        IReturnValue IfElseRet(bool Condition, Func<IReturnValue> memberIfTrue, Func<IReturnValue> memberIfFalse);
+
+
+        /// <summary>
+        /// mko, 4.12.2020
+        /// </summary>
+        /// <param name="Condition"></param>
+        /// <param name="valueIfTrue"></param>
+        /// <param name="valueIfFalse"></param>
+        /// <returns></returns>
+        IProperty IfElseProp(bool Condition, Func<IProperty> valueIfTrue, Func<IProperty> valueIfFalse);
 
         /// <summary>
         /// mko, 17.6.2020
@@ -705,7 +775,17 @@ namespace MKPRG.Tracing.DocuTerms
         /// <param name="valueIfTrue"></param>
         /// <param name="valueIfFalse"></param>
         /// <returns></returns>
-        IPropertyValue IfElse(bool Condition, Func<IPropertyValue> valueIfTrue, Func<IPropertyValue> valueIfFalse);
+        IPropertyValue IfElsePropVal(bool Condition, Func<IPropertyValue> valueIfTrue, Func<IPropertyValue> valueIfFalse);
+
+        /// <summary>
+        /// mko, 4.12.2020
+        /// </summary>
+        /// <param name="Condition"></param>
+        /// <param name="valueIfTrue"></param>
+        /// <param name="valueIfFalse"></param>
+        /// <returns></returns>
+        IInstance IfElseInstance(bool Condition, Func<IInstance> valueIfTrue, Func<IInstance> valueIfFalse);
+
 
         /// <summary>
         /// mko, 8.7.2020
@@ -714,16 +794,8 @@ namespace MKPRG.Tracing.DocuTerms
         /// <param name="valueIfTrue"></param>
         /// <param name="valueIfFalse"></param>
         /// <returns></returns>
-        IInstanceMember IfElse(bool Condition, Func<IInstanceMember> valueIfTrue, Func<IInstanceMember> valueIfFalse);
+        IInstanceMember IfElseInstMember(bool Condition, Func<IInstanceMember> valueIfTrue, Func<IInstanceMember> valueIfFalse);
 
-        /// <summary>
-        /// mko, 4.12.2020
-        /// </summary>
-        /// <param name="Condition"></param>
-        /// <param name="valueIfTrue"></param>
-        /// <param name="valueIfFalse"></param>
-        /// <returns></returns>
-        IInstance IfElse(bool Condition, Func<IInstance> valueIfTrue, Func<IInstance> valueIfFalse);
 
         /// <summary>
         /// mko, 4.12.2020 
@@ -732,7 +804,16 @@ namespace MKPRG.Tracing.DocuTerms
         /// <param name="valueIfTrue"></param>
         /// <param name="valueIfFalse"></param>
         /// <returns></returns>
-        IMethod IfElse(bool Condition, Func<IMethod> valueIfTrue, Func<IMethod> valueIfFalse);
+        IMethod IfElseMethod(bool Condition, Func<IMethod> valueIfTrue, Func<IMethod> valueIfFalse);
+
+        /// <summary>
+        /// mko, 10.8.2021
+        /// </summary>
+        /// <param name="Condition"></param>
+        /// <param name="valueIfTrue"></param>
+        /// <param name="valueIfFalse"></param>
+        /// <returns></returns>
+        IMethodParameter IfElseMethodParam(bool Condition, Func<IMethodParameter> valueIfTrue, Func<IMethodParameter> valueIfFalse);
 
         /// <summary>
         /// mko, 4.12.2020
@@ -741,16 +822,17 @@ namespace MKPRG.Tracing.DocuTerms
         /// <param name="valueIfTrue"></param>
         /// <param name="valueIfFalse"></param>
         /// <returns></returns>
-        IEvent IfElse(bool Condition, Func<IEvent> valueIfTrue, Func<IEvent> valueIfFalse);
+        IEvent IfElseEvent(bool Condition, Func<IEvent> valueIfTrue, Func<IEvent> valueIfFalse);
 
         /// <summary>
-        /// mko, 4.12.2020
+        /// mko, 10.8.2021
         /// </summary>
         /// <param name="Condition"></param>
         /// <param name="valueIfTrue"></param>
         /// <param name="valueIfFalse"></param>
         /// <returns></returns>
-        IProperty IfElse(bool Condition, Func<IProperty> valueIfTrue, Func<IProperty> valueIfFalse);
+        IEventParameter IfElseEventParam(bool Condition, Func<IEventParameter> valueIfTrue, Func<IEventParameter> valueIfFalse);
+
 
         /// <summary>
         /// Embeds entities as Child in current Entity.
@@ -762,10 +844,33 @@ namespace MKPRG.Tracing.DocuTerms
         /// Instead of, after calling thisEntity(.., embed(entities), ..), entities are childs of thisEntity.
         /// thisEntity             
         ///     +-->> entities
+        ///     
+        /// mko, 10.8.2021
+        /// Eingeschränkt für das Einbetten auf Listenmember.
+        /// 
+        /// Das Einbetten von Methodenparametern oder Instanzmembern erfolgt jetzt mit spezialisierten
+        /// Methoden.
         /// </summary>
         /// <param name="entities"></param>
         /// <returns></returns>
-        IListToEmbed EmbedMembers(params IListMember[] entities);
+        IListMembersToEmbed EmbedListMembers(params IListMember[] members);
+
+
+        /// <summary>
+        /// mko, 10.8.2021
+        /// Streng typisierte Embed- Funktion für Methodenparameter
+        /// </summary>
+        /// <param name="entities"></param>
+        /// <returns></returns>
+        IMethodParametersToEmbed EmbedMethodParameters(params IMethodParameter[] members);
+
+        /// <summary>
+        /// mko, 10.8.2021
+        /// Streng typisierte Embed- Funktion für Instanz- Member.
+        /// </summary>
+        /// <param name="members"></param>
+        /// <returns></returns>
+        IInstanceMembersToEmbed EmbedInstanceMembers(params IInstanceMember[] members);
 
         /// <summary>
         /// mko, 31.1.2019
@@ -773,18 +878,26 @@ namespace MKPRG.Tracing.DocuTerms
         /// Als Ergebnis wird dann das eingekapselte IDocuEntity, falls die Bedingung nicht zutraf,
         /// oder null zurückgegeben. 
         /// Liegt kein KillIfNot- Kommando vor, dann wird dieses zurückgegeben
+        /// 
+        /// mko, 9.8.2021
+        /// Aus der Schnittstelle entfernt, da Implementierungsdetail.
+        /// Wird jetzt in den Konstruktoren von IInstance, IProperty etc. implementiert.
+        /// 
         /// </summary>
         /// <param name="docuEntity"></param>
         /// <returns></returns>
-        IDocuEntity ExecuteKillCommand(IDocuEntity docuEntity);
+        //IDocuEntity ExecuteKillCommand(IDocuEntity docuEntity);
 
 
         /// <summary>
         /// mko, 2.7.2019
         /// Erzeugt eine Kopie eines DocuEntity.
+        /// 
+        /// mko, 9.8.2021
+        /// Entfernt
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
-        IDocuEntity CreateCopyOfEntity(IDocuEntity entity);
+        //IDocuEntity CreateCopyOfEntity(IDocuEntity entity);
     }
 }

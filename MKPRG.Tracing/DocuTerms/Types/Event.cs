@@ -5,71 +5,56 @@ using System.Text;
 using System.Threading.Tasks;
 
 using ANC = MKPRG.Naming;
-using static MKPRG.Tracing.DocuTerms.DocuEntityHlp;
+
+using TT = MKPRG.Naming.TechTerms;
+using TTD = MKPRG.Naming.DocuTerms;
 
 namespace MKPRG.Tracing.DocuTerms
 {
     /// <summary>
     /// mko, 16.6.2020
+    /// 
+    /// mko, 12.7.2021
+    /// Eventparameter werden jetzt direkt in der Event- Klasse gepspeichert, und nicht mehr in 
+    /// den Childs von der DocuEntity- Basis
     /// </summary>
-    public class Event
+    public abstract class Event
         : DocuEntity,
         IEvent
     {
-        public Event(IFormater fmt, NID nid)
-            : base(fmt, DocuEntityTypes.Event, nid)
-                {
-                }
-
-        public Event(IFormater fmt, NID nid, IEventParameter eventParam)
-            : base(fmt, DocuEntityTypes.Event, nid, eventParam)
-        {
+        public Event()
+            : base(DocuEntityTypes.Event)
+        {            
         }
 
-        public Event(IFormater fmt, String name)
-            : base(fmt, DocuEntityTypes.Event, name)
+        public Event(IEventParameter eventParam)
+            : base(DocuEntityTypes.Event)
         {
-        }
-
-        public Event(IFormater fmt, String name, IEventParameter eventParam)
-            : base(fmt, DocuEntityTypes.Event, name, eventParam)
-        {
-        }
-
-
-        public DocuEntityHlp.EventTypes EventType
-        {
-            get
+            if (eventParam != null)
             {
-                if (Childs.First() is NID nid)
+                if(eventParam is IKillEventParamIfNot k)
                 {
-                    switch (nid.NamingId)
+                    if (k.Condition)
                     {
-                        case ANC.DocuTerms.Event.End.UID:
-                            return DocuEntityHlp.EventTypes.end;
-                        case ANC.DocuTerms.Event.Fails.UID:
-                            return DocuEntityHlp.EventTypes.fails;
-                        case ANC.DocuTerms.Event.Info.UID:
-                            return DocuEntityHlp.EventTypes.info;
-                        case ANC.DocuTerms.Event.NotCompleted.UID:
-                            return DocuEntityHlp.EventTypes.notCompleted;
-                        case ANC.DocuTerms.Event.Start.UID:
-                            return DocuEntityHlp.EventTypes.start;
-                        case ANC.DocuTerms.Event.Succeeded.UID:
-                            return DocuEntityHlp.EventTypes.succeded;
-                        case ANC.DocuTerms.Event.Warn.UID:
-                            return DocuEntityHlp.EventTypes.warn;
-                        default:
-                            return DocuEntityHlp.EventTypes.none;
+                        EventParameter = k.EventParameter;
                     }
                 }
                 else
                 {
-                    return this.GetEventType();
+                    EventParameter = eventParam;
                 }
             }
         }
 
-        public IEventParameter EventParameter => (IEventParameter)Childs.Skip(1).FirstOrDefault();
+        protected static InstanceWithNameAsNID _defaultValue = new InstanceWithNameAsNID(new NID(TTD.Types.UndefinedEventParameter.UID));
+
+        public abstract DocuEntityHlp.EventTypes EventType { get; }
+
+        public IEventParameter EventParameter { get; } = _defaultValue;
+
+        public IEventParameter DocuTermDefaultValue => _defaultValue;
+
+        public bool IsSetToDefaultValue => EventParameter is IDocuEntityWithNameAsNid dt && dt.DocuTermNid.NamingId == _defaultValue.DocuTermNid.NamingId;        
+
     }
 }

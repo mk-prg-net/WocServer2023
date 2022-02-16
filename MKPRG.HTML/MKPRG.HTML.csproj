@@ -60,6 +60,7 @@
     <Compile Include="HTMLDocument.Whitespaces.cs" />
     <Compile Include="HTMLDokcument.Links.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tracing\HTMLFormatter_2021_01.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MKPRG.Naming\MKPRG.Naming.csproj">

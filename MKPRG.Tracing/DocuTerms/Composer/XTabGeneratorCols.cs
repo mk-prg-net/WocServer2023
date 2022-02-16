@@ -46,7 +46,7 @@ namespace MKPRG.Tracing.DocuTerms
 
         public IXTabGeneratorDefRows Rows()
         {
-            return new XTabGeneratorRows(pnL, pnL.List(pnL.EmbedMembers(cols.ToArray())));
+            return new XTabGeneratorRows(pnL, pnL.List(pnL.EmbedListMembers(cols.ToArray())));
         }
     }
 }

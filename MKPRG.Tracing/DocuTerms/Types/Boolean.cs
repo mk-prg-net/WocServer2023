@@ -9,26 +9,26 @@ namespace MKPRG.Tracing.DocuTerms
 {
     /// <summary>
     /// mko, 8.6.2020
+    /// 
+    /// mko, 6.8.2021
     /// </summary>
     public class Boolean 
         : DocuEntity,
-        IPropertyValue
+        IBoolean
         //IEventParameter
         //IReturnValue
     {       
 
-        public Boolean(bool val, IFormater fmt) 
-            : base(fmt, DocuEntityTypes.Bool)
+        public Boolean(bool decision) 
+            : base(DocuEntityTypes.Bool)
         {
-            ValueAsBool = val;
+            ValueAsBool = decision;
         }
-
-        public override int CountOfEvaluatedTokens => 1;
 
         /// <summary>
         /// Der extakte boolsche Wert 
         /// </summary>
-        public bool ValueAsBool { get; }        
+        public bool ValueAsBool { get; } = false;
 
     }
 }

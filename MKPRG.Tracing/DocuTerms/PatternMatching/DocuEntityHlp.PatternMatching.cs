@@ -7,8 +7,11 @@ using System.Threading.Tasks;
 
 using ANC = MKPRG.Naming;
 
+using TT = MKPRG.Naming.TechTerms;
+using TTD = MKPRG.Naming.DocuTerms;
 
-//using TechTerms = MKPRG.Tracing.DocuTerms.Composer.TechTerms;
+
+//using TechTerms = ATMO.mko.Logging.PNDocuTerms.DocuEntities.Composer.TechTerms;
 
 namespace MKPRG.Tracing.DocuTerms
 {
@@ -18,6 +21,26 @@ namespace MKPRG.Tracing.DocuTerms
     /// </summary>
     public static partial class DocuEntityHlp
     {
+        
+        // mko, 30.7.2021
+        // Kampf den Nullwerten: Ab jetzt sind alle DocuTerme stets vollständig initialisiert. 
+        // Falls kein Wert bei der Intitialisierung übermittelt wird, dann ist stets ein Default- Wert einzusetzten
+        // </summary>
+        // <param name="docuTerm"></param>
+
+        //public static bool IsUndefinedDocuTerm(this IInstance i)
+        //    => i.HasName(TTD.Types.UndefinedDocuTerm.UID);
+
+        //public static bool IsUndefinedDocuTerm(this IMethod m)
+        //    => m.HasName(TTD.Types.UndefinedDocuTerm.UID);
+
+        //public static bool IsUndefinedDocuTerm(this IProperty p)
+        //    => p.HasName(TTD.Types.UndefinedDocuTerm.UID);
+
+        //public static bool IsUndefinedDocuTerm(this IEvent e)
+        //    => e.HasName(TTD.Types.UndefinedDocuTerm.UID);
+
+
         /// <summary>
         /// mko, 28.2.2019
         /// 
@@ -57,16 +80,16 @@ namespace MKPRG.Tracing.DocuTerms
                     }
                     else if (a is IEvent eventA && b is IEvent eventB)
                     {
-                        if (eventA.EventParameter == null && eventB.EventParameter == null)
+                        if (eventA.IsSetToDefaultValue && eventB.IsSetToDefaultValue)
                             // Beide Events ohne Parameter -> Gleichheit
                             return true;
-                        else if (eventA.EventParameter == null && eventB.EventParameter != null)
+                        else if (eventA.IsSetToDefaultValue && !eventB.IsSetToDefaultValue)
                             // Pattern als Event ohne Parameter ist auch in Events mit  
                             // Parameter enthalten -> ist SubTree
                             return true;
-                        else if (eventA.EventParameter != null && eventB.EventParameter == null)
+                        else if (!eventA.IsSetToDefaultValue && eventB.IsSetToDefaultValue)
                             // Das Pattern ist restriktiver als das zu untersuchende Event-> kein SubTree
-                            return false;                        
+                            return false;
                         else
                             return eventA.EventParameter.IsEqualTo(eventB.EventParameter);
                     }
@@ -74,7 +97,7 @@ namespace MKPRG.Tracing.DocuTerms
                 }
                 else
                 {
-                    if (a is NID nidA && b is NID nidB)
+                    if (a is INID nidA && b is INID nidB)
                     {
                         return nidA.NamingId == nidB.NamingId;
                     }
@@ -82,21 +105,21 @@ namespace MKPRG.Tracing.DocuTerms
                     {
                         return retA.ReturnValue.IsEqualTo(retB.ReturnValue);
                     }
-                    else if (a is Integer intA && b is Integer intB)
+                    else if (a is IInteger intA && b is IInteger intB)
                     {
                         return intA.ValueAsLong == intB.ValueAsLong;
                     }
-                    else if (a is Double dblA && b is Double dblB)
+                    else if (a is IDouble dblA && b is IDouble dblB)
                     {
-                        return dblA.Value == dblB.Value;
+                        return dblA.ValueAsDouble == dblB.ValueAsDouble;
                     }
-                    else if (a is Boolean boolA && b is Boolean boolB)
+                    else if (a is IBoolean boolA && b is IBoolean boolB)
                     {
                         return boolA.ValueAsBool == boolB.ValueAsBool;
                     }
-                    else if (a is String strA && b is String strB)
+                    else if (a is IString strA && b is IString strB)
                     {
-                        return strA.Value == strB.Value;
+                        return strA.ValueAsString.Equals(strB.ValueAsString);
                     }
                     else if (a is ITxt txtA && b is ITxt txtB)
                     {
@@ -109,7 +132,7 @@ namespace MKPRG.Tracing.DocuTerms
 
                             foreach (var pair in contentAB)
                             {
-                                areEqual &= pair.A.Value.Equals(pair.B.Value);
+                                areEqual &= pair.A.ValueAsString.Equals(pair.B.ValueAsString);
                                 if (!areEqual)
                                     break;
                             }
@@ -117,13 +140,17 @@ namespace MKPRG.Tracing.DocuTerms
 
                         return areEqual;
                     }
-                    else if (a is DTDate aDat && b is DTDate bDat)
+                    else if (a is IDate aDat && b is IDate bDat)
                     {
                         return aDat.Year == bDat.Year && aDat.Month == bDat.Month && aDat.Day == bDat.Day;
                     }
-                    else if (a is DTTime aTime && b is DTTime bTime)
+                    else if (a is ITime aTime && b is ITime bTime)
                     {
                         return aTime.Hour == bTime.Hour && aTime.Minutes == bTime.Minutes && aTime.Seconds == bTime.Seconds && aTime.Milliseconds == bTime.Milliseconds;
+                    }
+                    else if (a is IVer aver && b is IVer bver)
+                    {
+                        return aver.VersionString.ToUpper().Equals(bver.VersionString.ToUpper());
                     }
                     else if (a is IDTList listA && b is IDTList listB)
                     {
@@ -136,7 +163,7 @@ namespace MKPRG.Tracing.DocuTerms
 
                             foreach (var pair in contentAB)
                             {
-                                areEqual &= pair.A.Value.Equals(pair.B.Value);
+                                areEqual &= pair.A.IsEqualTo(pair.B);
                                 if (!areEqual)
                                     break;
                             }
@@ -297,187 +324,1701 @@ namespace MKPRG.Tracing.DocuTerms
         /// 
         /// mko, 7.12.2020
         /// Abgesichert gegen Fall tree == null
+        /// 
+        /// mko, 15.3.2021
+        /// Namensvergleiche benannter Entities auf Vergleiche mit Wildcards erweitert.
+        /// 
+        /// mko, 12.4.2021  
+        /// Beschränkung der Suchtiefe eingebaut.
+        /// 
+        /// mko, 2.8.2021
+        /// Aufgesplitet in eine Schaar von IsSubTreeOf(...) Methoden, wobei der erste Paramter
+        /// eine von `IDocuEntity` abgeleitet Schnittstelle, und der zweite Parameter algemein vom 
+        /// Typ `IDocuEntity` ist.
         /// </summary>
         /// <param name="subTreePattern"></param>
         /// <param name="tree"></param>
         /// <param name="searchAnywhere"></param>
         /// <returns></returns>
+        //private static bool IsPutIntoAppropiateIsSubTreeOfTestWith(
+        //    this IDocuEntity subTreePattern,
+        //    IDocuEntity tree,
+        //    bool searchAnywhere = true,
+        //    int Deepth = int.MaxValue)
+        //{
+        //    var res = false;
+
+        //    if (tree != null)
+        //    {
+        //        var a = subTreePattern;
+        //        var b = tree;
+
+        //        if (a is IWildCard wc)
+        //        {
+        //            res = wc.IsSubTreeOf(b, searchAnywhere, Deepth);
+        //        }
+        //        else if (!(a is INoSubTrees) && b is INoSubTrees)
+        //        {
+        //            // SubTreePattern ist komplexer aufgebaut ist als zu untersuchender Tree.
+        //            // z.B. Instance.IsSubTreeOf(Double)
+        //            // Daraus folgt, das SubTreePattern kein SubTree von Tree sein kann.
+        //            res = false;
+        //        }
+        //        else if (a is INoSubTrees)
+        //        {
+        //            // Simple Terme- die Klassifizierung dient der Laufzeitoptimierung
+
+        //            if (a is INID nidA)
+        //            {
+        //                res = nidA.IsSubTreeOf(b, searchAnywhere, Deepth);
+        //            }
+        //            else if (a is IInteger intA)
+        //            {
+        //                res = intA.IsSubTreeOf(b, searchAnywhere, Deepth);
+        //            }
+        //            else if (a is IDouble dblA)
+        //            {
+        //                res = dblA.IsSubTreeOf(b, searchAnywhere, Deepth);
+        //            }
+        //            else if (a is IBoolean boolA)
+        //            {
+        //                res = boolA.IsSubTreeOf(b, searchAnywhere, Deepth);
+        //            }
+        //            else if (a is IString strA)
+        //            {
+        //                res = strA.IsSubTreeOf(b, searchAnywhere, Deepth);
+        //            }
+        //            else if (a is IDate aDat)
+        //            {
+        //                res = aDat.IsSubTreeOf(b, searchAnywhere, Deepth);
+        //            }
+        //            else if (a is ITime aTime)
+        //            {
+        //                res = aTime.IsSubTreeOf(b, searchAnywhere, Deepth);
+        //            }
+        //            else if (a is IVer aver)
+        //            {
+        //                res = aver.IsSubTreeOf(b, searchAnywhere, Deepth);
+        //            }
+        //        }
+
+        //        else if (a is IReturn retA) // && b is IReturn retB)
+        //        {
+        //            res = retA.IsSubTreeOf(b, searchAnywhere, Deepth);
+        //            //res = retA.ReturnValue.IsSubTreeOf(retB.ReturnValue, false);
+        //        }
+        //        else if (a is ITxt txtA)
+        //        {
+        //            res = txtA.IsSubTreeOf(tree, searchAnywhere, Deepth);
+        //        }
+        //        else if (a is IInstance i)
+        //        {
+        //            res = i.IsSubTreeOf(b, searchAnywhere, Deepth);
+        //        }
+        //        else if (a is IMethod m)
+        //        {
+        //            res = m.IsSubTreeOf(b, searchAnywhere, Deepth);
+        //        }
+        //        else if (a is IReturn ret)
+        //        {
+        //            res = ret.IsSubTreeOf(b, searchAnywhere, Deepth);
+        //        }
+        //        else if (a is IProperty p)
+        //        {
+        //            res = p.IsSubTreeOf(b, searchAnywhere, Deepth);
+        //        }
+        //        else if (a is IEvent e)
+        //        {
+        //            res = e.IsSubTreeOf(b, searchAnywhere, Deepth);
+        //        }
+        //        else if (a is IDTList lst)
+        //        {
+        //            res = lst.IsSubTreeOf(b, searchAnywhere, Deepth);
+        //        }
+
+        //        // Weitersuchen, wenn noch keine Übereinstimmung festgestellt wurde, und auch 
+        //        // die Übereinstimmung mit Strukturen in tieferen Schichten legitim wäre
+        //        //if (!res && searchAnywhere)
+        //        //{
+
+        //        //    SearchInDeeperLevels(
+        //        //        (_tree, deepth) => a.IsPutIntoAppropiateIsSubTreeOfTestWith(_tree, true, deepth),
+        //        //        b,
+        //        //        Deepth);
+
+        //        //}
+
+        //    }
+
+        //    return res;
+        //}
+
+        /// <summary>
+        /// mko, 2.8.2021
+        /// Mapped einen Entity- Type auf einen passenden IsSubTree- Testfunktion
+        /// </summary>
+        private static Dictionary<DocuEntityTypes,
+                                  Func<IDocuEntity,
+                                       IDocuEntity,
+                                       IDocuEntity,
+                                       Action<IDocuEntity, IDocuEntity, int>,
+                                       bool,
+                                       bool,
+                                       int,
+                                       int,
+                                       bool>> IsSubTreeTestForEntityType
+            = new Dictionary<DocuEntityTypes,
+                             Func<IDocuEntity,
+                                  IDocuEntity,
+                                  IDocuEntity,
+                                  Action<IDocuEntity, IDocuEntity, int>,
+                                  bool,
+                                  bool,
+                                  int,
+                                  int,
+                                  bool>>
+        {
+            {DocuEntityTypes.Bool, (sub, tree, parentTree, action, fin, any, currentLevel, maxLevel) => IsSubTreeOf((IBoolean)sub, tree, parentTree, action, fin, any, currentLevel, maxLevel) },
+            {DocuEntityTypes.Date, (sub, tree, parentTree, action, fin, any, currentLevel, maxLevel) => IsSubTreeOf((IDate)sub, tree, parentTree, action, fin, any, currentLevel, maxLevel) },
+            {DocuEntityTypes.Event, (sub, tree, parentTree, action, fin, any, currentLevel, maxLevel) => IsSubTreeOf((IEvent)sub, tree, parentTree, action, fin, any, currentLevel, maxLevel) },
+            {DocuEntityTypes.Float, (sub, tree, parentTree, action, fin, any, currentLevel, maxLevel) => IsSubTreeOf((IDouble)sub, tree, parentTree, action, fin, any, currentLevel, maxLevel) },
+            {DocuEntityTypes.Instance, (sub, tree, parentTree, action, fin, any, currentLevel, maxLevel) => IsSubTreeOf((IInstance)sub, tree, parentTree, action, fin, any, currentLevel, maxLevel) },
+            {DocuEntityTypes.Int, (sub, tree, parentTree, action, fin, any, currentLevel, maxLevel) => IsSubTreeOf((IInteger)sub, tree, parentTree, action, fin, any, currentLevel, maxLevel) },
+            {DocuEntityTypes.List, (sub, tree, parentTree, action, fin, any, currentLevel, maxLevel) => IsSubTreeOf((IDTList)sub, tree, parentTree, action, fin, any, currentLevel, maxLevel) },
+            {DocuEntityTypes.Method, (sub, tree, parentTree, action, fin, any, currentLevel, maxLevel) => IsSubTreeOf((IMethod)sub, tree, parentTree, action, fin, any, currentLevel, maxLevel) },
+            {DocuEntityTypes.Name, (sub, tree, parentTree, action, fin, any, currentLevel, maxLevel) => false },
+            {DocuEntityTypes.NID, (sub, tree, parentTree, action, fin, any, currentLevel, maxLevel) => IsSubTreeOf((INID)sub, tree, parentTree, action, fin, any, currentLevel, maxLevel) },
+            {DocuEntityTypes.none, (sub, tree, parentTree, action, fin, any, currentLevel, maxLevel) => false },
+            {DocuEntityTypes.Property, (sub, tree, parentTree, action, fin, any, currentLevel, maxLevel) => IsSubTreeOf((IProperty)sub, tree, parentTree, action, fin, any, currentLevel, maxLevel) },
+            {DocuEntityTypes.PropertySet, (sub, tree, parentTree, action, fin, any, currentLevel, maxLevel) => false },
+            {DocuEntityTypes.ReturnValue, (sub, tree, parentTree, action, fin, any, currentLevel, maxLevel) => IsSubTreeOf((IReturn)sub, tree, parentTree, action, fin, any, currentLevel, maxLevel) },
+            {DocuEntityTypes.String, (sub, tree, parentTree, action, fin, any, currentLevel, maxLevel) => IsSubTreeOf((IString)sub, tree, parentTree, action, fin, any, currentLevel, maxLevel) },
+            {DocuEntityTypes.Text, (sub, tree, parentTree, action, fin, any, currentLevel, maxLevel) => IsSubTreeOf((ITxt)sub, tree, parentTree, action, fin, any, currentLevel, maxLevel) },
+            {DocuEntityTypes.Time, (sub, tree, parentTree, action, fin, any, currentLevel, maxLevel) => IsSubTreeOf((ITime)sub, tree, parentTree, action, fin, any, currentLevel, maxLevel) },
+            {DocuEntityTypes.Version, (sub, tree, parentTree, action, fin, any, currentLevel, maxLevel) => IsSubTreeOf((IVer)sub, tree, parentTree, action, fin, any, currentLevel, maxLevel) },
+            {DocuEntityTypes.WildCard, (sub, tree, parentTree, action, fin, any, currentLevel, maxLevel) => IsSubTreeOf((IWildCard)sub, tree, parentTree, action, fin, any, currentLevel, maxLevel) },
+        };
+
+
+        /// <summary>
+        /// mko, 11.8.2021
+        /// 
+        /// Allgemeine 
+        /// </summary>
+        /// <param name="sub"></param>
+        /// <param name="tree"></param>
+        /// <param name="searchAnyWhere"></param>
+        /// <param name="maxLevel"></param>
+        /// <returns></returns>
         public static bool IsSubTreeOf(
-            this IDocuEntity subTreePattern,
+            this IDocuEntity sub,
             IDocuEntity tree,
-            bool searchAnywhere = true)
+            bool searchAnyWhere = true,
+            int maxLevel = int.MaxValue)
+            => IsSubTreeTestForEntityType[sub.EntityType](sub, tree, tree, (m, p, d) => { }, true, searchAnyWhere, 0, maxLevel);
+
+
+        /// <summary>
+        /// mko, 3.8.2021
+        /// 
+        /// mko, 4.8.2021
+        /// deepth umbenannt in maxLevel
+        /// </summary>
+        /// <param name="wc"></param>
+        /// <param name="tree"></param>
+        /// <param name="searchAnyWhere"></param>
+        /// <param name="maxLevel">Tiefste Ebene, bis in die gesucht wird</param>
+        /// <returns></returns>
+        public static bool IsSubTreeOf(
+            this IWildCard wc,
+            IDocuEntity tree,
+            bool searchAnyWhere = true,
+            int maxLevel = int.MaxValue)
+            => IsSubTreeOf(wc, tree, tree, (m, p, d) => { }, true, searchAnyWhere, 0, maxLevel);
+
+        /// <summary>
+        /// mko, 2.8.2021
+        /// 
+        /// mko, 3.8.2021
+        /// Erweitert um Parameter `doSomethingIfPatternMatches` und `finishSearchAfterPatternMatched`
+        /// </summary>
+        /// <param name="wc"></param>
+        /// <param name="tree"></param>
+        /// <param name="searchAnyWhere"></param>
+        /// <param name="Deepth"></param>
+        /// <returns></returns>
+        public static bool IsSubTreeOf(
+            this IWildCard wc,
+            IDocuEntity tree,
+            IDocuEntity parentTree,
+            Action<IDocuEntity, IDocuEntity, int> doSomethingIfPatternMatches,
+            bool finishSearchAfterPatternMatched,
+            bool searchAnyWhere,
+            int currentLevel = 0,
+            int maxLevel = int.MaxValue)
+        {
+            var res = false;
+
+            if (tree != null && currentLevel <= maxLevel)
+            {
+                // Hat die Wilccard eine Subtree- Einschränkung
+                if (wc.HasSubTreeConstraint)
+                {
+                    //res = wc.SubTreeConstraint.IsPutIntoAppropiateIsSubTreeOfTestWith(tree);
+                    res = IsSubTreeTestForEntityType[wc.SubTreeConstraint.EntityType]
+                        (wc.SubTreeConstraint,
+                        tree,
+                        parentTree,
+                        doSomethingIfPatternMatches,
+                        true, // finishSearchAfterPatternMatched: Ist der Subtreeconstraint irgendwo erfüllt, dann kann die Analyse abgebrochen werden. Deshalb true
+                        true, // SearchAnywhere: Der Subttree- constraint kann irgend ein Nachfolger zum aktuellen Knoten sein. Deshalb true
+                        currentLevel,
+                        maxLevel);
+                }
+                else
+                {
+                    res = true;
+                }
+
+                if (res)
+                {
+                    doSomethingIfPatternMatches(tree, parentTree, currentLevel);
+                }
+            }
+
+            return res;
+        }
+
+        /// <summary>
+        /// mko, 3.8.2021
+        /// </summary>
+        /// <param name="nidAsSubTreePattern"></param>
+        /// <param name="tree"></param>
+        /// <param name="searchAnywhere"></param>
+        /// <param name="Deepth"></param>
+        /// <returns></returns>
+        public static bool IsSubTreeOf(
+            this INID nidAsSubTreePattern,
+            IDocuEntity tree,
+            bool searchAnywhere = true,
+            int maxLevel = int.MaxValue)
+            =>
+                nidAsSubTreePattern.IsSubTreeOf(tree, tree, (s, p, l) => { }, true, searchAnywhere, maxLevel);
+
+        /// <summary>
+        /// mko, 2.8.2021
+        /// </summary>
+        /// <param name="nidAsSubTreePattern"></param>
+        /// <param name="tree"></param>
+        /// <param name="searchAnywhere"></param>
+        /// <param name="Deepth"></param>
+        /// <returns></returns>
+        public static bool IsSubTreeOf(
+            this INID nidAsSubTreePattern,
+            IDocuEntity tree,
+            IDocuEntity parent,
+            Action<IDocuEntity, IDocuEntity, int> doSomethingIfPatternMatches,
+            bool finishSearchAfterPatternMatched,
+            bool searchAnywhere,
+            int currentLevel,
+            int maxLevel = int.MaxValue)
+        {
+            var res = false;
+
+            if (tree != null && currentLevel <= maxLevel)
+            {
+                var finish = true;
+                if (tree is INID nidB)
+                {
+                    res = nidAsSubTreePattern.NamingId == nidB.NamingId;
+
+                    if (res)
+                    {
+                        doSomethingIfPatternMatches(nidB, parent, currentLevel);
+                        finish = finishSearchAfterPatternMatched;
+                    }
+
+                }
+                else if (tree is IString str_B)
+                {
+                    // mko, 14.7.2020
+                    // Annahme: Solche Vergleiche passieren in der Regel, wenn ein Tree mit einem geparsten verglichen wird.
+                    //          Der geparste Tree ist dabei mit der CNT benannt.
+                    res = RC.NC[nidAsSubTreePattern.NamingId].CNT == str_B.ValueAsString;
+
+                    if (res)
+                    {
+                        doSomethingIfPatternMatches(str_B, parent, currentLevel);
+                        finish = finishSearchAfterPatternMatched;
+                    }
+                }
+
+                if (!(tree is INoSubTrees) && searchAnywhere && !(finish && res))
+                {
+                    // tree ist komplex
+                    res = SearchInDeeperLevels(
+                            (_tree, _parent, _level, _max) => nidAsSubTreePattern.IsSubTreeOf
+                                (_tree,
+                                _parent,
+                                 doSomethingIfPatternMatches,
+                                 finishSearchAfterPatternMatched,
+                                 searchAnywhere,
+                                 _level,
+                                 _max),
+                            tree,
+                            currentLevel,
+                            maxLevel);
+                }
+            }
+
+            return res;
+        }
+
+        /// <summary>
+        /// mko, 3.8.2021
+        /// </summary>
+        /// <param name="intAsSubTreePattern"></param>
+        /// <param name="tree"></param>
+        /// <param name="searchAnywhere"></param>
+        /// <param name="maxLevel"></param>
+        /// <returns></returns>
+        public static bool IsSubTreeOf(
+            this IInteger intAsSubTreePattern,
+            IDocuEntity tree,
+            bool searchAnywhere = true,
+            int maxLevel = int.MaxValue)
+            =>
+                intAsSubTreePattern.IsSubTreeOf(tree, tree, (s, p, l) => { }, true, searchAnywhere, 0, maxLevel);
+
+        /// <summary>
+        /// mko, 2.8.2021
+        /// </summary>
+        /// <param name="intAsSubTreePattern"></param>
+        /// <param name="tree"></param>
+        /// <param name="searchAnywhere"></param>
+        /// <param name="Deepth"></param>
+        /// <returns></returns>
+        public static bool IsSubTreeOf(
+            this IInteger intAsSubTreePattern,
+            IDocuEntity tree,
+            IDocuEntity parent,
+            Action<IDocuEntity, IDocuEntity, int> doSomethingIfPatternMatches,
+            bool finishSearchAfterPatternMatched,
+            bool searchAnywhere,
+            int currentLevel,
+            int maxLevel = int.MaxValue)
+        {
+            var res = false;
+
+            if (tree != null && currentLevel <= maxLevel)
+            {
+                var finish = true;
+                if (tree is IInteger iB)
+                {
+                    res = intAsSubTreePattern.ValueAsLong == iB.ValueAsLong;
+
+                    if (res)
+                    {
+                        doSomethingIfPatternMatches(tree, parent, currentLevel);
+                        finish = finishSearchAfterPatternMatched;
+                    }
+
+                }
+
+                if (!(tree is INoSubTrees) && searchAnywhere && !(finish && res))
+                {
+                    // tree ist komplex
+                    res = SearchInDeeperLevels(
+                            (_tree, _parent, _level, _max) => intAsSubTreePattern.IsSubTreeOf(
+                                                _tree,
+                                                _parent,
+                                                doSomethingIfPatternMatches,
+                                                finishSearchAfterPatternMatched,
+                                                searchAnywhere,
+                                                _level,
+                                                _max),
+                            tree,
+                            currentLevel,
+                            maxLevel);
+                }
+
+            }
+
+            return res;
+        }
+
+        /// <summary>
+        /// mko, 3.8.2021
+        /// </summary>
+        /// <param name="dblAsSubTreePattern"></param>
+        /// <param name="tree"></param>
+        /// <param name="searchAnywhere"></param>
+        /// <param name="maxLevel"></param>
+        /// <returns></returns>
+        public static bool IsSubTreeOf(
+            this IDouble dblAsSubTreePattern,
+            IDocuEntity tree,
+            bool searchAnywhere = true,
+            int maxLevel = int.MaxValue)
+            =>
+                dblAsSubTreePattern.IsSubTreeOf(tree, tree, (s, p, l) => { }, true, searchAnywhere, 0, maxLevel);
+
+        /// <summary>
+        /// mko, 2.8.2021
+        /// </summary>
+        /// <param name="dblAsSubTreePattern"></param>
+        /// <param name="tree"></param>
+        /// <param name="searchAnywhere"></param>
+        /// <param name="maxLevel"></param>
+        /// <returns></returns>
+        public static bool IsSubTreeOf(
+            this IDouble dblAsSubTreePattern,
+            IDocuEntity tree,
+            IDocuEntity parent,
+            Action<IDocuEntity, IDocuEntity, int> doSomethingIfPatternMatches,
+            bool finishSearchAfterPatternMatched,
+            bool searchAnywhere,
+            int currentLevel,
+            int maxLevel = int.MaxValue)
+        {
+            var res = false;
+
+            if (tree != null && currentLevel <= maxLevel)
+            {
+                var finish = true;
+
+                if (tree is IDouble dblB)
+                {
+                    res = dblAsSubTreePattern.ValueAsDouble == dblB.ValueAsDouble;
+
+                    if (res)
+                    {
+                        doSomethingIfPatternMatches(dblB, parent, currentLevel);
+                        finish = finishSearchAfterPatternMatched;
+                    }
+                }
+
+                if (!(tree is INoSubTrees) && searchAnywhere && !(finish && res))
+                {
+                    // tree ist komplex
+                    res = SearchInDeeperLevels(
+                            (_tree, _parent, _level, _max) => dblAsSubTreePattern.IsSubTreeOf(
+                                                    _tree,
+                                                    _parent,
+                                                    doSomethingIfPatternMatches,
+                                                    finishSearchAfterPatternMatched,
+                                                    searchAnywhere,
+                                                    _level,
+                                                    _max),
+                            tree,
+                            currentLevel,
+                            maxLevel);
+                }
+
+            }
+
+            return res;
+        }
+
+        /// <summary>
+        /// mko, 3.8.2021
+        /// </summary>
+        /// <param name="boolAsSubTreePattern"></param>
+        /// <param name="tree"></param>
+        /// <param name="searchAnywhere"></param>
+        /// <param name="maxLevel"></param>
+        /// <returns></returns>
+        public static bool IsSubTreeOf(
+            this IBoolean boolAsSubTreePattern,
+            IDocuEntity tree,
+            bool searchAnywhere = true,
+            int maxLevel = int.MaxValue)
+            =>
+                boolAsSubTreePattern.IsSubTreeOf(tree, tree, (s, p, l) => { }, true, searchAnywhere, 0, maxLevel);
+
+        /// <summary>
+        /// mko, 2.8.2021
+        /// </summary>
+        /// <param name="boolAsSubTreePattern"></param>
+        /// <param name="tree"></param>
+        /// <param name="searchAnywhere"></param>
+        /// <param name="maxLevel"></param>
+        /// <returns></returns>
+        public static bool IsSubTreeOf(
+            this IBoolean boolAsSubTreePattern,
+            IDocuEntity tree,
+            IDocuEntity parent,
+            Action<IDocuEntity, IDocuEntity, int> doSomethingIfPatternMatches,
+            bool finishSearchAfterPatternMatched,
+            bool searchAnywhere,
+            int currentLevel,
+            int maxLevel = int.MaxValue)
+        {
+            var res = false;
+
+            if (tree != null && currentLevel <= maxLevel)
+            {
+                var finish = true;
+
+                if (tree is IBoolean boolB)
+                {
+                    res = boolAsSubTreePattern.ValueAsBool == boolB.ValueAsBool;
+
+                    if (res)
+                    {
+                        doSomethingIfPatternMatches(boolB, parent, currentLevel);
+                        finish = finishSearchAfterPatternMatched;
+                    }
+                }
+
+                if (!(tree is INoSubTrees) &&  searchAnywhere && !(finish && res))
+                {
+                    // tree ist komplex
+                    res = SearchInDeeperLevels(
+                            (_tree, _parent, _level, _max) => boolAsSubTreePattern.IsSubTreeOf(
+                                                _tree,
+                                                _parent,
+                                                doSomethingIfPatternMatches,
+                                                finishSearchAfterPatternMatched,
+                                                searchAnywhere,
+                                                _level,
+                                                _max),
+                            tree,
+                            currentLevel,
+                            maxLevel);
+                }
+            }
+
+            return res;
+        }
+
+
+        /// <summary>
+        /// mko, 2.8.2021
+        /// </summary>
+        /// <param name="strAsSubTreePattern"></param>
+        /// <param name="tree"></param>
+        /// <param name="searchAnywhere"></param>
+        /// <param name="maxLevel"></param>
+        /// <returns></returns>
+        public static bool IsSubTreeOf(
+            this IString strAsSubTreePattern,
+            IDocuEntity tree,
+            bool searchAnywhere = true,
+            int maxLevel = int.MaxValue)
+            =>
+                strAsSubTreePattern.IsSubTreeOf(tree, tree, (s, p, l) => { }, true, searchAnywhere, 0, maxLevel);
+
+        /// <summary>
+        /// mko, 2.8.2021
+        /// Verarbeitet auch gemischte Terme
+        /// </summary>
+        /// <param name="strAsSubTreePattern"></param>
+        /// <param name="tree"></param>
+        /// <param name="searchAnywhere"></param>
+        /// <param name="maxLevel"></param>
+        /// <returns></returns>
+        public static bool IsSubTreeOf(
+            this IString strAsSubTreePattern,
+            IDocuEntity tree,
+            IDocuEntity parent,
+            Action<IDocuEntity, IDocuEntity, int> doSomethingIfPatternMatches,
+            bool finishSearchAfterPatternMatched,
+            bool searchAnywhere,
+            int currentLevel,
+            int maxLevel = int.MaxValue)
+        {
+            var res = false;
+            var finish = true;
+            if (tree != null && currentLevel <= maxLevel)
+            {
+                if (tree is IString strB)
+                {
+                    res = strAsSubTreePattern.ValueAsString.Equals(strB.ValueAsString);
+
+                    if (res)
+                    {
+                        doSomethingIfPatternMatches(strB, parent, currentLevel);
+                        finish = finishSearchAfterPatternMatched;
+                    }
+
+                }
+                else if (tree is INID nid_B)
+                {
+                    // mko, 14.7.2020
+                    res = strAsSubTreePattern.ValueAsString.Equals(RC.NC[nid_B.NamingId].CNT);
+
+                    if (res)
+                    {
+                        doSomethingIfPatternMatches(nid_B, parent, currentLevel);
+                        finish = finishSearchAfterPatternMatched;
+                    }
+                }
+                else if (tree is ITxt txt)
+                {
+                    // mko, 30.7.2021
+                    // Wenn der String als subTreePattern in einem Text als Wort gefunden wird, dann ist 
+                    // die SubTree- Bedingung erfüllt
+                    foreach (var word in txt.Words)
+                    {
+                        if (strAsSubTreePattern.ValueAsString.ToUpper().Equals(word.ValueAsString.ToUpper()))
+                        {
+                            res = true;
+
+                            doSomethingIfPatternMatches(word, parent, currentLevel);
+                            finish = finishSearchAfterPatternMatched;
+
+                            break;
+                        }
+                    }
+                }
+
+
+                if (!(tree is INoSubTrees) &&  searchAnywhere && !(finish && res))
+                {
+                    // tree ist komplex
+                    res = SearchInDeeperLevels(
+                            (_tree, _parent, _level, _max) => strAsSubTreePattern.IsSubTreeOf(
+                                                    _tree,
+                                                    _parent,
+                                                    doSomethingIfPatternMatches,
+                                                    finishSearchAfterPatternMatched,
+                                                    searchAnywhere,
+                                                    _level,
+                                                    _max),
+                            tree,
+                            currentLevel,
+                            maxLevel);
+                }
+            }
+
+            return res;
+        }
+
+        /// <summary>
+        /// mko, 3.8.2021
+        /// </summary>
+        /// <param name="dateAsSubTreePattern"></param>
+        /// <param name="tree"></param>
+        /// <param name="searchAnywhere"></param>
+        /// <param name="maxLevel"></param>
+        /// <returns></returns>
+        public static bool IsSubTreeOf(
+            this IDate dateAsSubTreePattern,
+            IDocuEntity tree,
+            IDocuEntity parent,
+            bool searchAnywhere,
+            int currentLevel,
+            int maxLevel = int.MaxValue)
+            =>
+                dateAsSubTreePattern.IsSubTreeOf(tree, tree, (s, p, l) => { }, true, searchAnywhere, currentLevel, maxLevel);
+
+        /// <summary>
+        /// mko, 2.8.2021
+        /// </summary>
+        /// <param name="dateAsSubTreePattern"></param>
+        /// <param name="tree"></param>
+        /// <param name="searchAnywhere"></param>
+        /// <param name="maxLevel"></param>
+        /// <returns></returns>
+        public static bool IsSubTreeOf(
+            this IDate dateAsSubTreePattern,
+            IDocuEntity tree,
+            IDocuEntity parent,
+            Action<IDocuEntity, IDocuEntity, int> doSomethingIfPatternMatches,
+            bool finishSearchAfterPatternMatched,
+            bool searchAnywhere,
+            int currentLevel,
+            int maxLevel = int.MaxValue)
+        {
+            var res = false;
+            var finish = true;
+
+            if (tree != null && currentLevel <= maxLevel)
+            {
+                if (tree is IDate bDat)
+                {
+                    res = dateAsSubTreePattern.Year == bDat.Year
+                        && dateAsSubTreePattern.Month == bDat.Month
+                        && dateAsSubTreePattern.Day == bDat.Day;
+
+                    if (res)
+                    {
+                        doSomethingIfPatternMatches(bDat, parent, currentLevel);
+                        finish = finishSearchAfterPatternMatched;
+                    }
+                }
+
+                if (!(tree is INoSubTrees) && searchAnywhere && !(finish && res))
+                {
+                    // tree ist komplex
+                    res = SearchInDeeperLevels(
+                            (_tree, _parent, _level, _max) => dateAsSubTreePattern.IsSubTreeOf(
+                                                _tree,
+                                                _parent,
+                                                doSomethingIfPatternMatches,
+                                                finishSearchAfterPatternMatched,
+                                                searchAnywhere,
+                                                _level,
+                                                _max),
+                            tree,
+                            currentLevel,
+                            maxLevel);
+                }
+            }
+
+            return res;
+        }
+
+        /// <summary>
+        /// mko, 3.8.2021
+        /// </summary>
+        /// <param name="timeAsSubTreePattern"></param>
+        /// <param name="tree"></param>
+        /// <param name="searchAnywhere"></param>
+        /// <param name="maxLevel"></param>
+        /// <returns></returns>
+        public static bool IsSubTreeOf(
+            this ITime timeAsSubTreePattern,
+            IDocuEntity tree,
+            bool searchAnywhere = true,
+            int maxLevel = int.MaxValue)
+            =>
+                timeAsSubTreePattern.IsSubTreeOf(tree, tree, (s, p, l) => { }, true, searchAnywhere, 0, maxLevel);
+
+        /// <summary>
+        /// mko, 2.8.2021
+        /// </summary>
+        /// <param name="timeAsSubTreePattern"></param>
+        /// <param name="tree"></param>
+        /// <param name="searchAnywhere"></param>
+        /// <param name="maxLevel"></param>
+        /// <returns></returns>
+        public static bool IsSubTreeOf(
+            this ITime timeAsSubTreePattern,
+            IDocuEntity tree,
+            IDocuEntity parent,
+            Action<IDocuEntity, IDocuEntity, int> doSomethingIfPatternMatches,
+            bool finishSearchAfterPatternMatched,
+            bool searchAnywhere,
+            int currentLevel,
+            int maxLevel = int.MaxValue)
+        {
+            var res = false;
+
+            if (tree != null && currentLevel <= maxLevel)
+            {
+                var finish = true;
+                if (tree is ITime bTime)
+                {
+                    res = timeAsSubTreePattern.Hour == bTime.Hour
+                        && timeAsSubTreePattern.Minutes == bTime.Minutes
+                        && timeAsSubTreePattern.Seconds == bTime.Seconds
+                        && timeAsSubTreePattern.Milliseconds == bTime.Milliseconds;
+
+                    if (res)
+                    {
+                        doSomethingIfPatternMatches(bTime, parent, currentLevel);
+                        finish = finishSearchAfterPatternMatched;
+                    }
+
+                }
+
+                if (!(tree is INoSubTrees) && searchAnywhere && !(finish && res))
+                {
+                    // tree ist komplex
+                    res = SearchInDeeperLevels(
+                            (_tree, _parent, _level, _max) => timeAsSubTreePattern.IsSubTreeOf(
+                                                    _tree,
+                                                    _parent,
+                                                    doSomethingIfPatternMatches,
+                                                    finishSearchAfterPatternMatched,
+                                                    searchAnywhere,
+                                                    _level,
+                                                    _max),
+                            tree,
+                            currentLevel,
+                            maxLevel);
+                }
+            }
+
+            return res;
+        }
+
+
+        /// <summary>
+        /// mko, 3.8.2021
+        /// 
+        /// mko, 5.8.2021
+        /// </summary>
+        /// <param name="verAsSubTreePattern"></param>
+        /// <param name="tree"></param>
+        /// <param name="searchAnywhere"></param>
+        /// <param name="Deepth"></param>
+        /// <returns></returns>
+        public static bool IsSubTreeOf(
+            this IVer verAsSubTreePattern,
+            IDocuEntity tree,
+            bool searchAnywhere = true,
+            int Deepth = int.MaxValue)
+            =>
+                verAsSubTreePattern.IsSubTreeOf(tree, tree, (s, p, l) => { }, true, searchAnywhere, 0, Deepth);
+
+        /// <summary>
+        /// mko, 5.8.2021
+        /// </summary>
+        /// <param name="verAsSubTreePattern"></param>
+        /// <param name="tree"></param>
+        /// <param name="parentTree"></param>
+        /// <param name="doSomethingIfPatternMatches"></param>
+        /// <param name="finishSearchAfterPatternMatched"></param>
+        /// <param name="searchAnywhere"></param>
+        /// <param name="currentLevel"></param>
+        /// <param name="maxLevel"></param>
+        /// <returns></returns>
+        public static bool IsSubTreeOf(
+            this IVer verAsSubTreePattern,
+            IDocuEntity tree,
+            IDocuEntity parentTree,
+            Action<IDocuEntity, IDocuEntity, int> doSomethingIfPatternMatches,
+            bool finishSearchAfterPatternMatched,
+            bool searchAnywhere,
+            int currentLevel,
+            int maxLevel = int.MaxValue)
+        {
+            var res = false;
+
+            if (tree != null && currentLevel <= maxLevel)
+            {
+                var finish = true;
+
+                if (tree is IVer bVer)
+                {
+                    res = verAsSubTreePattern.VersionString.Equals(bVer.VersionString);
+
+                    if (res)
+                    {
+                        doSomethingIfPatternMatches(bVer, parentTree, currentLevel);
+                        finish = finishSearchAfterPatternMatched;
+                    }
+                }
+
+                if (!(tree is INoSubTrees) && searchAnywhere && !(finish && res))
+                {
+                    // tree ist komplex
+                    res = SearchInDeeperLevels(
+                            (_tree, _parent, _level, _maxLevel) => verAsSubTreePattern.IsSubTreeOf(
+                                                    _tree,
+                                                    _parent,
+                                                    doSomethingIfPatternMatches,
+                                                    finishSearchAfterPatternMatched,
+                                                    searchAnywhere,
+                                                    _level,
+                                                    _maxLevel),
+                            tree,
+                            currentLevel,
+                            maxLevel);
+                }
+            }
+
+            return res;
+        }
+
+
+        /// <summary>
+        /// mko, 28.7.2021
+        /// 
+        /// mko, 5.8.2021
+        /// </summary>
+        /// <param name="instanceAsSubTreePattern"></param>
+        /// <param name="tree"></param>
+        /// <param name="searchAnywhere"></param>
+        /// <param name="maxLevel"></param>
+        /// <returns></returns>
+        public static bool IsSubTreeOf(
+            this IInstance instanceAsSubTreePattern,
+            IDocuEntity tree,
+            bool searchAnywhere = true,
+            int maxLevel = int.MaxValue)
+            =>
+                instanceAsSubTreePattern.IsSubTreeOf(tree, tree, (s, p, l) => { }, true, searchAnywhere, 0, maxLevel);
+
+        /// <summary>
+        /// mko, 28.7.2021
+        /// 
+        /// mko, 5.8.2021
+        /// </summary>
+        /// <param name="instanceAsSubTreePattern"></param>
+        /// <param name="tree"></param>
+        /// <param name="searchAnywhere"></param>
+        /// <param name="maxLevel"></param>
+        /// <returns></returns>
+        public static bool IsSubTreeOf(
+            this IInstance instanceAsSubTreePattern,
+            IDocuEntity tree,
+            IDocuEntity parentTree,
+            Action<IDocuEntity, IDocuEntity, int> doSomethingIfPatternMatches,
+            bool finishSearchAfterPatternMatched,
+            bool searchAnywhere,
+            int currentLevel,
+            int maxLevel = int.MaxValue)
+        {
+            var res = false;
+
+            if (tree != null && currentLevel <= maxLevel)
+            {
+                //var a = subTreePattern;
+                //var b = tree;
+                var finish = true;
+
+                if (tree is IInstance instance && instanceAsSubTreePattern.AreOfSameName(instance))
+                {
+                    res = PartiallyEqualInstanceMembers(
+                        instanceAsSubTreePattern,
+                        instance,
+                        currentLevel,
+                        maxLevel,
+                        doSomethingIfPatternMatches,
+                        finishSearchAfterPatternMatched);
+
+                    if (res)
+                    {
+                        doSomethingIfPatternMatches(instance, parentTree, currentLevel);
+                        finish = finishSearchAfterPatternMatched;
+                    }
+                }
+
+                // Weitersuchen, wenn noch keine Übereinstimmung festgestellt wurde, und auch 
+                // die Übereinstimmung mit Strukturen in tieferen Schichten legitim wäre
+                if (!(tree is INoSubTrees) && searchAnywhere && !(finish && res))
+                {
+                    res = SearchInDeeperLevels(
+                            (_tree, _parentTree, _level, _maxLevel) => instanceAsSubTreePattern.IsSubTreeOf(
+                                                    _tree,
+                                                    _parentTree,
+                                                    doSomethingIfPatternMatches,
+                                                    finishSearchAfterPatternMatched,
+                                                    true,
+                                                    _level,
+                                                    _maxLevel),
+                            tree,
+                            currentLevel,
+                            maxLevel);
+                }
+            }
+
+            return res;
+        }
+
+        /// <summary>
+        /// mko, 3.8.2021
+        /// </summary>
+        /// <param name="methodAsSubTreePattern"></param>
+        /// <param name="tree"></param>
+        /// <param name="searchAnywhere"></param>
+        /// <param name="maxLevel"></param>
+        /// <returns></returns>
+        public static bool IsSubTreeOf(
+            this IMethod methodAsSubTreePattern,
+            IDocuEntity tree,
+            bool searchAnywhere = true,
+            int maxLevel = int.MaxValue)
+            =>
+                methodAsSubTreePattern.IsSubTreeOf(tree, tree, (s, p, l) => { }, true, searchAnywhere, 0, maxLevel);
+
+        /// <summary>
+        /// mko, 28.6.2021
+        /// </summary>
+        /// <param name="methodAsSubTreePattern"></param>
+        /// <param name="tree"></param>
+        /// <param name="searchAnywhere"></param>
+        /// <param name="maxLevel"></param>
+        /// <returns></returns>
+        public static bool IsSubTreeOf(
+            this IMethod methodAsSubTreePattern,
+            IDocuEntity tree,
+            IDocuEntity Parent,
+            Action<IDocuEntity, IDocuEntity, int> doSomethingIfPatternMatches,
+            bool finishSearchAfterPatternMatched,
+            bool searchAnywhere,
+            int currentLevel,
+            int maxLevel = int.MaxValue)
+        {
+            var res = false;
+
+            if (tree != null && currentLevel <= maxLevel)
+            {
+                var finishSearch = true;
+
+                if (tree is IMethod bMeth && methodAsSubTreePattern.AreOfSameName(bMeth))
+                {
+                    res = PartiallyEqualMethodParameters(
+                        methodAsSubTreePattern,
+                        bMeth,
+                        currentLevel,
+                        maxLevel,
+                        doSomethingIfPatternMatches,
+                        finishSearchAfterPatternMatched);
+
+                    if (res)
+                    {
+                        doSomethingIfPatternMatches(bMeth, Parent, currentLevel);
+                        finishSearch = finishSearchAfterPatternMatched;
+                    }
+                }
+
+                // Weitersuchen, wenn noch keine Übereinstimmung festgestellt wurde, und auch 
+                // die Übereinstimmung mit Strukturen in tieferen Schichten legitim wäre
+                // Weitersuchen, wenn noch keine Übereinstimmung festgestellt wurde, und auch 
+                // die Übereinstimmung mit Strukturen in tieferen Schichten legitim wäre
+                if (!res && searchAnywhere)
+                {
+                    res = SearchInDeeperLevels(
+                            (_tree, _parent, _current, _max)
+                                => methodAsSubTreePattern.IsSubTreeOf(
+                                    _tree,
+                                    _parent,
+                                    doSomethingIfPatternMatches,
+                                    finishSearchAfterPatternMatched,
+                                    true,
+                                    _current,
+                                    _max),
+                            tree,
+                            currentLevel,
+                            maxLevel);
+                }
+            }
+
+            return res;
+        }
+
+
+        /// <summary>
+        /// mko, 3.8.2021
+        /// Überladung der vollständigen Implementierung von `IsSubTreeOf`, um neue Parameter im alten Knotext
+        /// zu verbergen
+        /// </summary>
+        /// <param name="propertyAsSubTreePattern"></param>
+        /// <param name="tree"></param>
+        /// <param name="searchAnywhere"></param>
+        /// <param name="maxLevel"></param>
+        /// <returns></returns>
+        public static bool IsSubTreeOf(
+            this IProperty propertyAsSubTreePattern,
+            IDocuEntity tree,
+            bool searchAnywhere = true,
+            int maxLevel = int.MaxValue)
+            =>
+                propertyAsSubTreePattern.IsSubTreeOf(tree, tree, (s, p, l) => { }, true, searchAnywhere, 0, maxLevel);
+
+
+
+        /// <summary>
+        /// mko, 28.7.2021
+        /// 
+        /// mko, 3.8.2021
+        /// Erweitert auf die Parameter `doSomethingIfPatternMatches`und  `finishSearchAfterPatternMatched`,
+        /// um mit dieser Funktion auch `AsSubTreeOf`zu implementieren etc..
+        /// </summary>
+        /// <param name="propertyAsSubTreePattern"></param>
+        /// <param name="tree"></param>
+        /// <param name="doSomethingIfPatternMatches"></param>
+        /// <param name="finishSearchAfterPatternMatched"></param>
+        /// <param name="searchAnywhere"></param>
+        /// <param name="maxLevel"></param>
+        /// <returns></returns>
+        public static bool IsSubTreeOf(
+            this IProperty propertyAsSubTreePattern,
+            IDocuEntity tree,
+            IDocuEntity Parent,
+            Action<IDocuEntity, IDocuEntity, int> doSomethingIfPatternMatches,
+            bool finishSearchAfterPatternMatched,
+            bool searchAnywhere,
+            int curentLevel,
+            int maxLevel = int.MaxValue)
+        {
+            var res = false;
+
+            if (tree != null && curentLevel <= maxLevel)
+            {
+                //var a = subTreePattern;
+                //var b = tree;
+
+                var finishSearch = true;
+
+                if (tree is IProperty p && propertyAsSubTreePattern.AreOfSameName(p))
+                {
+                    // Properties müssen im Unterschied zu Events immer einen Propertyvalue 
+                    // enthalten. Im Pattern kann der PropertyValue durch einen Wildcard ersetzt
+                    // werden.
+
+                    //res = propertyAsSubTreePattern.PropertyValue.IsPutIntoAppropiateIsSubTreeOfTestWith(p.PropertyValue, false);
+                    res = IsSubTreeTestForEntityType[propertyAsSubTreePattern.PropertyValue.EntityType]
+                          (
+                            propertyAsSubTreePattern.PropertyValue,
+                            p.PropertyValue,
+                            p,
+                            doSomethingIfPatternMatches,
+                            finishSearchAfterPatternMatched,
+                            searchAnywhere,
+                            curentLevel + 1,
+                            maxLevel);
+
+                    if (res)
+                    {
+                        doSomethingIfPatternMatches(p, Parent, curentLevel);
+                        finishSearch = finishSearchAfterPatternMatched;
+                    }
+                }
+
+                // Weitersuchen, wenn noch keine Übereinstimmung festgestellt wurde, und auch 
+                // die Übereinstimmung mit Strukturen in tieferen Schichten legitim wäre.
+                // Prüfen, ob die Tiefe nicht beschränkt ist
+                if (!(tree is INoSubTrees) && searchAnywhere && !(finishSearch && res))
+                {
+                    res = SearchInDeeperLevels(
+                            (_tree, _parent, _currentLevel, _maxLevel)
+                                => propertyAsSubTreePattern.IsSubTreeOf(
+                                    _tree,
+                                    _parent,
+                                    doSomethingIfPatternMatches,
+                                    finishSearchAfterPatternMatched,
+                                    true,
+                                    _currentLevel,
+                                    _maxLevel),
+                            tree,
+                            curentLevel,
+                            maxLevel);
+                }
+            }
+
+            return res;
+        }
+
+
+        /// <summary>
+        /// mko, 3.8.2021
+        /// 
+        /// mko, 5.8.2021
+        /// </summary>
+        /// <param name="eventAsSubTreePattern"></param>
+        /// <param name="tree"></param>
+        /// <param name="searchAnywhere"></param>
+        /// <param name="Deepth"></param>
+        /// <returns></returns>
+        public static bool IsSubTreeOf(
+            this IEvent eventAsSubTreePattern,
+            IDocuEntity tree,
+            bool searchAnywhere = true,
+            int maxLevel = int.MaxValue)
+            =>
+                eventAsSubTreePattern.IsSubTreeOf(tree, tree, (s, p, l) => { }, true, searchAnywhere, 0, maxLevel);
+
+        /// <summary>
+        /// mko, 28.7.2021
+        /// </summary>
+        /// <param name="eventAsSubTreePattern"></param>
+        /// <param name="tree"></param>
+        /// <param name="searchAnywhere"></param>
+        /// <param name="maxLevel"></param>
+        /// <returns></returns>
+        public static bool IsSubTreeOf(
+            this IEvent eventAsSubTreePattern,
+            IDocuEntity tree,
+            IDocuEntity parent,
+            Action<IDocuEntity, IDocuEntity, int> doSomethingIfPatternMatches,
+            bool finishSearchAfterPatternMatched,
+            bool searchAnywhere,
+            int currentLevel,
+            int maxLevel = int.MaxValue)
+        {
+            var res = false;
+
+            if (tree != null && currentLevel <= maxLevel)
+            {
+                var finish = true;
+
+                if (tree is IEvent e && eventAsSubTreePattern.AreOfSameName(e))
+                {
+
+                    if (eventAsSubTreePattern.IsSetToDefaultValue)
+                    {
+                        // Wenn das subTreePattern keinen Eventparameter hat, dann ist es immer ein 
+                        // SubTree von Tree, da beide Events sind, und ein event ohne Parameter (= Defaultwert)
+                        // Teil eines Events mit Parameter ist
+                        res = true;
+                    }
+                    else if (!eventAsSubTreePattern.IsSetToDefaultValue && e.IsSetToDefaultValue)
+                    {
+                        // Das Pattern ist restriktiver als das zu untersuchende Event-> kein SubTree
+                        res = false;
+                    }
+                    else
+                    {
+                        // Prüfen, ob Parameter vom Pattern im Parameter vom Event enthalten ist
+                        //res = eventAsSubTreePattern.EventParameter.IsPutIntoAppropiateIsSubTreeOfTestWith(e.EventParameter);
+                        res = IsSubTreeTestForEntityType[eventAsSubTreePattern.EventParameter.EntityType](
+                                eventAsSubTreePattern.EventParameter,
+                                e.EventParameter,
+                                parent,
+                                doSomethingIfPatternMatches,
+                                finishSearchAfterPatternMatched,
+                                searchAnywhere,
+                                currentLevel,
+                                maxLevel);
+                    }
+
+                    if (res)
+                    {
+                        doSomethingIfPatternMatches(e, parent, currentLevel);
+                        finish = finishSearchAfterPatternMatched;
+                    }
+
+                }
+
+                // Weitersuchen, wenn noch keine Übereinstimmung festgestellt wurde, und auch 
+                // die Übereinstimmung mit Strukturen in tieferen Schichten legitim wäre
+                if (!(tree is INoSubTrees) && searchAnywhere && !(finish && res))
+                {
+                    res = SearchInDeeperLevels(
+                        (_tree, _parent, _currentLevel, _maxLevel) => eventAsSubTreePattern.IsSubTreeOf(
+                                                _tree,
+                                                _parent,
+                                                doSomethingIfPatternMatches,
+                                                finishSearchAfterPatternMatched,
+                                                true,
+                                                _currentLevel,
+                                                _maxLevel),
+                        tree,
+                        currentLevel,
+                        maxLevel);
+                }
+            }
+
+            return res;
+        }
+
+
+        /// <summary>
+        /// mko, 3.8.2021
+        /// </summary>
+        /// <param name="dtListAsSubTreePattern"></param>
+        /// <param name="tree"></param>
+        /// <param name="searchAnywhere"></param>
+        /// <param name="_maxLevel"></param>
+        /// <returns></returns>
+        public static bool IsSubTreeOf(
+            this IDTList dtListAsSubTreePattern,
+            IDocuEntity tree,
+            bool searchAnywhere = true,
+            int _maxLevel = int.MaxValue
+            )
+            =>
+                dtListAsSubTreePattern.IsSubTreeOf(tree, tree, (s, p, l) => { }, true, searchAnywhere, 0, _maxLevel);
+
+
+        /// <summary>
+        /// mko, 30.7.2021
+        /// </summary>
+        /// <param name="dtListAsSubTreePattern"></param>
+        /// <param name="tree"></param>
+        /// <param name="searchAnywhere"></param>
+        /// <param name="maxLevel"></param>
+        /// <returns></returns>
+        public static bool IsSubTreeOf(
+            this IDTList dtListAsSubTreePattern,
+            IDocuEntity tree,
+            IDocuEntity parent,
+            Action<IDocuEntity, IDocuEntity, int> doSomethingIfPatternMatches,
+            bool finishSearchAfterPatternMatched,
+            bool searchAnywhere,
+            int currentLevel,
+            int maxLevel = int.MaxValue
+            )
+        {
+            bool res = false;
+
+            if (tree != null && currentLevel <= maxLevel)
+            {
+                var finish = true;
+                if (tree is IDTList listB)
+                {
+                    // Liste A muss in Liste B enthalten sein
+                    bool areEqual = dtListAsSubTreePattern.ListMembers.Length <= listB.ListMembers.Length;
+
+                    if (areEqual)
+                    {
+                        // Vergleich unter strikter Beachtung der Reihenfolge der Parameter
+                        var contentAB = dtListAsSubTreePattern.ListMembers.Zip(listB.ListMembers, (A, B) => (A, B));
+
+                        foreach (var pair in contentAB)
+                        {
+                            //areEqual &= pair.A.IsPutIntoAppropiateIsSubTreeOfTestWith(pair.B);
+                            areEqual &= IsSubTreeTestForEntityType[pair.A.EntityType](
+                                pair.A,
+                                pair.B,
+                                listB,
+                                doSomethingIfPatternMatches,
+                                finishSearchAfterPatternMatched,
+                                searchAnywhere,
+                                currentLevel + 1,
+                                maxLevel);
+
+                            if (!areEqual)
+                            {
+                                break;
+                            }
+                        }
+                    }
+
+                    res = areEqual;
+
+                    if (res)
+                    {
+                        doSomethingIfPatternMatches(listB, parent, currentLevel);
+                        finish = finishSearchAfterPatternMatched;
+                    }
+
+                }
+
+                // Weitersuchen, wenn noch keine Übereinstimmung festgestellt wurde, und auch 
+                // die Übereinstimmung mit Strukturen in tieferen Schichten legitim wäre
+                if (!(tree is INoSubTrees) && searchAnywhere && !(finish && res))
+                {
+                    res = SearchInDeeperLevels(
+                        (_tree, _parent, _level, _max) => dtListAsSubTreePattern.IsSubTreeOf(
+                                                _tree,
+                                                _parent,
+                                                doSomethingIfPatternMatches,
+                                                finishSearchAfterPatternMatched,
+                                                true,
+                                                _level,
+                                                _max),
+                        tree,
+                        currentLevel,
+                        maxLevel);
+                }
+            }
+
+            return res;
+        }
+
+
+        /// <summary>
+        /// mko, 4.8.2021
+        /// 
+        /// mko, 5.8.2021
+        /// </summary>
+        /// <param name="retAsSubTreePattern"></param>
+        /// <param name="tree"></param>
+        /// <param name="searchAnywhere"></param>
+        /// <param name="Deepth"></param>
+        /// <returns></returns>
+        public static bool IsSubTreeOf(
+            this IReturn retAsSubTreePattern,
+            IDocuEntity tree,
+            bool searchAnywhere = true,
+            int Deepth = int.MaxValue
+            )
+            =>
+                retAsSubTreePattern.IsSubTreeOf(
+                    tree,
+                    tree,
+                    (s, p, l) => { },
+                    true,
+                    searchAnywhere,
+                    Deepth);
+
+
+        /// <summary>
+        /// mko, 30.7.2021
+        /// 
+        /// mko, 4.8.2021
+        /// 
+        /// mko, 5.8.2021
+        /// </summary>
+        /// <param name="retAsSubTreePattern"></param>
+        /// <param name="tree"></param>
+        /// <param name="searchAnywhere"></param>
+        /// <param name="maxLevel"></param>
+        /// <returns></returns>
+        public static bool IsSubTreeOf(
+            this IReturn retAsSubTreePattern,
+            IDocuEntity tree,
+            IDocuEntity parent,
+            Action<IDocuEntity, IDocuEntity, int> doSomethingIfPatternMatches,
+            bool finishSearchAfterPatternMatched,
+            bool searchAnywhere,
+            int curentLevel,
+            int maxLevel = int.MaxValue
+            )
         {
             var res = false;
 
             if (tree != null)
             {
-                var a = subTreePattern;
-                var b = tree;
+                var finish = true;
 
-                if (a is IWildCard wc)
+                if (tree is IReturn r)
                 {
-                    // Hat die Wilccard eine Subtree- Einschränkung
-                    if (wc.Childs.Any())
+
+                    // Returns müssen im Unterschied zu Events einen ReturnValue
+                    // enthalten. 
+                    // mko, 30.7.2021: Ist das noch so?
+
+                    if (retAsSubTreePattern.IsSetToDefaultValue)
                     {
-                        res = wc.Childs.First().IsSubTreeOf(tree);
-                    }
-                    else
-                    {
+                        // Wenn das subTreePattern keinen ReturnValue hat, dann ist es immer ein 
+                        // SubTree von Tree, da beide Returns sind, und ein Return ohne Parameter (= Defaultwert)
+                        // Teil eines Returns mit Parameter ist
                         res = true;
+                        doSomethingIfPatternMatches(r, parent, curentLevel);
+                        finish = finishSearchAfterPatternMatched;
                     }
-                }
-                else if (a.EntityType == b.EntityType)
-                {
-                    if (a.IsNamed() && b.IsNamed())
+                    else if (!retAsSubTreePattern.IsSetToDefaultValue && r.IsSetToDefaultValue)
                     {
-                        // Namen auf Gleichheit prüfen
-                        if (!a.AreOfSameName(b))
-                        {
-                            // Unterschiedliche Namen => keine Gleichheit
-                            res = false;
-                        }
-                        else if (a is IMethod aMeth && b is IMethod bMeth)
-                        {
-                            res = PartiallyEqualMethodParameters(aMeth.Parameters, bMeth.Parameters);
-                        }
-                        else if (a is IInstance aInstance && b is IInstance bInstance)
-                        {
-                            res = PartiallyEqualInstanceMembers(aInstance.InstanceMembers, bInstance.InstanceMembers);
-                        }
-                        else if (a is IProperty propA && b is IProperty propB)
-                        {
-                            // Properties müssen im Unterschied zu Events immer einen Propertyvalue 
-                            // enthalten. Im Pattern kann der PropertyValue durch einen Wildcard ersetzt
-                            // werden.
-                            res = propA.PropertyValue.IsSubTreeOf(propB.PropertyValue);
-                        }
-                        else if (a is IEvent eventA && b is IEvent eventB)
-                        {
-                            if (eventA.EventParameter == null && eventB.EventParameter == null)
-                                // Beide Events ohne Parameter -> Gleichheit
-                                res = true;
-                            else if (eventA.EventParameter == null && eventB.EventParameter != null)
-                                // Pattern als Event ohne Parameter ist auch in Events mit  
-                                // Parameter enthalten -> ist SubTree
-                                res = true;
-                            else if (eventA.EventParameter != null && eventB.EventParameter == null)
-                                // Das Pattern ist restriktiver als das zu untersuchende Event-> kein SubTree
-                                res = false;
-                            else
-                                // Prüfen, ob Parameter vom Pattern im Parameter vom Event enthalten ist
-                                res = eventA.EventParameter.IsSubTreeOf(eventB.EventParameter);
-                        }
-                        else res = false;
+                        // Das Pattern ist restriktiver als das zu untersuchende Return-> kein SubTree
+                        res = false;
                     }
                     else
                     {
-                        if (a is NID nidA && b is NID nidB)
-                        {
-                            res = nidA.NamingId == nidB.NamingId;
-                        }
-                        else if (a is IReturn retA && b is IReturn retB)
-                        {
-                            // Returns müssen im Unterschied zu Events einen ReturnValue
-                            // enthalten. 
-                            res = retA.ReturnValue.IsSubTreeOf(retB.ReturnValue);
-                        }
-                        else if (a is Integer intA && b is Integer intB)
-                        {
-                            res = intA.ValueAsLong == intB.ValueAsLong;
-                        }
-                        else if (a is Double dblA && b is Double dblB)
-                        {
-                            res = dblA.Value == dblB.Value;
-                        }
-                        else if (a is Boolean boolA && b is Boolean boolB)
-                        {
-                            res = boolA.ValueAsBool == boolB.ValueAsBool;
-                        }
-                        else if (a is String strA && b is String strB)
-                        {
-                            res = strA.Value == strB.Value;
-                        }
-                        else if (a is ITxt txtA && b is ITxt txtB)
-                        {
-                            bool areEqual = txtA.Words.Length == txtA.Words.Length;
+                        // Prüfen, ob Parameter vom Pattern im Parameter vom Return enthalten ist
+                        // mko, 15.3.2021
+                        // IsSubTreeOf(..., false) definiert, da sonst z.B. 
+                        // ret(eSucceeded()).IsSubTreeOf(ret(eFails(....eSucceeded()))
 
-                            if (areEqual)
-                            {
-                                // Vergleich unter strikter Beachtung der Reihenfolge der Parameter
-                                var contentAB = txtA.Words.Zip(txtB.Words, (A, B) => (A, B));
+                        //res = retAsSubTreePattern.ReturnValue.IsPutIntoAppropiateIsSubTreeOfTestWith(r.ReturnValue, false);
+                        res = IsSubTreeTestForEntityType[retAsSubTreePattern.ReturnValue.EntityType](
+                            retAsSubTreePattern.ReturnValue,
+                            r.ReturnValue,
+                            r,
+                            doSomethingIfPatternMatches,
+                            finishSearchAfterPatternMatched,
+                            false,
+                            curentLevel + 1,
+                            maxLevel);
 
-                                foreach (var pair in contentAB)
-                                {
-                                    areEqual &= pair.A.Value.Equals(pair.B.Value);
-                                    if (!areEqual)
-                                        break;
-                                }
-                            }
-
-                            res = areEqual;
-                        }
-                        else if (a is DTDate aDat && b is DTDate bDat)
+                        if (res)
                         {
-                            res = aDat.Year == bDat.Year && aDat.Month == bDat.Month && aDat.Day == bDat.Day;
-                        }
-                        else if (a is DTTime aTime && b is DTTime bTime)
-                        {
-                            res = aTime.Hour == bTime.Hour && aTime.Minutes == bTime.Minutes && aTime.Seconds == bTime.Seconds && aTime.Milliseconds == bTime.Milliseconds;
-                        }
-                        else if (a is IDTList listA && b is IDTList listB)
-                        {
-                            // Liste A muss in Liste B enthalten sein
-                            bool areEqual = listA.ListMembers.Length <= listA.ListMembers.Length;
-
-                            if (areEqual)
-                            {
-                                // Vergleich unter strikter Beachtung der Reihenfolge der Parameter
-                                var contentAB = listA.ListMembers.Zip(listB.ListMembers, (A, B) => (A, B));
-
-                                foreach (var pair in contentAB)
-                                {
-                                    areEqual &= pair.A.IsSubTreeOf(pair.B);
-                                    if (!areEqual)
-                                        break;
-                                }
-                            }
-
-                            res = areEqual;
-                        }
-                        else
-                        {
-                            res = false;
+                            doSomethingIfPatternMatches(r, parent, curentLevel);
+                            finish = finishSearchAfterPatternMatched;
                         }
                     }
-                }
-                else if (a is NID nidA_ && b is String str_B)
-                {
-                    // mko, 14.7.2020
-                    res = RC.NC[nidA_.NamingId].CNT == str_B.Value;
-                }
-                else if (a is String strA_ && b is NID nid_B)
-                {
-                    // mko, 14.7.2020
-                    res = strA_.Value == RC.NC[nid_B.NamingId].CNT;
+
                 }
 
-
-                if (!res && searchAnywhere)
+                // Weitersuchen, wenn noch keine Übereinstimmung festgestellt wurde, und auch 
+                // die Übereinstimmung mit Strukturen in tieferen Schichten legitim wäre
+                if (!(tree is INoSubTrees) && searchAnywhere && !(finish && res))
                 {
-                    foreach (var child in tree.Childs)
+                    res = SearchInDeeperLevels(
+                        (_tree, _parent, _level, _max) => retAsSubTreePattern.IsSubTreeOf(
+                                                _tree,
+                                                _parent,
+                                                doSomethingIfPatternMatches,
+                                                finishSearchAfterPatternMatched,
+                                                true,
+                                                _level,
+                                                _max),
+                        tree,
+                        curentLevel,
+                        maxLevel);
+                }
+            }
+
+            return res;
+        }
+
+
+        /// <summary>
+        /// mko, 5.8.2021
+        /// </summary>
+        /// <param name="txtAsSubTreePattern"></param>
+        /// <param name="tree"></param>
+        /// <param name="searchAnywhere"></param>
+        /// <param name="maxLevel"></param>
+        /// <returns></returns>
+        public static bool IsSubTreeOf(
+            this ITxt txtAsSubTreePattern,
+            IDocuEntity tree,
+            bool searchAnywhere = true,
+            int maxLevel = int.MaxValue)
+            =>
+                txtAsSubTreePattern.IsSubTreeOf(tree, tree, (s, p, l) => { }, true, searchAnywhere, 0, maxLevel);
+
+
+        /// <summary>
+        /// mko, 5.8.2021
+        /// </summary>
+        /// <param name="txtAsSubTreePattern"></param>
+        /// <param name="tree"></param>
+        /// <param name="parent"></param>
+        /// <param name="doSomethingIfPatternMatches"></param>
+        /// <param name="finishSearchAfterPatternMatched"></param>
+        /// <param name="searchAnywhere"></param>
+        /// <param name="currentLevel"></param>
+        /// <param name="maxLevel"></param>
+        /// <returns></returns>
+        public static bool IsSubTreeOf(
+            this ITxt txtAsSubTreePattern,
+            IDocuEntity tree,
+            IDocuEntity parent,
+            Action<IDocuEntity, IDocuEntity, int> doSomethingIfPatternMatches,
+            bool finishSearchAfterPatternMatched,
+            bool searchAnywhere,
+            int currentLevel,
+            int maxLevel = int.MaxValue)
+        {
+            var res = false;
+
+            if (tree != null)
+            {
+                var finish = true;
+                if (tree is ITxt txtB)
+                {
+                    var txtA = txtAsSubTreePattern;
+                    bool areEqual = txtA.Words.Length == txtA.Words.Length;
+
+                    if (areEqual)
                     {
-                        if (subTreePattern.IsSubTreeOf(child))
+                        // Vergleich unter strikter Beachtung der Reihenfolge der Parameter
+                        var contentAB = txtA.Words.Zip(txtB.Words, (A, B) => (A, B));
+
+                        foreach (var pair in contentAB)
+                        {
+                            areEqual &= pair.A.ValueAsString.Equals(pair.B.ValueAsString);
+                            if (!areEqual)
+                                break;
+                        }
+                    }
+
+                    res = areEqual;
+
+                    if (res)
+                    {
+                        doSomethingIfPatternMatches(txtB, parent, currentLevel);
+                        finish = finishSearchAfterPatternMatched;
+                    }
+                }
+
+                if (!(tree is INoSubTrees) && searchAnywhere && !(finish && res))
+                {
+                    res = SearchInDeeperLevels(
+                        (_tree, _parent, _level, _maxLevel) => txtAsSubTreePattern.IsSubTreeOf(
+                                                _tree,
+                                                _parent,
+                                                doSomethingIfPatternMatches,
+                                                finishSearchAfterPatternMatched,
+                                                true,
+                                                _level,
+                                                _maxLevel),
+                        tree,
+                        currentLevel,
+                        maxLevel);
+
+                }
+            }
+
+            return res;
+
+        }
+
+
+        /// <summary>
+        /// mko, 30.7.2021
+        /// 
+        /// mko, 4.8.2021
+        /// 
+        /// </summary>
+        /// <param name="isSubTreeOf"></param>
+        /// <param name="tree"></param>
+        /// <param name="Deepth"></param>
+        /// <returns></returns>
+        private static bool SearchInDeeperLevels(
+            Func<IDocuEntity, IDocuEntity, int, int, bool> isSubTreeOf,
+            IDocuEntity tree,
+            //IDocuEntity parentTree,
+            int currentLevel,
+            int maxLevel)
+        {
+            var res = false;
+
+            // Prüfen, ob die Tiefe nicht beschränkt ist
+            if (currentLevel <= maxLevel)
+            {
+                // Nur DocuTerme betrachten, die komplexe Unterstrukturen wie IInstance aufnehmen 
+                // können (String, NID etc. gehören z.B. nicht dazu)
+
+                if (tree is IInstance i)
+                {
+                    // Es wird davon ausgegangen, das die Instanz immer Instanzmember hat
+                    // (wenn keine, dann eine leere Liste als Default- Wert)
+                    foreach (var member in i.InstanceMembers)
+                    {
+                        if (isSubTreeOf(member, i, currentLevel + 1, maxLevel))
                         {
                             res = true;
                             break;
                         }
                     }
                 }
+                else if (tree is IMethod m)
+                {
+                    // Es wird davon ausgegangen, das die Methode immer Parameter hat
+                    // (wenn keine, dann eine leere Liste als Default- Wert)
+                    foreach (var parameter in m.Parameters)
+                    {
+                        if (isSubTreeOf(parameter, m, currentLevel + 1, maxLevel))
+                        {
+                            res = true;
+                            break;
+                        }
+                    }
+                }
+                else if (tree is IDTList lst)
+                {
+                    // Es wird davon ausgegangen, das die Liste immer Listmember hat
+                    // (wenn keine, dann eine leere Liste als Default- Wert)
+                    foreach (var lstMember in lst.ListMembers)
+                    {
+                        if (isSubTreeOf(lstMember, lst, currentLevel + 1, maxLevel))
+                        {
+                            res = true;
+                            break;
+                        }
+                    }
+                }
+                else if (tree is IProperty p)
+                {
+                    // Es wird davon ausgegangen, das die Eigenschaft immer einen Wert hat
+                    // (wenn keinen, dann einen Default- Wert)
+                    res = isSubTreeOf(p.PropertyValue, p, currentLevel + 1, maxLevel);
+                }
+                else if (tree is IEvent e)
+                {
+                    // Es wird davon ausgegangen, dass das Event immer einen Wert hat
+                    // (wenn keinen, dann einen Default- Wert)
+                    res = isSubTreeOf(e.EventParameter, e, currentLevel, maxLevel);
+                }
+                else if (tree is IReturn ret)
+                {
+                    // Es wird davon ausgegangen, das das Return immer einen Wert hat
+                    // (wenn keinen, dann einen Default- Wert)
+                    res = isSubTreeOf(ret.ReturnValue, ret, currentLevel + 1, maxLevel);
+                }
+                else if (tree is ITxt txt)
+                {
+                    foreach (var word in txt.Words)
+                    {
+                        // Es wird davon ausgegangen, das das Return immer einen Wert hat
+                        // (wenn keinen, dann einen Default- Wert)
+                        res = isSubTreeOf(word, txt, currentLevel + 1, maxLevel);
+                    }
+                }
             }
 
-            return res;            
+            return res;
         }
-
 
 
         /// <summary>
@@ -488,12 +2029,22 @@ namespace MKPRG.Tracing.DocuTerms
         /// <param name="aMembers"></param>
         /// <param name="bMembers"></param>
         /// <returns></returns>
-        static bool PartiallyEqualInstanceMembers(IInstanceMember[] aMembers, IInstanceMember[] bMembers)
+        static bool PartiallyEqualInstanceMembers(
+            IInstance InstanceA,
+            IInstance InstanceB,
+            int currentLevel,
+            int maxLevel,
+            Action<IDocuEntity, IDocuEntity, int> doSomethingIfPatternMatches,
+            bool finishSearchAfterPatternMatched = true)
         {
-            // Haben Muster und zu untersuchende Instanz beide keine Parameterliste, dann sind sie gleich
-            bool areEqual = aMembers == null && bMembers == null;
 
-            if (!areEqual && aMembers == null)
+            var aMembers = InstanceA.InstanceMembers != null ? InstanceA.InstanceMembers : new IInstanceMember[] { };
+            var bMembers = InstanceB.InstanceMembers != null ? InstanceB.InstanceMembers : new IInstanceMember[] { };
+
+            // Haben Muster und zu untersuchende Instanz beide keine Parameterliste, dann sind sie gleich
+            bool areEqual = !aMembers.Any() && !bMembers.Any();
+
+            if (!areEqual && !aMembers.Any())
             {
                 // Das Pattern hat keien Parameterliste -> Stimmt in jedem Fall mit der Instanz überein
                 areEqual = true;
@@ -515,7 +2066,9 @@ namespace MKPRG.Tracing.DocuTerms
                     bool found = false;
                     foreach (var b in bList)
                     {
-                        if (a.IsSubTreeOf(b))
+                        //if (a.IsPutIntoAppropiateIsSubTreeOfTestWith(b))
+                        if (IsSubTreeTestForEntityType[a.EntityType]
+                            (a, b, InstanceB, doSomethingIfPatternMatches, finishSearchAfterPatternMatched, false, currentLevel + 1, maxLevel))
                         {
                             // Wurde ein identischer Member in b gefunden, dann wird dieser aus der bList entfernt,
                             // und der Vergleich gilt als für a erfolgreich abgeschlossen.
@@ -547,13 +2100,22 @@ namespace MKPRG.Tracing.DocuTerms
         /// <param name="aParams"></param>
         /// <param name="bParams"></param>
         /// <returns></returns>
-        static bool PartiallyEqualMethodParameters(IMethodParameter[] aParams, IMethodParameter[] bParams)
+        static bool PartiallyEqualMethodParameters(
+            IMethod methodA,
+            IMethod methodB,
+            int currentLevel,
+            int maxLevel,
+            Action<IDocuEntity, IDocuEntity, int> doSomethingIfPatternMatches,
+            bool finishSearchAfterPatternMatched = true)
         {
+            var aParams = methodB.Parameters != null ? methodA.Parameters : new IMethodParameter[] { };
+            var bParams = methodB.Parameters != null ? methodB.Parameters : new IMethodParameter[] { };
+
             // Haben Muster und zu untersuchende Methode beide keine Parameterliste, dann sind sie gleich
-            bool isSubTree = aParams == null && bParams == null;
+            bool isSubTree = !aParams.Any() && !bParams.Any();
 
             // Wildcards spielen beim Vergleich von Parameterlisten keine Rolle.
-            if (!isSubTree && aParams == null)
+            if (!isSubTree && !aParams.Any())
             {
                 // Das Pattern hat keien Parameterliste -> Stimmt in jedem Fall mit der Methode überein
                 isSubTree = true;
@@ -584,7 +2146,9 @@ namespace MKPRG.Tracing.DocuTerms
 
                             // hier false notwendig, damit sichergestellt wird, das Wurzel vom Subtree
                             // mit der Wurzel vom Tree übereinstimmen müssen.
-                            isSub = subC.IsSubTreeOf(tc, false);
+                            //isSub = subC.IsPutIntoAppropiateIsSubTreeOfTestWith(tc, false);
+                            isSub = IsSubTreeTestForEntityType[subC.EntityType]
+                                (subC, tc, methodB, doSomethingIfPatternMatches, finishSearchAfterPatternMatched, false, currentLevel + 1, maxLevel);
 
                         } while (!isSub && treeEnum.MoveNext());
                     }
@@ -600,171 +2164,6 @@ namespace MKPRG.Tracing.DocuTerms
 
             return isSubTree;
         }
-
-        /// <summary>
-        /// mko, 29.3.2019
-        /// Eine Baumstruktur als Teilbaum (Muster) in einem anderen Baume suchen. Wenn das Muster auf einem Zweig im anderen Baum passt, die Wurzel dieses Zweiges
-        /// zurückgeben.
-        /// Die Suche erfolgt top-down.
-        /// </summary>
-        /// <param name="subTreePattern"></param>
-        /// <param name="treeRoot"></param>
-        /// <param name="searchAnywhere">Wenn false, dann muss der Baumn mit dem Teilbaumabschnitt beginnen. sonst wird nach dem ersten Teilbaum linksrekursiv gesucht</param>
-        /// <param name="PropertyValueWildCard">Bei Properties im subTreePattern mit diesem Wert muss nur der Eigenschaftsname übereinstimmen, nicht jedoch der Wert</param>
-        /// <returns></returns>
-        public static RC<(IDocuEntity subTree, IDocuEntity subTreeParent, long depth)> AsSubTreeOf(
-            this IDocuEntity subTreePattern,
-            IDocuEntity treeRoot,
-            IComposer pnL,
-            bool searchAnywhere = true,
-            long deepth = 0,
-            IDocuEntity subTreeParent = null)
-        {
-            var ret = RC<(IDocuEntity, IDocuEntity, long)>.Failed(value: (null, null, -1), ErrorDescription: pnL.ReturnNotCompleted("SearchAsSubTreeOf"));
-
-            if (subTreePattern.IsSubTreeOf(treeRoot, false))
-            {
-                ret = RC<(IDocuEntity, IDocuEntity, long)>.Ok(value: (treeRoot, subTreeParent, deepth));
-            }
-            else if (searchAnywhere)
-            {
-                // Der Treenode selbst stimmt nicht mit dem subTreePattern überein.
-                // Weiter in der Tiefe des Baumes nach einem Subtree suchen
-
-                var TreeRootChilds = treeRoot.IsNamed() ? treeRoot.Childs.Skip(1) : treeRoot.Childs;
-
-                if (TreeRootChilds.Any())
-                {
-                    foreach (var subC in TreeRootChilds)
-                    {
-                        ret = AsSubTreeOf(subTreePattern, subC, pnL, true, deepth + 1, treeRoot);
-
-                        if (ret.Succeeded)
-                        {
-                            break;
-                        }
-                    }
-                }
-                else
-                {
-                    // Im Baum wurde keine Übereinstimmung mit der Teilbaumstruktur gefunden
-                    ret = RC<(IDocuEntity, IDocuEntity, long)>.Failed(
-                        value: (null, null, -1),
-                        ErrorDescription: pnL.ReturnSearchFailsEmptyResult(pnL.EncapsulateAsPropertyValue(subTreePattern)));
-                }
-            }
-            else
-            {
-
-
-                // Im Baum wurde keine Übereinstimmung mit der Teilbaumstruktur gefunden
-                ret = RC<(IDocuEntity, IDocuEntity, long)>.Failed(
-                    value: (null, null, -1),
-                    ErrorDescription: pnL.ReturnSearchFailsEmptyResult(pnL.EncapsulateAsPropertyValue(subTreePattern)));
-            }
-
-            return ret;
-        }
-
-        /// <summary>
-        /// mko, 1.4.2019
-        /// Sucht alle Teilbäume in einem Baum mit gegebener Struktur.
-        /// </summary>
-        /// <param name="subTreePattern"></param>
-        /// <param name="treeRoot"></param>
-        /// <param name="pnL"></param>
-        /// <param name="deepth"></param>
-        /// <param name="PropertyValueWildCard">Bei Properties im subTreePattern mit diesem Wert muss nur der Eigenschaftsname übereinstimmen, nicht jedoch der Wert</param>
-        /// <returns></returns>
-        public static RC<IEnumerable<(IDocuEntity subTree, IDocuEntity subTreeParent, long depth)>> AsSubTreeOf_AllOccurrences
-            (this IDocuEntity subTreePattern,
-            IDocuEntity treeRoot,
-            IComposer pnL,
-            long deepth = 0,
-            IDocuEntity parent = null)
-        {
-            Debug.Assert(pnL != null);
-
-            var matches = new List<(IDocuEntity subTree, IDocuEntity subTreeParent, long depth)>();
-
-            var ret = RC<IEnumerable<(IDocuEntity subTree, IDocuEntity subTreeParent, long depth)>>.Failed(
-                value: matches,
-                ErrorDescription: pnL.ReturnNotCompleted(
-                                        "AsSubTreeOf_AllOccurrences",
-                                        pnL.KillIf(subTreePattern == null, () => pnL.p(ANC.TechTerms.Trees.SubTree.UID, pnL.EncapsulateAsPropertyValue(subTreePattern))),
-                                        pnL.KillIf(treeRoot == null, () => pnL.p(ANC.TechTerms.Trees.Root.UID, pnL.EncapsulateAsPropertyValue(treeRoot))),
-                                        pnL.p(ANC.TechTerms.Trees.Level.UID, deepth)));
-
-            try
-            {
-
-                // Prüfen von Vorbedingungen, die in der komplexen Umgebung des Aufrufes nicht notwendigerweise erfüllt sein müssen
-                // da treeRoot und subTreePattern Ergebnisse von vorausgegangenen Berechnungen sein können.
-                // Deshalb ist Debug.Assert hier nicht ausreichend.
-                if (subTreePattern == null)
-                {
-                    return RC<IEnumerable<(IDocuEntity subTree, IDocuEntity subTreeParent, long depth)>>.Failed(
-                        value: matches,
-                        ErrorDescription: pnL.ReturnValidatePreconditionNotNullFailed(pnL.p(ANC.DocuTerms.MetaData.Arg.UID, ANC.TechTerms.Trees.SubTree.UID)));
-                }
-                else if (treeRoot == null)
-                {
-                    return RC<IEnumerable<(IDocuEntity subTree, IDocuEntity subTreeParent, long depth)>>.Failed(
-                        value: matches,
-                        ErrorDescription: pnL.ReturnValidatePreconditionNotNullFailed(pnL.p(ANC.DocuTerms.MetaData.Arg.UID, ANC.TechTerms.Trees.Root.UID)));
-                }
-                else
-                {
-
-                    var first = subTreePattern.AsSubTreeOf(treeRoot, pnL, false, deepth, parent);
-                    if (first.Succeeded)
-                    {
-                        matches.Add(first.Value);
-                    }
-
-                    if (first.Succeeded || !first.Succeeded && pnL.ReturnSearchFailsEmptyResult().IsSubTreeOf(first.Message, true))
-                    {
-                        ret = RC<IEnumerable<(IDocuEntity subTree, IDocuEntity subTreeParent, long depth)>>.Ok(matches);
-
-                        // Weitere Teilbäume innerhalb des aktuellen Teilbaumes suchen
-                        foreach (var child in treeRoot.Childs)
-                        {
-                            var getAllSubtrees = subTreePattern.AsSubTreeOf_AllOccurrences(child, pnL, deepth + 1, treeRoot);
-                            if (getAllSubtrees.Succeeded)
-                            {
-                                matches.AddRange(getAllSubtrees.Value);
-                            }
-                            else
-                            {
-                                ret = RC<IEnumerable<(IDocuEntity subTree, IDocuEntity subTreeParent, long depth)>>.Failed(matches, ErrorDescription: getAllSubtrees.ToPlx());
-                                break;
-                            }
-                        }
-
-                        if (ret.Succeeded)
-                        {
-                            // Rückgabewert mit den allen Treffern aktualisieren
-                            ret = RC<IEnumerable<(IDocuEntity subTree, IDocuEntity subTreeParent, long depth)>>.Ok(matches);
-                        }
-                    }
-                    else
-                    {
-                        // Fall: In der Suche ging was schief
-                        ret = RC<IEnumerable<(IDocuEntity subTree, IDocuEntity subTreeParent, long depth)>>.Failed(value: matches, ErrorDescription: first.ToPlx());
-                    }
-
-                }
-            }
-            catch (Exception ex)
-            {
-                ret = RC<IEnumerable<(IDocuEntity subTree, IDocuEntity subTreeParent, long depth)>>.Failed(value: matches, ErrorDescription: TraceHlp.FlattenExceptionMessagesPN(ex));
-            }
-
-            return ret;
-        }
-
-
-
 
         /// <summary>
         /// mko, 28.2.2019
@@ -792,32 +2191,12 @@ namespace MKPRG.Tracing.DocuTerms
             if (node.IsEqualTo(tree))
                 instance = node;
             else
-            {
-                foreach (var child in tree.Childs)
-                {
-                    // mko, 12.11.2018
-                    // Now more robust in case of empty child lists
-                    //if (child.EntityType == dType && child.Childs.FirstOrDefault()?.Value == name)
-                    if (node.IsEqualTo(child))
-                    {
-                        instance = child;
-                    }
-                }
-
-                if (instance == null)
-                {
-                    // Search for instance a level deeper
-                    foreach (var child in tree.Childs)
-                    {
-                        instance = node.FindIn(child);
-                        if (instance != null)
-                        {
-                            // Found an Instance
-                            break;
-                        }
-                    }
-                }
-            }
+                IsSubTreeTestForEntityType[node.EntityType](
+                    node,
+                    tree,
+                    tree,
+                    (s, p, l) => instance = s,
+                    true, true, 0, int.MaxValue);
 
             return instance;
         }
@@ -825,6 +2204,9 @@ namespace MKPRG.Tracing.DocuTerms
         /// <summary>
         /// mko, 28.2.2019
         /// Finds a given docu entity in a given tree or not. Search is top/down. Returns the first matching entity.
+        /// 
+        /// mko, 6.8.2021
+        /// Reimplementiert mit streng typisierten Funktionen.
         /// </summary>
         /// <param name="node">docuEntity to find</param>
         /// <param name="tree">tree where to find the docuEntitiy</param>
@@ -833,43 +2215,17 @@ namespace MKPRG.Tracing.DocuTerms
         {
             IDocuEntity instance = null;
             IDocuEntity treeNodeParent = null;
-
             long _deepth = deepth;
 
             if (node.IsEqualTo(tree))
-            {
                 instance = node;
-            }
             else
-            {
-                foreach (var child in tree.Childs)
-                {
-                    // mko, 12.11.2018
-                    // Now more robust in case of empty child lists
-                    //if (child.EntityType == dType && child.Childs.FirstOrDefault()?.Value == name)
-                    if (node.IsEqualTo(child))
-                    {
-                        treeNodeParent = tree;
-                        instance = child;
-                        deepth += 1;
-                        break;
-                    }
-                }
-
-                if (instance == null)
-                {
-                    // Search for instance a level deeper
-                    foreach (var child in tree.Childs)
-                    {
-                        (instance, treeNodeParent, deepth) = node.FindNodeAndPositionIn(child, deepth + 1);
-                        if (instance != null)
-                        {
-                            // Found an Instance
-                            break;
-                        }
-                    }
-                }
-            }
+                IsSubTreeTestForEntityType[node.EntityType](
+                    node,
+                    tree,
+                    tree,
+                    (s, p, l) => { instance = s; treeNodeParent = p; _deepth = deepth; },
+                    true, true, 0, int.MaxValue);
 
             return (instance, treeNodeParent, deepth);
         }
@@ -878,6 +2234,9 @@ namespace MKPRG.Tracing.DocuTerms
         /// <summary>
         /// mko, 11.3.2019
         /// Returns all nodes matching entity.
+        /// 
+        /// mko, 6.8.2021
+        /// Reimplementiert mit streng typisierten Funktionen
         /// </summary>
         /// <param name="entity"></param>
         /// <param name="tree"></param>
@@ -892,22 +2251,25 @@ namespace MKPRG.Tracing.DocuTerms
                 matches = new List<(IDocuEntity node, int depth)>();
             }
 
-            if (entity.IsEqualTo(tree))
-                matches.Add((tree, depth));
-
-            foreach (var child in tree.Childs)
-            {
-                entity.FindAllIn(child, matches, depth + 1);
-            }
+            IsSubTreeTestForEntityType[entity.EntityType](
+                entity,
+                tree,
+                tree,
+                (s, p, l) => matches.Add((s, l)),
+                false,
+                true,
+                0,
+                int.MaxValue);
 
             return matches;
-
         }
-
 
         /// <summary>
         /// mko, 18.4.2018
         /// Search for a farest descendant of an entity with defined type and name.
+        /// 
+        /// mko, 6.8.2021
+        /// Reimplementiert mittels SearchInDeeperLevels
         /// </summary>
         /// <param name="name"></param>
         /// <param name="root"></param>
@@ -915,29 +2277,28 @@ namespace MKPRG.Tracing.DocuTerms
         public static IDocuEntity FindNamedEntity(this IDocuEntity root, DocuEntityTypes dType, string name)
         {
             IDocuEntity instance = null;
-            foreach (var child in root.Childs)
-            {
-                // mko, 12.11.2018
-                // Now more robust in case of empty child lists
-                //if (child.EntityType == dType && child.Childs.FirstOrDefault()?.Value == name)
-                if (child.IsEntityOfTypeWithName(dType, name))
-                {
-                    instance = child;
-                }
-            }
 
-            if (instance == null)
+            if (root.IsNamed() && root.EntityType == dType && root.HasName(name))
             {
-                // Search for instance a level deeper
-                foreach (var child in root.Childs)
-                {
-                    instance = FindNamedEntity(child, dType, name);
-                    if (instance != null)
-                    {
-                        // Found an Instance
-                        break;
-                    }
-                }
+                instance = root;
+            }
+            else
+            {
+                SearchInDeeperLevels(
+                        (s, p, l, m) =>
+                        {
+                            var e = FindNamedEntity(s, dType, name);
+                            if(e != null)
+                            {
+                                instance = e;
+                            }
+                            return (e != null);
+
+                        },
+                        root,
+                        0,
+                        int.MaxValue
+                    );
             }
 
             return instance;
@@ -946,6 +2307,9 @@ namespace MKPRG.Tracing.DocuTerms
         /// <summary>
         /// mko, 18.8.2018
         /// Search for a child of an entity with defined type and name. Depth of Search will be restricted.
+        /// 
+        /// mko, 6.8.2021
+        /// Reimplementiert mittels `SearchInDeeperLevels`
         /// </summary>
         /// <param name="name"></param>
         /// <param name="root"></param>
@@ -953,31 +2317,28 @@ namespace MKPRG.Tracing.DocuTerms
         public static IDocuEntity FindNamedEntity(this IDocuEntity root, DocuEntityTypes dType, string name, int UpToLevel)
         {
             IDocuEntity instance = null;
-            foreach (var child in root.Childs)
+
+
+            if (root.IsNamed() && root.EntityType == dType && root.HasName(name))
             {
-                // mko, 12.11.2018
-                // Now more robust in case of emptiy child lists
-                //if (child.EntityType == dType && child.Childs.FirstOrDefault()?.Value == name)
-                if (child.IsEntityOfTypeWithName(dType, name))
-                {
-                    instance = child;
-                }
+                instance = root;
             }
-
-            UpToLevel--;
-
-            if (instance == null && UpToLevel > 0)
+            else if(UpToLevel >= 0)
             {
-                // Search for instance a level deeper
-                foreach (var child in root.Childs)
-                {
-                    instance = FindNamedEntity(child, dType, name, UpToLevel);
-                    if (instance != null)
-                    {
-                        // Found an Instance
-                        break;
-                    }
-                }
+                SearchInDeeperLevels(
+                        (s, p, l, m) =>
+                        {
+                            var e = FindNamedEntity(s, dType, name, UpToLevel - 1);
+                            if (e != null)
+                            {
+                                instance = e;
+                            }
+                            return (e != null);
+                        },
+                        root,
+                        0,
+                        UpToLevel
+                    );
             }
 
             return instance;
@@ -993,25 +2354,32 @@ namespace MKPRG.Tracing.DocuTerms
         /// <returns></returns>
         public static IEnumerable<IDocuEntity> FindAllNamedEntities(this IDocuEntity root, DocuEntityTypes dType, string name)
         {
-            var instances = new List<IDocuEntity>();
-            foreach (var child in root.Childs)
+            var res = new List<IDocuEntity>();
+            
+
+            if (root.IsNamed() && root.EntityType == dType && root.HasName(name))
             {
-                // mko, 12.11.2018
-                // Now more robust in case of emptiy child lists
-                //if (child.EntityType == dType && child.Childs.FirstOrDefault()?.Value == name)
-                if (child.IsEntityOfTypeWithName(dType, name))
-                {
-                    instances.Add(child);
-                }
+                res.Add(root);
+            }
+            else
+            {
+                SearchInDeeperLevels(
+                        (s, p, l, m) =>
+                        {
+                            res.AddRange(FindAllNamedEntities(s, dType, name));
+
+                            // Durch `return false` wird in `SearchInDeeperLevels` sichergestellt, das alle Zweige im Baum
+                            // untersucht werden
+                            return false;
+
+                        },
+                        root,
+                        0,
+                        int.MaxValue
+                    );
             }
 
-            // Search for instance a level deeper
-            foreach (var child in root.Childs)
-            {
-                instances.AddRange(FindAllNamedEntities(child, dType, name));
-            }
-
-            return instances;
+            return res;
         }
     }
 }

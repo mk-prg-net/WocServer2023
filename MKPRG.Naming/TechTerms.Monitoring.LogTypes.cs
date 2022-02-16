@@ -10,12 +10,8 @@ namespace MKPRG.Naming.TechTerms.Monitoring.LogTypes
     /// Stellt Kompatibilität mit den im April 2018
     /// mit Joachim vereinbarten Typen von Logmeldungen.
     /// </summary>
-    public interface ILoggingEnumLogType
-    {
-        EnumLogTypeDFC AtmoMkoLoggingEnumLogTypeValue { get; }
-    }
 
-    public class Error : NamingBase, ILoggingEnumLogType
+    public class Error : NamingBase
     {
         public const long UID = 0xA0E4577C;
 
@@ -30,12 +26,10 @@ namespace MKPRG.Naming.TechTerms.Monitoring.LogTypes
         public override string EN => "Error";
         public override string ES => "Error";
 
-        public EnumLogTypeDFC AtmoMkoLoggingEnumLogTypeValue => EnumLogTypeDFC.Error;
-
         public override string Glyph => Glyphs.Events.Error;
     }
 
-    public class Info : NamingBase, ILoggingEnumLogType
+    public class Info : NamingBase
     {
         public const long UID = 0xC28BDFB9;
 
@@ -48,14 +42,12 @@ namespace MKPRG.Naming.TechTerms.Monitoring.LogTypes
         public override string CN => "信息";
         public override string DE => "Information";
         public override string EN => "Information";
-        public override string ES => "Información";
-
-        public EnumLogTypeDFC AtmoMkoLoggingEnumLogTypeValue => EnumLogTypeDFC.Info;
+        public override string ES => "Información";        
 
         public override string Glyph => Glyphs.Events.Info;
     }
 
-    public class Status : NamingBase, ILoggingEnumLogType
+    public class Status : NamingBase
     {
         public const long UID = 0x51D0AC44;
 
@@ -70,12 +62,10 @@ namespace MKPRG.Naming.TechTerms.Monitoring.LogTypes
         public override string EN => "Information";
         public override string ES => "Estado";
 
-        public EnumLogTypeDFC AtmoMkoLoggingEnumLogTypeValue => EnumLogTypeDFC.State;
-
         public override string Glyph => Glyphs.Events.Status;
     }
 
-    public class Log : NamingBase, ILoggingEnumLogType
+    public class Log : NamingBase
     {
         public const long UID = 0xAD9A2576;
 
@@ -89,13 +79,10 @@ namespace MKPRG.Naming.TechTerms.Monitoring.LogTypes
         public override string DE => "Log";
         public override string EN => "Log";
         public override string ES => "Registro";
-
-        public EnumLogTypeDFC AtmoMkoLoggingEnumLogTypeValue => EnumLogTypeDFC.Log;
-
         public override string Glyph => Glyphs.DataAndDocuments.Scroll;
     }
 
-    public class Telemetry : NamingBase, ILoggingEnumLogType
+    public class Telemetry : NamingBase
     {
         public const long UID = 0xD1892247;
 
@@ -109,8 +96,6 @@ namespace MKPRG.Naming.TechTerms.Monitoring.LogTypes
         public override string DE => "Telemetrie";
         public override string EN => "Telemetry";
         public override string ES => "Telemetría";
-
-        public EnumLogTypeDFC AtmoMkoLoggingEnumLogTypeValue => EnumLogTypeDFC.Telemetry;
 
         public override string Glyph => Glyphs.Communication.Send;
     }

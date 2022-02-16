@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using mko.RPN;
 
+using TTD = MKPRG.Naming.DocuTerms;
+
 namespace MKPRG.Tracing.DocuTerms
 {
     /// <summary>
@@ -14,47 +16,35 @@ namespace MKPRG.Tracing.DocuTerms
     /// 
     /// mko, 16.6.2020
     /// Markiert für ausschließlichen Einsatz in Listen, Instanzmember- Listen und Methodenparameter- Listen
+    /// 
+    /// mko, 9.8.2021
+    /// Alle Member der ursprünglich zu implementierenden Schnittstelle mko.IToken entfernt.
     /// </summary>
     public class KillIfNot 
-        : IDocuEntity,
+        : DocuEntity,
         IKillIfNot        
     {
         /// <summary>
         /// 
         /// </summary>
         /// <param name="Condition">Result of evaluated condition</param>
-        /// <param name="docuEntity"></param>
-        public KillIfNot(bool Condition, Func<IListMember> docuEntity)
+        /// <param name="createDocuEntity"></param>
+        public KillIfNot(bool Condition, Func<IListMember> createDocuEntity)
+            : base(DocuEntityTypes.KillIfNot)
         {
             this.Condition = Condition;
-            _CreateDocEntity = docuEntity;
+
+            if(createDocuEntity != null)
+                _CreateDocEntity = createDocuEntity;
         }
 
-        Func<IListMember> _CreateDocEntity;
+        public static InstanceWithNameAsNID _defaultValue = new InstanceWithNameAsNID(new NID(TTD.Composer.Errors.KillIfNotParamIsNull.UID));
+
+        Func<IListMember> _CreateDocEntity = new Func<IListMember>(() => _defaultValue);
 
         public IListMember DocuEntity => _CreateDocEntity();
 
         public bool Condition { get; }
 
-        public DocuEntityTypes EntityType => DocuEntityTypes.KillIfNot;
-
-        public IEnumerable<IDocuEntity> Childs => throw new NotImplementedException();
-
-        public bool IsFunctionName => throw new NotImplementedException();
-
-        public bool IsInteger => throw new NotImplementedException();
-
-        public bool IsBoolean => throw new NotImplementedException();
-
-        public bool IsNummeric => throw new NotImplementedException();
-
-        public string Value => throw new NotImplementedException();
-
-        public int CountOfEvaluatedTokens => throw new NotImplementedException();
-
-        public IToken Copy()
-        {
-            throw new NotImplementedException();
-        }
     }
 }

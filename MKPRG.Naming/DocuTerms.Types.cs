@@ -8,7 +8,8 @@ namespace MKPRG.Naming.DocuTerms.Types
 {
 
     public class DocuTerms
-    : NamingBase
+        : NamingBase,
+        IPluralForm
     {
         public const long UID = 0xE51BEACF;
 
@@ -27,8 +28,33 @@ namespace MKPRG.Naming.DocuTerms.Types
         public override string CN => EN;
 
         public override string Glyph => Glyphs.DocuTerms.DocuTermSign;
+
+        public long PluralFormOfNameInSingluarNID => DocuTerm.UID;
     }
 
+
+    public class DocuTerm
+        : NamingBase    
+    {
+        public const long UID = 0x777E92C;
+
+        public DocuTerm()
+            : base(UID)
+        { }
+
+        public override string CNT => "docuTerm";
+
+        public override string DE => EN;
+
+        public override string EN => "DocuTerms";
+
+        public override string ES => EN;
+
+        public override string CN => EN;
+
+        public override string Glyph => Glyphs.DocuTerms.DocuTermSign;
+
+    }
 
 
     /// <summary>

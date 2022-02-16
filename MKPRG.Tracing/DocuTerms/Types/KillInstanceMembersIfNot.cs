@@ -5,47 +5,39 @@ using System.Text;
 using System.Threading.Tasks;
 using mko.RPN;
 
+using TTD = MKPRG.Naming.DocuTerms;
+
 namespace MKPRG.Tracing.DocuTerms
 {
     /// <summary>
     /// mko, 18.6.2020
+    /// 
+    /// mko, 12.7.2021
+    /// Strenger typisiert- Keine Eigenschaften mit allgemeinen Typ IDocuEntity mehr enthalten.
+    /// 
+    /// mko, 9.8.2021
+    /// Alle mko.IToken Member entfernt.
     /// </summary>
     public class KillInstanceMemberIfNot
-        : IKillInstanceMemberIfNot        
+        : DocuEntity,
+        IKillInstanceMemberIfNot        
     {
         public KillInstanceMemberIfNot(bool Condition, Func<IInstanceMember> createInstanceMembers)
+            : base(DocuEntityTypes.KillIfNot)
         {
             this.Condition = Condition;
-            _createInstanceMembers = createInstanceMembers;
+
+            if(createInstanceMembers != null)
+                _createInstanceMembers = createInstanceMembers;
         }
 
-        Func<IInstanceMember> _createInstanceMembers;
+        public static InstanceWithNameAsNID _defaultValue = new InstanceWithNameAsNID(new NID(TTD.Composer.Errors.KillIfNotParamIsNull.UID));
 
-        public IInstanceMember InstanceMembers => _createInstanceMembers();
+        Func<IInstanceMember> _createInstanceMembers = new Func<IInstanceMember>(() => _defaultValue);
 
-        public bool Condition { get; }
+        public IInstanceMember InstanceMember => _createInstanceMembers();
 
-        public IListMember DocuEntity => _createInstanceMembers();
+        public bool Condition { get; }                
 
-        public DocuEntityTypes EntityType => DocuEntityTypes.KillIfNot;
-
-        public IEnumerable<IDocuEntity> Childs => throw new NotImplementedException();
-
-        public bool IsFunctionName => throw new NotImplementedException();
-
-        public bool IsInteger => throw new NotImplementedException();
-
-        public bool IsBoolean => throw new NotImplementedException();
-
-        public bool IsNummeric => throw new NotImplementedException();
-
-        public string Value => throw new NotImplementedException();
-
-        public int CountOfEvaluatedTokens => throw new NotImplementedException();
-
-        public IToken Copy()
-        {
-            throw new NotImplementedException();
-        }
     }
 }

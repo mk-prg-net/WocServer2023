@@ -8,17 +8,27 @@ namespace MKPRG.Tracing.DocuTerms
 {
     /// <summary>
     /// mko, 16.6.2020
+    /// 
+    /// mko, 9.8.2021
     /// </summary>
     public class Ver
         : DocuEntity,
         IVer
     {
-        public Ver(IFormater fmt, String verString)
-            : base(fmt, DocuEntityTypes.Version, verString)
+        public Ver(IString verString)
+            : base(DocuEntityTypes.Version)
         {
-
+            if (verString != null)
+                VersionString = verString.ValueAsString;
         }
 
-        public string VersionString => ((String)Childs.First()).Value;
+        public Ver(string verString)
+            : base(DocuEntityTypes.Version)
+        {
+            if (verString != null)
+                VersionString = verString;
+        }
+
+        public string VersionString { get; } = "0.0.0";
     }
 }

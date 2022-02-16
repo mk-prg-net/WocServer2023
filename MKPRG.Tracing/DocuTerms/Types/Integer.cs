@@ -11,20 +11,19 @@ namespace MKPRG.Tracing.DocuTerms
     /// 
     /// mko, 6.7.2020
     /// Primär werden jetzt long- Werte gespeichert. Bei Bedarf können diese als Long oder Integer ausgelesen werden.
+    /// 
+    /// mko, 9.8.2021
+    /// Implementierung vereinfacht
     /// </summary>
     public class Integer
         : DocuEntity,
-        IPropertyValue
-        //IEventParameter,
-        //IReturnValue
+        IInteger
     {
-        public Integer(long val, IFormater fmt)
-            : base(fmt, DocuEntityTypes.Int)
+        public Integer(long val)
+            : base(DocuEntityTypes.Int)
         {
             ValueAsLong   = val;
         }
-
-        public override int CountOfEvaluatedTokens => 1;
 
         /// <summary>
         /// Der ganzahliger Wert als int
@@ -34,11 +33,7 @@ namespace MKPRG.Tracing.DocuTerms
         /// <summary>
         /// Der ganzzahlige Wert als Long
         /// </summary>
-        public long ValueAsLong { get; }
+        public long ValueAsLong { get; } = 0L;
 
-        public override string ToString()
-        {
-            return ValueAsLong.ToString();
-        }
     }
 }

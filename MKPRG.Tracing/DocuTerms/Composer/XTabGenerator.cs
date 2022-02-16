@@ -59,13 +59,13 @@ namespace MKPRG.Tracing.DocuTerms
 
             foreach(var colGrp in cols)
             {
-                if(colGrp.First().Childs.First() is NID nid)
+                if(colGrp.First().InstanceMembers.First() is INID nid)
                 {
-                    colRows.Add(pnL.i(nid.NamingId, pnL.EmbedMembers(colGrp.Select(i => i.InstanceMembers.First()).ToArray())));
+                    colRows.Add(pnL.i(nid.NamingId, pnL.EmbedInstanceMembers(colGrp.Select(i => i.InstanceMembers.First()).ToArray())));
                 }
                 else
                 {                    
-                    colRows.Add(pnL.i(colGrp.Key, pnL.EmbedMembers(colGrp.Select(i => i.InstanceMembers.First()).ToArray())));
+                    colRows.Add(pnL.i(colGrp.Key, pnL.EmbedInstanceMembers(colGrp.Select(i => i.InstanceMembers.First()).ToArray())));
                 }                
             }
 
@@ -74,7 +74,7 @@ namespace MKPRG.Tracing.DocuTerms
                             pnL.p(ANC.DocuTerms.Formatting.XTab.Dim2.UID, Rows),
                             pnL.p(ANC.DocuTerms.Formatting.XTab.Values.UID,
                                 pnL.List(
-                                        pnL.EmbedMembers(colRows.ToArray())
+                                        pnL.EmbedListMembers(colRows.ToArray())
                                     )));
         }
     }
