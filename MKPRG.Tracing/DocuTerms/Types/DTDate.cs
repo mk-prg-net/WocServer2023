@@ -25,10 +25,10 @@ namespace MKPRG.Tracing.DocuTerms
             this.Day = Day;
         }
 
-        public int Year { get; } = 1900; // => ((Integer)Childs.First()).ValueAsInteger;
+        public int Year { get; } = 1900;
 
-        public int Month { get; } = 1; //  => ((Integer)Childs.Skip(1).First()).ValueAsInteger;
+        public int Month { get; } = 1;
 
-        public int Day { get; } = 1; // => ((Integer)Childs.Skip(2).First()).ValueAsInteger;
+        public int Day { get; } = 1;
     }
 }

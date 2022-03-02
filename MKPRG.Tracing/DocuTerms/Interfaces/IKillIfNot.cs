@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MKPRG.Tracing.DocuTerms
 {
-    /// <summary>
+    /// <summary>    
     /// mko, 16.6.2020
     /// 
     /// mko, 9.7.2021

@@ -11,6 +11,7 @@ namespace MKPRG.Tracing.DocuTerms
     /// Diese Schnittstelle haben alle DocuTerme, welche ein Wertefeld besitzen wie 
     /// IEvent, IProperty und IReturn
     /// </summary>
+    /// <typeparam name="TValue"></typeparam>
     public interface IDocuTermWithValue<TValue>
     {
         /// <summary>

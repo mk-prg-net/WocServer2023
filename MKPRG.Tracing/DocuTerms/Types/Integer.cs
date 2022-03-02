@@ -22,7 +22,7 @@ namespace MKPRG.Tracing.DocuTerms
         public Integer(long val)
             : base(DocuEntityTypes.Int)
         {
-            ValueAsLong   = val;
+            ValueAsLong = val;
         }
 
         /// <summary>

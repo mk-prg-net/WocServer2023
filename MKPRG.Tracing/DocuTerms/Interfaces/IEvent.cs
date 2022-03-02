@@ -7,8 +7,7 @@ using System.Threading.Tasks;
 namespace MKPRG.Tracing.DocuTerms
 {
     /// <summary>
-    /// mko, 16.6.2020
-    /// Markiert ein DT- Event als Listmember, Methodenparameter und Instanz- Member
+    /// mko, 27.11.2021
     /// </summary>
     public interface IEvent
         : IDocuTermWithValue<IEventParameter>,

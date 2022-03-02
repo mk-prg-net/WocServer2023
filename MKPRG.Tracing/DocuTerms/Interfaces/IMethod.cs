@@ -11,7 +11,7 @@ namespace MKPRG.Tracing.DocuTerms
     /// </summary>
     public interface IMethod
         : IInstanceMember,
-        IListMember,     
+        IListMember,
         IPropertyValue
     {
         /// <summary>

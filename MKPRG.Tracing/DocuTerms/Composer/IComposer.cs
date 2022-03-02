@@ -57,6 +57,17 @@ namespace MKPRG.Tracing.DocuTerms
 
 
         /// <summary>
+        /// mko, 15.3.2021
+        /// 
+        /// Für Mustervergleiche kann jetzt eine Instanz mit beliebigen Namen (Wildcard) erzeugt werden
+        /// </summary>
+        /// <param name="wc"></param>
+        /// <param name="pn"></param>
+        /// <returns></returns>
+        //IInstance i(IWildCard wc, params IInstanceMember[] pn);
+
+
+        /// <summary>
         /// Defines a vrsion number of an object or method
         /// </summary>
         /// <param name="versionStr"></param>
@@ -732,6 +743,34 @@ namespace MKPRG.Tracing.DocuTerms
         
 
 
+        /// <summary>
+        /// mko, 6.8.2021
+        /// </summary>
+        /// <param name="Condition"></param>
+        /// <param name="docuEntityFactory"></param>
+        /// <returns></returns>
+        IKillMethodPrarmeterIfNot KillMethodParamIf(bool Condition, Func<IMethodParameter> docuEntityFactory);
+
+        /// <summary>
+        /// mko, 6.8.2021
+        /// </summary>
+        /// <param name="Condition"></param>
+        /// <param name="docuEntityFactory"></param>
+        /// <returns></returns>
+        IKillInstanceMemberIfNot KillInstanceMemberIfNot(bool Condition, Func<IInstanceMember> docuEntityFactory);
+
+        /// <summary>
+        /// mko, 6.8.2021
+        /// </summary>
+        /// <param name="Condition"></param>
+        /// <param name="docuEntityFactory"></param>
+        /// <returns></returns>
+        IKillInstanceMemberIfNot KillInstanceMemberIf(bool Condition, Func<IInstanceMember> docuEntityFactory);
+
+
+
+
+
         // == IfElse ====== ====== ======
 
         /// <summary>
@@ -757,6 +796,16 @@ namespace MKPRG.Tracing.DocuTerms
         /// <param name="memberIfFalse"></param>
         /// <returns></returns>
         IReturnValue IfElseRet(bool Condition, Func<IReturnValue> memberIfTrue, Func<IReturnValue> memberIfFalse);
+
+
+        /// <summary>
+        /// mko, 4.12.2020
+        /// </summary>
+        /// <param name="Condition"></param>
+        /// <param name="valueIfTrue"></param>
+        /// <param name="valueIfFalse"></param>
+        /// <returns></returns>
+        IProperty IfElseProp(bool Condition, Func<IProperty> valueIfTrue, Func<IProperty> valueIfFalse);
 
 
         /// <summary>

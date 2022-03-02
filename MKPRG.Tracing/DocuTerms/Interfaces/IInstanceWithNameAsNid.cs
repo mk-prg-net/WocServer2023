@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace MKPRG.Tracing.DocuTerms
 {
     /// <summary>
-    /// mko, 27.7.2021
+    /// mko, 27.11.2021
     /// Instanzen, deren Namen als NID definiert werden.
     /// </summary>
     public interface IInstanceWithNameAsNid

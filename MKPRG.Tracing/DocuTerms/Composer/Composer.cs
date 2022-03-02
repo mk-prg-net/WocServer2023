@@ -185,8 +185,11 @@ namespace MKPRG.Tracing.DocuTerms
             => new DTDate(dat.Year, dat.Month, dat.Day);
 
         public IDate date(int year, int month, int day)
-            => new DTDate(year, month, day);
-                    
+            => new DTDate(
+                    fmt,
+                    new Integer(year, fmt),
+                    new Integer(month, fmt),
+                    new Integer(day, fmt));
 
         /// <summary>
         /// mko, 15.6.2020
@@ -206,7 +209,8 @@ namespace MKPRG.Tracing.DocuTerms
         public ITime time(int hour, int minutes, int sec, int milliseconds = 0)
             => new DTTime(hour, minutes, sec, milliseconds);
 
-                
+
+        //        new String($"{dat.Hours.ToString("D2")}:{dat.Minutes.ToString("D2")}:{dat.Seconds.ToString("D2")}"));
         /// <summary>
         /// mko, 4.12.2020
         /// Fall text == null behandelt
@@ -227,7 +231,7 @@ namespace MKPRG.Tracing.DocuTerms
             else
             {
 
-                return new  Txt();
+                return new Txt(fmt, new String());
             }
         }
 
@@ -336,18 +340,19 @@ namespace MKPRG.Tracing.DocuTerms
         /// <param name="memberIfTrue"></param>
         /// <param name="memberIfFalse"></param>
         /// <returns></returns>
-        //public IListMember IfElse(bool Condition, Func<IListMember> memberIfTrue, Func<IListMember> memberIfFalse)
-        //    => Condition ? memberIfTrue() : memberIfFalse();
-
-        /// <summary>
-        /// mko, 17.6.2020
-        /// </summary>
-        /// <param name="Condition"></param>
-        /// <param name="memberIfTrue"></param>
-        /// <param name="memberIfFalse"></param>
-        /// <returns></returns>
         public IReturnValue IfElseRet(bool Condition, Func<IReturnValue> memberIfTrue, Func<IReturnValue> memberIfFalse)
             => Condition ? memberIfTrue() : memberIfFalse();
+
+        /// <summary>
+        /// mko, 4.12.2020
+        /// </summary>
+        /// <param name="Condition"></param>
+        /// <param name="propIfTrue"></param>
+        /// <param name="propIfFalse"></param>
+        /// <returns></returns>
+        public IReturnValue IfElse(bool Condition, Func<IReturnValue> memberIfTrue, Func<IReturnValue> memberIfFalse)
+            => Condition ? memberIfTrue() : memberIfFalse();
+
 
         /// <summary>
         /// mko, 4.12.2020
@@ -504,8 +509,7 @@ namespace MKPRG.Tracing.DocuTerms
         /// <param name="value"></param>
         /// <returns></returns>
         public IEvent e(string name, IEventParameter value)
-            => new EventWithNameAsString(name, value);
-            
+            => value != null ? CreateEntity(name, value, (id, p) => new Event(fmt, id, value)) : e(name);
 
         /// <summary>
         /// mko, 4.12.2020
@@ -521,8 +525,26 @@ namespace MKPRG.Tracing.DocuTerms
         public IEvent e(string name)
             => new EventWithNameAsString(name);
 
-        public IEvent e(IString name)
-            => new EventWithNameAsString(name?.ValueAsString ?? String.NameIsNull.ValueAsString);
+        public IEvent e(String name)
+            => new Event(fmt, name);
+
+        /// <summary>
+        /// mko, 17.6.2020
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="killIfNot"></param>
+        /// <returns></returns>
+        public IEvent e(string name, IKillEventParamIfNot killIfNot)
+        {
+            if (killIfNot.Condition)
+            {
+                return e(name, killIfNot.EventParameter);
+            }
+            else
+            {
+                return e(name);
+            }
+        }
 
         /// <summary>
         /// mko, 3.3.2020
@@ -547,8 +569,8 @@ namespace MKPRG.Tracing.DocuTerms
         /// <param name="value"></param>
         /// <returns></returns>
         public IEvent e(long nid, IEventParameter value)
-            => new EventWithNameAsNID(NID(nid), value);
-            
+            => value != null ? CreateEntity(nid, value, (id, p) => new Event(fmt, id, p)) : e(nid);
+
         /// <summary>
         /// mko, 4.12.2020
         /// Fall value == null behandelt
@@ -556,8 +578,26 @@ namespace MKPRG.Tracing.DocuTerms
         /// <param name="nid"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        public IEvent e(INID nid, IEventParameter value)
-            => new EventWithNameAsNID(nid, value);
+        public IEvent e(NID nid, IEventParameter value)
+            => value != null ? CreateEntity(nid, value, (id, p) => new Event(fmt, id, p)) : e(nid);
+
+        /// <summary>
+        /// mko, 17.6.2020
+        /// </summary>
+        /// <param name="nid"></param>
+        /// <param name="killIfNot"></param>
+        /// <returns></returns>
+        public IEvent e(long nid, IKillEventParamIfNot killIfNot)
+        {
+            if (killIfNot.Condition)
+            {
+                return e(nid, killIfNot.EventParameter);
+            }
+            else
+            {
+                return e(nid);
+            }
+        }
 
         /// <summary>
         /// mko, 10.4.2018
@@ -567,7 +607,8 @@ namespace MKPRG.Tracing.DocuTerms
         /// <param name="value"></param>
         /// <returns></returns>
         public IEvent ePrms(string name, params IEventParameter[] pn)
-            => new EventWithNameAsString(name, List(pn));
+            => new Event(fmt, new String(name), List(KillIfNotFilter(pn)));
+
 
         IEventParameter CreateListWithResultProperty(IPropertyValue pVal)
             => List(p(TTD.MetaData.Result.UID, pVal));
@@ -812,6 +853,9 @@ namespace MKPRG.Tracing.DocuTerms
         //           _pn => KillInstanceMemberIfContNotMetFilter(_pn),
         //           pn);
 
+        // ⎔⎔⎔
+        // ⎔⎔⎔ Methoden ⎔⎔⎔ ⎔⎔⎔ ⎔⎔⎔ ⎔⎔⎔
+        // ⎔⎔⎔
 
         // ⎔⎔⎔
         // ⎔⎔⎔ Methoden ⎔⎔⎔ ⎔⎔⎔ ⎔⎔⎔ ⎔⎔⎔
@@ -835,7 +879,9 @@ namespace MKPRG.Tracing.DocuTerms
         /// <param name="pn"></param>
         /// <returns></returns>
         public IMethod m(long nid, params IMethodParameter[] pn)
-            => new MethodWithNameAsNID(NID(nid), pn);
+            => pn.Any()
+                ? CreateObjectWithMembers(nid, (id, lst) => new Method(fmt, id, lst), pn)
+                : new Method(fmt, new NID(fmt, nid));
 
         // ↺↺↺
         // ↺↺↺ Return ↺↺↺ ↺↺↺ ↺↺↺
@@ -974,9 +1020,16 @@ namespace MKPRG.Tracing.DocuTerms
                 return i(TTD.MetaData.Result.UID, eFails(TTD.Composer.Errors.CantEncapsulateAsInstance.UID));
         }
 
-        // ⦾⦾⦾
-        // ⦾⦾⦾ Properties ⦾⦾⦾ ⦾⦾⦾ ⦾⦾⦾
-        // ⦾⦾⦾
+
+        //public IPropertyValue EncapsulateAsPropertyValue(IDocuEntity docuTerm)
+        //    => IfElse(docuTerm is IPropertyValue,
+        //                    () => (IPropertyValue)docuTerm,
+        //                    () => IfElse(docuTerm is IInstanceMember,
+        //                            // Methode in einer Instanz einkapseln
+        //                            () => i(TTD.MetaData.Result.UID, (IInstanceMember)docuTerm),
+        //                            () => IfElse(docuTerm is IReturn,
+        //                                            () => (IPropertyValue)i(TTD.MetaData.Result.UID, m(MKPRG.Naming.TechTerms.RunTime.CalledUpFunction.UID, (IReturn)docuTerm)),
+        //                                            () => i(TTD.MetaData.Result.UID, eFails("There exitst a detaild description of error, but it can't be encapsulated as docuTerm EventParameter")))));
 
         /// <summary>
         /// mko, 21.12.2018
@@ -1077,7 +1130,25 @@ namespace MKPRG.Tracing.DocuTerms
         /// <param name="Value"></param>
         /// <returns></returns>
         public IProperty p(long nid, long Value)
-            => p(nid, CreateLongEntity(Value));
+            => new Property(fmt, new NID(fmt, nid), CreateLongEntity(Value));
+
+        /// <summary>
+        /// mko, 28.2.2021
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="Value"></param>
+        /// <returns></returns>
+        public IProperty p(string name, ulong Value)
+            => new Property(fmt, new String(name), CreateULongEntity(Value));
+
+        /// <summary>
+        /// mko, 28.2.2021
+        /// </summary>
+        /// <param name="nid"></param>
+        /// <param name="Value"></param>
+        /// <returns></returns>
+        public IProperty p(long nid, ulong Value)
+            => new Property(fmt, new NID(fmt, nid), CreateULongEntity(Value));
 
         /// <summary>
         /// mko, 22.2.2019
@@ -1161,190 +1232,68 @@ namespace MKPRG.Tracing.DocuTerms
         //public IDocuEntity List(IEnumerable<IDocuEntity> entities) => new DocuEntity(fmt, DocuEntityTypes.List, CreateListElements(entities));
 
 
-        // 🛠🛠🛠
-        // 🛠🛠🛠 private members for implementation 🛠🛠🛠 🛠🛠🛠 🛠🛠🛠
-        // 🛠🛠🛠
+        //---------------------------------------------------------------------------------------------------
+        // private members for implementation
 
         /// <summary>
         /// Realisiert Kill- Kommandos
-        /// 
-        /// mko, 9.8.2021
-        /// Rausgeschmissen aus Implementierung und Schnittstelle
         /// </summary>
         /// <param name="details"></param>
         /// <returns></returns>
-        //public IDocuEntity ExecuteKillCommand(IDocuEntity details)
-        //{
+        public IDocuEntity ExecuteKillCommand(IDocuEntity details)
+        {
 
-        //    IDocuEntity ret = null;
+            IDocuEntity ret = null;
 
-        //    if (details != null)
-        //    {
-        //        if (details.EntityType == DocuEntityTypes.KillIfNot
-        //            && ((IKillEventParamIfNot)details).Condition)
-        //        {
-        //            // nicht killen
-        //            ret = ((IKillEventParamIfNot)details).DocuEntity;
-        //        }
-        //        else if (details.EntityType == DocuEntityTypes.KillIfNot
-        //          && !((IKillEventParamIfNot)details).Condition)
-        //        {
-        //            // killen
-        //            ret = null;
-        //        }
-        //        else
-        //        {
-        //            // kein KillIfNot- Kommando
-        //            ret = details;
-        //        }
-        //    }
+            if (details != null)
+            {
+                if (details.EntityType == DocuEntityTypes.KillIfNot
+                    && ((IKillEventParamIfNot)details).Condition)
+                {
+                    // nicht killen
+                    ret = ((IKillEventParamIfNot)details).DocuEntity;
+                }
+                else if (details.EntityType == DocuEntityTypes.KillIfNot
+                  && !((IKillEventParamIfNot)details).Condition)
+                {
+                    // killen
+                    ret = null;
+                }
+                else
+                {
+                    // kein KillIfNot- Kommando
+                    ret = details;
+                }
+            }
 
-        //    return ret;
-        //}
+            return ret;
+        }
 
         /// <summary>
         /// mko, 8.5.2018
         /// Kill all parameters where conditions is not met
-        /// 
-        /// mko, 5.7.2021
-        /// Von static auf nicht static geändert.
-        /// Fall pn == null jetzt berücksichtigt- es wird jetzt eine leere Liste zurückgegeben
-        /// 
-        /// mko, 9.8.2021
-        /// Rausgeschmissen, da Implementierungsdetail, das jetzt in den Konstruktoren von IInstance... implementiert wird.
-        /// 
         /// </summary>
         /// <param name="pn"></param>
         /// <returns></returns>
-        //internal IListMember[] KillIfNotFilter(IListMember[] pn)
+        private static IListMember[] KillIfNotFilter(IListMember[] pn)
+        {
+            // Alle herausfiltern, bei denen die kein kill durchgeführt werden soll, bzw. die kein KillIfNot sind
+            var prms = pn.Where(r => (r.EntityType == DocuEntityTypes.KillIfNot && ((IKillIfNot)r).Condition) || r.EntityType != DocuEntityTypes.KillIfNot);
+            return prms.Select(r => r.EntityType == DocuEntityTypes.KillIfNot ? ((IKillIfNot)r).DocuEntity : r).ToArray();
+        }
+
+
+        ///// <summary>
+        ///// mko, 8.5.2018
+        ///// Kill all parameters where conditions is not met
+        ///// </summary>
+        ///// <param name="pn"></param>
+        ///// <returns></returns>
+        //private static IDocuEntity[] KillIfNotFilter(IEnumerable<IDocuEntity> pn)
         //{
-        //    var ret = new IListMember[] { };
-
-        //    // mko, 5.7.2021
-        //    // Behandlung von Null- Werten eingeführt
-        //    if (pn != null)
-        //    {
-        //        // Alle herausfiltern, bei denen die kein kill durchgeführt werden soll, bzw. die kein KillIfNot sind
-        //        var prms = pn.Where(r => (r.EntityType == DocuEntityTypes.KillIfNot && ((IKillIfNot)r).Condition) || r.EntityType != DocuEntityTypes.KillIfNot);
-        //        ret = prms.Select(r => r.EntityType == DocuEntityTypes.KillIfNot
-        //                                                // mko, 5.7.2021
-        //                                                // Fall Member Docuentity == null berücksichtigt.
-        //                                                ? (((IKillIfNot)r).DocuEntity != null ? ((IKillIfNot)r).DocuEntity : i(TT.Sets.NullValue.UID))
-        //                                                : r
-        //                         ).ToArray();
-        //    }
-
-        //    return ret;
+        //    var prms = pn.Where(r => (r.EntityType == DocuEntityTypes.KillIfNot && ((IKillEventParamIfNot)r).Condition) || r.EntityType != DocuEntityTypes.KillIfNot);
+        //    return prms.Select(r => r.EntityType == DocuEntityTypes.KillIfNot ? ((IKillEventParamIfNot)r).DocuEntity : r).ToArray();
         //}
-
-        /// <summary>
-        /// mko, 12.7.2021
-        /// Streng typisierte Filterfunktion für bedingte Methodenparameter
-        /// </summary>
-        /// <typeparam name="IParam"></typeparam>
-        /// <param name="pn"></param>
-        /// <returns></returns>
-        //internal IMethodParameter[] KillMethodParamIfCondNotMetFilter(IMethodParameter[] pn)
-        //{
-        //    var ret = new IMethodParameter[] { };
-
-        //    // mko, 5.7.2021
-        //    // Behandlung von Null- Werten eingeführt
-        //    if (pn != null)
-        //    {
-        //        // Alle herausfiltern, bei denen die kein kill durchgeführt werden soll, bzw. die kein KillIfNot sind
-        //        var prms = pn.Where(r => r is IKillMethodPrarmeterIfNot mp && mp.Condition || !(r is IKillMethodPrarmeterIfNot));
-        //        ret = prms.Select(r => r is IKillMethodPrarmeterIfNot mp
-        //                                                // mko, 5.7.2021
-        //                                                // Fall Member Docuentity == null berücksichtigt.
-        //                                                ? mp.MethodParameter != null ? mp.MethodParameter : p_NID(TTD.Composer.Errors.ComposerError.UID, TTD.Composer.Errors.KillIfNotParamIsNull.UID)
-        //                                                : r
-        //                         ).ToArray();
-        //    }
-
-        //    return ret;
-        //}
-
-        /// <summary>
-        /// mko, 12.7.2021
-        /// Streng typisierte Filterfunktion für bedingte Instanzmember
-        /// </summary>
-        /// <param name="pn"></param>
-        /// <returns></returns>
-        //internal IInstanceMember[] KillInstanceMemberIfContNotMetFilter(IInstanceMember[] pn)
-        //{
-        //    var ret = new IInstanceMember[] { };
-
-        //    // mko, 5.7.2021
-        //    // Behandlung von Null- Werten eingeführt
-        //    if (pn != null)
-        //    {
-        //        // Alle herausfiltern, bei denen die kein kill durchgeführt werden soll, bzw. die kein KillIfNot sind
-        //        var prms = pn.Where(r => r is IKillInstanceMemberIfNot mp && mp.Condition || !(r is IKillInstanceMemberIfNot));
-        //        ret = prms.Select(r => r is IKillInstanceMemberIfNot mp
-        //                                                // mko, 5.7.2021
-        //                                                // Fall Member Docuentity == null berücksichtigt.
-        //                                                ? mp.InstanceMember != null ? mp.InstanceMember : p_NID(TTD.Composer.Errors.ComposerError.UID, TTD.Composer.Errors.KillIfNotParamIsNull.UID)
-        //                                                : r
-        //                         ).ToArray();
-        //    }
-
-        //    return ret;
-        //}
-
-        /// <summary>
-        /// mko, 12.7.2021
-        /// Streng typisierte Filterfunktion für bedingte Instanzmember
-        /// </summary>
-        /// <param name="pn"></param>
-        /// <returns></returns>
-        //internal IEventParameter[] KillEventMemberIfCondNotMetFilter(IEventParameter[] pn)
-        //{
-        //    var ret = new IEventParameter[] { };
-
-        //    // mko, 5.7.2021
-        //    // Behandlung von Null- Werten eingeführt
-        //    if (pn != null)
-        //    {
-        //        // Alle herausfiltern, bei denen die kein kill durchgeführt werden soll, bzw. die kein KillIfNot sind
-        //        var prms = pn.Where(r => r is IKillEventParamIfNot mp && mp.Condition || !(r is IKillEventParamIfNot));
-        //        ret = prms.Select(r => r is IKillEventParamIfNot mp
-        //                                                // mko, 5.7.2021
-        //                                                // Fall Member Docuentity == null berücksichtigt.
-        //                                                ? mp.EventParameter != null ? mp.EventParameter : i(TTD.Composer.Errors.ComposerError.UID, p_NID(TTD.StateDescription.WhatsUp.UID, TTD.Composer.Errors.KillIfNotParamIsNull.UID))
-        //                                                : r
-        //                         ).ToArray();
-        //    }
-
-        //    return ret;
-        //}
-
-        //internal IListMember[] KillListMemberIfCondNotMetFilter(IListMember[] pn)
-        //{
-        //    var ret = new IListMember[] { };
-
-        //    // mko, 5.7.2021
-        //    // Behandlung von Null- Werten eingeführt
-        //    if (pn != null)
-        //    {
-        //        // Alle herausfiltern, bei denen die kein kill durchgeführt werden soll, bzw. die kein KillIfNot sind
-        //        var prms = pn.Where(r => r is IKillListElementIfNot mp && mp.Condition || !(r is IKillListElementIfNot));
-        //        ret = prms.Select(r => r is IKillListElementIfNot mp
-        //                                                // mko, 5.7.2021
-        //                                                // Fall Member Docuentity == null berücksichtigt.
-        //                                                ? mp.ListMember != null ? mp.ListMember : i(TTD.Composer.Errors.ComposerError.UID, p_NID(TTD.StateDescription.WhatsUp.UID, TTD.Composer.Errors.KillIfNotParamIsNull.UID))
-        //                                                : r
-        //                         ).ToArray();
-        //    }
-
-        //    return ret;
-        //}
-
-
-
-
-
-
 
         /// <summary>
         /// mko, 1.3.2019
@@ -1352,258 +1301,144 @@ namespace MKPRG.Tracing.DocuTerms
         /// </summary>
         /// <param name="pn"></param>
         /// <returns></returns>
-        //private static IListMember[] ResolveListsToEmbed(IEnumerable<IListMember> pn)
+        private static IListMember[] ResolveListsToEmbed(IEnumerable<IListMember> pn)            
+        {
+            var lst = new List<IListMember>();
+
+            // mko, 27.2.2019
+            // Auflösen aller Einbettungen
+            foreach (var dt in pn)
+            {
+                if (dt is ListToEmbed)
+                {
+                    var lEmbed = (ListToEmbed)dt;
+                    if (lEmbed.Childs != null)
+                        lst.AddRange(lEmbed.ToEmbed);
+                }
+                else
+                {
+                    lst.Add(dt);
+                }
+            }
+
+            return lst.ToArray();
+        }
+
+
+        private IDocuEntity CreateEntity(DocuEntityTypes docEType, string name)
+        {
+            return new DocuEntity(fmt, docEType, new String(name));
+        }
+
+        /// <summary>
+        /// mko, 9.6.2020
+        /// </summary>
+        /// <param name="docEType"></param>
+        /// <param name="nid"></param>
+        /// <returns></returns>
+        //private IDocuEntity CreateEntity(DocuEntityTypes docEType, long nid)
         //{
-        //    var lst = new List<IListMember>();
-
-        //    // mko, 27.2.2019
-        //    // Auflösen aller Einbettungen
-        //    foreach (var dt in pn)
-        //    {
-        //        if (dt is ListMembersToEmbedClass)
-        //        {
-        //            var lEmbed = (ListMembersToEmbedClass)dt;
-        //            if (lEmbed.Childs != null)
-        //                lst.AddRange(lEmbed.ToEmbed);
-        //        }
-        //        else
-        //        {
-        //            lst.Add(dt);
-        //        }
-        //    }
-
-        //    return lst.ToArray();
+        //    return new DocuEntity(fmt, docEType, new NID(fmt, nid));
         //}
 
 
         /// <summary>
-        /// mko, 8.7.21
-        /// Gegen Nullwerte gehärtet
+        /// mko, 2.4.2019
+        /// Erzeugt ein DocuEntity und berücksichtigt dabei, dass das Argument ein KillIfNot sein kann.
         /// </summary>
         /// <param name="docEType"></param>
-        /// <param name="name"></param>
+        /// <param name="Name"></param>
+        /// <param name="value"></param>
         /// <returns></returns>
-        //private IDocuEntity CreateEntity(DocuEntityTypes docEType, string name)
+        //private IDocuEntity CreateEntity(string Name, IDocuEntity value)
         //{
-        //    IDocuEntity ret = null;
+        //    IDocuEntity entity = null;
 
-        //    if (string.IsNullOrWhiteSpace(name))
+        //    if (value is KillIfNot kill)
         //    {
-        //        ret = new DocuEntity(fmt, docEType, NID(TTD.Composer.Errors.NameIsNull.UID));
+        //        if (!kill.Condition)
+        //        {
+        //            // Muss Wert killen !
+        //            entity = new DocuEntity(fmt, docEType, new String(Name));
+        //        }
+        //        else
+        //        {
+        //            // Wert bleibt erhalten
+        //            entity = new DocuEntity(fmt, docEType, new String(Name), kill.DocuEntity);
+        //        }
         //    }
         //    else
         //    {
-        //        ret = new DocuEntity(fmt, docEType, new String(name));
+        //        entity = new DocuEntity(fmt, docEType, new String(Name), value);
         //    }
 
-        //    return ret;
+        //    return entity;
         //}
 
         /// <summary>
         /// mko, 2.4.2019
         /// Erzeugt ein DocuEntity und berücksichtigt dabei, dass das Argument ein KillIfNot sein kann.
-        /// Methode ist 
         /// 
         /// mko, 16.6.2020
         /// Erzeugen streng typisierter DocuEntites
-        /// 
-        /// Funktionsweise der Komposition von KillIfNot- Termen und ihrer Evaluierung
-        /// 1) Die Terme werden 
-        /// 
-        /// 
-        /// mko, 5.7.2021
-        /// Die Fälle, das der Wert (value) ein KillIfNot- Befehl ist, oder das der Wert Null ist, jetzt eindeutiger behandelt.
-        /// 
-        /// mko, 9.7.2021
-        /// Zugriff auf den streng typisiertern Parameter eines KillIfNot- Objektes verbessert.
-        /// 
-        /// </summary>        
-        /// <param name="name"></param>
-        /// <param name="value"></param>
-        /// <param name="factoryWithParam">Klassenfabrik wird eingesetzt, wenn Parameterliste erzeugt werden muss</param>
-        /// <param name="factoryIfParamKilled">Klassenfabrik wird eingesetzt, wenn Parameterliste nicht definiert wurde (null), oder durch ein Kill- Kommando gelöscht wurde</param>
-        /// <returns></returns>
-        //private IRet EvaluateKillIfNot<TParam, TKillIfNotParam, IRet>(
-        //    long nid,
-        //    TKillIfNotParam killIfNot,
-        //    Func<TKillIfNotParam, TParam> GetParam,
-        //    Func<long, TParam, IRet> factoryWithParam,
-        //    Func<long, IRet> factoryIfParamKilled)
-        //    where TParam : IDocuEntity
-        //    where TKillIfNotParam : class, IKillIfNot
-        //    where IRet : class, IDocuEntity
-        //{
-        //    IRet entity = null;
-
-        //    var nidIsDefined = NC.ContainsKey(nid);
-
-        //    if (nidIsDefined)
-        //    {
-        //        if (killIfNot == null)
-        //        {
-        //            entity = factoryIfParamKilled(TTD.Composer.Errors.KillIfNotParamIsNull.UID);
-        //        }
-        //        else if (killIfNot.Condition)
-        //        {
-        //            entity = factoryWithParam(nid, GetParam(killIfNot));
-        //        }
-        //        else
-        //        {
-        //            entity = factoryIfParamKilled(nid);
-        //        }
-        //    }
-        //    else
-        //    {
-        //        if (killIfNot == null)
-        //        {
-        //            entity = factoryIfParamKilled(TTD.Composer.Errors.NidIsUnknownAndKillIfNotIsNull.UID);
-        //        }
-        //        else if (killIfNot.Condition)
-        //        {
-        //            entity = factoryWithParam(TTD.Composer.Errors.NidIsUnknown.UID, GetParam(killIfNot));
-        //        }
-        //        else
-        //        {
-        //            entity = factoryIfParamKilled(TTD.Composer.Errors.NidIsUnknown.UID);
-        //        }
-        //    }
-
-        //    return entity;
-        //}
-
-
-        /// <summary>
-        /// mko, 9.8.2021
         /// </summary>
-        /// <typeparam name="TParam"></typeparam>
-        /// <typeparam name="TKillIfNotParam"></typeparam>
-        /// <typeparam name="IRet"></typeparam>
+        /// <param name="docEType"></param>
         /// <param name="Name"></param>
-        /// <param name="killIfNot"></param>
-        /// <param name="GetParam"></param>
-        /// <param name="factoryWithNidAndParam"></param>
-        /// <param name="factoryWithStringAndParam"></param>
-        /// <param name="factoryWithStringNameIfParamKilled"></param>
-        /// <param name="factoryWithNidNameIfParamKilled"></param>
+        /// <param name="value"></param>
         /// <returns></returns>
-        //private IRet EvaluateKillIfNot<TParam, TKillIfNotParam, IRet>(
-        //    string Name,
-        //    TKillIfNotParam killIfNot,
-        //    Func<TKillIfNotParam, TParam> GetParam,
-        //    Func<long, TParam, IRet> factoryWithNidAndParam,
-        //    Func<string, TParam, IRet> factoryWithStringAndParam,
-        //    Func<long, IRet> factoryWithNidNameIfParamKilled,
-        //    Func<string, IRet> factoryWithStringNameIfParamKilled)            
-        //    where TParam : IDocuEntity
-        //    where TKillIfNotParam : class, IKillIfNot
-        //    where IRet : class, IDocuEntity
-        //{
-        //    IRet entity = null;
+        private IRet CreateEntity<IParam, IRet>(string name, IParam value, Func<String, IParam, IRet> factory)
+            where IParam : class, IDocuEntity
+            where IRet : class, IDocuEntity
+        {
+            IRet entity = null;
 
-        //    var nameIsDefined = Name != null && Name != NC[TTD.Composer.Errors.NameIsNull.UID].CNT;
+            if (value is IKillEventParamIfNot kill)
+            {
+                if (!kill.Condition)
+                {
+                    // Muss killen !
+                    entity = factory(new String(name), null);
+                }
+                else
+                {
+                    entity = factory(new String(name), (IParam)kill.DocuEntity);
+                }
+            }
+            else
+            {
 
-        //    if (nameIsDefined)
-        //    {
-        //        if (killIfNot == null)
-        //        {
-        //            entity = factoryWithStringAndParam(Name, (TParam)NID(TTD.Composer.Errors.KillIfNotParamIsNull.UID));
-        //        }
-        //        else if (killIfNot.Condition)
-        //        {
-        //            entity = factoryWithStringAndParam(Name, GetParam(killIfNot));
-        //        }
-        //        else
-        //        {
-        //            entity = factoryWithStringNameIfParamKilled(Name);
-        //        }
-        //    }
-        //    else
-        //    {
-        //        if (killIfNot == null)
-        //        {
-        //            entity = factoryWithNidNameIfParamKilled(TTD.Composer.Errors.NidIsUnknownAndKillIfNotIsNull.UID);
-        //        }
-        //        else if (killIfNot.Condition)
-        //        {
-        //            entity = factoryWithNidAndParam(TTD.Composer.Errors.NidIsUnknown.UID, GetParam(killIfNot));
-        //        }
-        //        else
-        //        {
-        //            entity = factoryWithNidNameIfParamKilled(TTD.Composer.Errors.NidIsUnknown.UID);
-        //        }
-        //    }
+                entity = factory(new String(name), value);
+            }
 
-        //    return entity;
-        //}
+            return entity;
+        }
 
+        private IRet CreateEntity<IParam, IRet>(String name, IParam value, Func<String, IParam, IRet> factory)
+            where IParam : class, IDocuEntity
+            where IRet : class, IDocuEntity
+        {
+            IRet entity = null;
 
+            if (value is IKillEventParamIfNot kill)
+            {
+                if (!kill.Condition)
+                {
+                    // Muss killen !
+                    entity = factory(name, null);
+                }
+                else
+                {
+                    entity = factory(name, (IParam)kill.DocuEntity);
+                }
+            }
+            else
+            {
 
+                entity = factory(name, value);
+            }
 
-
-        //private IRet CreateEntity<TName, IParam, IRet>(
-        //    Func<TName> NameGenerator,
-        //    IParam value,
-        //    Func<TName, IParam, IRet> factoryWithParam,
-        //    Func<TName, IRet> factoryIfKilledParam)
-        //    where IParam : class
-        //    where IRet : class, IDocuEntity
-        //{
-        //    IRet entity = null;
-
-        //    if (value == null)
-        //    {
-        //        entity = factoryIfKilledParam(NameGenerator());
-        //    }
-        //    else if (value is IKillIfNot kill)
-        //    {
-        //        if (!kill.Condition)
-        //        {
-        //            // Muss killen !
-        //            entity = factoryIfKilledParam(NameGenerator());
-        //        }
-        //        else
-        //        {
-        //            entity = factoryWithParam(NameGenerator(), (IParam)kill.DocuEntity);
-        //        }
-        //    }
-        //    else
-        //    {
-
-        //        entity = factoryWithParam(NameGenerator(), value);
-        //    }
-
-        //    return entity;
-        //}
-
-
-
-
-        //private IRet CreateEntity<IParam, IRet>(String name, IParam value, Func<String, IParam, IRet> factory)
-        //    where IParam : class, IDocuEntity
-        //    where IRet : class, IDocuEntity
-        //{
-        //    IRet entity = null;
-
-        //    if (value is IKillEventParamIfNot kill)
-        //    {
-        //        if (!kill.Condition)
-        //        {
-        //            // Muss killen !
-        //            entity = factory(name, null);
-        //        }
-        //        else
-        //        {
-        //            entity = factory(name, (IParam)kill.DocuEntity);
-        //        }
-        //    }
-        //    else
-        //    {
-
-        //        entity = factory(name, value);
-        //    }
-
-        //    return entity;
-        //}
+            return entity;
+        }
 
 
 
@@ -1617,32 +1452,32 @@ namespace MKPRG.Tracing.DocuTerms
         /// <param name="NID"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        //private IRet CreateEntity<IParam, IRet>(long nid, IParam value, Func<NID, IParam, IRet> factory)
-        //    where IParam : class, IDocuEntity
-        //    where IRet : class, IDocuEntity
-        //{
-        //    IRet entity = null;
+        private IRet CreateEntity<IParam, IRet>(long nid, IParam value, Func<NID, IParam, IRet> factory)
+            where IParam : class, IDocuEntity
+            where IRet : class, IDocuEntity
+        {
+            IRet entity = null;
 
-        //    if (value is IKillEventParamIfNot kill)
-        //    {
-        //        if (!kill.Condition)
-        //        {
-        //            // Muss killen !
-        //            entity = factory(new NID(fmt, nid), null);
-        //        }
-        //        else
-        //        {
-        //            entity = factory(new NID(fmt, nid), (IParam)kill.DocuEntity);
-        //        }
-        //    }
-        //    else
-        //    {
+            if (value is IKillEventParamIfNot kill)
+            {
+                if (!kill.Condition)
+                {
+                    // Muss killen !
+                    entity = factory(new NID(fmt, nid), null);
+                }
+                else
+                {
+                    entity = factory(new NID(fmt, nid), (IParam)kill.DocuEntity);
+                }
+            }
+            else
+            {
 
-        //        entity = factory(new NID(fmt, nid), value);
-        //    }
+                entity = factory(new NID(fmt, nid), value);
+            }
 
-        //    return entity;
-        //}
+            return entity;
+        }
 
         /// <summary>
         /// mko, 24.6.2020
@@ -1653,32 +1488,32 @@ namespace MKPRG.Tracing.DocuTerms
         /// <param name="value"></param>
         /// <param name="factory"></param>
         /// <returns></returns>
-        //private IRet CreateEntity<IParam, IRet>(NID nid, IParam value, Func<NID, IParam, IRet> factory)
-        //    where IParam : class, IDocuEntity
-        //    where IRet : class, IDocuEntity
-        //{
-        //    IRet entity = null;
+        private IRet CreateEntity<IParam, IRet>(NID nid, IParam value, Func<NID, IParam, IRet> factory)
+            where IParam : class, IDocuEntity
+            where IRet : class, IDocuEntity
+        {
+            IRet entity = null;
 
-        //    if (value is IKillEventParamIfNot kill)
-        //    {
-        //        if (!kill.Condition)
-        //        {
-        //            // Muss killen !
-        //            entity = factory(nid, null);
-        //        }
-        //        else
-        //        {
-        //            entity = factory(nid, (IParam)kill.DocuEntity);
-        //        }
-        //    }
-        //    else
-        //    {
+            if (value is IKillEventParamIfNot kill)
+            {
+                if (!kill.Condition)
+                {
+                    // Muss killen !
+                    entity = factory(nid, null);
+                }
+                else
+                {
+                    entity = factory(nid, (IParam)kill.DocuEntity);
+                }
+            }
+            else
+            {
 
-        //        entity = factory(nid, value);
-        //    }
+                entity = factory(nid, value);
+            }
 
-        //    return entity;
-        //}
+            return entity;
+        }
 
 
 
@@ -1750,217 +1585,61 @@ namespace MKPRG.Tracing.DocuTerms
         //}
 
 
-        //private IRet CreateObjectWithMembers<IRet, IParam>(long nid, Func<NID, IDTList, IRet> factory, params IParam[] _pn)
-        //    where IRet : class, IDocuEntity
-        //    where IParam : class, IListMember
-        //{
-        //    IRet res;
+        private IRet CreateObjectWithMembers<IRet, IParam>(long nid, Func<NID, IDTList, IRet> factory, params IParam[] _pn)
+            where IRet : class, IDocuEntity
+            where IParam : class, IListMember
+        {
+            IRet res;
 
-        //    // Member müssen stets in einer Liste verpackt werden
-        //    // Achtung: beim erstellen der Liste werden bedingt aufzunehmende Elemente und Einbettungslisten evaluiert. Die Liste 
-        //    // kann dadurch schrumpfen oder wachsen.
-        //    var memberList = List(_pn);
+            // Member müssen stets in einer Liste verpackt werden
+            // Achtung: beim erstellen der Liste werden bedingt aufzunehmende Elemente und Einbettungslisten evaluiert. Die Liste 
+            // kann dadurch schrumpfen oder wachsen.
+            var memberList = List(_pn);
 
-        //    // mko 21.12.2018
-        //    // Parameter werden ab jetzt stets in eine Parameterliste eingekapselt
-        //    //if (pn.Length > 1 || MandantoryWrapValuesInList)
-        //    if (memberList.Childs.Any())
-        //    {
-        //        // Instanz mit Membern erzeugen
-        //        res = factory(new NID(fmt, nid), memberList);
-        //    }
-        //    else
-        //    {
-        //        // Instanz ohne Member erzeugen (leere Instanz)
-        //        res = factory(new NID(fmt, nid), new DTList(fmt));
-        //    }
+            // mko 21.12.2018
+            // Parameter werden ab jetzt stets in eine Parameterliste eingekapselt
+            //if (pn.Length > 1 || MandantoryWrapValuesInList)
+            if (memberList.Childs.Any())
+            {
+                // Instanz mit Membern erzeugen
+                res = factory(new NID(fmt, nid), memberList);
+            }
+            else
+            {
+                // Instanz ohne Member erzeugen (leere Instanz)
+                res = factory(new NID(fmt, nid), new DTList(fmt));
+            }
 
-        //    return res;
-        //}
+            return res;
+        }
 
+        private IRet CreateObjectWithMembers<IRet, IParam>(string name, Func<String, IDTList, IRet> factory, params IParam[] _pn)
+            where IRet : class, IDocuEntity
+            where IParam : class, IListMember
+        {
+            IRet res;
 
-        /// <summary>
-        /// 
-        /// In der Regel existieren vier Generator- Funktionen:
-        /// f(n)
-        /// f(n, w)
-        /// f(i)
-        /// f(i, w)
-        /// 
-        /// Folgende allgemeine Parameterkombinationen sind möglich:
-        /// 
-        /// Fälle; n==null || w == null || i n.def 
-        /// 
-        /// f(i, w)                 -: f(i, w)
-        /// f(n, w)                 -: f(n, w)
-        /// f(i n. def, w)          -: f(i_ndef, w)
-        /// f(n == null, w)         -: f(i_nameIsNull, w)
-        /// f(i, w == null)         -: f(i)
-        /// f(n, w == null)         -: f(n)        
-        /// f(i n.def, w == null)   -: Error
-        /// f(n == null, w == null) -: Error
-        /// 
-        /// Zwei verallgemeinerte Composer- Factories, die alle Fälle korrekt behandelt
-        /// CF(F/N/     cf1,    //  n => f(n), 
-        ///    F/N, W/  cf2,    // (n, w) => f(n, w) 
-        ///    F/I/     cf3,    // i => f(i)
-        ///    F/I, W/  cf4,    // (i, w) => f(i, w)
-        ///    N n, W w)
-        /// {
-        ///    if n != null && w != null => cf2(n, w)
-        ///    if n != null && w == null => cf1(n)
-        ///    if n == null && w != null => cf3(i_nameIsNull, w)
-        ///    if n == null && w == null => Error
-        ///    ...
-        /// } 
-        /// 
-        /// CF(F/I/     cf1,    // i => f(i)
-        ///    F/I, W/  cf2,    // f(i, w) => f(i, w)),
-        ///    I i, W w)
-        /// {
-        ///    if i is def && w != null  => cf3(i, w)
-        ///    if i is def && w == null  => cf1(i)
-        ///    if i is !def && w != null => cf2(i_ndef, w)
-        ///    if i is !def && w == null => Error        
-        /// } 
-        /// 
-        /// CF_f(N n, W w) => CF(n => f(n), (n, w) => f(n,w), i => f(i), (i, w) => f(i, w), n, w)
-        /// CF_f(I i, W w) => CF(i => f(i), (i, w) => f(i,w), n, w)
-        /// 
-        /// Durch Parameterbindung spezielle Klassenfabriken ableiten
-        /// </summary>
-        /// <typeparam name="TName"></typeparam>
-        /// <typeparam name="IRet"></typeparam>
-        /// <typeparam name="IParam"></typeparam>
-        /// <param name="nidOfDocuTerm"></param>
-        /// <param name="factory"></param>        
-        /// <param name="_pn"></param>
-        /// <returns></returns>
+            // Member müssen stets in einer Liste verpackt werden
+            // Achtung: beim erstellen der Liste werden bedingt aufzunehmende Elemente und Einbettungslisten evaluiert. Die Liste 
+            // kann dadurch schrumpfen oder wachsen.
+            var memberList = List(_pn);
 
+            // mko 21.12.2018
+            // Parameter werden ab jetzt stets in eine Parameterliste eingekapselt
+            //if (pn.Length > 1 || MandantoryWrapValuesInList)
+            if (memberList.Childs.Any())
+            {
+                // Instanz mit Membern erzeugen
+                res = factory(new String(name), memberList);
+            }
+            else
+            {
+                // Instanz ohne Member erzeugen (leere Instanz)
+                res = factory(new String(name), new DTList(fmt));
+            }
 
-        //private IRet CreateDocuTermWithMemberList<IParam, IRet>(
-        //    long nidOfDocuTerm,
-        //    Func<long, IParam[], IRet> factory,
-        //    Func<long, IRet> factoryIfParamIsNull,
-        //    Func<IParam[], IParam[]> KillIfNotParamFilter,
-        //    IParam[] _pn)
-        //    where IRet : class, IDocuEntity
-        //    where IParam : class, IListMember
-        //{
-        //    IRet ret = null;
-
-        //    var nisIsDefined = NC.ContainsKey(nidOfDocuTerm);
-
-        //    // mko, 5.7.2021
-        //    // Absichern gegen Null- Werte im Namen
-        //    if (nisIsDefined && _pn != null)
-        //    {
-        //        // Member müssen stets in einer Liste verpackt werden
-        //        // Achtung: beim Erstellen der Liste werden bedingt aufzunehmende Elemente und Einbettungslisten evaluiert. Die Liste 
-        //        // kann dadurch schrumpfen oder wachsen.
-
-        //        _pn = KillIfNotParamFilter(_pn);
-        //        ret = factory(nidOfDocuTerm, _pn);
-        //    }
-        //    else if (nisIsDefined && _pn == null)
-        //    {
-        //        ret = factoryIfParamIsNull(nidOfDocuTerm);
-        //    }
-        //    else if (!nisIsDefined && _pn != null)
-        //    {
-        //        _pn = KillIfNotParamFilter(_pn);
-        //        ret = factory(TTD.Composer.Errors.NidIsUnknown.UID, _pn);
-        //    }
-        //    else if (!nisIsDefined && _pn == null)
-        //    {
-        //        ret = factoryIfParamIsNull(TTD.Composer.Errors.NidIsUnknownAndValueIsNull.UID);
-        //    }
-
-        //    return ret;
-        //}
-
-        //private IRet CreateDocuTermWithMemberList<IRet, IParam>(
-        //    string nameOfDocuTerm,
-        //    Func<String, IParam[], IRet> factory,
-        //    Func<String, IRet> factoryIfParamIsNull,
-        //    Func<long, IParam[], IRet> factoryNid,
-        //    Func<long, IRet> factoryNidIfParamIsNull,
-        //    Func<IParam[], IParam[]> KillIfNotParamFilter,
-        //    IParam[] _pn)
-        //    where IRet : class, IDocuEntity
-        //    where IParam : class, IListMember
-        //{
-        //    IRet ret = null;
-
-        //    var nameIsDefined = !string.IsNullOrWhiteSpace(nameOfDocuTerm);
-
-        //    // mko, 5.7.2021
-        //    // Absichern gegen Null- Werte im Namen
-        //    if (nameIsDefined && _pn != null)
-        //    {
-        //        // Member müssen stets in einer Liste verpackt werden
-        //        // Achtung: beim Erstellen der Liste werden bedingt aufzunehmende Elemente und Einbettungslisten evaluiert. Die Liste 
-        //        // kann dadurch schrumpfen oder wachsen.
-        //        _pn = KillIfNotParamFilter(_pn);
-        //        ret = factory(new String(nameOfDocuTerm), _pn);
-        //    }
-        //    else if (nameIsDefined && _pn == null)
-        //    {
-        //        ret = factoryIfParamIsNull(new String(nameOfDocuTerm));
-        //    }
-        //    else if (!nameIsDefined && _pn != null)
-        //    {
-        //        _pn = KillIfNotParamFilter(_pn);
-        //        ret = factoryNid(TTD.Composer.Errors.NameIsNull.UID, _pn);
-        //    }
-        //    else if (!nameIsDefined && _pn == null)
-        //    {
-        //        ret = factoryNidIfParamIsNull(TTD.Composer.Errors.NameIsNullAndValueIsNull.UID);
-        //    }
-
-        //    return ret;
-        //}
-
-        //private IRet CreateDocuTermWithMemberList<IRet, IParam>(
-        //    IWildCard wc,
-        //    Func<IWildCard, IParam[], IRet> factory,
-        //    Func<IWildCard, IRet> factoryIfParamIsNull,
-        //    Func<long, IRet> factoryNid,
-        //    Func<IParam[], IParam[]> KillIfNotParamFilter,
-        //    IParam[] _pn)
-        //    where IRet : class, IDocuEntity
-        //    where IParam : class, IListMember
-        //{
-        //    IRet ret = null;
-
-        //    var wcIsDefined = wc != null;
-
-        //    // mko, 5.7.2021
-        //    // Absichern gegen Null- Werte im Namen
-        //    if (wcIsDefined && _pn != null)
-        //    {
-        //        // Member müssen stets in einer Liste verpackt werden
-        //        // Achtung: beim Erstellen der Liste werden bedingt aufzunehmende Elemente und Einbettungslisten evaluiert. Die Liste 
-        //        // kann dadurch schrumpfen oder wachsen.
-        //        _pn = KillIfNotParamFilter(_pn);
-        //        ret = factory(wc, _pn);
-        //    }
-        //    else if (wcIsDefined && _pn == null)
-        //    {
-        //        ret = factoryIfParamIsNull(wc);
-        //    }
-        //    else if (!wcIsDefined && _pn != null)
-        //    {
-        //        _pn = KillIfNotParamFilter(_pn);
-        //        ret = factoryNid(TTD.Composer.Errors.WildCardInstanceIsNull.UID);
-        //    }
-        //    else if (!wcIsDefined && _pn == null)
-        //    {
-        //        ret = factoryNid(TTD.Composer.Errors.WildCardInstanceIsNullAndValueIsNull.UID);
-        //    }
-
-        //    return ret;
-        //}
+            return res;
+        }
 
         /// <summary>
         /// mko, 28.2.2019
@@ -1968,14 +1647,33 @@ namespace MKPRG.Tracing.DocuTerms
         /// </summary>
         /// <param name="pn"></param>
         /// <returns></returns>
-        //private IListMember[] CreateListElements(IListMember[] _pn)
+        private IListMember[] CreateListElements(IListMember[] _pn)
+        {
+            IListMember[] res;
+
+            var pn = KillIfNotFilter(_pn);
+
+            // mko 21.12.2018
+            // Parameter werden ab jetzt stets in eine Parameterliste eingekapselt
+            //if (pn.Length > 1 || MandantoryWrapValuesInList)
+            if (pn.Any())
+            {
+                res = ResolveListsToEmbed(pn);
+            }
+            else
+            {
+                res = new IListMember[] { };
+            }
+
+            return res;
+        }
+
+        //private IRet[] CreateListElements<IParams, IRet>(IParams[] _pn)
+        //    where IParams : class, IListMember
+        //    where IRet : class, IListMember
         //{
-        //    IListMember[] res;
+        //    IRet[] res;
 
-
-        //    // Hier werden alle Listenelemente entfernt, welche die `IKillIfNot` Schnittstelle implementiern,
-        //    // und bei denen die Bedingung nicht erfüllt ist. Im Extremfall kann ein leeres Array
-        //    // zurückgegeben werden
         //    var pn = KillIfNotFilter(_pn);
 
         //    // mko 21.12.2018
@@ -1987,7 +1685,7 @@ namespace MKPRG.Tracing.DocuTerms
         //    }
         //    else
         //    {
-        //        res = new IListMember[] { };
+        //        res = new IRet[] { };
         //    }
 
         //    return res;
@@ -1996,23 +1694,73 @@ namespace MKPRG.Tracing.DocuTerms
         /// <summary>
         /// mko, 2.7.2019
         /// Erstellt tiefe Kopie des Dokuentities
-        /// 
-        /// mko, 9.8.2021
-        /// Entfernt
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
-        //public IDocuEntity CreateCopyOfEntity(IDocuEntity entity)
-        //{
-        //    if (entity is String str)
-        //    {
-        //        return new String(str.Value);
-        //    }
-        //    else
-        //    {
-        //        return new DocuEntity(fmt, entity.EntityType, entity.Childs.Select(r => CreateCopyOfEntity(r)).ToArray());
-        //    }
-        //}
+        public IDocuEntity CreateCopyOfEntity(IDocuEntity entity)
+        {
+            if (entity is String str)
+            {
+                return new String(str.Value);
+            }
+            else
+            {
+                return new DocuEntity(fmt, entity.EntityType, entity.Childs.Select(r => CreateCopyOfEntity(r)).ToArray());
+            }
+        }
 
+
+
+        /// <summary>
+        /// mko, 15.6.2020
+        /// Steht für einen beliebigen Wert einer Eigenschaft im Kontext des IsSubtree- Vergleiches
+        /// </summary>
+        /// <returns></returns>
+        public IWildCard _()
+            => new WildCard(fmt);
+
+        /// <summary>
+        /// mko, 17.6.2020
+        /// Steht für einen beliebigen Wert einer Eigenschaft im Kontext des IsSubtree- Vergleiches.
+        /// Es gilt die Einschränkung, das der Werd irgenwo den angegebenen SubTree enthält.
+        /// </summary>
+        /// <param name="subTree"></param>
+        /// <returns></returns>
+        public IWildCard _(IDocuEntity subTree)
+            => new WildCard(fmt, subTree);
+
+        public Boolean boolean(bool b)
+            => new Boolean(b, fmt);
+
+        public Integer integer(long i)
+            => new Integer(i, fmt);
+
+        public NN NN(ulong u)
+            => new NN(u, fmt);
+
+        public Double dbl(double d)
+            => new Double(d, fmt);
+
+        public String str(string s)
+            => new String(s);
+
+        /// <summary>
+        /// 24.6.2020
+        /// </summary>
+        /// <param name="nid"></param>
+        /// <returns></returns>
+        public NID NID(long nid)
+            => new NID(fmt, nid);
+
+        /// <summary>
+        /// mko, 22.7.2020
+        /// Erzeugt eine Kreuztabelle als DocuTerm- Struktur.
+        /// Die HTML- Formatter rendern diese z.B. in einer HTML- Tabelle.
+        /// </summary>
+        /// <returns></returns>
+        public IXTabGeneratorDefCols XTab()
+        {
+            return new XTabGeneratorCols(this);
+        }
     }
 }

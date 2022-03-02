@@ -21,7 +21,7 @@ namespace MKPRG.Tracing.DocuTerms
         }
 
         public InstanceWithNameAsString(string name, IInstanceMember[] instanceMember)
-            : base (instanceMember)
+            : base(instanceMember)
         {
             if(name != null)
                 DocuTermName = name;

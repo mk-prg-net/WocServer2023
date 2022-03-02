@@ -127,7 +127,7 @@ namespace MKPRG.Tracing.DocuTerms
         /// </summary>
         /// <param name="entity"></param>
         /// <param name="lng"></param>
-        public static string Name(this IDocuEntity entity, ANC.Language lng = ANC.Language.CNT)
+        public static string Name(this IDocuEntity entity, DFC.Naming.Language lng = DFC.Naming.Language.CNT)
         {
             return Name(entity, lng, RC.NC);
         }
@@ -173,7 +173,7 @@ namespace MKPRG.Tracing.DocuTerms
         /// <param name="entity"></param>
         /// <param name="NC"></param>
         /// <returns></returns>
-        public static string Glyph(this IDocuEntity entity, IReadOnlyDictionary<long, ANC.INaming> NC)
+        public static string Glyph(this IDocuEntity entity, IReadOnlyDictionary<long, DFC.Naming.INaming> NC)
         {
             TraceHlp.ThrowArgExIfNot(entity.IsNamed(),
                 RC.pnL.ReturnAfterFailureWithDetails(
@@ -258,7 +258,7 @@ namespace MKPRG.Tracing.DocuTerms
         /// <param name="nid"></param>
         /// <param name="lng"></param>
         /// <returns></returns>
-        public static bool HasName(this IDocuEntity entity, long nid, ANC.Language lng = ANC.Language.CNT)
+        public static bool HasName(this IDocuEntity entity, long nid, ANC.Language lng = DFC.Naming.Language.CNT)
         {
             if (!entity.IsNamed())
                 return false;
@@ -683,10 +683,6 @@ namespace MKPRG.Tracing.DocuTerms
         /// <returns></returns>
         public static IEnumerable<IMethodParameter> GetMethodMembers(this IMethod m)
         {
-            //TraceHlp.ThrowArgExIfNot(entity.EntityType == DocuEntityTypes.Method, "entity is not a method!");
-
-            //var m = (IMethod)entity;
-
             //var members = entity.Childs.Skip(1).FirstOrDefault()?.Childs;
             if (!m.Parameters?.Any() ?? false)
             {
@@ -697,23 +693,6 @@ namespace MKPRG.Tracing.DocuTerms
                 return m.Parameters;
             }
         }
-
-
-
-        /// <summary>
-        /// mko, 2.7.2019
-        /// List den Datumswert aus einem Date- Element
-        /// </summary>
-        /// <param name="entity"></param>
-        /// <returns></returns>
-        //public static DateTime GetDate(this IDocuEntity entity)
-        //{
-        //    TraceHlp.ThrowArgExIfNot(entity.EntityType == DocuEntityTypes.Date, "doc entity is not a date!");
-
-        //    var d = (IDate)entity;
-
-        //    return new DateTime(d.Year, d.Month, d.Day);
-        //}
 
         /// <summary>
         /// mko, 2.7.2019

@@ -12,7 +12,7 @@ namespace MKPRG.Tracing.DocuTerms
     /// 
     /// mko, 6.8.2021
     /// </summary>
-    public class Boolean 
+    public class Boolean
         : DocuEntity,
         IBoolean
         //IEventParameter

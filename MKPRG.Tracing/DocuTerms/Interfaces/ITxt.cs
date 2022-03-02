@@ -7,12 +7,10 @@ using System.Threading.Tasks;
 namespace MKPRG.Tracing.DocuTerms
 {
     /// <summary>
-    /// mko, 16.6.2020
+    /// mko, 27.11.2021
     /// </summary>
     public interface ITxt
         : IPropertyValue
-        //IReturnValue,
-        //IEventParameter
     {
         IString[] Words { get; } 
     }

@@ -10,6 +10,7 @@ namespace MKPRG.Tracing.DocuTerms
     /// mko, 23.2.2021
     /// Verpasst einem DocuTerm eine eindeutige Naming ID
     /// </summary>
+
     public interface IDocuEntityWithNameAsNid
     {
         INID DocuTermNid { get; }

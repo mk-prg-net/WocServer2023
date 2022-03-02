@@ -14,8 +14,8 @@ namespace MKPRG.Tracing.DocuTerms
     /// mko, 6.8.2021
     /// </summary>
     public class EventWithNameAsString
-        : Event,
-        IEventWithNameAsString
+    : Event,
+    IEventWithNameAsString
     {
 
         public EventWithNameAsString(string name)

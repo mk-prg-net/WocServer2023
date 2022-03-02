@@ -10,7 +10,7 @@ namespace MKPRG.Tracing.DocuTerms
     /// mko, 16.6.2020
     /// *WildCards* sind **DocuTerme**, die für einen beliebigen Namen eines benannten 
     /// **DocuTerms** oder einen beliebigen Wert einer **DocuTerm**- Eigenschaft stehen.    /// 
-    /// 
+    ///     
     /// mko, 29.7.2021
     /// SubTree- Constraint streng typisiert definiert durch die Eigenschaften
     /// - HasSubTreeConstraint { get; }

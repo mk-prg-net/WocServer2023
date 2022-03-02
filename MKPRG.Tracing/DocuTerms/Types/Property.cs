@@ -21,12 +21,12 @@ namespace MKPRG.Tracing.DocuTerms
     /// In streng typisierter, regulärer Form reimplementiert
     /// </summary>
     public class Property
-        : DocuEntity,
-        IProperty
+    : DocuEntity,
+    IProperty
     {
         public Property()
             : base(DocuEntityTypes.Property)
-        {            
+        {
         }
 
         public Property(IPropertyValue propertyValue)
@@ -45,4 +45,5 @@ namespace MKPRG.Tracing.DocuTerms
 
         public bool IsSetToDefaultValue => PropertyValue is IDocuEntityWithNameAsNid nid && nid.DocuTermNid.NamingId == TTD.Types.UndefinedPropertyValue.UID;
     }
+
 }

@@ -25,7 +25,7 @@ namespace MKPRG.Tracing.DocuTerms
         public NID(long nid)
             : base(DocuEntityTypes.NID)
         {
-            NamingId = nid;            
+            NamingId = nid;
         }
 
         //public override int CountOfEvaluatedTokens => 1;

@@ -7,8 +7,7 @@ using System.Threading.Tasks;
 namespace MKPRG.Tracing.DocuTerms
 {
     /// <summary>
-    /// mko, 8.6.2020
-    /// 
+    /// mko, 27.11.2021
     /// </summary>
     public class Double
       : DocuEntity,
@@ -25,5 +24,4 @@ namespace MKPRG.Tracing.DocuTerms
         /// </summary>
         public double ValueAsDouble { get; } = 0.0;
     }
-
 }

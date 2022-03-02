@@ -9,13 +9,11 @@ using mko.RPN;
 namespace MKPRG.Tracing.DocuTerms
 {
     /// <summary>
-    /// mko
-    /// Attention: do not change the order of enums, because it impacts the communication 
-    /// between client and webservices. Webservices are using PNdocuTerms to return Results,
-    /// Clients decides on PnDocuTerms in Retunrnvalue, if results are valid.
+    /// mko, 27.11.2021
+    /// Aufzählung der Typen von DocuTerms
     /// </summary>
     public enum DocuEntityTypes
-    {   
+    {
         // if DocuEntity has a name, child of this type defines the name
         Name,
 
@@ -49,12 +47,12 @@ namespace MKPRG.Tracing.DocuTerms
         List,
 
         // string !without! whitespaces
-        String, 
+        String,
 
         // A list of strings. If printed, each word will be separated from the other by whitespaces
         Text,
-        
-        Date, 
+
+        Date,
         Time,
 
         // describes a return value of a method

@@ -26,9 +26,9 @@ namespace MKPRG.Tracing.DocuTerms
         internal DocuEntity(
             //IFormater fmt,
             DocuEntityTypes docEntityType)
-        {
+        {     
             //this.fmt = fmt;
-            EntityType = docEntityType;
+            EntityType = docEntityType;         
             //Childs = new IDocuEntity[] { };
         }
 
@@ -36,7 +36,7 @@ namespace MKPRG.Tracing.DocuTerms
 
         public override string ToString()
         {
-            return RC.fmtPN.Print(this);
+            return RC.fmtPN.Print(this);            
             //return "";
         }
 

@@ -15,7 +15,7 @@ namespace MKPRG.Tracing.DocuTerms
     /// wie IReturn enthalten, Instanzen "untergejubelt" werden. Dies führt dann zu Laufzeitfehler
     /// beim Abruf wie **InvalidCastException**.
     /// </summary>
-    public interface IInstanceMemberList        
+    public interface IInstanceMemberList
     {
         IInstanceMember[] InstanceMembers { get; }
     }

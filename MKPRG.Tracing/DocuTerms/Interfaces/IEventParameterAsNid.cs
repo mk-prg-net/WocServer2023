@@ -9,12 +9,9 @@ namespace MKPRG.Tracing.DocuTerms
     /// <summary>
     /// mko, 27.11.2021
     /// </summary>
-    public interface IDTList
-        : IListMember,
-        IPropertyValue,
-        IEventParameter,
-        IReturnValue
+    public interface IEventWithNameAsNid
+        : IEvent,
+        IDocuEntityWithNameAsNid
     {
-        IListMember[] ListMembers { get; }
     }
 }

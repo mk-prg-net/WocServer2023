@@ -20,7 +20,7 @@ namespace MKPRG.Tracing.DocuTerms
     /// </summary>
     public class KillInstanceMemberIfNot
         : DocuEntity,
-        IKillInstanceMemberIfNot        
+        IKillInstanceMemberIfNot
     {
         public KillInstanceMemberIfNot(bool Condition, Func<IInstanceMember> createInstanceMembers)
             : base(DocuEntityTypes.KillIfNot)

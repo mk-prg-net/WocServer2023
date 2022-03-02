@@ -20,9 +20,9 @@ namespace MKPRG.Tracing.DocuTerms
     /// mko, 9.8.2021
     /// Alle Member der ursprünglich zu implementierenden Schnittstelle mko.IToken entfernt.
     /// </summary>
-    public class KillIfNot 
+    public class KillIfNot
         : DocuEntity,
-        IKillIfNot        
+        IKillIfNot
     {
         /// <summary>
         /// 

@@ -8,7 +8,7 @@ using mko.RPN;
 namespace MKPRG.Tracing.DocuTerms
 {
     /// <summary>
-    /// mko, 16.6.2020
+    /// mko, 27.11.2021
     /// Allgemeine Listen aus Eigenschaften, Instanzen und Sublisten
     /// 
     /// mko, 9.7.2021

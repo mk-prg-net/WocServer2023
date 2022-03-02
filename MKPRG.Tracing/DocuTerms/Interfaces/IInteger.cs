@@ -13,8 +13,8 @@ namespace MKPRG.Tracing.DocuTerms
     /// Mit INoSubTrees markiert
     /// </summary>
     public interface IInteger
-        : IPropertyValue,
-        INoSubTrees
+            : IPropertyValue,
+            INoSubTrees
     {
         /// <summary>
         /// Der ganzahliger Wert als int
