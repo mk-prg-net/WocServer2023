@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="TechTerms.Documents.Formatting.cs" />
     <Compile Include="TechTerms.Runtime.Process.cs" />
     <Compile Include="DocuTerms.Boolean.cs" />
     <Compile Include="DocuTerms.Composer.Errors.cs" />

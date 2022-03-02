@@ -35,6 +35,8 @@ Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "MKPRG.Woc.MsSqlDb", "MKPRG.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestWebViewControl", "TestWebViewControl\TestWebViewControl.csproj", "{69A9881B-2CDE-4D48-A7BC-C2AF30A4A59F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MKPRG.Tracing.DocuTerms.Test", "MKPRG.Tracing.DocuTerms.Test\MKPRG.Tracing.DocuTerms.Test.csproj", "{F7ECE3EE-B0C5-4692-A197-A4CCAEF40B81}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Beta|Any CPU = Beta|Any CPU
@@ -379,6 +381,26 @@ Global
 		{69A9881B-2CDE-4D48-A7BC-C2AF30A4A59F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{69A9881B-2CDE-4D48-A7BC-C2AF30A4A59F}.Release|x86.ActiveCfg = Release|Any CPU
 		{69A9881B-2CDE-4D48-A7BC-C2AF30A4A59F}.Release|x86.Build.0 = Release|Any CPU
+		{F7ECE3EE-B0C5-4692-A197-A4CCAEF40B81}.Beta|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7ECE3EE-B0C5-4692-A197-A4CCAEF40B81}.Beta|Any CPU.Build.0 = Debug|Any CPU
+		{F7ECE3EE-B0C5-4692-A197-A4CCAEF40B81}.Beta|x86.ActiveCfg = Debug|Any CPU
+		{F7ECE3EE-B0C5-4692-A197-A4CCAEF40B81}.Beta|x86.Build.0 = Debug|Any CPU
+		{F7ECE3EE-B0C5-4692-A197-A4CCAEF40B81}.Debug_with_local_IIS|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7ECE3EE-B0C5-4692-A197-A4CCAEF40B81}.Debug_with_local_IIS|Any CPU.Build.0 = Debug|Any CPU
+		{F7ECE3EE-B0C5-4692-A197-A4CCAEF40B81}.Debug_with_local_IIS|x86.ActiveCfg = Debug|Any CPU
+		{F7ECE3EE-B0C5-4692-A197-A4CCAEF40B81}.Debug_with_local_IIS|x86.Build.0 = Debug|Any CPU
+		{F7ECE3EE-B0C5-4692-A197-A4CCAEF40B81}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7ECE3EE-B0C5-4692-A197-A4CCAEF40B81}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F7ECE3EE-B0C5-4692-A197-A4CCAEF40B81}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F7ECE3EE-B0C5-4692-A197-A4CCAEF40B81}.Debug|x86.Build.0 = Debug|Any CPU
+		{F7ECE3EE-B0C5-4692-A197-A4CCAEF40B81}.localIIS|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7ECE3EE-B0C5-4692-A197-A4CCAEF40B81}.localIIS|Any CPU.Build.0 = Debug|Any CPU
+		{F7ECE3EE-B0C5-4692-A197-A4CCAEF40B81}.localIIS|x86.ActiveCfg = Debug|Any CPU
+		{F7ECE3EE-B0C5-4692-A197-A4CCAEF40B81}.localIIS|x86.Build.0 = Debug|Any CPU
+		{F7ECE3EE-B0C5-4692-A197-A4CCAEF40B81}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F7ECE3EE-B0C5-4692-A197-A4CCAEF40B81}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F7ECE3EE-B0C5-4692-A197-A4CCAEF40B81}.Release|x86.ActiveCfg = Release|Any CPU
+		{F7ECE3EE-B0C5-4692-A197-A4CCAEF40B81}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

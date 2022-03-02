@@ -39,6 +39,14 @@ namespace MKPRG.HTML
 
         public string NNbsp() => "&x202F";
 
+        public HTMLDocument spc
+        {
+            get
+            {
+                bldDoc.Append(" ");
+                return this;
+            }
+        }
 
 
     }

@@ -127,7 +127,7 @@ namespace MKPRG.Tracing.DocuTerms
         /// </summary>
         /// <param name="entity"></param>
         /// <param name="lng"></param>
-        public static string Name(this IDocuEntity entity, DFC.Naming.Language lng = DFC.Naming.Language.CNT)
+        public static string Name(this IDocuEntity entity, ANC.Language lng = ANC.Language.CNT)
         {
             return Name(entity, lng, RC.NC);
         }
@@ -173,7 +173,7 @@ namespace MKPRG.Tracing.DocuTerms
         /// <param name="entity"></param>
         /// <param name="NC"></param>
         /// <returns></returns>
-        public static string Glyph(this IDocuEntity entity, IReadOnlyDictionary<long, DFC.Naming.INaming> NC)
+        public static string Glyph(this IDocuEntity entity, IReadOnlyDictionary<long, ANC.INaming> NC)
         {
             TraceHlp.ThrowArgExIfNot(entity.IsNamed(),
                 RC.pnL.ReturnAfterFailureWithDetails(
@@ -258,7 +258,7 @@ namespace MKPRG.Tracing.DocuTerms
         /// <param name="nid"></param>
         /// <param name="lng"></param>
         /// <returns></returns>
-        public static bool HasName(this IDocuEntity entity, long nid, ANC.Language lng = DFC.Naming.Language.CNT)
+        public static bool HasName(this IDocuEntity entity, long nid, ANC.Language lng = ANC.Language.CNT)
         {
             if (!entity.IsNamed())
                 return false;
