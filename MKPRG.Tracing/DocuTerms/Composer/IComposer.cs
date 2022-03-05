@@ -737,35 +737,10 @@ namespace MKPRG.Tracing.DocuTerms
         /// <param name="Condition"></param>
         /// <param name="docuEntityFactory"></param>
         /// <returns></returns>
-        IKillInstanceMemberIfNot KillInstanceMemberIf(bool Condition, Func<IInstanceMember> docuEntityFactory);
+        IKillInstanceMemberIfNot KillInstanceMemberIf(bool Condition, Func<IInstanceMember> docuEntityFactory);    
 
 
-        
 
-
-        /// <summary>
-        /// mko, 6.8.2021
-        /// </summary>
-        /// <param name="Condition"></param>
-        /// <param name="docuEntityFactory"></param>
-        /// <returns></returns>
-        IKillMethodPrarmeterIfNot KillMethodParamIf(bool Condition, Func<IMethodParameter> docuEntityFactory);
-
-        /// <summary>
-        /// mko, 6.8.2021
-        /// </summary>
-        /// <param name="Condition"></param>
-        /// <param name="docuEntityFactory"></param>
-        /// <returns></returns>
-        IKillInstanceMemberIfNot KillInstanceMemberIfNot(bool Condition, Func<IInstanceMember> docuEntityFactory);
-
-        /// <summary>
-        /// mko, 6.8.2021
-        /// </summary>
-        /// <param name="Condition"></param>
-        /// <param name="docuEntityFactory"></param>
-        /// <returns></returns>
-        IKillInstanceMemberIfNot KillInstanceMemberIf(bool Condition, Func<IInstanceMember> docuEntityFactory);
 
 
 
@@ -807,15 +782,6 @@ namespace MKPRG.Tracing.DocuTerms
         /// <returns></returns>
         IProperty IfElseProp(bool Condition, Func<IProperty> valueIfTrue, Func<IProperty> valueIfFalse);
 
-
-        /// <summary>
-        /// mko, 4.12.2020
-        /// </summary>
-        /// <param name="Condition"></param>
-        /// <param name="valueIfTrue"></param>
-        /// <param name="valueIfFalse"></param>
-        /// <returns></returns>
-        IProperty IfElseProp(bool Condition, Func<IProperty> valueIfTrue, Func<IProperty> valueIfFalse);
 
         /// <summary>
         /// mko, 17.6.2020

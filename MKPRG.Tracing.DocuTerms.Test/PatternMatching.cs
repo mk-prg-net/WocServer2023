@@ -60,17 +60,21 @@ namespace MKPRG.Tracing.DocuTerms.Test
             // mko, 3.3.2020
             // SubTree vergleicht stets dynamisch erstellte Bäume.
             // Wird ein RPN- Term aus einem String geparst, dann muss dieser als Namen NID's oder CNT benutzen.
-            var tree = pnL.i(TT.ATMO.DFC.Project.UID,
-                            pnL.p(TT.ATMO.DFC.Project.UID, "2998"),
-                            pnL.p(TT.ATMO.DFC.Station.UID, pnL.ReturnSearchWarnEmptyResult(
-                                                pnL.m(TT.Operators.Relations.Eq.UID,
-                                                        pnL.p("col", "Project"),
-                                                        pnL.p("val", "2998")))));
+            var tree = pnL.i(TT.Sequences.Command.UID,
+                            pnL.p_NID(TTD.MetaData.Name.UID, TT.Access.Copy.UID),
+                            pnL.p(TT.SendReceive.From.UID, "0x10"),
+                            pnL.p(TT.SendReceive.To.UID, "0xFF"),
+                            pnL.p(TT.Metrology.DimensionsAnWeights.IT.FileSize.UID, pnL.List(
+                                    pnL.p(TTD.MetaData.Val.UID, 100),
+                                    pnL.p_NID(TT.Metrology.Unit.UID, TT.Metrology.DimensionsAnWeights.IT.Byte.UID))),
+                            pnL.m(TT.Runtime.Execute.UID,
+                                    pnL.ReturnAfterSuccess(TT.Access.Copy.UID)));
+                            
 
             //var fmt = new PNFormater(fn: , NC: RCV3.NC, RPNUrlSaveEncode: true);
             var treeStr = fmt.Print(tree);
 
-            var getParsed = PNDocuTerms.Parser.Parser.Parse20_06(treeStr, PNDocuTerms.Fn._, pnL);
+            var getParsed = Parser.Parser.Parse20_06(.Parser.Parse20_06(treeStr, PNDocuTerms.Fn._, pnL);
             Assert.IsTrue(getParsed.Succeeded);
 
             var parsedTree = getParsed.Value;

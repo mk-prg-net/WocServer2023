@@ -42,6 +42,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="TechTerms.Documents.Formatting.cs" />
+    <Compile Include="TechTerms.Metrology.DimensionsAndWeights.Length.cs" />
+    <Compile Include="TechTerms.Metrology.DimensionsAndWeights.Temperature.cs" />
     <Compile Include="TechTerms.Runtime.Process.cs" />
     <Compile Include="DocuTerms.Boolean.cs" />
     <Compile Include="DocuTerms.Composer.Errors.cs" />

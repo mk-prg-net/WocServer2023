@@ -14,7 +14,7 @@ using MKPRG.Tracing.DocuTerms;
 using ANC = MKPRG.Naming;
 using TT = MKPRG.Naming.TechTerms;
 using TTD = MKPRG.Naming.DocuTerms;
-
+using System.Diagnostics;
 
 namespace MKPRG.Tracing
 {
@@ -297,26 +297,40 @@ namespace MKPRG.Tracing
         {
         }
 
+        public const char PlxAssemblyTypeNameSeparator = '+';
+
+
         public virtual IDocuEntity ToPlx()
         {
-            IDocuEntity de = null;
+            IInstance plx = pnL.i(TTD.Types.UndefinedDocuTerm.UID);
 
-            // To leave the IRCV2 interface untouched type check for _InnerIRCv2 is needed 
-            // Otherwise IRCV2 needs to be extended with IRCV2 InnerIRCv2 { get; } Property
+            try
+            {
 
-            var details = pnL.i(TTD.MetaData.Details.UID,
-                pnL.p(TT.Timeline.DateStamp.UID, pnL.date(LogDate)),
-                pnL.KillIf(string.IsNullOrWhiteSpace(User), () => (IInstanceMember)pnL.p(TT.Authentication.UserId.UID, User)),
-                pnL.KillIf(Message == null, () => (IInstanceMember)pnL.p(TTD.MetaData.Msg.UID, pnL.EncapsulateAsPropertyValue(Message))));
+                var details = pnL.i(TTD.MetaData.Details.UID,
+                        // mko, 15.3.2021
+                        pnL.p(TT.Timeline.DateStamp.UID, pnL.date(LogDate)),
+                        pnL.p(TT.Authentication.UserId.UID, User),
+                        pnL.p(TTD.MetaData.Msg.UID, pnL.EncapsulateAsPropertyValue(Message)));
 
-            de = pnL.i($"{AssemblyName}.{TypeName}",
-                    pnL.m(FunctionName,
-                        pnL.ret(
-                            pnL.IfElse(Succeeded,
-                                () => (IReturnValue)pnL.eSucceeded(details),
-                                () => pnL.eFails(details)))));
 
-            return de;
+                var instanceName = string.IsNullOrWhiteSpace(AssemblyName) ? "AssemblynameIsNull" : AssemblyName;
+                instanceName += string.IsNullOrWhiteSpace(TypeName) ? $"{PlxAssemblyTypeNameSeparator}TypenameIsNull" : $"{PlxAssemblyTypeNameSeparator}{TypeName}";
+
+                plx = pnL.i(instanceName,
+                            pnL.m(string.IsNullOrWhiteSpace(FunctionName) ? "FunctionnameIsNull" : FunctionName,
+                                pnL.ret(
+                                    pnL.IfElseRet(Succeeded,
+                                        () => pnL.eSucceeded(details),
+                                        () => pnL.eFails(details)))));
+            }
+            catch (Exception ex)
+            {
+                Debug.Write("RCV3.ToPlx throws an Exception");
+                Debug.WriteLine(ex);
+            }
+
+            return plx;
         }
 
         /// <summary>
@@ -324,41 +338,102 @@ namespace MKPRG.Tracing
         /// Creates from plx
         /// </summary>
         /// <param name="plx"></param>
-        public static RC Parse(IDocuEntity plx, IComposer pnL)
+        public static RC Parse(IInstance rcv3AsDocuTerm)
         {
             var rc = new RC();
 
-            TraceHlp.ThrowArgExIfNot(plx.EntityType == DocuEntityTypes.Instance, pnL.eFails("plx is not a instantce"));
-            TraceHlp.ThrowArgExIfNot(System.Text.RegularExpressions.Regex.IsMatch(plx.Name(), @"[\w\.\<\>]+\.[\w\<\>]+\.[\w\<\>]+$"), pnL.eFails("plx instance name do not contains assembly.typename.functionname"));
-            {
-                var parts = plx.Name().Split(new char[] { '.' }, StringSplitOptions.RemoveEmptyEntries);
-                TraceHlp.ThrowArgExIfNot(parts.Length >= 3, pnL.eFails("plx instance name is incomplete"));
-                rc._TypeName = parts[parts.Length - 2];
-                rc._FunctionName = parts[parts.Length - 1];
+            /// Grundaufbau prüfen
+            TraceHlp.ThrowArgExIfNot(
+                pnL.i(pnL._n,
+                    pnL.m(pnL._n,
+                        pnL.ret(pnL._v()))).IsSubTreeOf(rcv3AsDocuTerm, false),
 
-                rc._Assembly = string.Join(".", parts.Take(parts.Length - 2));
+                pnL.ReturnAfterFailureWithDetails("Parse",
+                    pnL.List(
+                        pnL.p_NID(TTD.StateDescription.WhatsUp.UID, TTD.Parser.Errors.ParseRCfromDocuTerm_BaseStructureInstanceMethodReturnExpected.UID))));
+
+
+            string AssemblyTypeNameregExPattern = @"[\w\.\<\>]+\" + PlxAssemblyTypeNameSeparator + @"[\w\<\>]+$";
+            // Namen der instanz extrahieren
+            TraceHlp.ThrowArgExIfNot(
+                System.Text.RegularExpressions.Regex.IsMatch(rcv3AsDocuTerm.Name(), AssemblyTypeNameregExPattern),
+                pnL.ReturnAfterFailureWithDetails("Parse",
+                    pnL.List(
+                        pnL.p_NID(TTD.StateDescription.WhatsUp.UID, TTD.Parser.Errors.ParseRCfromDocuTerm_InstanceNameDoesNotContainAssemblyAndClassName.UID))));
+
+            {
+                var parts = rcv3AsDocuTerm.Name().Split(new char[] { '+' }, StringSplitOptions.RemoveEmptyEntries);
+
+                TraceHlp.ThrowArgExIfNot(
+                    parts.Length >= 2,
+                    pnL.ReturnAfterFailureWithDetails("Parse",
+                        pnL.List(
+                            pnL.p_NID(TTD.StateDescription.WhatsUp.UID, TTD.Parser.Errors.ParseRCfromDocuTerm_InstanceNameIsIncomplete.UID))));
+
+                rc._TypeName = parts[parts.Length - 1];
+                rc._Assembly = string.Join(".", parts.Take(parts.Length - 1));
             }
 
-            TraceHlp.ThrowArgExIfNot(plx.HasValue(), pnL.eFails("plx of RC do not contains content"));
+            var getMethod = pnL.m(pnL._n).AsSubTreeOf(rcv3AsDocuTerm, pnL);
+            if (!getMethod.Succeeded)
             {
-                rc._succeeded = null != plx.FindNamedEntity(DocuEntityTypes.Event, "succeeded", 2);
-
-                var dat = plx.FindNamedEntity(DocuEntityTypes.Property, "logDate", 2);
-                if (null != dat)
+                TraceHlp.ThrowArgEx(
+                    pnL.i(TTD.MetaData.Details.UID,
+                        pnL.p_NID(TTD.StateDescription.WhatsUp.UID, TTD.Parser.Errors.Property_ChildIsNotValidPropertyValue.UID),
+                        pnL.p(TTD.StateDescription.Why.UID, pnL.EncapsulateAsPropertyValue(getMethod.ToPlx()))));
+            }
+            else
+            {
                 {
-                    rc._dat = DateTime.Parse(dat.EntityValue().GetText());
-                }
+                    var method = getMethod.Value.subTree;
+                    rc._FunctionName = method.Name();
 
-                var user = plx.FindNamedEntity(DocuEntityTypes.Property, "user", 2);
-                if (null != user)
-                {
-                    rc._User = user.EntityValue().GetText();
-                }
+                    rc._succeeded = pnL.m(pnL._n, pnL.ret(pnL.eSucceeded())).IsSubTreeOf(method, false);
 
-                var msg = plx.FindNamedEntity(DocuEntityTypes.Property, "msg", 2);
-                if (null != msg)
-                {
-                    rc._Message = msg.EntityValue();
+
+                    IInstance details = null;
+                    if (rc.Succeeded)
+                    {
+                        var retDetails = pnL.ret(pnL.eSucceeded(pnL.i(TTD.MetaData.Details.UID))).AsSubTreeOf(method, pnL).ValueOrException.subTree;
+                        details = (IInstance)pnL.i(TTD.MetaData.Details.UID).AsSubTreeOf(retDetails, pnL).ValueOrException.subTree;
+                    }
+                    else
+                    {
+                        var retDetails = pnL.ret(pnL.eFails(pnL.i(TTD.MetaData.Details.UID))).AsSubTreeOf(method, pnL).ValueOrException.subTree;
+                        details = (IInstance)pnL.i(TTD.MetaData.Details.UID).AsSubTreeOf(retDetails, pnL).ValueOrException.subTree;
+                    }
+
+                    var getLogDate = pnL.p(TT.Timeline.DateStamp.UID, pnL._v()).AsSubTreeOf(details, pnL);
+                    if (!getLogDate.Succeeded)
+                    {
+                        // LogDate muss vorhanden sein
+                        TraceHlp.ThrowArgEx(
+                            pnL.i(TTD.MetaData.Details.UID,
+                                pnL.p_NID(TTD.StateDescription.WhatsUp.UID, TTD.Parser.Errors.ParseRCfromDocuTerm_LogDateMissing.UID),
+                                pnL.p(TTD.StateDescription.Why.UID, pnL.EncapsulateAsPropertyValue(getLogDate.ToPlx()))));
+                    }
+                    else if (getLogDate.Value.subTree is IProperty propLogDat && propLogDat.PropertyValue is IDate logDat)
+                    {
+                        rc._dat = new DateTime(logDat.Year, logDat.Month, logDat.Day);
+                    }
+                    else
+                    {
+                        rc._dat = new DateTime(1900, 1, 1);
+                    }
+
+                    var getUser = pnL.p(TT.Authentication.UserId.UID, pnL._v()).AsSubTreeOf(details, pnL);
+                    if (getUser.Succeeded)
+                    {
+                        var userProp = (IProperty)getUser.Value.subTree;
+                        rc._User = userProp.PropertyValue.GetText();
+                    }
+
+                    var getMsg = pnL.p(TTD.MetaData.Msg.UID, pnL._v()).AsSubTreeOf(details, pnL);
+                    if (getMsg.Succeeded)
+                    {
+                        var msgEntity = (IProperty)getMsg.Value.subTree;
+                        rc._Message = msgEntity.PropertyValue;
+                    }
                 }
             }
 
@@ -387,6 +462,23 @@ namespace MKPRG.Tracing
 
             return new RC<T>(true, value, DateTime.Now, User, assembly, cls, mth.Name, Message);
         }
+
+        /// <summary>
+        /// mko, 1.8.2019
+        /// Erstellt aus den Daten eines Objekts, dass die Schnittstelle IRCV3sV implementiert, ein RCV3sV- Objket. 
+        /// Wird zur Serialisierung benötig. Die Json- Serialisierung funktioniert nur für konkrete Typen.
+        /// </summary>
+        /// <param name="ret"></param>
+        public RC(RC<T> ret)
+            : base(ret)
+        {
+            _value = ret._value;
+        }
+
+        public RC(mko.Logging.RC<T> mkoRc)
+            : base(mkoRc.Succeeded, mkoRc.LogDate, mkoRc.User, mkoRc.AssemblyName, mkoRc.TypeName, mkoRc.FunctionName, mkoRc.)
+
+
 
         /// <summary>
         /// Indicates a failed function call.

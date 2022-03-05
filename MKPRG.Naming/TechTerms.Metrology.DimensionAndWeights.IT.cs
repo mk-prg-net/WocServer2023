@@ -135,7 +135,4 @@ namespace MKPRG.Naming.TechTerms.Metrology.DimensionsAnWeights.IT
         public override string Glyph => "TByte";
     }
 
-
-
-
 }

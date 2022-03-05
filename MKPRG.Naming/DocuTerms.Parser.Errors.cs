@@ -444,6 +444,93 @@ namespace MKPRG.Naming.DocuTerms.Parser.Errors
         public override string Glyph => Glyphs.Validation.Invalid;
     }
 
+    public class ParseRCfromDocuTerm
+: NamingBase
+    {
+        public const long UID = 0x5A90C597;
+
+        public ParseRCfromDocuTerm()
+            : base(UID)
+        { }
+
+        public override string CNT => "parseRCV3fromDocuTerm";
+        public override string DE => "Fehler beim Parsen eines RCV3 aus einem DocuTerm";
+        public override string EN => "Error when parsing an RCV3 from a DocuTerm.";
+        public override string ES => "Error al analizar un RCV3 de un DocuTerm";
+        public override string CN => "从DocuTerm解析RCV3时出错。";
+    }
+
+    public class ParseRCfromDocuTerm_LogDateMissing
+        : NamingBase
+    {
+        public const long UID = 0xA8FEDCCA;
+
+        public ParseRCfromDocuTerm_LogDateMissing()
+            : base(UID)
+        { }
+
+        public override string CNT => "parseRCV3fromDocuTerm_LogDateMissing";
+        public override string DE => "Fehler beim Parsen eines RCV3 aus einem DocuTerm: Das Log Datum fehlt.";
+        public override string EN => "Error when parsing an RCV3 from a DocuTerm: The log date is missing.";
+        public override string ES => "Error al analizar un RCV3 de un DocuTerm: Falta la fecha del registro.";
+        public override string CN => "从DocuTerm解析RCV3时出错。日志日期不见了。";
+    }
 
 
+
+
+    /// <summary>
+    /// mko, 15.3.2021
+    /// Parsen eines RCV3 aus einem dokuTerm.
+    /// </summary>
+    public class ParseRCfromDocuTerm_BaseStructureInstanceMethodReturnExpected
+        : NamingBase
+    {
+        public const long UID = 0x4E967;
+
+        public ParseRCfromDocuTerm_BaseStructureInstanceMethodReturnExpected()
+            : base(UID)
+        { }
+
+        public override string CNT => "parseRCV3fromDocuTerm_BaseStructureInstanceMethodReturnExpected";
+        public override string DE => "Fehler beim Parsen eines RCV3 aus einem DocuTerm: Es wird der Aufbau aus Instanz-Methode-Rückgabewert erwartet, jedoch nicht vorgefunden.";
+        public override string EN => "Error when parsing an RCV3 from a DocuTerm: The structure from instance method return value is expected, but not found.";
+        public override string ES => "Error al analizar un RCV3 de un DocuTerm: Se espera la estructura del valor de retorno del método de instancia, pero no se encuentra.";
+        public override string CN => "从DocuTerm解析RCV3时出错。从实例方法返回的结构值是预期的，但没有找到。";
+    }
+
+    /// <summary>
+    /// mko, 15.3.2021
+    /// </summary>
+    public class ParseRCfromDocuTerm_InstanceNameDoesNotContainAssemblyAndClassName
+    : NamingBase
+    {
+        public const long UID = 0x7A2ED370;
+
+        public ParseRCfromDocuTerm_InstanceNameDoesNotContainAssemblyAndClassName()
+            : base(UID)
+        { }
+
+        public override string CNT => "parseRCV3fromDocuTerm_InstanceNameDoesNotContainAssemblyAndClassName";
+        public override string DE => "Fehler beim Parsen eines RCV3 aus einem DocuTerm: Der Instanzname folgt nicht dem Aufbau *Assemblyname*.*Classname*";
+        public override string EN => "Error when parsing an RCV3 from a DocuTerm: The instance name does not follow the structure *Assemblyname*.*Classname*.";
+        public override string ES => "Error al analizar un RCV3 de un DocuTerm: El nombre de la instancia no sigue la estructura *Nombre del instance*.*Nombre de la class*.";
+        public override string CN => "从DocuTerm解析RCV3时出错。实例名称不遵循*Assemblyname*.*Classname*的结构。";
+    }
+
+    public class ParseRCfromDocuTerm_InstanceNameIsIncomplete
+        : NamingBase
+    {
+        public const long UID = 0x4EDDED75;
+
+        public ParseRCfromDocuTerm_InstanceNameIsIncomplete()
+            : base(UID)
+        { }
+
+        public override string CNT => "parseRCV3fromDocuTerm_InstanceNameIsIncomplete";
+        public override string DE => "Fehler beim Parsen eines RCV3 aus einem DocuTerm: ist unvollständig!";
+        public override string EN => "Error parsing an RCV3 from a DocuTerm: is incomplete!";
+        public override string ES => "Error al analizar un RCV3 de un DocuTerm: ¡está incompleto!";
+        public override string CN => "从DocuTerm解析RCV3时出错：不完整!";
+    }
 }

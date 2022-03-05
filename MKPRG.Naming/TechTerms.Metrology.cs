@@ -56,5 +56,26 @@ namespace MKPRG.Naming.TechTerms.Metrology
         public override string Glyph => Glyphs.Metrology.Ruler;
     }
 
+    public class Unit : NamingBase
+    {
+        public const long UID = 0x687BBBA6;
+
+        public Unit()
+            : base(UID)
+        {
+        }
+
+        public override string CNT => "unit";
+
+        public override string CN => "单位";
+
+        public override string DE => "Einheit";
+
+        public override string EN => "Unit";
+
+        public override string ES => "Unidad";
+
+        public override string Glyph => Glyphs.Metrology.Balance;
+    }
 
 }

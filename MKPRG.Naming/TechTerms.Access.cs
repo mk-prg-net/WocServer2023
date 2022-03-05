@@ -860,6 +860,74 @@ namespace MKPRG.Naming.TechTerms.Access
         public override string ES => "no se puede desplazar";
     }
 
+    public class Copy : NamingBase, Grammar.IVerb, Grammar.IInProgressActivity
+    {
+        public const long UID = 0xAC6A2273;
+
+        public Copy()
+            : base(UID)
+        {
+        }
+
+        public override string CNT => "copy";
+        public override string CN => "拷贝";
+        public override string DE => "kopiere";
+        public override string EN => "copy";
+        public override string ES => "copia";
+    }
+
+    public class WasCopied : NamingBase, Grammar.IVerb, Grammar.IFinishedActivity
+    {
+        public const long UID = 0xDB9644D;
+
+        public WasCopied()
+            : base(UID)
+        {
+        }
+
+        public override string CNT => "wasCopied";
+        public override string CN => "被复制了";
+        public override string DE => "wurde kopiert";
+        public override string EN => "was copied";
+        public override string ES => "fue copiado";
+    }
+
+    public class CanBeCopied : NamingBase, Grammar.IVerb, Grammar.IModalPhrase
+    {
+        public const long UID = 0xC6401810;
+
+        public CanBeCopied()
+            : base(UID)
+        {
+        }
+
+        public override string CNT => "canBeCopied";
+        public override string CN => "可以复制";
+        public override string DE => "kann kopiert werden";
+        public override string EN => "can be copied";
+        public override string ES => "puede copiarse";
+    }
+
+    public class CantBeCopied : NamingBase, Grammar.IVerb, Grammar.IModalPhrase
+    {
+        public const long UID = 0x4516444F;
+
+        public CantBeCopied()
+            : base(UID)
+        {
+        }
+
+        public override string CNT => "cantBeCopied";
+        public override string CN => "不能复制";
+        public override string DE => "kann nicht kopiert werden";
+        public override string EN => "cant be copied";
+        public override string ES => "no se puede copiar";
+    }
+
+
+
+
+
     public class Load : NamingBase, Grammar.IVerb, Grammar.IInProgressActivity
     {
         public const long UID = 0x21301BD;

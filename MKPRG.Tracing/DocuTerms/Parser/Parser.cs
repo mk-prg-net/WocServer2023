@@ -71,7 +71,7 @@ namespace MKPRG.Tracing.DocuTerms.Parser
                     }
                     else
                     {
-                        rc = RC<IDocuEntity>.Failed(NullEntity, ErrorDescription: "Parse failed", inner: new RC<IToken>(rcp));
+                        rc = RC<IDocuEntity>.Failed(NullEntity, ErrorDescription: "Parse failed", inner: new RC<ParserV2.Result>(rcp));
                     }
                 }
                 else
@@ -202,14 +202,14 @@ namespace MKPRG.Tracing.DocuTerms.Parser
         /// <param name="pnL"></param>
         /// <param name="doRPNUrlDecode"></param>
         /// <returns></returns>
-        public static RCV3sV<DT.IDocuEntity> Parse20_06(
+        public static RC<DT.IDocuEntity> Parse20_06(
             string pn,
             IFn fn,
             DT.IComposer pnL,
             //DocuEntities.IFormater fmt,
             bool doRPNUrlDecode = true)
         {
-            RCV3sV<DT.IDocuEntity> rc = null;
+            RC<DT.IDocuEntity> rc = null;
             DT.IDocuEntity NullEntity = null;
 
             try
