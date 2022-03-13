@@ -476,7 +476,15 @@ namespace MKPRG.Tracing
         }
 
         public RC(mko.Logging.RC<T> mkoRc)
-            : base(mkoRc.Succeeded, mkoRc.LogDate, mkoRc.User, mkoRc.AssemblyName, mkoRc.TypeName, mkoRc.FunctionName, mkoRc.)
+            : base(
+                  mkoRc.Succeeded, 
+                  mkoRc.LogDate, 
+                  mkoRc.User, 
+                  mkoRc.AssemblyName, 
+                  mkoRc.TypeName, 
+                  mkoRc.FunctionName, 
+                  pnL.txt(mkoRc.Message))
+        { }
 
 
 

@@ -38,6 +38,6 @@ namespace MKPRG.Tracing.DocuTerms.Parser
 
         public override int CountOfEvaluatedTokens => 1;
 
-        public static StringToken NameIsNull = new StringToken(RCV3.NC[TTD.Composer.Errors.NameIsNull.UID].CNT);
+        public static StringToken NameIsNull = new StringToken(RC.NC[TTD.Composer.Errors.NameIsNull.UID].CNT);
     }
 }

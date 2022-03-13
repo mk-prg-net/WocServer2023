@@ -42,43 +42,60 @@ namespace MKPRG.Tracing.DocuTerms.Parser
             var pnL = new Composer();
 
             var ncTools = new ANC.Tools();
-            var getNC = ncTools.GetNamingConcurrentDictOf("ATMO.DFC.Naming", pnL);
 
-            if (!getNC.Succeeded)
+            var fmt = new DT.PNFormater(fn, RC.NC);
+            var evalTab = new FunctionEvaluatorTable(new FunctionEvalMapperFunctor(fn, pnL));
+            var _parser = new ParserV2(evalTab.FuncEvaluators);
+
+            var rcT = BasicTokenizer.TokenizePN(pn, doRPNUrlDecode, evalTab.FuncEvaluators.Keys.ToArray());
+
+            if (rcT.Succeeded)
             {
-                rc = RC<DT.IDocuEntity>.Failed(getNC.Message);
-            }
-            else
-            {
+                var rcp = _parser.Parse(rcT.Value);
 
-                var fmt = new DT.PNFormater(fn, getNC.Value);
-                var evalTab = new FunctionEvaluatorTable(new FunctionEvalMapperFunctor(fn, pnL));
-                var _parser = new ParserV2(evalTab.FuncEvaluators);
+                DT.IDocuEntity val = rcp.Value.Stack.Count > 0 && rcp.Value.Stack.Peek() is IDocuEntity
+                                                                ? (IDocuEntity)rcp.Value.Stack.Peek()
+                                                                : rcp.Value.Stack.Count > 0 ? pnL.txt(rcp.Value.Stack.Peek().ToString()) : pnL.txt("No Result, Parser Stack is empty");
 
-                var rcT = BasicTokenizer.TokenizePN(pn, doRPNUrlDecode, evalTab.FuncEvaluators.Keys.ToArray());
-
-                if (rcT.Succeeded)
+                if (rcp.Succeeded && rcp.Value.Stack.Count == 1)
                 {
-                    var rcp = _parser.Parse(rcT.Value);
-
-                    DT.IDocuEntity val = rcp.Value.Stack.Count > 0 && rcp.Value.Stack.Peek() is IDocuEntity
-                                                                    ? (IDocuEntity)rcp.Value.Stack.Peek()
-                                                                    : rcp.Value.Stack.Count > 0 ? pnL.txt(rcp.Value.Stack.Peek().ToString()) : pnL.txt("No Result, Parser Stack is empty");
-
-                    if (rcp.Succeeded && rcp.Value.Stack.Count == 1)
-                    {
-                        rc = RC<IDocuEntity>.Ok(value: val);
-                    }
-                    else
-                    {
-                        rc = RC<IDocuEntity>.Failed(NullEntity, ErrorDescription: "Parse failed", inner: new RC<ParserV2.Result>(rcp));
-                    }
+                    rc = RC<IDocuEntity>.Ok(value: val);
                 }
                 else
                 {
-                    rc = RC<IDocuEntity>.Failed(NullEntity, ErrorDescription: pnL.txt("Tokenizer failed"));
+
+                    var tokens = rcT.Value.Select(t =>
+                                    pnL.i(TT.Parser.Token.UID,
+                                        pnL.p("isBoolean", t.IsBoolean),
+                                        pnL.p("isFunctionName", t.IsFunctionName),
+                                        pnL.p("isInteger", t.IsInteger),
+                                        pnL.p("isNummeric", t.IsNummeric),
+                                        pnL.p("CountOfEvaluatedTokens", t.CountOfEvaluatedTokens),
+                                        pnL.p("Value", t.Value)
+                                    )).ToArray();
+
+                    var msg = pnL.m(TT.Parser.Parse.UID,
+                            pnL.p("Assembly", rcp.AssemblyName),
+                            pnL.p("FunctionName", rcp.FunctionName),
+                            pnL.p(TT.Parser.Token.UID, pnL.List(tokens)),
+                            pnL.p(TT.Authentication.UserId.UID, rcp.User),
+                            pnL.p(TT.Timeline.DateStamp.UID, pnL.date(rcp.LogDate)),
+
+                            pnL.ret(pnL.eFails(pnL.i(TTD.MetaData.Result.UID,
+                                                    pnL.p(TTD.MetaData.Msg.UID, rcp.Message),
+                                                    pnL.p("IndexOfLastEvaluatedToken", rcp.Value.IndexOfLastEvaluatedToken),
+                                                    pnL.p("StackCount", rcp.Value.Stack.Count)))));
+                            
+
+
+                    rc = RC<IDocuEntity>.Failed(NullEntity, ErrorDescription: msg);
                 }
             }
+            else
+            {
+                rc = RC<IDocuEntity>.Failed(NullEntity, ErrorDescription: pnL.txt("Tokenizer failed"));
+            }
+
 
             return rc;
 
@@ -279,7 +296,7 @@ namespace MKPRG.Tracing.DocuTerms.Parser
 
                     rc = RC<IDocuEntity>.Failed(
                                 value: NullEntity,
-                                ErrorDescription:                                
+                                ErrorDescription:
                                 pnL.ReturnAfterFailureWithDetails(
                                     TT.Parser.Parse.UID,
                                     pnL.i(TTD.MetaData.Block.UID,

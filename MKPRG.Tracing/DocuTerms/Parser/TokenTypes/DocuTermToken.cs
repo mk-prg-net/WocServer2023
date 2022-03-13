@@ -46,7 +46,7 @@ namespace MKPRG.Tracing.DocuTerms.Parser
 
         public override string ToString()
         {
-            return RCV3.fmtPN.Print(this);
+            return RC.fmtPN.Print(this);
         }
 
     }

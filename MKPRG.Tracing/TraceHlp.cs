@@ -528,7 +528,7 @@ namespace MKPRG.Tracing
                 else
                 {
 
-                    var rcParse = string.IsNullOrWhiteSpace(ex.Message) ? RC<IDocuEntity>.Failed(null) : DocuTerms.Parser.Parser.Parser.Parse20_06(ex.Message, DocuTerms.Parser.Fn._, RC.pnL);
+                    var rcParse = string.IsNullOrWhiteSpace(ex.Message) ? RC<IDocuEntity>.Failed(null) : DocuTerms.Parser.Parser.Parse20_06(ex.Message, DocuTerms.Parser.Fn._, RC.pnL);
 
                     if (rcParse.Succeeded)
                     {
@@ -564,9 +564,9 @@ namespace MKPRG.Tracing
             {
                 return pnL.m("FlattenExceptionMessagesPN",
                         pnL.p(TTD.MetaData.Type.UID, ex.GetType().Name),
-                        pnL.KillIf(string.IsNullOrWhiteSpace(ex.Message), () => (IMethodParameter)pnL.p("Message", ex.Message)),
+                        pnL.KillMethodParamIf(string.IsNullOrWhiteSpace(ex.Message), () => pnL.p("Message", ex.Message)),
                         pnL.ret(
-                            pnL.IfElse(string.IsNullOrWhiteSpace(exx.Message), () => (IReturnValue)pnL.eFails(), () => pnL.eFails(exx.Message))));
+                            pnL.IfElseRet(string.IsNullOrWhiteSpace(exx.Message), () => pnL.eFails(), () => pnL.eFails(exx.Message))));
 
             }
         }
@@ -590,7 +590,7 @@ namespace MKPRG.Tracing
                 else
                 {
 
-                    var rcParse = string.IsNullOrWhiteSpace(ex.Message) ? RC<IDocuEntity>.Failed(null) : DocuTerms.Parser.Parser.Parser.Parse20_06(ex.Message, DocuTerms.Parser.Fn._, RC.pnL);
+                    var rcParse = string.IsNullOrWhiteSpace(ex.Message) ? RC<IDocuEntity>.Failed(null) : DocuTerms.Parser.Parser.Parse20_06(ex.Message, DocuTerms.Parser.Fn._, RC.pnL);
 
                     if (rcParse.Succeeded)
                     {
@@ -632,9 +632,8 @@ namespace MKPRG.Tracing
                         pnL.p(TTD.MetaData.Type.UID, ex.GetType().Name),
                         pnL.m("FlattenExceptionMessagesPN",
                             pnL.p(TTD.MetaData.Type.UID, ex.GetType().Name),
-                            pnL.KillIf(string.IsNullOrWhiteSpace(ex.Message), () => (IMethodParameter)pnL.p("Message", ex.Message)),
-                            pnL.ret(
-                                pnL.IfElse(string.IsNullOrWhiteSpace(exx.Message), () => (IReturnValue)pnL.eFails(), () => pnL.eFails(exx.Message)))));
+                            pnL.KillMethodParamIf(string.IsNullOrWhiteSpace(ex.Message), () => pnL.p("Message", ex.Message)),
+                            pnL.ret(pnL.eFails(exx.Message))));
 
             }
         }
