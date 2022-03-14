@@ -249,7 +249,7 @@ namespace MKPRG.Tracing
 
 
 
-        public static RC TranformToRC(RC<ParserV2.Result> rc)
+        public static RC TranformToRC(mko.Logging.RC<ParserV2.Result> rc)
         {
             if (rc != null)
             {
@@ -260,7 +260,7 @@ namespace MKPRG.Tracing
                     rc.AssemblyName,
                     rc.TypeName,
                     rc.FunctionName,
-                    rc.Message);
+                    pnL.txt(rc.Message));
             }
             else
             {
@@ -273,7 +273,7 @@ namespace MKPRG.Tracing
         /// </summary>
         /// <param name="rc"></param>
         /// <returns></returns>
-        public static RC TranformToRC(RC<IToken[]> rc, IComposer pnL)
+        public static RC TranformToRC(mko.Logging.RC<IToken[]> rc)
         {
             if (rc != null)
             {
@@ -284,7 +284,7 @@ namespace MKPRG.Tracing
                     rc.AssemblyName,
                     rc.TypeName,
                     rc.FunctionName,                    
-                    rc.Message);
+                    pnL.txt(rc.Message));
             }
             else
             {

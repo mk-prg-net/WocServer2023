@@ -22,11 +22,6 @@ namespace MKPRG.Tracing.DocuTerms.Parser
 
         public FunctionEvalMapperFunctor() { }
 
-        /// <summary>
-        /// mko, 9.6.2020
-        /// ATMO.DFC.Naming- Container
-        /// </summary>
-        IReadOnlyDictionary<long, Naming.INaming> NC;
 
         IComposer pnL;
 

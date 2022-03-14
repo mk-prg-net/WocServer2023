@@ -20,10 +20,60 @@ namespace MKPRG.Tracing.DocuTerms.Parser
     /// </summary>
     public static class Parser
     {
-        /// <summary>
-        /// mko, 16.4.2018
-        /// </summary>
-        //public static PNDocuTerms.DocuEntities.Composer Composer = new DocuEntities.Composer();        
+
+        static IMethod TransformToDocuTerm(mko.Logging.RC rc, IEventParameter value = null)
+        {
+            var pnL = RC.pnL;
+
+            var m = pnL.m(rc.FunctionName,
+                        pnL.p(TTD.MetaData.Type.UID, rc.TypeName),
+                        pnL.p(TT.Packaging.Assembly.UID, rc.AssemblyName),
+                        pnL.p(TT.Authentication.UserId.UID, rc.User),
+                        pnL.p(TT.Timeline.DateStamp.UID, pnL.date(rc.LogDate)),
+                        pnL.p(TT.Communication.Message.UID, rc.Message),
+                        pnL.ret(pnL.IfElseRet(rc.Succeeded,
+                            () => pnL.eSucceeded(value),
+                            () => pnL.eFails(value))));
+
+            return m;
+        }
+
+        static IInstance[] TransformToTokenInstances(IToken[] Tokens)
+        {
+            var pnL = RC.pnL;
+
+            var tokens = Tokens.Select(t =>
+                            pnL.i(TT.Parser.Token.UID,
+                                pnL.p("isBoolean", t.IsBoolean),
+                                pnL.p("isFunctionName", t.IsFunctionName),
+                                pnL.p("isInteger", t.IsInteger),
+                                pnL.p("isNummeric", t.IsNummeric),
+                                pnL.p("CountOfEvaluatedTokens", t.CountOfEvaluatedTokens),
+                                pnL.p("Value", t.Value)
+                            )).ToArray();
+
+            return tokens;
+        }
+
+        static IInstance[] TransformToDocuTerm(mko.Logging.RC<ParserV2.Result> rc) {
+
+            var pnL = RC.pnL;
+
+            var msg = pnL.m(TT.Parser.Parse.UID,
+                    pnL.p("Assembly", rc.AssemblyName),
+                    pnL.p("FunctionName", rc.FunctionName),
+                    pnL.p(TT.Parser.Token.UID, pnL.List(tokens)),
+                    pnL.p(TT.Authentication.UserId.UID, rc.User),
+                    pnL.p(TT.Timeline.DateStamp.UID, pnL.date(rc.LogDate)),
+
+                    pnL.ret(pnL.eFails(pnL.i(TTD.MetaData.Result.UID,
+                                            pnL.p(TTD.MetaData.Msg.UID, rc.Message),
+                                            pnL.p("IndexOfLastEvaluatedToken", rc.Value.IndexOfLastEvaluatedToken),
+                                            pnL.p("StackCount", rc.Value.Stack.Count)))));
+
+            return msg;
+        }
+
 
         /// <summary>
         /// mko, 27.3.2018
@@ -39,7 +89,7 @@ namespace MKPRG.Tracing.DocuTerms.Parser
             RC<IDocuEntity> rc = null;
             IDocuEntity NullEntity = null;
 
-            var pnL = new Composer();
+            var pnL = RC.pnL;
 
             var ncTools = new ANC.Tools();
 
@@ -64,28 +114,12 @@ namespace MKPRG.Tracing.DocuTerms.Parser
                 else
                 {
 
-                    var tokens = rcT.Value.Select(t =>
-                                    pnL.i(TT.Parser.Token.UID,
-                                        pnL.p("isBoolean", t.IsBoolean),
-                                        pnL.p("isFunctionName", t.IsFunctionName),
-                                        pnL.p("isInteger", t.IsInteger),
-                                        pnL.p("isNummeric", t.IsNummeric),
-                                        pnL.p("CountOfEvaluatedTokens", t.CountOfEvaluatedTokens),
-                                        pnL.p("Value", t.Value)
-                                    )).ToArray();
-
-                    var msg = pnL.m(TT.Parser.Parse.UID,
-                            pnL.p("Assembly", rcp.AssemblyName),
-                            pnL.p("FunctionName", rcp.FunctionName),
-                            pnL.p(TT.Parser.Token.UID, pnL.List(tokens)),
-                            pnL.p(TT.Authentication.UserId.UID, rcp.User),
-                            pnL.p(TT.Timeline.DateStamp.UID, pnL.date(rcp.LogDate)),
-
-                            pnL.ret(pnL.eFails(pnL.i(TTD.MetaData.Result.UID,
-                                                    pnL.p(TTD.MetaData.Msg.UID, rcp.Message),
-                                                    pnL.p("IndexOfLastEvaluatedToken", rcp.Value.IndexOfLastEvaluatedToken),
-                                                    pnL.p("StackCount", rcp.Value.Stack.Count)))));
-                            
+                    var msg = TransformToDocuTerm(
+                                rcp,
+                                pnL.i(TTD.MetaData.Result.UID,
+                                        pnL.p(TT.Parser.Token.UID, pnL.List(pnL.EmbedListMembers(TransformToTokenInstances(rcT.Value)))),                                        
+                                        pnL.p("IndexOfLastEvaluatedToken", rcp.Value.IndexOfLastEvaluatedToken),
+                                        pnL.p("StackCount", rcp.Value.Stack.Count)));
 
 
                     rc = RC<IDocuEntity>.Failed(NullEntity, ErrorDescription: msg);
@@ -139,12 +173,12 @@ namespace MKPRG.Tracing.DocuTerms.Parser
                     }
                     else
                     {
-                        rc = RC<IDocuEntity>.Failed(NullEntity, ErrorDescription: pnL.m("Parse", pnL.ret(pnL.eFails())), inner: RC.TranformToRCV3(rcp));
+                        rc = RC<IDocuEntity>.Failed(NullEntity, ErrorDescription: TransformToDocuTerm(rcp, rcp.Value);
                     }
                 }
                 else
                 {
-                    rc = RC<IDocuEntity>.Failed(NullEntity, ErrorDescription: pnL.i("Tokenizer", pnL.m("Tokenize", pnL.ret(pnL.eFails()))), inner: RC.TranformToRCV3(rcT));
+                    rc = RC<IDocuEntity>.Failed(NullEntity, ErrorDescription: pnL.i("Tokenizer", pnL.m("Tokenize", pnL.ret(pnL.eFails()))), inner: RC.TranformToRC(rcT));
                 }
             }
             catch (Exception ex)
