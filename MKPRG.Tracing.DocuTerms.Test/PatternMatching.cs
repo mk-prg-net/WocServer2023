@@ -74,7 +74,7 @@ namespace MKPRG.Tracing.DocuTerms.Test
             //var fmt = new PNFormater(fn: , NC: RCV3.NC, RPNUrlSaveEncode: true);
             var treeStr = fmt.Print(tree);
 
-            var getParsed = Parser.Parser.Parse20_06(.Parser.Parse20_06(treeStr, PNDocuTerms.Fn._, pnL);
+            var getParsed = Parser.Parser.Parse20_06(treeStr, Parser.Fn._, pnL);
             Assert.IsTrue(getParsed.Succeeded);
 
             var parsedTree = getParsed.Value;

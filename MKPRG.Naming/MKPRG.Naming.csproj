@@ -126,6 +126,7 @@
     <Compile Include="TechTerms.Search.SQL.cs" />
     <Compile Include="TechTerms.SendReceive.cs" />
     <Compile Include="TechTerms.Sequences.cs" />
+    <Compile Include="TechTerms.Sets.Containers.cs" />
     <Compile Include="TechTerms.Sets.cs" />
     <Compile Include="TechTerms.SizeRatios.cs" />
     <Compile Include="TechTerms.StateMachine.cs" />

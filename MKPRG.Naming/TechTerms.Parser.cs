@@ -163,6 +163,25 @@ namespace MKPRG.Naming.TechTerms.Parser
         public override string ES => "ficha";
     }
 
+    public class Tokens
+        : PluralForm
+    {
+        public const long UID = 0xBD69320C;
+
+        public Tokens()
+            : base(UID)
+        { }
+
+        public override string CN => "象征性";
+        public override string CNT => "token";
+        public override string DE => "Token";
+        public override string EN => CNT;
+        public override string ES => "ficha";
+
+        public override long PluralFormOfNameInSingluarNID => Token.UID;
+    }
+
+
 
 
     /// mko, 19.6.2020

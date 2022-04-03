@@ -28,6 +28,7 @@ namespace MKPRG.Tracing.DocuTerms.Parser
             var m = pnL.m(rc.FunctionName,
                         pnL.p(TTD.MetaData.Type.UID, rc.TypeName),
                         pnL.p(TT.Packaging.Assembly.UID, rc.AssemblyName),
+                        pnL.p(TT.Operators.FunctionName.UID, rc.FunctionName),
                         pnL.p(TT.Authentication.UserId.UID, rc.User),
                         pnL.p(TT.Timeline.DateStamp.UID, pnL.date(rc.LogDate)),
                         pnL.p(TT.Communication.Message.UID, rc.Message),
@@ -55,16 +56,37 @@ namespace MKPRG.Tracing.DocuTerms.Parser
             return tokens;
         }
 
-        static IInstance[] TransformToDocuTerm(mko.Logging.RC<ParserV2.Result> rc) {
+        /// <summary>
+        /// mko, 3.4.2022
+        /// Wandelt ein Parser- Result in eine DocuTerm- Instance um.
+        /// </summary>
+        /// <param name="result"></param>
+        /// <returns></returns>
+        static IInstance TransformParserResultToDocuTermInstance(ParserV2.Result result)
+        {
+            var pnL = RC.pnL;
+
+            IInstance msg = pnL.i("ParserResult",
+                                pnL.p("InderxOfLastEvaluatedtoken", result.IndexOfLastEvaluatedToken),
+                                pnL.p("TokenCount", result.EvaluatedTokenBuffer.Count),
+                                pnL.p(TT.Parser.Tokens.UID, pnL.List(TransformToTokenInstances(result.EvaluatedTokenBuffer.Tokens))),
+                                pnL.p(TT.Sets.Containers.Stack.UID, pnL.List(TransformToTokenInstances(result.Stack.ToArray()))));
+
+
+
+            return msg;
+        }
+
+        static IMethod TransformToDocuTerm(mko.Logging.RC<ParserV2.Result> rc) {
 
             var pnL = RC.pnL;
 
             var msg = pnL.m(TT.Parser.Parse.UID,
-                    pnL.p("Assembly", rc.AssemblyName),
-                    pnL.p("FunctionName", rc.FunctionName),
-                    pnL.p(TT.Parser.Token.UID, pnL.List(tokens)),
+                    pnL.p(TT.Packaging.Assembly.UID, rc.AssemblyName),
+                    pnL.p(TT.Operators.FunctionName.UID, rc.FunctionName),                    
                     pnL.p(TT.Authentication.UserId.UID, rc.User),
                     pnL.p(TT.Timeline.DateStamp.UID, pnL.date(rc.LogDate)),
+
 
                     pnL.ret(pnL.eFails(pnL.i(TTD.MetaData.Result.UID,
                                             pnL.p(TTD.MetaData.Msg.UID, rc.Message),
@@ -173,12 +195,12 @@ namespace MKPRG.Tracing.DocuTerms.Parser
                     }
                     else
                     {
-                        rc = RC<IDocuEntity>.Failed(NullEntity, ErrorDescription: TransformToDocuTerm(rcp, rcp.Value);
+                        rc = RC<IDocuEntity>.Failed(NullEntity, ErrorDescription: TransformToDocuTerm(rcp, TransformParserResultToDocuTermInstance(rcp.Value)));
                     }
                 }
                 else
                 {
-                    rc = RC<IDocuEntity>.Failed(NullEntity, ErrorDescription: pnL.i("Tokenizer", pnL.m("Tokenize", pnL.ret(pnL.eFails()))), inner: RC.TranformToRC(rcT));
+                    rc = RC<IDocuEntity>.Failed(NullEntity, ErrorDescription: TransformToDocuTerm(rcT));
                 }
             }
             catch (Exception ex)
