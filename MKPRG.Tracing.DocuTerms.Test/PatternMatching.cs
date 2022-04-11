@@ -50,9 +50,6 @@ namespace MKPRG.Tracing.DocuTerms.Test
         [TestMethod]
         public void SubTreeOf()
         {
-
-            //var _ = pnL.txt(TechTerms.Dfc.TTL.PropValWildCard);
-
             // mko, 2.3.2020: Idee: wenn ein UID übergeben wird als long, dann wird dieser vom 
             // Composer automatisch in einen DocuTermId gewandelt.
             // SubTree vergleicht stets auf Basis der CNT, falls der Namen aus einem DocuTerm besteht
@@ -69,7 +66,14 @@ namespace MKPRG.Tracing.DocuTerms.Test
                                     pnL.p_NID(TT.Metrology.Unit.UID, TT.Metrology.DimensionsAnWeights.IT.Byte.UID))),
                             pnL.m(TT.Runtime.Execute.UID,
                                     pnL.ReturnAfterSuccess(TT.Access.Copy.UID)));
-                            
+
+            // {-000001181 MKPRG.Tracing.Parser.Parse20_06 -> #i cmd #_ #p Name #m IndentedTextFormatter_Print #_ #r #e fails System.InvalidCastException: Das Objekt des Typs "MKPRG.Tracing.DocuTerms.Parser.NIDToken" kann nicht in Typ "MKPRG.Tracing.DocuTerms.NID" umgewandelt werden.
+            // bei MKPRG.Tracing.DocuTerms.IndentedTextFormatter.Print(IDocuEntity entity, Int32 Indentation, StringBuilder bld) in C: \Users\marti_000\source\repos\WocServer2021\MKPRG.Tracing\DocuTerms\Formater\IndentedTextFormatter.cs:Zeile 611.
+            // #.#p from #$ 0x10 #. #p to #$ 0xFF #. #p fetch #_ #p val #m IndentedTextFormatter_Print #_ #r #e fails System.InvalidCastException: Das Objekt des Typs "MKPRG.Tracing.DocuTerms.Parser.IntegerToken" kann nicht in Typ "MKPRG.Tracing.DocuTerms.Integer" umgewandelt werden.
+            // bei MKPRG.Tracing.DocuTerms.IndentedTextFormatter.Print(IDocuEntity entity, Int32 Indentation, StringBuilder bld) in C: \Users\marti_000\source\repos\WocServer2021\MKPRG.Tracing\DocuTerms\Formater\IndentedTextFormatter.cs:Zeile 623. 
+            // #.#p unit #m IndentedTextFormatter_Print #_ #r #e fails System.InvalidCastException: Das Objekt des Typs "MKPRG.Tracing.DocuTerms.Parser.NIDToken" kann nicht in Typ "MKPRG.Tracing.DocuTerms.NID" umgewandelt werden.
+            // bei MKPRG.Tracing.DocuTerms.IndentedTextFormatter.Print(IDocuEntity entity, Int32 Indentation, StringBuilder bld) in C: \Users\marti_000\source\repos\WocServer2021\MKPRG.Tracing\DocuTerms\Formater\IndentedTextFormatter.cs:Zeile 611. 
+            // #.#. #m exec #_ #i finStateDescr #_ #m copy #_ #r #e succeeded #. #. #. #. }
 
             //var fmt = new PNFormater(fn: , NC: RCV3.NC, RPNUrlSaveEncode: true);
             var treeStr = fmt.Print(tree);
@@ -79,327 +83,138 @@ namespace MKPRG.Tracing.DocuTerms.Test
 
             var parsedTree = getParsed.Value;
 
-            var subTree = pnL.ReturnSearchWarnEmptyResult(
-                                                pnL.m(TT.Operators.Relations.Eq.UID,
-                                                        pnL.p("col", "Project"),
-                                                        pnL.p("val", "2998")));
+            // Methode als SubTree bestimmen
+            var subTreeM = pnL.m(TT.Runtime.Execute.UID,
+                                    pnL.ReturnAfterSuccess(TT.Access.Copy.UID));
 
 
-            bool res = subTree.IsSubTreeOf(tree, true);
+            bool res = subTreeM.IsSubTreeOf(tree, true);
             Assert.IsTrue(res);
 
-            res = subTree.IsSubTreeOf(parsedTree, true);
+            res = subTreeM.IsSubTreeOf(parsedTree, true);
             Assert.IsTrue(res);
 
 
-            var subTree2 = pnL.ReturnSearchWarnEmptyResult(
-                                               pnL.m(TT.Operators.Relations.Eq.UID,
-                                                       pnL.p("col", "Project"),
-                                                       pnL.p("val", "2999")));
+            // Gesamte instanz als Subtree bestimmen
+            var subTreeI = pnL.i(TT.Sequences.Command.UID);
+
+            res = subTreeI.IsSubTreeOf(tree, true);
+            Assert.IsTrue(res);
+
+            res = subTreeI.IsSubTreeOf(parsedTree, true);
+            Assert.IsTrue(res);
 
 
-            res = subTree2.IsSubTreeOf(tree, true);
+            // Eigenschaft mit einem Namen als Subtree bestimmen. Wert ist Wildcard
+
+            var subTreeP = pnL.p(TT.SendReceive.From.UID, pnL._v());
+
+            res = subTreeP.IsSubTreeOf(tree, true);
+            Assert.IsTrue(res);
+
+            res = subTreeP.IsSubTreeOf(parsedTree, true);
+            Assert.IsTrue(res);
+
+            // Eigenschaft, die kein Subtree ist
+
+            subTreeP = pnL.p(TT.SendReceive.From.UID, "0x11");
+
+            res = subTreeP.IsSubTreeOf(tree, true);
             Assert.IsFalse(res);
 
-            var subTree2_1 = pnL.ReturnSearchWarnEmptyResult(
-                                               pnL.m(TT.Operators.Relations.Eq.UID,
-                                                       pnL.p("col", "Project"),
-                                                       pnL.p("val", pnL._v())));
+            res = subTreeP.IsSubTreeOf(parsedTree, true);
+            Assert.IsFalse(res);
+
+            // Eigenschaft mit einem Wert bestimmen. Name ist Wildcard
+
+            subTreeP = pnL.p(pnL._n, "0x10");
+
+            res = subTreeP.IsSubTreeOf(tree, true);
+            Assert.IsTrue(res);
+
+            res = subTreeP.IsSubTreeOf(parsedTree, true);
+            Assert.IsTrue(res);
+
+            var catches = subTreeP.AsSubTreeOf(tree, pnL);
+            Assert.IsTrue(catches.Succeeded);
+
+            var (subTreeFound, subTreeParent, deepth) = catches.Value;
+
+            Assert.IsTrue(subTreeFound is IPropertyWithNameAsNID);
+
+            var pFrom = subTreeFound as IPropertyWithNameAsNID;
+
+            Assert.AreEqual(1, deepth);
+
+            Assert.AreEqual(TT.SendReceive.From.UID, pFrom.DocuTermNid.NamingId);
 
 
-            res = subTree2_1.IsSubTreeOf(tree: tree);
+            res = subTreeP.IsSubTreeOf(parsedTree, true);
             Assert.IsTrue(res);
 
 
-            var subTree3 = pnL.ReturnSearchWarnEmptyResult();
-
-
-            res = subTree3.IsSubTreeOf(tree, true);
-            Assert.IsTrue(res);
-
-
-            var tree2 = pnL.i("User",
-                               pnL.p("NTUser", "MNK3FE"),
-                               pnL.ReturnFetch(
-                                   false,
-                                   TT.Access.Datasources.WellKnown.ActiveDirectory.UID,
-                                   pnL.m(TT.Operators.Relations.Eq.UID, pnL.p("NTUser", "MNK3FE"))));
-
-            // mko, 6.9.2021
-            // Methode mit einem StringName "fetch" und Methode mit einem NidName "fetch" sind nun explizit nicht mehr gleich!
-            var subtree4 = pnL.m(TT.Access.Fetch.UID);
-            Assert.IsTrue(subtree4.IsSubTreeOf(tree2, true));
-
-            var subtree5 = pnL.m(TT.Access.Fetch.UID, pnL.ret(pnL._v()));
-            Assert.IsTrue(subtree5.IsSubTreeOf(tree2, true));
-
-
-            Assert.IsTrue(pnL.m(TT.Access.Fetch.UID, pnL.ret(pnL.eFails())).IsSubTreeOf(tree2, true));
-            Assert.IsTrue(pnL.m(TT.Access.Fetch.UID,
-                                pnL.p(TT.Search.Key.UID,
-                                    pnL.m(TT.Operators.Relations.Eq.UID,
-                                        pnL.p("NTUser", "ME"))),
-                                pnL.ret(pnL.eFails()))
-                        .IsSubTreeOf(tree2, true));
-
-            // Ungleich, weil ungleiche Werte
-            Assert.IsFalse(pnL.m(TT.Access.Fetch.UID,
-                            pnL.p(TT.Search.Key.UID,
-                                pnL.m(TT.Operators.Relations.Eq.UID,
-                                    pnL.p("NTUser", "YOU"))),
-                            pnL.ret(pnL.eFails()))
-                        .IsSubTreeOf(tree2, true));
-
-            // Gleich, weil Wert von NTUser Property ist jetzt ein WildCard
-            //Assert.IsTrue(pnL.m(TechTerms.Access.fetch, pnL.p("NTUser", _), pnL.ret(pnL.eFails())).IsSubTreeOf(tree: tree2, PropertyValueWildCard: _));
-            Assert.IsTrue(pnL.m(TT.Access.Fetch.UID,
-                            pnL.p(TT.Search.Key.UID,
-                                pnL.m(TT.Operators.Relations.Eq.UID,
-                                    pnL.p("NTUser", pnL._v()))),
-                            pnL.ret(pnL.eFails()))
-                        .IsSubTreeOf(tree2, true));
-
-            // Ungleich, weil ungleiche Struktur
-            Assert.IsFalse(pnL.m(TT.Access.Fetch.UID,
-                            pnL.p(TT.Search.Key.UID,
-                                pnL.m(TT.Operators.Relations.Eq.UID,
-                                    pnL.p("NTUser", "ME"))),
-                            pnL.eFails())
-                        .IsSubTreeOf(tree2, true));
-
-            // mko, 22.5.2019
-            // gesuchter Subtree eFails MissingDrawing in einem Subtree eFails .... Vorher wurde bereits beim 
-            // übergeordneten eFails die Suche gestoppt. Jetzt werden auch die Kindknoten weiter untersucht.
-            string MatNo = "0804DS9536";
-
-            var testRet = pnL.ReturnFetchWithDetails(false,
-                                pnL.i("Table", pnL.p("Name", "Path")),
-                                pnL.List(pnL.eFails(TT.ATMO.DocuCheck.MissingDrawing.UID), pnL.eWarn(TT.ATMO.DocuCheck.ATDExistsButNoDrawingNo.UID)),
-                                pnL.m(TT.Operators.Relations.Eq.UID, pnL.p(TT.ATMO.DFC.MatNo.UID, MatNo)),
-                                pnL.m(TT.Operators.Relations.Eq.UID, pnL.p_NID(TT.ATMO.DFC.DrawingNo.UID, TT.Sets.EmptySet.UID)),
-                                pnL.m(TT.Operators.Relations.Eq.UID, pnL.p_NID(TT.ATMO.DFC.SAPDocType.UID, TT.ATMO.DFC.ATD.UID)));
-
-            Assert.IsTrue(pnL.eWarn(TT.ATMO.DocuCheck.ATDExistsButNoDrawingNo.UID).IsSubTreeOf(testRet, true));
-            Assert.IsTrue(pnL.eFails(TT.ATMO.DocuCheck.MissingDrawing.UID).IsSubTreeOf(testRet, true));
-            Assert.IsTrue(pnL.eFails().IsSubTreeOf(testRet, true));
-            Assert.IsTrue(pnL.eWarn().IsSubTreeOf(testRet, true));
-
-
-            var iMsg = pnL.i("Install",
-                                        pnL.m("setup",
-                                            pnL.i("DFC2",
-                                                pnL.ver("20.1.14"),
-                                                pnL.p("newVer", pnL.ver("20.1.14"))),
-                                            pnL.eSucceeded()));
-            // Versionsnummer extrahieren
-
-            var getVer = pnL.p("newVer", pnL._v()).AsSubTreeOf(iMsg, pnL);
-            Assert.IsTrue(getVer.Succeeded);
-            Assert.IsTrue(getVer.Value.subTree is IProperty p && p.PropertyValue is IVer v && v.VersionString == "20.1.14");
 
         }
 
 
-        [TestMethod]
-        public void WildCards()
-        {
-
-            var tree = pnL.i(TT.ATMO.DFC.ApplicationNameDFCClient.UID,
-                    pnL.p(TT.ATMO.DFC.ProjectList.UID,
-                        pnL.List(
-                            pnL.i(TT.ATMO.DFC.Project.UID,
-                                pnL.p(TT.ATMO.DFC.ProjectNo.UID, "P.2998"),
-                                pnL.p(TT.ATMO.DFC.StationList.UID,
-                                    pnL.List(
-                                        pnL.i(TT.ATMO.DFC.Station.UID,
-                                            pnL.p(TT.ATMO.DFC.StationNo.UID, 10),
-                                            pnL.p(TT.ATMO.DFC.ProcessModulList.UID,
-                                                pnL.List(
-                                                        pnL.i(TT.ATMO.DFC.ProcessModul.UID,
-                                                            pnL.p(TT.ATMO.DFC.ProcessmoduleNo.UID, 1),
-                                                            pnL.i(TT.ATMO.DFC.BOM.UID,
-                                                                pnL.p_NID(TT.ATMO.DFC.BOMType.UID, ANC.TechTerms.ATMO.DFC.BOMTypeME.UID),
-                                                                pnL.p(TT.ATMO.DFC.BOMPosList.UID,
-                                                                    pnL.List(
-                                                                        pnL.i(TT.ATMO.DFC.BOMPos.UID,
-                                                                            pnL.p(TT.ATMO.DFC.BOMPosNo.UID, 10)
-                                                                        ),
-                                                                        pnL.i(TT.ATMO.DFC.BOMPos.UID,
-                                                                            pnL.p(TT.ATMO.DFC.BOMPosNo.UID, 20)
-                                                                        ),
-                                                                        pnL.i(TT.ATMO.DFC.BOMPos.UID,
-                                                                            pnL.p(TT.ATMO.DFC.BOMPosNo.UID, 30)
-                                                                        ))))),
-                                                        pnL.i(TT.ATMO.DFC.ProcessModul.UID,
-                                                            pnL.p(TT.ATMO.DFC.ProcessmoduleNo.UID, 2),
-                                                            pnL.i(TT.ATMO.DFC.BOM.UID,
-                                                                pnL.p_NID(TT.ATMO.DFC.BOMType.UID, ANC.TechTerms.ATMO.DFC.BOMTypeME.UID),
-                                                                pnL.p(TT.ATMO.DFC.BOMPosList.UID,
-                                                                    pnL.List(
-                                                                        pnL.i(TT.ATMO.DFC.BOMPos.UID,
-                                                                            pnL.p(TT.ATMO.DFC.BOMPosNo.UID, 100)
-                                                                        ),
-                                                                        pnL.i(TT.ATMO.DFC.BOMPos.UID,
-                                                                            pnL.p(TT.ATMO.DFC.BOMPosNo.UID, 110)
-                                                                        )))))))),
-                                        pnL.i(TT.ATMO.DFC.Station.UID,
-                                            pnL.p(TT.ATMO.DFC.StationNo.UID, 20),
-                                            pnL.p(TT.ATMO.DFC.ProcessModulList.UID,
-                                                pnL.List(
-                                                        pnL.i(TT.ATMO.DFC.ProcessModul.UID,
-                                                            pnL.p(TT.ATMO.DFC.ProcessmoduleNo.UID, 1),
-                                                            pnL.i(TT.ATMO.DFC.BOM.UID,
-                                                                pnL.p_NID(TT.ATMO.DFC.BOMType.UID, ANC.TechTerms.ATMO.DFC.BOMTypeME.UID),
-                                                                pnL.p(TT.ATMO.DFC.BOMPosList.UID,
-                                                                    pnL.List(
-                                                                        pnL.i(TT.ATMO.DFC.BOMPos.UID,
-                                                                            pnL.p(TT.ATMO.DFC.BOMPosNo.UID, 5)
-                                                                        ),
-                                                                        pnL.i(TT.ATMO.DFC.BOMPos.UID,
-                                                                            pnL.p(TT.ATMO.DFC.BOMPosNo.UID, 10)
-                                                                        ),
-                                                                        pnL.i(TT.ATMO.DFC.BOMPos.UID,
-                                                                            pnL.p(TT.ATMO.DFC.BOMPosNo.UID, 15)
-                                                                        ))))))))))),
-                            pnL.i(TT.ATMO.DFC.Project.UID,
-                                pnL.p(TT.ATMO.DFC.ProjectNo.UID, "M.1234567"),
-                                pnL.p(TT.ATMO.DFC.StationList.UID,
-                                    pnL.List(
-                                        pnL.i(TT.ATMO.DFC.Station.UID,
-                                            pnL.p(TT.ATMO.DFC.StationNo.UID, 10),
-                                            pnL.p(TT.ATMO.DFC.ProcessModulList.UID,
-                                                pnL.List(
-                                                        pnL.i(TT.ATMO.DFC.ProcessModul.UID,
-                                                            pnL.p(TT.ATMO.DFC.ProcessmoduleNo.UID, 1),
-                                                            pnL.i(TT.ATMO.DFC.BOM.UID,
-                                                                pnL.p_NID(TT.ATMO.DFC.BOMType.UID, ANC.TechTerms.ATMO.DFC.BOMTypeME.UID),
-                                                                pnL.p(TT.ATMO.DFC.BOMPosList.UID,
-                                                                    pnL.List(
-                                                                        pnL.i(TT.ATMO.DFC.BOMPos.UID,
-                                                                            pnL.p(TT.ATMO.DFC.BOMPosNo.UID, 10)
-                                                                        ),
-                                                                        pnL.i(TT.ATMO.DFC.BOMPos.UID,
-                                                                            pnL.p(TT.ATMO.DFC.BOMPosNo.UID, 20)
-                                                                        ),
-                                                                        pnL.i(TT.ATMO.DFC.BOMPos.UID,
-                                                                            pnL.p(TT.ATMO.DFC.BOMPosNo.UID, 30)
-                                                                        )))))))),
-                                        pnL.i(TT.ATMO.DFC.Station.UID,
-                                            pnL.p(TT.ATMO.DFC.StationNo.UID, 20),
-                                            pnL.p(TT.ATMO.DFC.ProcessModulList.UID,
-                                                pnL.List(
-                                                        pnL.i(TT.ATMO.DFC.ProcessModul.UID,
-                                                            pnL.p(TT.ATMO.DFC.ProcessmoduleNo.UID, 1),
-                                                            pnL.i(TT.ATMO.DFC.BOM.UID,
-                                                                pnL.p_NID(TT.ATMO.DFC.BOMType.UID, ANC.TechTerms.ATMO.DFC.BOMTypeME.UID),
-                                                                pnL.p(TT.ATMO.DFC.BOMPosList.UID,
-                                                                    pnL.List(
-                                                                        pnL.i(TT.ATMO.DFC.BOMPos.UID,
-                                                                            pnL.p(TT.ATMO.DFC.BOMPosNo.UID, 5)
-                                                                        ),
-                                                                        pnL.i(TT.ATMO.DFC.BOMPos.UID,
-                                                                            pnL.p(TT.ATMO.DFC.BOMPosNo.UID, 15)
-                                                                        ))))))))))))));
-
-
-            var res = pnL.p(TT.ATMO.DFC.ProcessmoduleNo.UID, pnL._v()).IsSubTreeOf(tree);
-            Assert.IsTrue(res);
-
-
-            // Prüfen auf Subtree, der eine Bestimmt eigenschaft hat, deren Wert einer Einschränkungen genügen muss
-            // p\*\p\NID\TT.ATMO.DFC.BOMPosNo.UID
-            // \\NID\TT.ATMO.DFC.BOMPosList.UID
-            res = pnL.p(TT.ATMO.DFC.BOMPosList.UID, pnL._v(pnL.p(TT.ATMO.DFC.BOMPosNo.UID, 5))).IsSubTreeOf(tree);
-            Assert.IsTrue(res);
-
-            res = pnL.p(TT.ATMO.DFC.BOMPosList.UID, pnL._v(pnL.p(TT.ATMO.DFC.BOMPosNo.UID, 6))).IsSubTreeOf(tree);
-            Assert.IsFalse(res);
-
-
-            // Isolieren eines Teilbaumes
-            var sub = pnL.p(TT.ATMO.DFC.ProcessmoduleNo.UID, pnL._v()).AsSubTreeOf(tree, pnL);
-
-            var allSubs = pnL.p(TT.ATMO.DFC.ProcessmoduleNo.UID, pnL._v()).AsSubTreeOf_AllOccurrences(tree, pnL);
-            Assert.AreEqual(5, allSubs.Value.Count());
-
-            sub = pnL.i(TT.ATMO.DFC.BOM.UID,
-                      pnL.p(TT.ATMO.DFC.BOMPosList.UID,
-                        pnL._v(pnL.p(TT.ATMO.DFC.BOMPosNo.UID, 5))))
-                    .AsSubTreeOf(tree, pnL);
-
-            allSubs = pnL.i(TT.ATMO.DFC.BOM.UID,
-                        pnL.p(TT.ATMO.DFC.BOMPosList.UID,
-                            pnL._v(pnL.p(TT.ATMO.DFC.BOMPosNo.UID, 5))))
-                    .AsSubTreeOf_AllOccurrences(tree, pnL);
-
-            Assert.AreEqual(2, allSubs.Value.Count());
-
-            allSubs = pnL.i(TT.ATMO.DFC.BOM.UID,
-                        pnL.p(TT.ATMO.DFC.BOMPosList.UID,
-                            pnL._v(pnL.p(TT.ATMO.DFC.BOMPosNo.UID, 10))))
-                     .AsSubTreeOf_AllOccurrences(tree, pnL);
-
-            Assert.AreEqual(3, allSubs.Value.Count());
-
-        }
 
         [TestMethod]
         public void FindAll()
         {
             //var _ = pnL.txt(TechTerms.Dfc.TTL.PropValWildCard);
 
-            var tree = pnL.i("Compound",
-                                    pnL.p("Err1", pnL.ReturnFetch(false, pnL.txt("AD"),
-                                                        pnL.m(TT.Operators.Relations.Eq.UID, pnL.p("Name", "SantaC")))),
-                                    pnL.p("Err2", pnL.ReturnAuthenticationUserIsNoCustomerNorAtmoEmployee(pnL.txt("SantaC"))),
-                                    pnL.p("Err1", pnL.ReturnFetch(false, pnL.txt("AD"),
-                                                        pnL.m(TT.Operators.Relations.Eq.UID, pnL.p("Name", "SantaF")))),
-                                    pnL.p("Err3", pnL.ReturnFetchWithDetails(false, pnL.txt("AD"),
-                                                        pnL.ReturnAuthenticationUserIsNoCustomerNorAtmoEmployee(pnL.txt("SantaC")),
-                                                        pnL.m(TT.Operators.Relations.Eq.UID, pnL.p("Name", "SantaC")))));
+            //var tree = pnL.i("Compound",
+            //                        pnL.p("Err1", pnL.ReturnFetch(false, pnL.txt("AD"),
+            //                                            pnL.m(TT.Operators.Relations.Eq.UID, pnL.p("Name", "SantaC")))),
+            //                        pnL.p("Err2", pnL.ReturnAuthenticationUserIsNoCustomerNorAtmoEmployee(pnL.txt("SantaC"))),
+            //                        pnL.p("Err1", pnL.ReturnFetch(false, pnL.txt("AD"),
+            //                                            pnL.m(TT.Operators.Relations.Eq.UID, pnL.p("Name", "SantaF")))),
+            //                        pnL.p("Err3", pnL.ReturnFetchWithDetails(false, pnL.txt("AD"),
+            //                                            pnL.ReturnAuthenticationUserIsNoCustomerNorAtmoEmployee(pnL.txt("SantaC")),
+            //                                            pnL.m(TT.Operators.Relations.Eq.UID, pnL.p("Name", "SantaC")))));
 
-            var str = fmt.Print(tree);
+            //var str = fmt.Print(tree);
 
-            var Err1 = pnL.p("Err1", pnL._v()).AsSubTreeOf(treeRoot: tree, pnL: pnL);
-            Assert.IsTrue(Err1.Succeeded);
-            Assert.IsTrue(pnL.p("Err1", pnL.ReturnFetch(
-                                                false,
-                                                pnL.txt("AD"),
-                                                pnL.m(ANC.TechTerms.Operators.Relations.Eq.UID, pnL.p("Name", "SantaC"))))
-                                            .IsSubTreeOf(Err1.Value.subTree, true));
-
-
-            var Err1_1 = pnL.p("Err1", pnL._v()).AsSubTreeOf_AllOccurrences(treeRoot: tree, pnL: pnL);
-            Assert.IsTrue(Err1_1.Succeeded);
-            //Assert.IsTrue(dct.p("Err1", dct.ReturnFetch(false, dct.p("ConnectedTo", "AD"), dct.p("Name", "SantaC"))).IsSubTreeOf(Err1_1.Value..subTree));
+            //var Err1 = pnL.p("Err1", pnL._v()).AsSubTreeOf(treeRoot: tree, pnL: pnL);
+            //Assert.IsTrue(Err1.Succeeded);
+            //Assert.IsTrue(pnL.p("Err1", pnL.ReturnFetch(
+            //                                    false,
+            //                                    pnL.txt("AD"),
+            //                                    pnL.m(ANC.TechTerms.Operators.Relations.Eq.UID, pnL.p("Name", "SantaC"))))
+            //                                .IsSubTreeOf(Err1.Value.subTree, true));
 
 
+            //var Err1_1 = pnL.p("Err1", pnL._v()).AsSubTreeOf_AllOccurrences(treeRoot: tree, pnL: pnL);
+            //Assert.IsTrue(Err1_1.Succeeded);
+            ////Assert.IsTrue(dct.p("Err1", dct.ReturnFetch(false, dct.p("ConnectedTo", "AD"), dct.p("Name", "SantaC"))).IsSubTreeOf(Err1_1.Value..subTree));
 
 
-            var res = pnL.eFails().FindAllIn(tree);
-
-            var tree2 = pnL.p("Err3", pnL.ReturnFetchWithDetails(
-                                        false,
-                                        pnL.txt("AD"),
-                                        pnL.ReturnAuthenticationUserIsNoCustomerNorAtmoEmployee(pnL.txt("SantaC")),
-                                        pnL.m(ANC.TechTerms.Operators.Relations.Eq.UID, pnL.p("Name", "SantaC"))));
-            var res2 = pnL.eFails().FindAllIn(tree2);
-
-            var getErr = pnL.eFails().AsSubTreeOf(tree, pnL);
-
-            var getinfo = pnL.m("login").AsSubTreeOf(tree, pnL);
-
-            var getAllErrors = pnL.eFails().AsSubTreeOf_AllOccurrences(tree, pnL);
-            Assert.AreEqual(5, getAllErrors.Value.Count());
-
-            //var getAllLogins = pnL.m("login").AsSubTreeOf_AllOccurrences(tree, pnL);
-            //Assert.AreEqual(2, getAllLogins.Value.Count());
 
 
-            var txt = $" #i DFCSecurity.V1.<Create>d__4.Create  #_  #e fails  #p msg  #i FinStateDescr  #_  #p semCtx  #$ Authentication #.  #m login  #_  #p UserId  #$ MNK3FE #.  #r  #e  #NID {new ATMO.DFC.Naming.DocuTerms.Event.Fails().ID}  #.  #.  #.";
-            var parseDocuterm = Parser.Parser.Parse20_06(txt, Parser.Fn._, pnL);
+            //var res = pnL.eFails().FindAllIn(tree);
 
-            Assert.IsTrue(parseDocuterm.Succeeded);
+            //var tree2 = pnL.p("Err3", pnL.ReturnFetchWithDetails(
+            //                            false,
+            //                            pnL.txt("AD"),
+            //                            pnL.ReturnAuthenticationUserIsNoCustomerNorAtmoEmployee(pnL.txt("SantaC")),
+            //                            pnL.m(ANC.TechTerms.Operators.Relations.Eq.UID, pnL.p("Name", "SantaC"))));
+            //var res2 = pnL.eFails().FindAllIn(tree2);
+
+            //var getErr = pnL.eFails().AsSubTreeOf(tree, pnL);
+
+            //var getinfo = pnL.m("login").AsSubTreeOf(tree, pnL);
+
+            //var getAllErrors = pnL.eFails().AsSubTreeOf_AllOccurrences(tree, pnL);
+            //Assert.AreEqual(5, getAllErrors.Value.Count());
+
+            ////var getAllLogins = pnL.m("login").AsSubTreeOf_AllOccurrences(tree, pnL);
+            ////Assert.AreEqual(2, getAllLogins.Value.Count());
+
+
+            //var txt = $" #i DFCSecurity.V1.<Create>d__4.Create  #_  #e fails  #p msg  #i FinStateDescr  #_  #p semCtx  #$ Authentication #.  #m login  #_  #p UserId  #$ MNK3FE #.  #r  #e  #NID {new ATMO.DFC.Naming.DocuTerms.Event.Fails().ID}  #.  #.  #.";
+            //var parseDocuterm = Parser.Parser.Parse20_06(txt, Parser.Fn._, pnL);
+
+            //Assert.IsTrue(parseDocuterm.Succeeded);
 
 
 

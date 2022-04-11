@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -36,19 +37,6 @@ namespace MKPRG.Naming
 
         static Tools()
         {
-            //var tools = new Tools();
-            //var pnL = new ATMO.mko.Logging.Composer();
-
-            //var NC = tools.GetNamingDictOf("MKPRG.Naming", pnL).ValueOrException;
-
-            //var _NamingIdForCNTName = new System.Collections.Concurrent.ConcurrentDictionary<string, string>();
-
-            //foreach(var nc in NC)
-            //{
-            //    _NamingIdForCNTName[nc.Value.CNT] = nc.Value.IDAsName;
-            //}
-
-            //NamingIdForCNTNameOfDocuTerm = _NamingIdForCNTName;
         }
 
 
@@ -60,24 +48,31 @@ namespace MKPRG.Naming
         /// <param name="pnL">Composer zum Formulieren von DocuTerms für Fehlermeldungen</param>
         /// <param name="recurseNamespaces">Wenn true, dann werden auch alle untergeordneten Namensräume nach INaming- Container abgesucht</param>
         /// <returns></returns>
-        public RC<INaming[]> GetAllNamingInstancesIn(string Namespace, IComposer pnL, bool recurseNamespaces= true)
+        public RC<INaming[]> GetAllNamingInstancesIn(string Namespace, IComposer pnL, bool recurseNamespaces = true)
         {
             var ret = RC<INaming[]>.Failed(value: null, ErrorDescription: pnL.eNotCompleted());
 
             try
             {
                 var namingContainerTypes = AppDomain.CurrentDomain
-                                            .GetAssemblies().Where(r => r.FullName.ToUpper().Contains("NAMING"))
-                                            .SelectMany(t => t.GetTypes())                                            
-                                            .Where(t => t.IsClass
+                            .GetAssemblies().Where(r => r.FullName.ToUpper().Contains("NAMING"))
+                            .SelectMany(t => t.GetTypes())
+                            .Where(t => t.IsClass
 
-                                                        && t.Name.ToUpper() != "NAMINGBASE"
+                                        && t.Name != "NamingBase"
 
-                                                        // Bei bedarf auch alle untergeordneten Namensräume nach Namingcontainer absuchen
-                                                        && (recurseNamespaces ? t.Namespace.StartsWith(Namespace) : t.Namespace == Namespace) 
+                                        // mko, 15.2.2021
+                                        && !t.IsAbstract
 
-                                                        // Nur Klassen berücksichtigen, welche die Schnittstelle INaming implementieren
-                                                        && t.GetInterfaces().Any(r => r.Name.ToUpper() == "INAMING"));
+                                        // Bei bedarf auch alle untergeordneten Namensräume nach Namingcontainer absuchen
+                                        && (recurseNamespaces ? t.Namespace?.StartsWith(Namespace) ?? false : t.Namespace == Namespace)
+
+                                        // Namenscontainerklassen, die dynamisch erstellt werden, um
+                                        // Fehler z.B. beim Aufbau von Sätzen zu beschreiben, vom Laden ausschließen
+                                        && !t.GetInterfaces().Any(r => r.Name == "IInterfaceConversionError")
+
+                                        // Nur Klassen berücksichtigen, welche die Schnittstelle INaming implementieren
+                                        && t.GetInterfaces().Any(r => r.Name == "INaming"));
 
 
                 // Instanzen von den Naming- containern erzeugen
@@ -106,24 +101,52 @@ namespace MKPRG.Naming
         /// <returns></returns>
         public RC<IReadOnlyDictionary<long, INaming>> GetNamingDictOf(string Namespace, IComposer pnL, bool recurseNamespaces = true)
         {
+
             var ret = RC<IReadOnlyDictionary<long, INaming>>.Failed(value: null, ErrorDescription: pnL.eNotCompleted());
 
             var getAll = GetAllNamingInstancesIn(Namespace, pnL, recurseNamespaces);
 
             if (!getAll.Succeeded)
-            {                
+            {
                 ret = RC<IReadOnlyDictionary<long, INaming>>.Failed(
                     value: null,
                     ErrorDescription: pnL.m("GetAllNamingInstancesIn",
                                             pnL.p(DocuTerms.MetaData.NameSpace.UID, Namespace),
                                                 pnL.ret(pnL.eFails(pnL.EncapsulateAsEventParameter(getAll.ToPlx())))));
-            } else
+            }
+            else
             {
-                ret = RC<IReadOnlyDictionary<long, INaming>>.Ok(
-                    new System.Collections.ObjectModel.ReadOnlyDictionary<long, INaming>(getAll.Value.ToDictionary(r => r.ID)));
+                if (getAll.Value.Select(r => r.ID).Distinct().Count() < getAll.Value.Count())
+                {
+                    // Fall: NID's wurden versehentlich doppelt vergeben
+
+                    var allNCs = getAll.Value.OrderBy(r => r.ID).ToArray();
+
+                    var lastId = -1L;
+                    var lstDuplicats = new Dictionary<long, INaming>();
+                    for (int i = 0, c = allNCs.Count(); i < c; i++)
+                    {
+                        if (allNCs[i].ID == lastId && !lstDuplicats.ContainsKey(lastId))
+                        {
+                            lstDuplicats.Add(lastId, allNCs[i]);
+                        }
+
+                        lastId = allNCs[i].ID;
+                    }
+
+                    ret = RC<IReadOnlyDictionary<long, INaming>>.Failed(lstDuplicats, ErrorDescription: pnL.m("GetAllNamingInstancesIn", pnL.p(DocuTerms.MetaData.NameSpace.UID, Namespace), pnL.ret(pnL.eFails("Duplicates found"))));
+
+                }
+                else
+                {
+                    ret = RC<IReadOnlyDictionary<long, INaming>>.Ok(
+                        new System.Collections.ObjectModel.ReadOnlyDictionary<long, INaming>(getAll.Value.ToDictionary(r => r.ID)));
+                }
             }
 
             return ret;
+
+
         }
 
         /// <summary>
@@ -144,14 +167,14 @@ namespace MKPRG.Naming
             if (!getNamingDict.Succeeded)
             {
                 ret = RC<System.Collections.Concurrent.ConcurrentDictionary<long, INaming>>.Failed(
-                    value: null, 
+                    value: null,
                     ErrorDescription: getNamingDict.ToPlx());
             }
             else
             {
                 ret = RC<System.Collections.Concurrent.ConcurrentDictionary<long, INaming>>.Ok(
                     new System.Collections.Concurrent.ConcurrentDictionary<long, INaming>(getNamingDict.Value));
-                    
+
             }
 
             return ret;
@@ -168,25 +191,103 @@ namespace MKPRG.Naming
         /// <returns></returns>
         public System.Collections.Concurrent.ConcurrentDictionary<long, INaming> GetNamingContainerAsConcurrentDict(string Namespace, bool recurseNamespaces = true)
         {
-            var namingContainerTypes = AppDomain.CurrentDomain
-                            .GetAssemblies().Where(r => r.FullName.ToUpper().Contains("NAMING"))
-                            .SelectMany(t => t.GetTypes())
-                            .Where(t => t.IsClass
 
-                                        && t.Name.ToUpper() != "NAMINGBASE"
+            var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+
+            Debug.WriteLine("=====================================================================================================================");
+            Debug.WriteLineIf(assemblies == null, "MKPRG.Naming.Tools.GetNamingContainerAsConcurrentDict(): AppDomain.CurrentDomain.GetAssembilies() → null");
+            Debug.WriteLineIf(assemblies != null, $"MKPRG.Naming.Tools.GetNamingContainerAsConcurrentDict(): AppDomain.CurrentDomain.GetAssembilies().Length → {assemblies.Length}");
+
+            Debug.WriteLine("#####################################################################################################################");
+            Debug.WriteLineIf(assemblies != null, string.Join("\n", assemblies.OrderBy(r => r.FullName).Select(r => $"{r}")));
+            Debug.WriteLine("#####################################################################################################################");
+
+            var NamingAss = assemblies.First(r => r.FullName.ToUpperInvariant().Contains("NAMING,"));
+
+            Debug.WriteLineIf(NamingAss == null, "MKPRG.Naming.Tools.GetNamingContainerAsConcurrentDict(): assemblies.First(r => r.FullName.ToUpper().Contains(\"NAMING\") → null");
+
+            Debug.WriteLine("=====================================================================================================================");
+            if (NamingAss != null)
+            {
+                Debug.WriteLine($"MKPRG.Naming.Tools.GetNamingContainerAsConcurrentDict(): assemblies.First(r => r.FullName.ToUpper().Contains(\"NAMING\") → {NamingAss.FullName}");
+
+                var assTypes = NamingAss.GetTypes();
+
+                Debug.WriteLineIf(assTypes == null, "MKPRG.Naming.Tools.GetNamingContainerAsConcurrentDict(): NamingAss.GetTypes() → null");
+                Debug.WriteLineIf(assTypes != null, $"MKPRG.Naming.Tools.GetNamingContainerAsConcurrentDict(): NamingAss.GetTypes().Length → {assTypes.Length}");
+
+                var ncTypes = assTypes.Where(t => t.IsClass
+
+                                        && t.Name != "NamingBase"
+
+                                        // mko, 15.2.2021
+                                        && !t.IsAbstract
 
                                         // Bei bedarf auch alle untergeordneten Namensräume nach Namingcontainer absuchen
-                                        && (recurseNamespaces ? t.Namespace.StartsWith(Namespace) : t.Namespace == Namespace)
+                                        && (recurseNamespaces ? t.Namespace?.StartsWith(Namespace) ?? false : t.Namespace == Namespace)
+
+                                        // Namenscontainerklassen, die dynamisch erstellt werden, um
+                                        // Fehler z.B. beim Aufbau von Sätzen zu beschreiben, vom Laden ausschließen
+                                        && !t.GetInterfaces().Any(r => r.Name == "IInterfaceConversionError")
+
 
                                         // Nur Klassen berücksichtigen, welche die Schnittstelle INaming implementieren
-                                        && t.GetInterfaces().Any(r => r.Name.ToUpper() == "INAMING"));
+                                        && t.GetInterfaces().Any(r => r.Name == "INaming"));
 
-            
-            // Instanzen von den Naming- containern erzeugen
+                Debug.WriteLineIf(ncTypes == null, "MKPRG.Naming.Tools.GetNamingContainerAsConcurrentDict(): NamingAss.GetTypes().FilterBy('INaming') → null");
+                Debug.WriteLineIf(ncTypes != null, $"MKPRG.Naming.Tools.GetNamingContainerAsConcurrentDict(): NamingAss.GetTypes().FilterBy('INaming').Length → {ncTypes.Count()}");
 
-            var namingContainer = namingContainerTypes.Select(r => (INaming)Activator.CreateInstance(r)).ToDictionary(r => r.ID);
+                var namingContainer = ncTypes?.Select(r => (INaming)Activator.CreateInstance(r)).ToDictionary(r => r.ID);
 
-            return new System.Collections.Concurrent.ConcurrentDictionary<long, INaming>(namingContainer);
+                Debug.WriteLine("=====================================================================================================================");
+                Debug.WriteLineIf(namingContainer == null, "MKPRG.Naming.Tools.GetNamingContainerAsConcurrentDict(): namingContainer → null");
+                Debug.WriteLineIf(namingContainer != null, $"MKPRG.Naming.Tools.GetNamingContainerAsConcurrentDict(): namingContainer.Count() -> {namingContainer.Count()}");
+
+
+                return new System.Collections.Concurrent.ConcurrentDictionary<long, INaming>(namingContainer);
+            }
+            else
+            {
+                throw new Exception("MKPRG.Naming.Tools.GetNamingContainerAsConcurrentDict(): Assemblies mit dem Namen *.Naming.* wurden nicht gefunden");
+            }
+
+            //var namingContainerTypes = assemblies
+            //                .Where(r => r.FullName.ToUpperInvariant().Contains("NAMING"))
+            //                .SelectMany(t => t.GetTypes())
+            //                .Where(t => t.IsClass
+
+            //                            && t.Name != "NamingBase"
+
+            //                            // mko, 15.2.2021
+            //                            && !t.IsAbstract
+
+            //                            // Bei bedarf auch alle untergeordneten Namensräume nach Namingcontainer absuchen
+            //                            && (recurseNamespaces ? t.Namespace?.StartsWith(Namespace) ?? false : t.Namespace == Namespace)
+
+            //                            // Namenscontainerklassen, die dynamisch erstellt werden, um
+            //                            // Fehler z.B. beim Aufbau von Sätzen zu beschreiben, vom Laden ausschließen
+            //                            && !t.GetInterfaces().Any(r => r.Name == "IInterfaceConversionError")
+
+
+            //                            // Nur Klassen berücksichtigen, welche die Schnittstelle INaming implementieren
+            //                            && t.GetInterfaces().Any(r => r.Name == "INaming"));
+
+
+            //// Instanzen von den Naming- containern erzeugen
+
+            //Debug.WriteLine("=====================================================================================================================");
+            //Debug.WriteLineIf(namingContainerTypes == null, "MKPRG.Naming.Tools.GetNamingContainerAsConcurrentDict(): namingContainerTypes → null");
+            //Debug.WriteLineIf(namingContainerTypes != null, $"MKPRG.Naming.Tools.GetNamingContainerAsConcurrentDict(): namingContainerTypes.Count() → {namingContainerTypes.Count()}");
+
+            //var namingContainer = namingContainerTypes?.Select(r => (INaming)Activator.CreateInstance(r)).ToDictionary(r => r.ID);
+
+            //Debug.WriteLine("=====================================================================================================================");
+            //Debug.WriteLineIf(namingContainer == null, "MKPRG.Naming.Tools.GetNamingContainerAsConcurrentDict(): namingContainer → null");
+            //Debug.WriteLineIf(namingContainer != null, $"MKPRG.Naming.Tools.GetNamingContainerAsConcurrentDict(): namingContainer.Count() -> {namingContainer.Count()}");
+
+
+            //return new System.Collections.Concurrent.ConcurrentDictionary<long, INaming>(namingContainer);
+
         }
     }
 }

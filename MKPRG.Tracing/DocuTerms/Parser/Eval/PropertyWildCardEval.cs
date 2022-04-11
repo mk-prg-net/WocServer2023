@@ -11,15 +11,8 @@ using ANC = MKPRG.Naming;
 
 namespace MKPRG.Tracing.DocuTerms.Parser
 {
-    /// <summary>
-    /// mko, 15.6.2020
-    /// Liest einen WildCard für Eigenschaftswerte ein und erzeugt einen WildCard- Knoten
-    /// 
-    /// mko, 10.8.2021
-    /// 
-    /// </summary>
     public class PropertyWildCardEval
-        : EvalBase
+    : EvalBase
     {
         public PropertyWildCardEval(IComposer pnL)
         {
@@ -36,19 +29,20 @@ namespace MKPRG.Tracing.DocuTerms.Parser
         {
             if (stack.Any())
             {
-                TraceHlp.ThrowArgExIfNot(stack.Peek() is Parser.IDocuEntityToken,
+                TraceHlp.ThrowArgExIfNot(stack.Peek() is IDocuEntityToken,
                     pnL.ReturnDocuTermSyntaxError(ANC.DocuTerms.Types.WildCard.UID, ANC.DocuTerms.Parser.Errors.WildCard_ParameterMustBeAnComplexDocuTermAndNotASimpleValue.UID));
 
-                var restriction = (Parser.IDocuEntityToken)stack.Pop();
+                var restriction = (IDocuEntityToken)stack.Pop();
 
-                var wcToken = new Parser.WildCardToken(restriction);
+                var wcToken = new WildCardToken(restriction);
                 stack.Push(wcToken);
             }
             else
             {
-                var wcToken = new Parser.WildCardToken();
+                var wcToken = new WildCardToken();
                 stack.Push(wcToken);
-            }            
+            }
         }
     }
+
 }

@@ -50,7 +50,6 @@
     <Compile Include="HTMLFormatter_2021_01.cs" />
     <Compile Include="IndentTextFormatter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RTFFormatter.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MKPRG.HTML\MKPRG.HTML.csproj">

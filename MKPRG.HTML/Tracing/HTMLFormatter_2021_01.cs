@@ -760,11 +760,11 @@ namespace MKPRG.Tracing.DocuTerms
         {
             var getProp = pnL.p(PropNameNID, pnL._v()).AsSubTreeOf(objTree, pnL);
 
-            if (!getProp.Succeeded && !pnL.ReturnSearchFailsEmptyResult().IsSubTreeOf(getProp.MessageEntity))
+            if (!getProp.Succeeded && !pnL.ReturnSearchFailsEmptyResult().IsSubTreeOf(getProp.Message))
             {
                 // Fehler in der Struktur
                 htmDoc.spc.build();
-                _Print(Level, getProp.MessageEntity, htmDoc);
+                _Print(Level, getProp.Message, htmDoc);
                 return false;
             }
             else if (!getProp.Succeeded)

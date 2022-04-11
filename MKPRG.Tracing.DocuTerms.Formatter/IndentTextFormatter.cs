@@ -608,25 +608,25 @@ namespace MKPRG.Tracing.DocuTerms.Formatter
 
                             // mko, 9.6.2020
                             // Abrufen des Namens in der Wunschsprache
-                            var nid = (NID)entity;
+                            var nid = (INID)entity;
                             Print(nid, Indentation, bld);
                         }
                         break;
                     case DocuEntityTypes.Bool:
                         {
-                            var boolVal = (Boolean)entity;
+                            var boolVal = (IBoolean)entity;
                             Print(boolVal, Indentation, bld);
                         }
                         break;
                     case DocuEntityTypes.Int:
                         {
-                            var intVal = (Integer)entity;
+                            var intVal = (IInteger)entity;
                             Print(intVal, Indentation, bld);
                         }
                         break;
                     case DocuEntityTypes.Float:
                         {
-                            var floatVal = (Double)entity;
+                            var floatVal = (IDouble)entity;
                             Print(floatVal, Indentation, bld);
                         }
                         break;
