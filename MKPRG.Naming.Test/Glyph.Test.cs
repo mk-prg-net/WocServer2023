@@ -22,28 +22,52 @@ namespace MKPRG.Naming.Test
         public void CreateGlyphs()
         {
             var TGlyphs = typeof(Glyphs);
-
-            var cats = TGlyphs.GetNestedTypes(BindingFlags.Public | BindingFlags.Static);
-
             Debug.WriteLine($"# Glyphs, Stand {DateTime.Now.ToLongDateString()} {DateTime.Now.ToLongTimeString()}");
 
-            foreach(var cat in cats.OrderBy(c => c.Name))
+            _CreateGlyphs(TGlyphs, 2);
+
+        }
+
+        string HLevel(int deepth)
+        {
+            var hl = "";
+
+            for(int i = 0; i < deepth; i++)
             {
+                hl += "#";
+            }
 
-                Debug.WriteLine($"\n## {cat.Name}\n");
-                Debug.WriteLine($"Symbol | HtmlEntity | Descr.");
-                Debug.WriteLine($"-------|------------|-------");
-                var props = cat.GetProperties(BindingFlags.Public | BindingFlags.Static);
+            return hl;
+        }
 
-                foreach(var prop in props.OrderBy(p => p.Name))
+        public void _CreateGlyphs(Type glyphContainer, int deepth)
+        {
+            var cats = glyphContainer.GetNestedTypes(BindingFlags.Public | BindingFlags.Static);
+
+            if (cats.Any())
+            {
+                foreach (var cat in cats.OrderBy(c => c.Name))
                 {
-                    // Zugriff auf statische Eigenschaften- Null :-)
-                    var val = prop.GetValue(null, null) as string;
-                    var sym = Glyphs.toStr(val);
-                    Debug.WriteLine($"{sym} | `{val}` | {prop.Name}");
+
+                    Debug.WriteLine($"\n{HLevel(deepth)} {cat.Name}\n");
+                    Debug.WriteLine($"Symbol | HtmlEntity | Descr.");
+                    Debug.WriteLine($"-------|------------|-------");
+                    var props = cat.GetProperties(BindingFlags.Public | BindingFlags.Static);
+
+                    foreach (var prop in props.OrderBy(p => p.Name))
+                    {
+                        // Zugriff auf statische Eigenschaften- Null :-)
+                        var val = prop.GetValue(null, null) as string;
+                        var sym = Glyphs.toStr(val);
+                        Debug.WriteLine($"{sym} | `{val}` | {prop.Name}");
+                    }
+
+                    // Subkategorien bearbeiten
+                    _CreateGlyphs(cat, deepth + 1);
                 }
             }
 
         }
+
     }
 }
