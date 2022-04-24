@@ -10,6 +10,8 @@ using ANC = MKPRG.Naming;
 using TT = MKPRG.Naming.TechTerms;
 using TTD = MKPRG.Naming.DocuTerms;
 
+using MKPRG.Tracing.DocuTerms.Formatter;
+
 using static MKPRG.Tracing.DocuTerms.DocuEntityHlp;
 
 
@@ -44,7 +46,8 @@ namespace MKPRG.Tracing.DocuTerms.Test
             MapUIDToName = getEventNames.Value;
 
 
-            fmt = new IndentedTextFormatter(Parser.Fn._, RC.NC);
+            fmt = new IndentedTextFormatter(Parser.Fn._, RC.NC, ANC.Language.CNT);
+            
         }
 
         [TestMethod]

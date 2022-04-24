@@ -46,7 +46,7 @@ namespace MKPRG.Tracing
         /// mko
         /// globaler PN- Formatter
         /// </summary>
-        public static PNFormater fmtPN;
+        public static IFormater fmtPN;
 
         /// <summary>
         /// mko, 15.6.2020
@@ -56,7 +56,7 @@ namespace MKPRG.Tracing
         static RC()
         {
             NC = new ANC.Tools().GetNamingContainerAsConcurrentDict("MKPRG.Naming");
-            fmtPN = new PNFormater(DocuTerms.Parser.Fn._, NC, ANC.Language.CNT);
+            fmtPN = new DocuTerms.Formatter.PNFormater(DocuTerms.Parser.Fn._, NC, ANC.Language.CNT);
             pnL = new DocuTerms.Composer(fmtPN);
         }
 

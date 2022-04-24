@@ -67,9 +67,8 @@
     <Compile Include="DocuTerms\Composer\XTabGeneratorCols.cs" />
     <Compile Include="DocuTerms\Composer\XTabGeneratorRows.cs" />
     <Compile Include="DocuTerms\Formater\IFormater.cs" />
-    <Compile Include="DocuTerms\Formater\IndentedTextFormatter.cs" />
+    <Compile Include="DocuTerms\Formater\IndentTextFormatter.cs" />
     <Compile Include="DocuTerms\Formater\PNFormater.cs" />
-    <Compile Include="DocuTerms\Formater\RTFFormatter.cs" />
     <Compile Include="DocuTerms\Interfaces\IBoolean.cs" />
     <Compile Include="DocuTerms\Interfaces\IDate.cs" />
     <Compile Include="DocuTerms\Interfaces\IDocuEntity.cs" />

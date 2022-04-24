@@ -115,7 +115,7 @@ namespace MKPRG.Tracing.DocuTerms.Parser
 
             var ncTools = new ANC.Tools();
 
-            var fmt = new DT.PNFormater(fn, RC.NC);
+            var fmt = new DT.Formatter.PNFormater(fn, RC.NC);
             var evalTab = new FunctionEvaluatorTable(new FunctionEvalMapperFunctor(fn, pnL));
             var _parser = new ParserV2(evalTab.FuncEvaluators);
 
@@ -170,7 +170,7 @@ namespace MKPRG.Tracing.DocuTerms.Parser
             RC<IDocuEntity> rc = null;
             IDocuEntity NullEntity = null;
 
-            var fmt = new PNFormater(fn, RC.NC, ANC.Language.CNT);
+            var fmt = new DT.Formatter.PNFormater(fn, RC.NC, ANC.Language.CNT);
 
             try
             {

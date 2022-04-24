@@ -63,8 +63,8 @@ namespace MKPRG.Tracing.DocuTerms.Parser
 
             TraceHlp.ThrowArgExIfNot(stack.Peek() is IPropertyValue,
                     pnL.ReturnDocuTermSyntaxErrorWithDetails(
-                        ANC.DocuTerms.Types.Property.UID,
-                        ANC.DocuTerms.Parser.Errors.Property_ChildIsNotValidPropertyValue.UID,
+                        TTD.Types.Property.UID,
+                        TTD.Parser.Errors.Property_ChildIsNotValidPropertyValue.UID,
                         Name));
 
             var pVal = (IPropertyValueToken)stack.Pop();            

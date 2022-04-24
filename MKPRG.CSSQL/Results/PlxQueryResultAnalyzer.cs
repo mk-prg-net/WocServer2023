@@ -76,11 +76,11 @@ namespace MKPRG.CSSQL.Results
                     // Fall: Die Ergebnismange ist nicht leer
                     // Anzahl der gefundenen Datensätze aus DokuTerm auslesen
 
-                    var getCount = pnL.p(ANC.TechTerms.Metrology.Counter.UID, pnL._()).AsSubTreeOf(ResultSetDescription, pnL);
+                    var getCount = pnL.p(ANC.TechTerms.Metrology.Counter.UID, pnL._v()).AsSubTreeOf(ResultSetDescription, pnL);
                     TraceHlp.ThrowArgExIfNot(getCount.Succeeded, pnL.ReturnFetch(false, ResultSetDescription, pnL.SearchResult()));
 
                     var prop = (IProperty)getCount.ValueOrException.subTree;
-                    Count = prop.PropertyValue.AsLinq().LongVal ?? 0;
+                    //Count = prop.PropertyValue.AsLinq().LongVal ?? 0;
                 }
                 else
                 {

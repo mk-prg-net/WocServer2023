@@ -10,7 +10,7 @@ using static mko.RPN.UrlSaveStringEncoder;
 using TT = MKPRG.Naming.TechTerms;
 using TTD = MKPRG.Naming.DocuTerms;
 
-namespace MKPRG.Tracing.DocuTerms
+namespace MKPRG.Tracing.DocuTerms.Formatter
 {
     /// <summary>
     /// mko, 23.3.2018

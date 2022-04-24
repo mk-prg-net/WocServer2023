@@ -37,6 +37,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestWebViewControl", "TestW
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MKPRG.Tracing.DocuTerms.Test", "MKPRG.Tracing.DocuTerms.Test\MKPRG.Tracing.DocuTerms.Test.csproj", "{F7ECE3EE-B0C5-4692-A197-A4CCAEF40B81}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MKPRG.Naming.Test", "MKPRG.Naming.Test\MKPRG.Naming.Test.csproj", "{C329E8E3-E526-4475-8A65-EF6C34F93D22}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Beta|Any CPU = Beta|Any CPU
@@ -401,6 +403,26 @@ Global
 		{F7ECE3EE-B0C5-4692-A197-A4CCAEF40B81}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F7ECE3EE-B0C5-4692-A197-A4CCAEF40B81}.Release|x86.ActiveCfg = Release|Any CPU
 		{F7ECE3EE-B0C5-4692-A197-A4CCAEF40B81}.Release|x86.Build.0 = Release|Any CPU
+		{C329E8E3-E526-4475-8A65-EF6C34F93D22}.Beta|Any CPU.ActiveCfg = Debug|Any CPU
+		{C329E8E3-E526-4475-8A65-EF6C34F93D22}.Beta|Any CPU.Build.0 = Debug|Any CPU
+		{C329E8E3-E526-4475-8A65-EF6C34F93D22}.Beta|x86.ActiveCfg = Debug|Any CPU
+		{C329E8E3-E526-4475-8A65-EF6C34F93D22}.Beta|x86.Build.0 = Debug|Any CPU
+		{C329E8E3-E526-4475-8A65-EF6C34F93D22}.Debug_with_local_IIS|Any CPU.ActiveCfg = Debug|Any CPU
+		{C329E8E3-E526-4475-8A65-EF6C34F93D22}.Debug_with_local_IIS|Any CPU.Build.0 = Debug|Any CPU
+		{C329E8E3-E526-4475-8A65-EF6C34F93D22}.Debug_with_local_IIS|x86.ActiveCfg = Debug|Any CPU
+		{C329E8E3-E526-4475-8A65-EF6C34F93D22}.Debug_with_local_IIS|x86.Build.0 = Debug|Any CPU
+		{C329E8E3-E526-4475-8A65-EF6C34F93D22}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C329E8E3-E526-4475-8A65-EF6C34F93D22}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C329E8E3-E526-4475-8A65-EF6C34F93D22}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C329E8E3-E526-4475-8A65-EF6C34F93D22}.Debug|x86.Build.0 = Debug|Any CPU
+		{C329E8E3-E526-4475-8A65-EF6C34F93D22}.localIIS|Any CPU.ActiveCfg = Debug|Any CPU
+		{C329E8E3-E526-4475-8A65-EF6C34F93D22}.localIIS|Any CPU.Build.0 = Debug|Any CPU
+		{C329E8E3-E526-4475-8A65-EF6C34F93D22}.localIIS|x86.ActiveCfg = Debug|Any CPU
+		{C329E8E3-E526-4475-8A65-EF6C34F93D22}.localIIS|x86.Build.0 = Debug|Any CPU
+		{C329E8E3-E526-4475-8A65-EF6C34F93D22}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C329E8E3-E526-4475-8A65-EF6C34F93D22}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C329E8E3-E526-4475-8A65-EF6C34F93D22}.Release|x86.ActiveCfg = Release|Any CPU
+		{C329E8E3-E526-4475-8A65-EF6C34F93D22}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
