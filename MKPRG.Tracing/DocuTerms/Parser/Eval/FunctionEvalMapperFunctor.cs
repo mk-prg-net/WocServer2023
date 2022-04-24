@@ -18,10 +18,13 @@ namespace MKPRG.Tracing.DocuTerms.Parser
     /// </summary>
     public class FunctionEvalMapperFunctor : IFnameEvalMapper
     {
-        IFn fn = Fn._;
+        IFn fn;
 
-        public FunctionEvalMapperFunctor() { }
-
+        public FunctionEvalMapperFunctor() 
+        {
+            fn = Fn._;
+            pnL = new Composer(fn);
+        }
 
         IComposer pnL;
 
@@ -40,6 +43,7 @@ namespace MKPRG.Tracing.DocuTerms.Parser
             dict[fn.Method] = new MethodEval(pnL);
             dict[fn.Event] = new EventEval(pnL);
             dict[fn.Version] = new VersionEval(pnL);
+            dict[fn.Bool] = new BoolEval(pnL);
             dict[fn.Txt] = new TextEval(fn, pnL);
             dict[fn.Date] = new DateEval(pnL);
             dict[fn.Time] = new TimeEval(pnL);

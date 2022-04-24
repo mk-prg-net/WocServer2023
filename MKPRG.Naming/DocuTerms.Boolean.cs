@@ -72,6 +72,8 @@ namespace MKPRG.Naming.DocuTerms.Boolean
         public override string ES => "verdadero";
 
         public override string CN => "真正";
+
+        public override string Glyph => Glyphs.Math.Bool.True;
     }
 
     /// <summary>
@@ -95,5 +97,8 @@ namespace MKPRG.Naming.DocuTerms.Boolean
         public override string ES => "falso";
 
         public override string CN => "假的";
+
+        public override string Glyph => Glyphs.Math.Bool.False;
+
     }
 }

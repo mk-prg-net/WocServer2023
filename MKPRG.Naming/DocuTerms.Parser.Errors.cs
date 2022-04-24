@@ -366,6 +366,25 @@ namespace MKPRG.Naming.DocuTerms.Parser.Errors
         public override string Glyph => Glyphs.Validation.Invalid;
     }
 
+    public class BooleanExpected
+        : NamingBase
+    {
+        public const long UID = 0x1C18752C;
+
+        public BooleanExpected()
+            : base(UID)
+        { }
+
+        public override string CNT => EN;
+
+        public override string DE => "Ein Boolean wurde erwartet.";
+        public override string EN => "An Boolean was expected.";
+        public override string ES => "Se esperaba un boolean entero.";
+        public override string CN => EN;
+
+        public override string Glyph => Glyphs.Validation.Invalid;
+    }
+
 
     public class IntegerExpected
     : NamingBase

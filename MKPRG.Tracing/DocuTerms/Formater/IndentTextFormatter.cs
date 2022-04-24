@@ -394,11 +394,12 @@ namespace MKPRG.Tracing.DocuTerms.Formatter
             else
             {
                 bVal = boolVal.ValueAsBool
-                        ? $"{NH._(TTD.Boolean.True.UID)}"
-                        : $"{NH._(TTD.Boolean.False.UID)}";
+                        ? $"{fn.Bool} {NH._(TTD.Boolean.True.UID)}"
+                        : $"{fn.Bool} {NH._(TTD.Boolean.False.UID)}";
             }
 
-            bld.Append($"{bVal}");
+            Tabs(bld, Indentation);
+            bld.Append($"{bVal}{nl}");
         }
 
         /// <summary>

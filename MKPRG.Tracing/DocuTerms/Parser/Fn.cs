@@ -49,7 +49,7 @@ namespace MKPRG.Tracing.DocuTerms.Parser
         /// </summary>
         public string constStr => "";
 
-        public string ListEnd => NamePrefix + ".";
+        public string ListEnd => "⟩";
 
         public string NamePrefix => "#";
 
@@ -67,24 +67,24 @@ namespace MKPRG.Tracing.DocuTerms.Parser
         /// A instance defines a block, that decribes a business object.
         /// It has a name and contains a list with properties, methods and events or a version number.
         /// </summary>
-        public string Instance => NamePrefix + "i";
+        public string Instance => "⌸";
 
         /// <summary>
         /// Method
         /// A method documents a method- or function call an the results of them.
         /// It contains instances, properties and events
         /// </summary>
-        public string Method => NamePrefix + "m";
+        public string Method => "↴";
 
 
-        public string Function => NamePrefix + "f";
+        public string Function => "𝑓";
 
 
         /// <summary>
         /// Return 
         /// A return block describes the result of a function- or method call. 
         /// </summary>
-        public string Return => NamePrefix + "r";        
+        public string Return => "⤣";        
 
 
         /// <summary>
@@ -92,7 +92,7 @@ namespace MKPRG.Tracing.DocuTerms.Parser
         /// Assignes a name to a portion of information.
         /// A portion of information can be a text, a list or a instance.
         /// </summary>
-        public string Property => NamePrefix + "p";
+        public string Property => "⦾";
 
         public string PropertySet => NamePrefix + "p_set";
         
@@ -103,7 +103,7 @@ namespace MKPRG.Tracing.DocuTerms.Parser
         /// The version number consists of thre parts: main, sub and build- number.
         /// The parts are separated with points (i.e. 1.2.3).
         /// </summary>
-        public string Version => NamePrefix + "v";
+        public string Version => "𝑣";
 
 
         /// <summary>
@@ -112,35 +112,35 @@ namespace MKPRG.Tracing.DocuTerms.Parser
         /// The structure of an event is equivalent to the structure of a property: #e name value.
         /// The name is often an indicator for success: succeded, failed, warn, ... se DocuEntityHlp.MapStringToEventType
         /// </summary>
-        public string Event => NamePrefix + "e";
+        public string Event => "🚨";
 
 
         /// <summary>
         /// Date
         /// Prefix for date literal
         /// </summary>
-        public string Date => NamePrefix + "d";
+        public string Date => "📅";
 
         /// <summary>
         /// Time
         /// Prefix for time literal
         /// </summary>
-        public string Time => NamePrefix + "t";
+        public string Time => "⏱";
         
         /// <summary>
         /// Prefix for list literal
         /// </summary>
-        public string List => NamePrefix + "_";
+        public string List => "⟨";
 
         /// <summary>
         /// Prefix for text literal
         /// </summary>
-        public string Txt => $"{NamePrefix}$";
+        public string Txt => $"$⟨";
 
         /// <summary>
         /// Präfix für boolsche Werte
         /// </summary>
-        public string Bool => "";
+        public string Bool => $"𝔹";
 
         /// <summary>
         /// Präfix für Integer- Werte
@@ -150,12 +150,12 @@ namespace MKPRG.Tracing.DocuTerms.Parser
         /// <summary>
         /// Präfix für doppelt genaue Gleitkommawerte
         /// </summary>
-        public string Dbl => $"{NamePrefix}D";
+        public string Dbl => $"";
 
         /// <summary>
         /// Präfix für Naming-Ids
         /// </summary>
-        public string Nid => $"{NamePrefix}NID";
+        public string Nid => $"𝔑";
 
         public string PropertyWildCard => $"{NamePrefix}*";
     }

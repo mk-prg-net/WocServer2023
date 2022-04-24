@@ -115,6 +115,7 @@
     <Compile Include="DocuTerms\Interfaces\ITxt.cs" />
     <Compile Include="DocuTerms\Interfaces\IVer.cs" />
     <Compile Include="DocuTerms\Interfaces\IWildCard.cs" />
+    <Compile Include="DocuTerms\Parser\Eval\BoolEval.cs" />
     <Compile Include="DocuTerms\Parser\Eval\DateEval.cs" />
     <Compile Include="DocuTerms\Parser\Eval\EvalHlp.cs" />
     <Compile Include="DocuTerms\Parser\Eval\EventEval.cs" />

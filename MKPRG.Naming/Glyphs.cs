@@ -1265,6 +1265,10 @@ namespace MKPRG.Naming
                 public static string not => "&#x223C;";
 
                 public static string implication => "&#x21D2;";
+
+                public static string True => "&#x22A8;";
+
+                public static string False => "&#x22AD;";
             }
 
             public static class Groups

@@ -64,6 +64,8 @@ namespace MKPRG.Tracing.DocuTerms.Test
                             pnL.p_NID(TTD.MetaData.Name.UID, TT.Access.Copy.UID),
                             pnL.p(TT.SendReceive.From.UID, "0x10"),
                             pnL.p(TT.SendReceive.To.UID, "0xFF"),
+                            pnL.p(TT.Authentication.Authenticate.UID, pnL.boolean(true)),
+                            pnL.p(TT.Authorization.Granted.UID, pnL.boolean(false)),
                             pnL.p(TT.Metrology.DimensionsAnWeights.IT.FileSize.UID, pnL.List(
                                     pnL.p(TTD.MetaData.Val.UID, 100),
                                     pnL.p_NID(TT.Metrology.Unit.UID, TT.Metrology.DimensionsAnWeights.IT.Byte.UID))),
