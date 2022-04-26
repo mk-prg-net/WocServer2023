@@ -132,6 +132,7 @@
     <Compile Include="DocuTerms\Parser\Eval\VersionEval.cs" />
     <Compile Include="DocuTerms\Parser\Fn.cs" />
     <Compile Include="DocuTerms\Parser\FnQs.cs" />
+    <Compile Include="DocuTerms\Parser\FnRunen.cs" />
     <Compile Include="DocuTerms\Parser\IFn.cs" />
     <Compile Include="DocuTerms\Parser\Parser.cs" />
     <Compile Include="DocuTerms\Parser\TokenTypes\BooleanToken.cs" />

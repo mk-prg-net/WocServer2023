@@ -78,7 +78,7 @@ namespace MKPRG.Naming.TechTerms.Locations
         public override string EN => "Shop Floor";
         public override string ES => "Taller";
 
-        public override string Glyph => Glyphs.DFC.SFC;
+        public override string Glyph => Glyphs.Tools.HammerAndWrench;
 
     }
 

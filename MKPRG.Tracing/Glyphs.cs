@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MKPRG.Naming
+namespace ATMO.DFC.Naming
 {
     /// <summary>
     /// Sammlung von Glyphen und Ideogrammen. Dabei handelt es sich um eine strukturierte Auswahl von Unicodes,
@@ -12,6 +12,9 @@ namespace MKPRG.Naming
     /// 
     /// mko, 26.1.2021
     /// Erstelle aus der Klasse ATMO.mko.Logging.HTML.HTMLDocument.Glyphs
+    /// 
+    /// mko, 26.04.2022
+    /// Merge mit Glyphs aus 21_2_BugFix
     /// </summary>
     public static class Glyphs
     {
@@ -163,6 +166,8 @@ namespace MKPRG.Naming
 
         }
 
+        // 🙊
+
         public static class Astronomy
         {
             public static string Merkur => "&#x263F;";
@@ -297,7 +302,7 @@ namespace MKPRG.Naming
 
             public static string User => Peoples.Person;
 
-            public static string Members => Peoples.Persons;            
+            public static string Members => Peoples.Persons;
 
             public static string Role => Chess.KnightWhite;
             public static string Roles => Chess.KnightBlack + Chess.PawnBlack;
@@ -376,6 +381,8 @@ namespace MKPRG.Naming
             public static string ReactorEmpty => "&#x2A4C;";
 
             public static string Reaction => VariousSigns.Explosion;
+
+
         }
 
         public static class Chess
@@ -697,10 +704,134 @@ namespace MKPRG.Naming
             public static string Post => "&#x27FC;";
         }
 
+        public static class DFC
+        {
 
+            public static string DFCApp => Shapes.KaroImQuadrat;
+
+            public static string DFCKEyUser => VariousSigns.OldKey;
+
+            public static string DfcTree => Trees.MultiBranchUp;
+
+            public static string Baseline => Chemistry.TestTube;
+
+            /// <summary>
+            /// Ⓐ: ATMO- Fertigungslinie/anlage
+            /// </summary>
+            public static string ManufacturingPlant => "&#x24B6;";
+
+            /// <summary>
+            /// DFC- Projekt
+            /// </summary>
+            public static string Project => "&#x24C5;";
+            public static string Project2 => Geographic.Globe;
+
+            public static string ExtensionProject => "&#x24BA;";
+
+            //public static string Station => @"&#x1D4E2;";
+            public static string Station => Shapes.Circled_S;
+
+            /// <summary>
+            /// DFC Prozessmodul
+            /// </summary>
+            public static string Processmodule => Math.Functions.Function;
+
+            public static string MechBom => Tools.Gear;
+
+            public static string ElectroBom => ElectricalEngineering.ElectricalFlash; //Weather.flash;
+
+            public static string Assy => Math.Groups.SquaredPlus;
+
+            /// <summary>
+            /// DFC Einzelteil
+            /// </summary>
+            public static string SinglePart => Shapes.WhiteSquare;
+
+            public static string CharacteristicValue => Sets.Table;
+
+            /// <summary>
+            /// Catalogteil
+            /// </summary>
+            public static string CatalougePart => DataAndDocuments.DocumentWithImage;
+
+
+            // Documents
+
+            public static string ATB => "&#x1D30B;";
+
+            public static string ATB_2 => "&#x1F70E;";
+
+            public static string ATD => "&#x25F2;";
+
+            public static string ATZ => "&#x25F0;";
+
+            public static string AT3 => Shapes.UpperRightShadowedWhiteSqare;
+
+            public static string ATO => Astronomy.WhiteStar;
+
+            public static string CAT => DataAndDocuments.DocumentWithImage;
+
+            public static string TDP => DataAndDocuments.Book; //DataAndDocuments.DocumentEmpty;
+
+            /// <summary>
+            /// Manuals
+            /// </summary>
+            public static string MAN => Math.Mfrac;
+
+            public static string SFC => Tools.HammerAndWrench;
+
+            public static string EDC => Engineering.Zirkel;
+
+            public static string EDC2 => Engineering.Construction;
+
+            public static string CTS => Metrology.StopWatch;
+
+            public static string Eplan => Shapes.SquaredSpiral;
+
+            // Classification
+
+            public static string PartOfMechTronicConstructionKit => "&#x1F5D8;";
+            public static string PartOfMechTronicConstructionKit2 => "&#x2B94;";
+
+            public static string SparePart => Tools.Wrench;
+
+            /// <summary>
+            /// ATMO- Standort
+            /// </summary>
+            public static string ATMOSite => VariousSigns.Factory;
+
+            public static string ATMOEmployee => Support.Rescuer;
+
+            public static string DokuHaken => DataAndDocuments.Books;
+
+            public static string Beschaffungshaken => Commerce.Basket;
+
+            public static string MatNo => Math.m; // "&#x2116;";
+
+            public static string DrawingNo => Math.z;
+
+            public static string DokumatNo => Math.d;
+
+            // 
+
+            public static string PowerSearch => $"{VariousSigns.Magnifier}{VariousSigns.Bizeps}";
+
+            public static string TreeSearch => $"{VariousSigns.Magnifier}{Trees.MultiBranchUp}";
+
+        }
+
+        /// <summary>
+        /// mko, 26.4.2022
+        /// Glyphen von Docutermen auf Runen umgestellt. 
+        /// Runen sind uralt und heute nicht mehr gebräuchlich. Damit können sie in einem Serialisierungsformat
+        /// problemlos eingesetzt werden als Tags für Dokuterm- Abschnitte. Kollision mit den Zeichen von 
+        /// gewöhnlichem Geschäftsdaten ist damit ausgeschlossen. Auch keine Kollision mit den 
+        /// Glyphen der DFC- Strukturen.
+        /// 
+        /// </summary>
         public static class DocuTerms
         {
-                       // ᚥ
+            // ᚥ
             public static string DocuTermSign => "&#x16A5;"; //"&#x1D53B;&#x1D54B;";
 
             // 🗲ᚥ
@@ -2065,6 +2196,10 @@ namespace MKPRG.Naming
 
             public static string RoundTriBranchUp => "&#x16A0;";
 
+
+
+
+
             public static string Root => "&#x1430;"; //  Math.CubeRoot;
         }
 
@@ -2292,6 +2427,8 @@ namespace MKPRG.Naming
             public static string Fortress => "&#x26EB;";
 
             public static string Castle => "&#x1F3F0;";
+
+
 
         }
 

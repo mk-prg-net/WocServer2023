@@ -148,6 +148,9 @@ namespace MKPRG.Tracing.DocuTerms.Formatter
         /// <summary>
         /// 4.10.2021
         /// Ausgabe eines NID als Wert
+        /// 
+        /// mko, 26.4.2022
+        /// Bei boolschen Konstanten wird stets ein Bool- Präfix mitausgegeben
         /// </summary>
         /// <param name="nid"></param>
         /// <param name="Indentation"></param>
@@ -161,8 +164,20 @@ namespace MKPRG.Tracing.DocuTerms.Formatter
             }
             else if (lng == ANC.Language.CNT)
             {
-                // Culture neutral names sind immer ein regulärer Name (bestehen aus einem Wort)
-                bld.Append($"{delimitIfneeded(NH._(nid.NamingId))}{nl}");
+                var strVal = delimitIfneeded(NH._(nid.NamingId));
+
+                if (nid.NamingId == TTD.Boolean.True.UID || nid.NamingId == TTD.Boolean.False.UID)
+                {
+                    // Boolsche Konstanten sind stets mit dem Bool- Präfix auszustatten
+                    bld.Append($"{fn.Bool} {strVal}{nl}");
+
+                }
+                else
+                {
+                    // Culture neutral names sind immer ein regulärer Name (bestehen aus einem Wort)
+                    bld.Append($"{strVal}{nl}");
+                }
+
             }
             else
             {
@@ -383,6 +398,8 @@ namespace MKPRG.Tracing.DocuTerms.Formatter
 
         public void Print(IBoolean boolVal, int Indentation, StringBuilder bld)
         {
+            Tabs(bld, Indentation);
+
             var bVal = "";
 
             if (lng == ANC.Language.NID)
@@ -397,8 +414,7 @@ namespace MKPRG.Tracing.DocuTerms.Formatter
                         ? $"{fn.Bool} {NH._(TTD.Boolean.True.UID)}"
                         : $"{fn.Bool} {NH._(TTD.Boolean.False.UID)}";
             }
-
-            Tabs(bld, Indentation);
+                        
             bld.Append($"{bVal}{nl}");
         }
 

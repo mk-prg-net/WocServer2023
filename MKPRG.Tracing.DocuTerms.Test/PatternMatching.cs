@@ -46,7 +46,7 @@ namespace MKPRG.Tracing.DocuTerms.Test
             MapUIDToName = getEventNames.Value;
 
 
-            fmt = new IndentedTextFormatter(Parser.Fn._, RC.NC, ANC.Language.CNT);
+            fmt = new IndentedTextFormatter(Parser.FnRunen._, RC.NC, ANC.Language.CNT);
             
         }
 
@@ -72,18 +72,10 @@ namespace MKPRG.Tracing.DocuTerms.Test
                             pnL.m(TT.Runtime.Execute.UID,
                                     pnL.ReturnAfterSuccess(TT.Access.Copy.UID)));
 
-            // {-000001181 MKPRG.Tracing.Parser.Parse20_06 -> #i cmd #_ #p Name #m IndentedTextFormatter_Print #_ #r #e fails System.InvalidCastException: Das Objekt des Typs "MKPRG.Tracing.DocuTerms.Parser.NIDToken" kann nicht in Typ "MKPRG.Tracing.DocuTerms.NID" umgewandelt werden.
-            // bei MKPRG.Tracing.DocuTerms.IndentedTextFormatter.Print(IDocuEntity entity, Int32 Indentation, StringBuilder bld) in C: \Users\marti_000\source\repos\WocServer2021\MKPRG.Tracing\DocuTerms\Formater\IndentedTextFormatter.cs:Zeile 611.
-            // #.#p from #$ 0x10 #. #p to #$ 0xFF #. #p fetch #_ #p val #m IndentedTextFormatter_Print #_ #r #e fails System.InvalidCastException: Das Objekt des Typs "MKPRG.Tracing.DocuTerms.Parser.IntegerToken" kann nicht in Typ "MKPRG.Tracing.DocuTerms.Integer" umgewandelt werden.
-            // bei MKPRG.Tracing.DocuTerms.IndentedTextFormatter.Print(IDocuEntity entity, Int32 Indentation, StringBuilder bld) in C: \Users\marti_000\source\repos\WocServer2021\MKPRG.Tracing\DocuTerms\Formater\IndentedTextFormatter.cs:Zeile 623. 
-            // #.#p unit #m IndentedTextFormatter_Print #_ #r #e fails System.InvalidCastException: Das Objekt des Typs "MKPRG.Tracing.DocuTerms.Parser.NIDToken" kann nicht in Typ "MKPRG.Tracing.DocuTerms.NID" umgewandelt werden.
-            // bei MKPRG.Tracing.DocuTerms.IndentedTextFormatter.Print(IDocuEntity entity, Int32 Indentation, StringBuilder bld) in C: \Users\marti_000\source\repos\WocServer2021\MKPRG.Tracing\DocuTerms\Formater\IndentedTextFormatter.cs:Zeile 611. 
-            // #.#. #m exec #_ #i finStateDescr #_ #m copy #_ #r #e succeeded #. #. #. #. }
-
             //var fmt = new PNFormater(fn: , NC: RCV3.NC, RPNUrlSaveEncode: true);
             var treeStr = fmt.Print(tree);
 
-            var getParsed = Parser.Parser.Parse20_06(treeStr, Parser.Fn._, pnL);
+            var getParsed = Parser.Parser.Parse20_06(treeStr, Parser.FnRunen._, pnL);
             Assert.IsTrue(getParsed.Succeeded);
 
             var parsedTree = getParsed.Value;
