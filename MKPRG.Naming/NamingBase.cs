@@ -16,7 +16,7 @@ namespace MKPRG.Naming
     public abstract class NamingBase
         : Woc.Types.BaseTypes.Structure.IPlainText
     {
-        internal NamingBase(long uid)
+        public NamingBase(long uid)
         {
             ID = uid;            
         }
