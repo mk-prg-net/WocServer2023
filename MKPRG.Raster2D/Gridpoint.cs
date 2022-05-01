@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MKPRG.Raster2D
+namespace MKPRG.Grid2D
 {
     /// <summary>
     /// mko, 1.5.2022
     /// Stellt einen Rasterpunkt dar.
     /// </summary>
-    public struct Rasterpoint
+    public struct Gridpoint
     {
         /// <summary>
         /// X- Koordinate des Rasterpunktes
@@ -26,6 +26,6 @@ namespace MKPRG.Raster2D
         /// Steht für einen undefinierten/ungültigen Rasterpunkt
         /// </summary>
         /// <returns></returns>
-        public static Rasterpoint Undefined => new Rasterpoint() { X = -1, Y = -1 };
+        public static Gridpoint Undefined => new Gridpoint() { X = -1, Y = -1 };
     }
 }

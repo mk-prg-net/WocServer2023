@@ -1,6 +1,8 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 
+using MKPRG.Grid2D;
+
 namespace MKPRG.Raster2D.Test
 {
     [TestClass]
@@ -9,7 +11,7 @@ namespace MKPRG.Raster2D.Test
         [TestMethod]
         public void TestMethod1()
         {
-            var r1 = new Rasterpoint() { X = 99, Y = 100 };
+            var r1 = new Gridpoint() { X = 99, Y = 100 };
         }
     }
 }

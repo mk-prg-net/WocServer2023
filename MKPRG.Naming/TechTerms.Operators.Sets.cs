@@ -592,7 +592,7 @@ namespace MKPRG.Naming.TechTerms.Operators.Sets
     }
 
     public class WasNotSelected
-        : NamingBase, Grammar.Adjectives.IAdjective
+        : NamingBase, Grammar.Adjectives.IAdjective, Grammar.IFinishedActivity
     {
         public const long UID = 0x4C00716;
 
@@ -608,6 +608,44 @@ namespace MKPRG.Naming.TechTerms.Operators.Sets
 
         public override string Glyph => Glyphs.Sets.Selections.uncheck;
     }
+
+    public class IsOutOfRange
+    : NamingBase, Grammar.Adjectives.IAdjective, Grammar.IInProgressActivity
+    {
+        public const long UID = 0xCD75E08A;
+
+        public IsOutOfRange()
+            : base(UID)
+        { }
+
+        public override string CN => EN;
+        public override string CNT => "isOutOfRange";
+        public override string DE => "liegt außerhalb des Bereiches";
+        public override string EN => "is out of range";
+        public override string ES => EN;
+
+        public override string Glyph => Glyphs.Math.Sets.OutOfRange;
+    }
+
+    public class IsNotOutOfRange
+        : NamingBase, Grammar.Adjectives.IAdjective, Grammar.IInProgressActivity
+    {
+        public const long UID = 0xCD75E08A;
+
+        public IsNotOutOfRange()
+            : base(UID)
+        { }
+
+        public override string CN => EN;
+        public override string CNT => "isNotOutOfRange";
+        public override string DE => "liegt nicht außerhalb des Bereiches";
+        public override string EN => "is not out of range";
+        public override string ES => EN;
+
+        public override string Glyph => Glyphs.Math.Sets.NotOutOfRange;
+    }
+
+
 
 
 }

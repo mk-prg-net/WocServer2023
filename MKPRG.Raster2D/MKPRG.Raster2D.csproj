@@ -44,10 +44,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Raster2D.cs" />
+    <Compile Include="Grid2D.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Rasterpoint.cs" />
-    <Compile Include="Rasterpoint.NC.cs" />
+    <Compile Include="Gridpoint.cs" />
+    <Compile Include="Gridpoint.NC.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Docu\Readme.md" />
