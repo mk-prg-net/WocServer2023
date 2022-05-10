@@ -4,4 +4,4 @@ Modelliert ein Raster als Menge von Wertepaaren über ℤ. Sinvoll z.B. für die
 
 ## Benutzung von C# 9 Featuures
 
-Dieses Projekt benutzt Sprachfeatures von **C** 9. Dazu wurde in allen `PropertyFroup` Elementen der `.csproj`Datei das Element `<LangVersion>9.0</LangVersion>` eingebaut.
+Dieses Projekt benutzt Sprachfeatures von **C** 9. Dazu wurde in allen `PropertyGroup` Elementen der `.csproj`Datei das Element `<LangVersion>9.0</LangVersion>` eingebaut.

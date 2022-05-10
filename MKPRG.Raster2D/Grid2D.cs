@@ -46,6 +46,31 @@ namespace MKPRG.Grid2D
         public bool IsGridpoint(Gridpoint p)
             => p.X <= maxX && p.Y <= maxY;
 
+
+        public TRC.RC<Gridpoint> Create(int X, int Y)
+        {
+            var ret = TRC.RC<Gridpoint>.Failed(Gridpoint.Undefined, ErrorDescription: pnL.eNotCompleted());
+            if(-1 < X && X <= maxX && -1 < Y && Y <= maxY)
+            {
+                ret = TRC.RC<Gridpoint>.Ok(new Gridpoint() { X = X, Y = Y });
+            }
+            else
+            {
+                ret = TRC.RC<Gridpoint>.Failed(Gridpoint.Undefined,
+                                            ErrorDescription: 
+                                                pnL.m(TT.Grid2D.Create.UID,
+                                                    pnL.p(TT.Grid2D.Gridpoint.UID,
+                                                            pnL.List(
+                                                                pnL.p("X", X),
+                                                                pnL.p("Y", Y))),
+                                                    pnL.InProgressActivityStatement(
+                                                        pnL.DefObject(TT.Grid2D.Gridpoint.UID),
+                                                        NH.pA(TT.Operators.Sets.IsOutOfRange.UID))));
+            }
+
+            return ret;
+        }
+
         /// <summary>
         /// Gibt linken Rasterpunkt zurück
         /// </summary>

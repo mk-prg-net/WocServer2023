@@ -49,6 +49,26 @@ namespace MKPRG.Naming.TechTerms.Grid2D
         public override string CN => EN;
     }
 
+    public class Create
+        : NamingBase
+    {
+        public const long UID = 0x320B048D;
+
+        public Create() : base(UID)
+        {
+        }
+
+        public override string CNT => "CreateGridPoint2D";
+
+        public override string DE => "Rasterpunkt erzeugen";
+
+        public override string EN => "Create a GridPoint";
+
+        public override string ES => EN;
+
+        public override string CN => EN;
+    }
+
 
     public class Left
     : NamingBase

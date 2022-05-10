@@ -19,7 +19,7 @@ namespace MKPRG.WormTron
     ///    d +---+ c 
     ///      | 𝐒 |
     ///    a +---+ b
-
+    ///
     /// </summary>
     public enum SegmentCornerstones
     {
@@ -44,20 +44,22 @@ namespace MKPRG.WormTron
         d = 3
     }
 
-    public class SegmentBorder
+    /// <summary>
+    /// mko, 10.5.2022
+    /// 
+    /// Eckpunkte eines Segments
+    /// 
+    ///    d +---+ c 
+    ///      | 𝐒 |
+    ///    a +---+ b
+    ///
+    /// </summary>
+
+    public enum SegmentBorders
     {
-
-
-        public SegmentBorder(DT.IComposer pnL, NM.NamingHelper NH)
-        {
-
-        }
-
-        RC<SegmentCornerstones[]> Create(params SegmentCornerstones[] cornerstones)
-        {
-            var ret = TRC.RC<SegmentCornerstones[]>.Failed(new SegmentCornerstones[], ErrorDescription: )
-
-        }
-
+        ab,
+        bc,
+        cd,
+        da
     }
 }

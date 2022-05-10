@@ -20,7 +20,7 @@ namespace MKPRG.Grid2D
         /// <summary>
         /// Y- Koordinate des Rasterpunktes
         /// </summary>
-        public int Y { get; set; }
+        public int Y { get; init; }
 
         /// <summary>
         /// Steht für einen undefinierten/ungültigen Rasterpunkt
