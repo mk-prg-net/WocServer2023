@@ -13,8 +13,26 @@ namespace MKPRG.WormTron
     /// Leiterbahnzug dar, die einem baumähnlichen Gebilde entspricht.
     /// An den Kontaktstellen der Würmer untereinander werden besondere Kreuzungssegmente eingesetzt,
     /// so daß die Würmer zu einem Leiterbahnenzug verschmelzen.
+    /// 
+    ///    +----++----+
+    ///    |H + || +  | 
+    ///    +----++----+
+    ///          +----+
+    ///          | +  |
+    ///          +----+
+    ///    +----++----++----++----++----+
+    ///    |H + || X  || +  || +  || + T| 
+    ///    +----++----++----++----++----+
+    ///          +----+
+    ///          | +  |
+    ///          +----+
+    ///          +----++----++----+
+    ///          | +  || +  || + T| 
+    ///          +----++----++----+
+    ///          
     /// </summary>
     public interface IWormBall
     {
+        IEnumerable<IWorm> WormBallWorms { get; }
     }
 }

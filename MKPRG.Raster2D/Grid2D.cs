@@ -71,6 +71,37 @@ namespace MKPRG.Grid2D
             return ret;
         }
 
+
+        /// <summary>
+        /// Liefert einen Nachbarn eines gegeben Rasterpunktes. Die Nachbarschaftsbeziehung kann über einen Parameter definiert werden.
+        /// </summary>
+        /// <param name="p"></param>
+        /// <param name="neighbor"></param>
+        /// <returns></returns>
+        public TRC.RC<Gridpoint> NeighborOf(Gridpoint p, Neighbor neighbor)
+        {
+            var ret = TRC.RC<Gridpoint>.Failed(Gridpoint.Undefined,
+                        ErrorDescription: pnL.ReturnValidatePreconditionFailedArgumentOutOfRange(pnL.p("Neighbor", neighbor.ToString())));
+
+            switch (neighbor)
+            {
+                case Neighbor.Left:
+                    ret = LeftOf(p);
+                    break;
+                case Neighbor.Right:
+                    ret = RigthOf(p);
+                    break;
+                case Neighbor.Up:
+                    ret = UpperOf(p);
+                    break;
+                case Neighbor.Down:
+                    ret = LowerOf(p);
+                    break;                    
+            }
+
+            return ret;
+        }
+
         /// <summary>
         /// Gibt linken Rasterpunkt zurück
         /// </summary>

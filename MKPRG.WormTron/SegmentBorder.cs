@@ -47,7 +47,7 @@ namespace MKPRG.WormTron
     /// <summary>
     /// mko, 10.5.2022
     /// 
-    /// Eckpunkte eines Segments
+    /// Ränder eines Segments
     /// 
     ///    d +---+ c 
     ///      | 𝐒 |
