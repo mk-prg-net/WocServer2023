@@ -22,13 +22,6 @@ namespace MKPRG.WormTron
 
         Gridpoint SegmentCenterPoint { get; }
 
-        /// <summary>
-        /// Verschiebt das Segment an den Rasterpunkt p, falls möglich.
-        /// Wenn nicht, dann wird eine Fehlermeldung zurückgegeben.
-        /// </summary>
-        /// <param name="p"></param>
-        /// <returns></returns>
-        TRC.RC<Gridpoint> MoveTo(Gridpoint p);
 
         /// <summary>
         /// Fügt das Segment einem Wurm hinzu.
