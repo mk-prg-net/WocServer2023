@@ -13,7 +13,16 @@ namespace MKPRG.WormTron
     /// <summary>
     /// mko, 10.5.2022
     /// 
-    /// Elektrische Leiterbahn als *Wurm* aus Segmenten
+    /// Elektrische Leiterbahn als *Wurm* aus Segmenten.
+    /// Der Kleinste Wurm besteht stets aus einem Kopf- und einem
+    /// Schwanzsegment (Header, Tail):
+    /// 
+    ///    +----++----+
+    ///    |H + || + T| 
+    ///    +----++----+
+    ///    
+    /// Würmer können wachsen, indem am Kopf oder am Schwanz Segmente hinzugefügt werden.
+    /// Diese neuen Segmente ünernehmen dann die Rolle des Kopfes bzw. des Schwanzes.
     /// </summary>
     public interface IWorm
     {
@@ -28,16 +37,30 @@ namespace MKPRG.WormTron
         IEnumerable<ISegment> Segments { get; }
 
         /// <summary>
-        /// Fügt dem Wurm ein Segment an.
-        /// Folgende Fälle sind möglich;
-        /// 1) Segment ist das erste Segment vom Wurm
-        /// 2) Segment wird vonr angefügt
-        /// 3) Segment wird hinten angefügt
-        /// 4) Alle anderen Fälle sind ein Fehler
+        /// Holt das Kopfsegment des Wurmes.        
         /// </summary>
-        /// <param name="newSegment"></param>
         /// <returns></returns>
-        TRC.RC AddSegment(ISegment newSegment);
+        TRC.RC<ISegment> GetHead();
+
+        /// <summary>
+        /// Fügt ein neues Segment am Kopfsegment in der definierten Nachbarschaft hinzu,
+        /// und macht dieses zum neuen Kopfsegment. Das alte Kopfsegment wird dabei zu einem gewöhnlichen Segment.
+        /// </summary>
+        /// <returns></returns>
+        TRC.RC<ISegment> AddNewHead(Neighbor neighbor);
+
+        /// <summary>
+        /// Holt die 
+        /// </summary>
+        /// <returns></returns>
+        TRC.RC<ISegment> GetTail();
+
+        /// <summary>
+        /// Fügt ein neues Segment in der definierten Nachbarschaft am Schwanzende hinzu, und macht dieses zum neuen 
+        /// Schwanzende. Das alte Schwanzende wird dabei zu einem gewöhnlichen Segment.
+        /// </summary>
+        /// <returns></returns>
+        TRC.RC<ISegment> AddNewTail(Neighbor neighbor);
 
         /// <summary>
         /// Kürzt den Wurm vom Kopf ausgehend um n Segmente
