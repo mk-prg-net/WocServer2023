@@ -33,7 +33,7 @@ namespace MKPRG.WormTron.V1
         {
             get
             {
-
+                throw new NotImplementedException();
             }
         }
 

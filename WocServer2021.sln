@@ -51,6 +51,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MKPRG.CNC.GCode", "MKPRG.CN
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MKPRG.WormTron.V1", "MKPRG.WormTron.V1\MKPRG.WormTron.V1.csproj", "{3AFD4DF2-2DEC-424B-A536-921869CB401D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MKPRG.MindWriter", "MKPRG.MindWriter\MKPRG.MindWriter.csproj", "{EF83FE38-7007-41C6-A1BE-9F57F499ED65}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Beta|Any CPU = Beta|Any CPU
@@ -555,6 +557,26 @@ Global
 		{3AFD4DF2-2DEC-424B-A536-921869CB401D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3AFD4DF2-2DEC-424B-A536-921869CB401D}.Release|x86.ActiveCfg = Release|Any CPU
 		{3AFD4DF2-2DEC-424B-A536-921869CB401D}.Release|x86.Build.0 = Release|Any CPU
+		{EF83FE38-7007-41C6-A1BE-9F57F499ED65}.Beta|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF83FE38-7007-41C6-A1BE-9F57F499ED65}.Beta|Any CPU.Build.0 = Debug|Any CPU
+		{EF83FE38-7007-41C6-A1BE-9F57F499ED65}.Beta|x86.ActiveCfg = Debug|Any CPU
+		{EF83FE38-7007-41C6-A1BE-9F57F499ED65}.Beta|x86.Build.0 = Debug|Any CPU
+		{EF83FE38-7007-41C6-A1BE-9F57F499ED65}.Debug_with_local_IIS|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF83FE38-7007-41C6-A1BE-9F57F499ED65}.Debug_with_local_IIS|Any CPU.Build.0 = Debug|Any CPU
+		{EF83FE38-7007-41C6-A1BE-9F57F499ED65}.Debug_with_local_IIS|x86.ActiveCfg = Debug|Any CPU
+		{EF83FE38-7007-41C6-A1BE-9F57F499ED65}.Debug_with_local_IIS|x86.Build.0 = Debug|Any CPU
+		{EF83FE38-7007-41C6-A1BE-9F57F499ED65}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF83FE38-7007-41C6-A1BE-9F57F499ED65}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF83FE38-7007-41C6-A1BE-9F57F499ED65}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{EF83FE38-7007-41C6-A1BE-9F57F499ED65}.Debug|x86.Build.0 = Debug|Any CPU
+		{EF83FE38-7007-41C6-A1BE-9F57F499ED65}.localIIS|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF83FE38-7007-41C6-A1BE-9F57F499ED65}.localIIS|Any CPU.Build.0 = Debug|Any CPU
+		{EF83FE38-7007-41C6-A1BE-9F57F499ED65}.localIIS|x86.ActiveCfg = Debug|Any CPU
+		{EF83FE38-7007-41C6-A1BE-9F57F499ED65}.localIIS|x86.Build.0 = Debug|Any CPU
+		{EF83FE38-7007-41C6-A1BE-9F57F499ED65}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF83FE38-7007-41C6-A1BE-9F57F499ED65}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EF83FE38-7007-41C6-A1BE-9F57F499ED65}.Release|x86.ActiveCfg = Release|Any CPU
+		{EF83FE38-7007-41C6-A1BE-9F57F499ED65}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
