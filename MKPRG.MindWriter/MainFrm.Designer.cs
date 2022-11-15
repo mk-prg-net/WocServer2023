@@ -32,11 +32,13 @@ namespace MKPRG.MindWriter
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.windowSizeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.fullSizeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.leftHalfToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.rightHalfToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.addRemoveWindowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.add2WindowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -44,7 +46,8 @@ namespace MKPRG.MindWriter
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
-            this.windowSizeToolStripMenuItem});
+            this.windowSizeToolStripMenuItem,
+            this.addRemoveWindowToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(800, 24);
@@ -62,17 +65,9 @@ namespace MKPRG.MindWriter
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(93, 22);
             this.exitToolStripMenuItem.Text = "E&xit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
-            // 
-            // statusStrip1
-            // 
-            this.statusStrip1.Location = new System.Drawing.Point(0, 480);
-            this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(800, 22);
-            this.statusStrip1.TabIndex = 1;
-            this.statusStrip1.Text = "statusStrip1";
             // 
             // windowSizeToolStripMenuItem
             // 
@@ -105,6 +100,29 @@ namespace MKPRG.MindWriter
             this.rightHalfToolStripMenuItem.Text = "&Right Half";
             this.rightHalfToolStripMenuItem.Click += new System.EventHandler(this.rightHalfToolStripMenuItem_Click);
             // 
+            // statusStrip1
+            // 
+            this.statusStrip1.Location = new System.Drawing.Point(0, 480);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(800, 22);
+            this.statusStrip1.TabIndex = 1;
+            this.statusStrip1.Text = "statusStrip1";
+            // 
+            // addRemoveWindowToolStripMenuItem
+            // 
+            this.addRemoveWindowToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.add2WindowToolStripMenuItem});
+            this.addRemoveWindowToolStripMenuItem.Name = "addRemoveWindowToolStripMenuItem";
+            this.addRemoveWindowToolStripMenuItem.Size = new System.Drawing.Size(136, 20);
+            this.addRemoveWindowToolStripMenuItem.Text = "Add/Remove Window";
+            // 
+            // add2WindowToolStripMenuItem
+            // 
+            this.add2WindowToolStripMenuItem.Name = "add2WindowToolStripMenuItem";
+            this.add2WindowToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.add2WindowToolStripMenuItem.Text = "Add 2. Window";
+            this.add2WindowToolStripMenuItem.Click += new System.EventHandler(this.add2WindowToolStripMenuItem_Click);
+            // 
             // MainFrm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -135,6 +153,8 @@ namespace MKPRG.MindWriter
         private System.Windows.Forms.ToolStripMenuItem fullSizeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem leftHalfToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem rightHalfToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem addRemoveWindowToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem add2WindowToolStripMenuItem;
     }
 }
 
