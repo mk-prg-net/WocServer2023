@@ -12,9 +12,13 @@ namespace MKPRG.MindWriter
 {
     public partial class MainFrm : Form
     {
+        WindowPlacementManager plcTools;
+
         public MainFrm()
         {
             InitializeComponent();
+
+            plcTools = new WindowPlacementManager(this);
         }
 
         private void MainFrm_Load(object sender, EventArgs e)
@@ -34,18 +38,6 @@ namespace MKPRG.MindWriter
             MyWindowPlacement = WindowPlacement.Full;
         }
 
-        enum WindowPlacement
-        {
-            Full,
-            Top,
-            TopLeft,
-            TopRight,
-            Bottom,
-            BottomLeft,
-            BottomRight,
-            Left,
-            Right           
-        }
 
         WindowPlacement MyWindowPlacement 
         { 
@@ -54,24 +46,7 @@ namespace MKPRG.MindWriter
             {
                 _myWindowPlacement = value;
 
-                WindowState = FormWindowState.Normal;
-                var screenBounds = Screen.FromControl(this).Bounds;
-                
-                if(_myWindowPlacement == WindowPlacement.Full)
-                {
-                    TopMost = true;
-                    WindowState = FormWindowState.Maximized;
-                }
-                else if(_myWindowPlacement == WindowPlacement.Left)
-                {
-                    Location = screenBounds.Location;
-                    Size = new Size(screenBounds.Width / 2, screenBounds.Height);
-                }
-                else if(_myWindowPlacement == WindowPlacement.Right)
-                {
-                    Location = new Point(screenBounds.Location.X + screenBounds.Width / 2, screenBounds.Location.Y);
-                    Size = new Size(screenBounds.Width / 2, screenBounds.Height);
-                }
+                plcTools.PlaceWindow(value);
             } 
         }
 
@@ -87,13 +62,13 @@ namespace MKPRG.MindWriter
             MyWindowPlacement = WindowPlacement.Right;
         }
 
-        MainFrm secondForm;
+        ChildForm secondForm;
 
         private void add2WindowToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (secondForm == null)
             {
-                secondForm = new MainFrm();
+                secondForm = new ChildForm();
                 secondForm.Text = "2. Fenster";
                 secondForm.Show();
                 secondForm.FormClosed += SecondForm_FormClosed;
