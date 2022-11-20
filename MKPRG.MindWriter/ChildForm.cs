@@ -29,10 +29,10 @@ namespace MKPRG.MindWriter
 
         private void fullSizeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MyWindowPlacement = WindowPlacement.Full;
+            MyWindowPlacement = WindowPlacementMgr.Full;
         }
 
-        public WindowPlacement MyWindowPlacement
+        public WindowPlacementMgr MyWindowPlacement
         {
             get => _myWindowPlacement;
             set
@@ -44,16 +44,16 @@ namespace MKPRG.MindWriter
             }
         }
 
-        WindowPlacement _myWindowPlacement;
+        WindowPlacementMgr _myWindowPlacement;
 
         private void leftHalfToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MyWindowPlacement = WindowPlacement.Left;
+            MyWindowPlacement = WindowPlacementMgr.Left;
         }
 
         private void rightHalfToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MyWindowPlacement = WindowPlacement.Right;
+            MyWindowPlacement = WindowPlacementMgr.Right;
         }
 
     }

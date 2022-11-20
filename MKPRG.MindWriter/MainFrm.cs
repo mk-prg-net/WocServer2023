@@ -39,13 +39,13 @@ namespace MKPRG.MindWriter
             Application.Exit();
         }
 
-        private void fullSizeToolStripMenuItem_Click(object sender, EventArgs e)
+        private void placeTopToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MyWindowPlacement = WindowPlacement.Full;
+            plcMgr.PlaceMainWindow();
         }
 
 
-        WindowPlacement MyWindowPlacement 
+        WindowPlacementMgr MyWindowPlacement 
         { 
             get => _myWindowPlacement; 
             set
@@ -56,30 +56,37 @@ namespace MKPRG.MindWriter
             } 
         }
 
-        WindowPlacement _myWindowPlacement = WindowPlacement.Full;
+        WindowPlacementMgr _myWindowPlacement = WindowPlacementMgr.Full;
 
         private void leftHalfToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MyWindowPlacement = WindowPlacement.Left;
+            MyWindowPlacement = WindowPlacementMgr.Left;
         }
 
         private void rightHalfToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MyWindowPlacement = WindowPlacement.Right;
+            MyWindowPlacement = WindowPlacementMgr.Right;
         }
 
 
 
         private void add2WindowToolStripMenuItem_Click(object sender, EventArgs e)
         {
-                var childWnd = new ChildForm(plcMgr);
-                childWnd.Text = "2. Fenster";
-                childWnd.Show();
-                childWnd.FormClosed += SecondForm_FormClosed;
+                
         }
 
         private void SecondForm_FormClosed(object sender, FormClosedEventArgs e)
         {            
+        }
+
+        private void addChildWindowToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var childWnd = new ChildForm(plcMgr);
+            childWnd.Location = this.Location;
+            childWnd.Text = $"{plcMgr.ChildWindowCount} Fenster";
+            childWnd.Show();
+            childWnd.FormClosed += SecondForm_FormClosed;
+            
         }
     }
 }
