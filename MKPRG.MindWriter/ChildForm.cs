@@ -12,14 +12,20 @@ namespace MKPRG.MindWriter
 {
     public partial class ChildForm : Form
     {
-        WindowPlacementManager plcTools;
+        WindowPlacementManager plcMgr;
 
-        public ChildForm()
+        public ChildForm(WindowPlacementManager plcMgr)
         {
             InitializeComponent();
 
-            plcTools = new WindowPlacementManager(this);
+            this.plcMgr = plcMgr;
         }
+
+        private void ChildForm_Load(object sender, EventArgs e)
+        {
+            plcMgr.AddChildWindow(this);
+        }
+
 
         private void fullSizeToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -33,7 +39,8 @@ namespace MKPRG.MindWriter
             {
                 _myWindowPlacement = value;
 
-                plcTools.PlaceWindow(value);
+                plcMgr.PlaceChildWindow(this, value);
+                //plcMgr.PlaceWindow((int)this.Handle, value);
             }
         }
 
@@ -48,5 +55,6 @@ namespace MKPRG.MindWriter
         {
             MyWindowPlacement = WindowPlacement.Right;
         }
+
     }
 }

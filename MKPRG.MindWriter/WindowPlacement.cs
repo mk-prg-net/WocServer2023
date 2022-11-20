@@ -32,27 +32,58 @@ namespace MKPRG.MindWriter
         Form mainForm;       
 
 
-        Dictionary<int, (int order, Form window)> OpenForms = new Dictionary<int, (int order, Form window)>();
+        Dictionary<int, (int order, ChildForm window)> OpenForms = new Dictionary<int, (int order, ChildForm window)>();
+
+        /// <summary>
+        /// List of all Windows, managed by this App.
+        /// </summary>
+        public IReadOnlyDictionary<int, (int order, ChildForm window)> WindowsList => OpenForms;
 
 
-        public WindowPlacementManager(System.Windows.Forms.Form myForm)
+        public WindowPlacementManager(MainFrm mainForm)
         {
-            this.mainForm = myForm;           
-
-            OpenForms[(int)myForm.Handle] = (0, myForm);
+            this.mainForm = mainForm;                       
         }
 
-        public void Add(Form frm)
+        public void AddChildWindow(ChildForm frm)
         {
-            var maxOrder = OpenForms.Values.Max(r => r.order);
-            OpenForms[(int)frm.Handle] = (maxOrder + 1, frm);
+            if (OpenForms.Any())
+            {
+                var maxOrder = OpenForms.Values.Max(r => r.order);
+                OpenForms[(int)frm.Handle] = (maxOrder + 1, frm);
+
+                var lastChild = OpenForms.First(r => r.Value.order == maxOrder).Value;
+
+                if (lastChild.window.MyWindowPlacement == WindowPlacement.Left)
+                {
+                    frm.MyWindowPlacement = WindowPlacement.Right;
+                }
+                else if (lastChild.window.MyWindowPlacement == WindowPlacement.Right)
+                {
+                    frm.MyWindowPlacement = WindowPlacement.Left;
+                }
+                else 
+                {
+                    frm.MyWindowPlacement = WindowPlacement.Full;
+                }
+            }
+            else
+            {                
+                OpenForms[(int)frm.Handle] = (1, frm);
+                frm.MyWindowPlacement = WindowPlacement.Full;
+            }
+            
+
+
+
+
         }
 
-        public void Remove(Form frm)
+        public void RemoveChildWindow(ChildForm frm)
         {
             if (!OpenForms.ContainsKey((int)frm.Handle))
             {
-                throw new ArgumentException("Window not managed by WindowPlacementMananger.");
+                throw new ArgumentException("Child Window not managed by WindowPlacementMananger.");
             }
             else
             {
@@ -61,6 +92,21 @@ namespace MKPRG.MindWriter
             }
         }
 
+        /// <summary>
+        /// mko, 19.11.2022
+        /// Teilt Bildschirm zwischen Haupt und Kindfenster auf.
+        /// 
+        /// Das Hauptfenster wird am oberen Rand angedockt und nimmt zunächst 25% der Bildschirmhöhe ein.
+        /// 
+        /// Das erste Kindfenster belegt die restliche Fläche.
+        /// Das zweite Kindfenster teilt sich mit dem ersten die Fläche horizontal. Das erste Kindfenster ist dann links, und das zweite rechts angedockt.
+        /// 
+        /// Weitere Kindfenster werden zunächst Bildschirmfüllend unter dem Hauptfenster angedockt. Wenn im Haupffenster in der Fensterliste zwei Fenster ausgewählt
+        /// werden, dann teilen diese sich wieder die Bildschirmfläche.
+        /// 
+        /// </summary>
+        /// <param name="windowHandle"></param>
+        /// <param name="placement"></param>
 
         public void PlaceMainWindow()
         {
@@ -72,16 +118,16 @@ namespace MKPRG.MindWriter
         }
 
 
-        public void PlaceChildWindow(Form childForm, WindowPlacement placement)
+        public void PlaceChildWindow(ChildForm childForm, WindowPlacement placement)
         {
             if (!OpenForms.ContainsKey((int)childForm.Handle))
             {
-                throw new ArgumentException("Window not managed by WindowPlacementMananger.");
+                throw new ArgumentException("Child Window not managed by WindowPlacementMananger.");
             }
             else
             {
                 childForm.WindowState = FormWindowState.Normal;
-                var screenBounds = Screen.FromControl(mainForm).Bounds;
+                var screenBounds = Screen.FromControl(mainForm).Bounds;                
 
                 if (placement == WindowPlacement.Full)
                 {
@@ -98,12 +144,8 @@ namespace MKPRG.MindWriter
                     childForm.Location = new Point(screenBounds.Location.X + screenBounds.Width / 2, screenBounds.Location.Y + screenBounds.Height / 4);
                     childForm.Size = new Size(screenBounds.Width / 2, 3 * screenBounds.Height / 4);
                 }
-
             }
         }
-
-
-
 
         /// <summary>
         /// mko, 19.11.2022
@@ -123,8 +165,11 @@ namespace MKPRG.MindWriter
         /// <param name="placement"></param>
         public void PlaceWindow(int windowHandle, WindowPlacement placement)
         {
-            mainForm.WindowState = FormWindowState.Normal;
-            var screenBounds = Screen.FromControl(mainForm).Bounds;
+
+            var (order, childWindow) = OpenForms[windowHandle];
+
+            childWindow.WindowState = FormWindowState.Normal;
+            var screenBounds = Screen.FromControl(childWindow).Bounds;
 
             if (placement == WindowPlacement.Full)
             {

@@ -30,12 +30,12 @@ namespace MKPRG.MindWriter
         private void InitializeComponent()
         {
             this.menuStripOfChildWindow = new System.Windows.Forms.MenuStrip();
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.windowPlacementToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.fullSizeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.leftHalfToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.rightHalfToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.fullSizeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.menuStripOfChildWindow.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -49,14 +49,6 @@ namespace MKPRG.MindWriter
             this.menuStripOfChildWindow.Size = new System.Drawing.Size(742, 24);
             this.menuStripOfChildWindow.TabIndex = 0;
             this.menuStripOfChildWindow.Text = "menuStrip1";
-            // 
-            // statusStrip1
-            // 
-            this.statusStrip1.Location = new System.Drawing.Point(0, 636);
-            this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(742, 22);
-            this.statusStrip1.TabIndex = 1;
-            this.statusStrip1.Text = "statusStripOfChildWindow";
             // 
             // fileToolStripMenuItem
             // 
@@ -74,26 +66,34 @@ namespace MKPRG.MindWriter
             this.windowPlacementToolStripMenuItem.Size = new System.Drawing.Size(122, 20);
             this.windowPlacementToolStripMenuItem.Text = "Window Placement";
             // 
+            // fullSizeToolStripMenuItem
+            // 
+            this.fullSizeToolStripMenuItem.Name = "fullSizeToolStripMenuItem";
+            this.fullSizeToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
+            this.fullSizeToolStripMenuItem.Text = "&Full Size";
+            this.fullSizeToolStripMenuItem.Click += new System.EventHandler(this.fullSizeToolStripMenuItem_Click);
+            // 
             // leftHalfToolStripMenuItem
             // 
             this.leftHalfToolStripMenuItem.Name = "leftHalfToolStripMenuItem";
-            this.leftHalfToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.leftHalfToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
             this.leftHalfToolStripMenuItem.Text = "&Left Hlaf";
             this.leftHalfToolStripMenuItem.Click += new System.EventHandler(this.leftHalfToolStripMenuItem_Click);
             // 
             // rightHalfToolStripMenuItem
             // 
             this.rightHalfToolStripMenuItem.Name = "rightHalfToolStripMenuItem";
-            this.rightHalfToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.rightHalfToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
             this.rightHalfToolStripMenuItem.Text = "&Right Half";
             this.rightHalfToolStripMenuItem.Click += new System.EventHandler(this.rightHalfToolStripMenuItem_Click);
             // 
-            // fullSizeToolStripMenuItem
+            // statusStrip1
             // 
-            this.fullSizeToolStripMenuItem.Name = "fullSizeToolStripMenuItem";
-            this.fullSizeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.fullSizeToolStripMenuItem.Text = "&Full Size";
-            this.fullSizeToolStripMenuItem.Click += new System.EventHandler(this.fullSizeToolStripMenuItem_Click);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 636);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(742, 22);
+            this.statusStrip1.TabIndex = 1;
+            this.statusStrip1.Text = "statusStripOfChildWindow";
             // 
             // ChildForm
             // 
@@ -105,6 +105,7 @@ namespace MKPRG.MindWriter
             this.MainMenuStrip = this.menuStripOfChildWindow;
             this.Name = "ChildForm";
             this.Text = "ChildForm";
+            this.Load += new System.EventHandler(this.ChildForm_Load);
             this.menuStripOfChildWindow.ResumeLayout(false);
             this.menuStripOfChildWindow.PerformLayout();
             this.ResumeLayout(false);

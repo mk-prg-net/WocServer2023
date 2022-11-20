@@ -10,22 +10,28 @@ using System.Windows.Forms;
 
 namespace MKPRG.MindWriter
 {
+    /// <summary>
+    /// mko, 20.11.2022
+    /// Main Window, servers Commandlines, Windows- Managment etc.
+    /// </summary>
     public partial class MainFrm : Form
     {
-        WindowPlacementManager plcTools;
+        WindowPlacementManager plcMgr;
 
         public MainFrm()
         {
             InitializeComponent();
 
-            plcTools = new WindowPlacementManager(this);
+            plcMgr = new WindowPlacementManager(this);
         }
 
         private void MainFrm_Load(object sender, EventArgs e)
         {
             TopMost = true;            
             WindowState = FormWindowState.Maximized;
-            Text = "Main Window";            
+            Text = "Main Window";
+
+            plcMgr.PlaceMainWindow();
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -46,7 +52,7 @@ namespace MKPRG.MindWriter
             {
                 _myWindowPlacement = value;
 
-                plcTools.PlaceWindow(value);
+                plcMgr.PlaceWindow((int)this.Handle, value);
             } 
         }
 
@@ -62,35 +68,18 @@ namespace MKPRG.MindWriter
             MyWindowPlacement = WindowPlacement.Right;
         }
 
-        ChildForm secondForm;
+
 
         private void add2WindowToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (secondForm == null)
-            {
-                secondForm = new ChildForm();
-                secondForm.Text = "2. Fenster";
-                secondForm.Show();
-                secondForm.FormClosed += SecondForm_FormClosed;
-                
-                if(MyWindowPlacement == WindowPlacement.Left)
-                {
-                    secondForm.MyWindowPlacement = WindowPlacement.Right;
-                }
-                else if(MyWindowPlacement == WindowPlacement.Right)
-                {
-                    secondForm.MyWindowPlacement = WindowPlacement.Left;
-                }
-                else
-                {
-                    secondForm.MyWindowPlacement = WindowPlacement.Full;
-                }
-            }
+                var childWnd = new ChildForm(plcMgr);
+                childWnd.Text = "2. Fenster";
+                childWnd.Show();
+                childWnd.FormClosed += SecondForm_FormClosed;
         }
 
         private void SecondForm_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            secondForm = null;
+        {            
         }
     }
 }
