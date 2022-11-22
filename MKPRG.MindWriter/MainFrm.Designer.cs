@@ -94,14 +94,12 @@ namespace MKPRG.MindWriter
             this.leftHalfToolStripMenuItem.Name = "leftHalfToolStripMenuItem";
             this.leftHalfToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.leftHalfToolStripMenuItem.Text = "&Left Half";
-            this.leftHalfToolStripMenuItem.Click += new System.EventHandler(this.leftHalfToolStripMenuItem_Click);
             // 
             // rightHalfToolStripMenuItem
             // 
             this.rightHalfToolStripMenuItem.Name = "rightHalfToolStripMenuItem";
             this.rightHalfToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.rightHalfToolStripMenuItem.Text = "&Right Half";
-            this.rightHalfToolStripMenuItem.Click += new System.EventHandler(this.rightHalfToolStripMenuItem_Click);
             // 
             // addChildWindowToolStripMenuItem
             // 
@@ -141,9 +139,9 @@ namespace MKPRG.MindWriter
             // 
             this.cmdLabel.AutoSize = true;
             this.cmdLabel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.cmdLabel.Location = new System.Drawing.Point(1, 14);
+            this.cmdLabel.Location = new System.Drawing.Point(3, 0);
             this.cmdLabel.Name = "cmdLabel";
-            this.cmdLabel.Size = new System.Drawing.Size(35, 13);
+            this.cmdLabel.Size = new System.Drawing.Size(44, 40);
             this.cmdLabel.TabIndex = 0;
             this.cmdLabel.Text = "CMD";
             this.cmdLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -151,9 +149,9 @@ namespace MKPRG.MindWriter
             // tbxCmd
             // 
             this.tbxCmd.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tbxCmd.Location = new System.Drawing.Point(55, 16);
+            this.tbxCmd.Location = new System.Drawing.Point(53, 3);
             this.tbxCmd.Name = "tbxCmd";
-            this.tbxCmd.Size = new System.Drawing.Size(719, 22);
+            this.tbxCmd.Size = new System.Drawing.Size(724, 22);
             this.tbxCmd.TabIndex = 1;
             // 
             // MainFrm
@@ -170,6 +168,9 @@ namespace MKPRG.MindWriter
             this.ShowIcon = false;
             this.Text = "Mind Writer ";
             this.Load += new System.EventHandler(this.MainFrm_Load);
+            this.ResizeEnd += new System.EventHandler(this.MainFrm_ResizeEnd);
+            this.LocationChanged += new System.EventHandler(this.MainFrm_LocationChanged);
+            this.Move += new System.EventHandler(this.MainFrm_Move);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.mainFormTableLayoutPanel.ResumeLayout(false);

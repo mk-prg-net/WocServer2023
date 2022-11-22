@@ -13,7 +13,7 @@ namespace MKPRG.MindWriter
     /// mko, 15.11.2022
     /// Defines all possible windows placements.
     /// </summary>
-    public enum WindowPlacementMgr
+    public enum WindowPlacement
     {
         Full,
         Top,
@@ -60,79 +60,123 @@ namespace MKPRG.MindWriter
         /// </summary>
         /// <param name="childFrm"></param>
         /// <returns></returns>
-        public bool AreMainAndChildOnSameScreen(ChildForm childFrm)
-                => mainForm.Location.X == childFrm.Location.X;
+        public bool AreMainAndChildOnSameScreen(ChildForm child)
+        {
+            var screenBounds = Screen.FromControl(mainForm).Bounds;
+
+            return child.Location.X >= screenBounds.Location.X && child.Location.X < screenBounds.Location.X + screenBounds.Size.Width;
+        }
 
         /// <summary>
-        /// Returns true, if on screen where mainWindow is places too a client window is placed.
+        /// Returns true, if on screen where mainWindow is places also a client window is placed.
         /// </summary>
         /// <returns></returns>
         public bool AnyChildOnMainScreen()
-            => ChildWindows.Values.Any(r => r.window.Location.X == mainForm.Location.X);
+            => ChildWindows.Values.Any(child => AreMainAndChildOnSameScreen(child.window));
 
-        public (int order, ChildForm window) LastChildOnScreenWhereThisWindowIsPlaced(Form frm)
+        /// <summary>
+        /// returns alls childs, placed on screen where frm is placed.
+        /// </summary>
+        /// <param name="frm"></param>
+        /// <returns></returns>
+        public (bool childFound, IEnumerable<(int order, ChildForm window)> childs) AllChildsOnScreenWhereThisWindowIsPlaced(Form frm)
         {
-            (int order, ChildForm window) ret = (-1, null);
+            (bool childFound, IEnumerable<(int order, ChildForm window)> childs) ret = (false, new (int order, ChildForm window)[] { });
 
             var screenBounds = Screen.FromControl(frm).Bounds;
 
-            var childs = ChildWindows.Values.Where(child => child.window.Location.X >= screenBounds.Location.X 
+            var _childs = ChildWindows.Values.Where(child => child.window.Location.X >= screenBounds.Location.X
                                                             && child.window.Location.X < screenBounds.Location.X + screenBounds.Size.Width);
 
-            if (childs.Any())
+            if (_childs.Any())
             {
-                ret = childs.OrderByDescending(c => c.order).First();
+                ret = (true, _childs);
+            }
+
+            return ret;
+        }
+
+        public (bool childFound, IEnumerable<(int order, ChildForm window)> childs) AllChildsNotOnScreenWhereThisWindowIsPlaced(Form frm)
+        {
+            (bool childFound, IEnumerable<(int order, ChildForm window)> childs) ret = (false, new (int order, ChildForm window)[] { });
+
+            var screenBounds = Screen.FromControl(frm).Bounds;
+
+            var _childs = ChildWindows.Values.Where(child => child.window.Location.X < screenBounds.Location.X
+                                                            || child.window.Location.X >= screenBounds.Location.X + screenBounds.Size.Width);
+
+            if (_childs.Any())
+            {
+                ret = (true, _childs);
             }
 
             return ret;
         }
 
 
+
+        /// <summary>
+        /// If on screen where given Form is placed also a childWindow is placed, then it returns true + child with 
+        /// highest order on this screen.
+        /// </summary>
+        /// <param name="frm"></param>
+        /// <returns></returns>
+        public (bool childFound, (int order, ChildForm window) child) LastChildOnScreenWhereThisWindowIsPlaced(Form frm)
+        {
+            (bool childFound, (int order, ChildForm window)) ret = (false, (-1, null));
+
+            var getChilds = AllChildsOnScreenWhereThisWindowIsPlaced(frm);
+
+            if (getChilds.childFound)
+            {
+                ret = (true, getChilds.childs.OrderByDescending(c => c.order).First());
+            }
+
+            return ret;
+        }
+
+        /// <summary>
+        ///  Add a child window and places it below main Window
+        /// </summary>
+        /// <param name="frm"></param>
         public void AddChildWindow(ChildForm frm)
         {
             if (ChildWindows.Any())
             {
+                var getLastChild = LastChildOnScreenWhereThisWindowIsPlaced(mainForm);
+
                 var maxOrder = ChildWindows.Values.Max(r => r.order);
-
-                // var lastChild = ChildWindows.First(r => r.Value.order == maxOrder).Value;
-                var lastChild = LastChildOnScreenWhereThisWindowIsPlaced(mainForm);
-
                 ChildWindows[(int)frm.Handle] = (maxOrder + 1, frm);
 
-
-                if (lastChild.order == -1)
+                if (!getLastChild.childFound)
                 {
-                    // No child found on screen, where frm is placed: frm will be set to fullSize
-
-                    frm.MyWindowPlacement = WindowPlacementMgr.Full;
+                    // new child is the first below main Window
+                    PlaceChildWindowsBelowMainWindow(frm, WindowPlacement.Full);
                 }
                 else
                 {
-                    if (lastChild.window.MyWindowPlacement == WindowPlacementMgr.Left)
+                    var lastChild = getLastChild.child.window;
+
+                    if (lastChild.MyWindowPlacement == WindowPlacement.Full)
                     {
-                        frm.MyWindowPlacement = WindowPlacementMgr.Right;
+                        PlaceChildWindowsBelowMainWindow(lastChild, WindowPlacement.Left);
+                        PlaceChildWindowsBelowMainWindow(frm, WindowPlacement.Right);
                     }
-                    else if (lastChild.window.MyWindowPlacement == WindowPlacementMgr.Right)
+                    else if (lastChild.MyWindowPlacement == WindowPlacement.Left)
                     {
-                        frm.MyWindowPlacement = WindowPlacementMgr.Left;
+                        PlaceChildWindowsBelowMainWindow(frm, WindowPlacement.Right);
                     }
-                    else if (lastChild.window.MyWindowPlacement == WindowPlacementMgr.Full && ChildWindows.Count == 2)
+                    else if (lastChild.MyWindowPlacement == WindowPlacement.Right)
                     {
-                        lastChild.window.MyWindowPlacement = WindowPlacementMgr.Left;
-                        frm.MyWindowPlacement = WindowPlacementMgr.Right;
-                    }
-                    else
-                    {
-                        frm.MyWindowPlacement = WindowPlacementMgr.Full;
+                        PlaceChildWindowsBelowMainWindow(frm, WindowPlacement.Left);
                     }
                 }
             }
             else
             {
                 ChildWindows[(int)frm.Handle] = (1, frm);
-                frm.MyWindowPlacement = WindowPlacementMgr.Full;
+                PlaceChildWindowsBelowMainWindow(frm, WindowPlacement.Full);
             }
-
         }
 
         public void RemoveChildWindow(ChildForm frm)
@@ -171,82 +215,109 @@ namespace MKPRG.MindWriter
 
             mainForm.Location = screenBounds.Location;
             mainForm.Size = new Size(screenBounds.Width, screenBounds.Height / 4);
+
+            // Alle Kindfenster auf diesem Bildschirm unterhalb des Hauptfensters anordnen
+
+            var getChilds = AllChildsOnScreenWhereThisWindowIsPlaced(mainForm);
+
+            if (getChilds.childFound)
+            {
+                if (getChilds.childs.Count() == 1)
+                {
+                    PlaceChildWindowsBelowMainWindow(getChilds.childs.First().window, WindowPlacement.Full, screenBounds);
+                }
+                else
+                {
+                    bool left = true;
+                    foreach (var child in getChilds.childs.OrderBy(c => c.order).Select(c => c.window))
+                    {
+                        if (left)
+                        {
+                            PlaceChildWindowsBelowMainWindow(child, WindowPlacement.Left, screenBounds);
+                            left = false;
+                        }
+                        else
+                        {
+                            PlaceChildWindowsBelowMainWindow(child, WindowPlacement.Right, screenBounds);
+                            left = true;
+                        }
+
+                    }
+                }
+            }
+
+
+            var getOtherChilds = AllChildsNotOnScreenWhereThisWindowIsPlaced(mainForm);
+
+            if (getOtherChilds.childFound)
+            {
+                foreach (var child in getOtherChilds.childs.OrderBy(c => c.order).Select(c => c.window))
+                {
+                    PlaceChildWindows(child, child.MyWindowPlacement);
+                }
+            }
         }
 
-
-        public void PlaceChildWindow(ChildForm childForm, WindowPlacementMgr placement)
+        public void PlaceChildWindowsBelowMainWindow(ChildForm childForm, WindowPlacement placement)
         {
-            if (!ChildWindows.ContainsKey((int)childForm.Handle))
-            {
-                throw new ArgumentException("Child Window not managed by WindowPlacementMananger.");
-            }
-            else
-            {
-                childForm.WindowState = FormWindowState.Normal;
-                var screenBounds = Screen.FromControl(childForm).Bounds;
-
-                bool fullHight = screenBounds.Location.X != mainForm.Location.X;
-
-                (int F, int N, int D) = fullHight ? (0, 1, 1) : (1, 3, 4);
-
-                if (placement == WindowPlacementMgr.Full)
-                {
-                    childForm.Location = new Point(screenBounds.Location.X, screenBounds.Location.Y + F * screenBounds.Height / 4);
-                    childForm.Size = new Size(screenBounds.Width, N * screenBounds.Height / D);
-                }
-                else if (placement == WindowPlacementMgr.Left)
-                {
-                    childForm.Location = new Point(screenBounds.Location.X, screenBounds.Location.Y + F * screenBounds.Height / D);
-                    childForm.Size = new Size(screenBounds.Width / 2, N * screenBounds.Height / D);
-                }
-                else if (placement == WindowPlacementMgr.Right)
-                {
-                    childForm.Location = new Point(screenBounds.Location.X + screenBounds.Width / 2, screenBounds.Location.Y + F * screenBounds.Height / D);
-                    childForm.Size = new Size(screenBounds.Width / 2, N * screenBounds.Height / D);
-                }
-            }
+            var screenBounds = Screen.FromControl(mainForm).Bounds;
+            PlaceChildWindowsBelowMainWindow(childForm, placement, screenBounds);
         }
 
         /// <summary>
-        /// mko, 19.11.2022
-        /// Teilt Bildschirm zwischen Haupt und Kindfenster auf.
-        /// 
-        /// Das Hauptfenster wird am oberen Rand angedockt und nimmt zunächst 25% der Bildschirmhöhe ein.
-        /// 
-        /// Das erste Kindfenster belegt die restliche Fläche.
-        /// Das zweite Kindfenster teilt sich mit dem ersten die Fläche horizontal. Das erste Kindfenster ist dann links, und das zweite rechts angedockt.
-        /// 
-        /// Weitere Kindfenster werden zunächst Bildschirmfüllend unter dem Hauptfenster angedockt. Wenn im Haupffenster in der Fensterliste zwei Fenster ausgewählt
-        /// werden, dann teilen diese sich wieder die Bildschirmfläche.
-        /// 
-        /// 
+        /// Place a childwindow below a main window.
         /// </summary>
-        /// <param name="windowHandle"></param>
+        /// <param name="childForm"></param>
         /// <param name="placement"></param>
-        public void PlaceWindow(int windowHandle, WindowPlacementMgr placement)
+        /// <param name="screenBounds"></param>
+        void PlaceChildWindowsBelowMainWindow(ChildForm childForm, WindowPlacement placement, Rectangle screenBounds)
         {
+            childForm.MyWindowPlacement = placement;
 
-            var (order, childWindow) = ChildWindows[windowHandle];
-
-            childWindow.WindowState = FormWindowState.Normal;
-            var screenBounds = Screen.FromControl(childWindow).Bounds;
-
-            if (placement == WindowPlacementMgr.Full)
+            if (placement == WindowPlacement.Full)
             {
-                mainForm.TopMost = true;
-                mainForm.WindowState = FormWindowState.Maximized;
+                childForm.Location = new Point(screenBounds.Location.X, screenBounds.Location.Y + screenBounds.Height / 4);
+                childForm.Size = new Size(screenBounds.Width, 3 * screenBounds.Height / 4);
             }
-            else if (placement == WindowPlacementMgr.Left)
+            else if (placement == WindowPlacement.Left)
             {
-                mainForm.Location = screenBounds.Location;
-                mainForm.Size = new Size(screenBounds.Width / 2, screenBounds.Height);
+                childForm.Location = new Point(screenBounds.Location.X, screenBounds.Location.Y + screenBounds.Height / 4);
+                childForm.Size = new Size(screenBounds.Width / 2, 3 * screenBounds.Height / 4);
             }
-            else if (placement == WindowPlacementMgr.Right)
+            else if (placement == WindowPlacement.Right)
             {
-                mainForm.Location = new Point(screenBounds.Location.X + screenBounds.Width / 2, screenBounds.Location.Y);
-                mainForm.Size = new Size(screenBounds.Width / 2, screenBounds.Height);
+                childForm.Location = new Point(screenBounds.Location.X + screenBounds.Width / 2, screenBounds.Location.Y + screenBounds.Height / 4);
+                childForm.Size = new Size(screenBounds.Width / 2, 3 * screenBounds.Height / 4);
             }
+        }
 
+
+        public void PlaceChildWindows(ChildForm childForm, WindowPlacement placement)
+        {
+            var screenBounds = Screen.FromControl(childForm).Bounds;
+            PlaceChildWindows(childForm, placement, screenBounds);
+        }
+
+
+        void PlaceChildWindows(ChildForm childForm, WindowPlacement placement, Rectangle screenBounds)
+        {
+            childForm.MyWindowPlacement = placement;
+
+            if (placement == WindowPlacement.Full)
+            {
+                childForm.Location = new Point(screenBounds.Location.X, screenBounds.Location.Y);
+                childForm.Size = new Size(screenBounds.Width, screenBounds.Height);
+            }
+            else if (placement == WindowPlacement.Left)
+            {
+                childForm.Location = new Point(screenBounds.Location.X, screenBounds.Location.Y);
+                childForm.Size = new Size(screenBounds.Width / 2, screenBounds.Height);
+            }
+            else if (placement == WindowPlacement.Right)
+            {
+                childForm.Location = new Point(screenBounds.Location.X + screenBounds.Width / 2, screenBounds.Location.Y);
+                childForm.Size = new Size(screenBounds.Width / 2, screenBounds.Height);
+            }
         }
     }
 }

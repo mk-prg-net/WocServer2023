@@ -42,41 +42,15 @@ namespace MKPRG.MindWriter
         private void placeTopToolStripMenuItem_Click(object sender, EventArgs e)
         {
             plcMgr.PlaceMainWindow();
-        }
-
-
-        WindowPlacementMgr MyWindowPlacement 
-        { 
-            get => _myWindowPlacement; 
-            set
-            {
-                _myWindowPlacement = value;
-
-                plcMgr.PlaceWindow((int)this.Handle, value);
-            } 
-        }
-
-        WindowPlacementMgr _myWindowPlacement = WindowPlacementMgr.Full;
-
-        private void leftHalfToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            MyWindowPlacement = WindowPlacementMgr.Left;
-        }
-
-        private void rightHalfToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            MyWindowPlacement = WindowPlacementMgr.Right;
-        }
-
-
-
-        private void add2WindowToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-                
-        }
+        }      
 
         private void SecondForm_FormClosed(object sender, FormClosedEventArgs e)
-        {            
+        {      
+            if(sender is ChildForm child)
+            {
+                plcMgr.RemoveChildWindow(child);
+            }
+
         }
 
         private void addChildWindowToolStripMenuItem_Click(object sender, EventArgs e)
@@ -87,6 +61,33 @@ namespace MKPRG.MindWriter
             childWnd.Show();
             childWnd.FormClosed += SecondForm_FormClosed;
             
+        }
+
+        private void MainFrm_LocationChanged(object sender, EventArgs e)
+        {
+            //if (Location.Y != 0 && !moves)
+            //{
+            //    plcMgr.PlaceMainWindow();
+            //}
+
+            moves = false;
+        }
+
+        bool moves = false;
+
+        private void MainFrm_Move(object sender, EventArgs e)
+        {
+            moves = true;
+        }
+
+        /// <summary>
+        /// Ensures, that mainForm ist anytime placed well.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MainFrm_ResizeEnd(object sender, EventArgs e)
+        {
+            plcMgr.PlaceMainWindow();
         }
     }
 }

@@ -29,31 +29,49 @@ namespace MKPRG.MindWriter
 
         private void fullSizeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MyWindowPlacement = WindowPlacementMgr.Full;
+            MyWindowPlacement = WindowPlacement.Full;
         }
 
-        public WindowPlacementMgr MyWindowPlacement
+        public WindowPlacement MyWindowPlacement
         {
             get => _myWindowPlacement;
             set
             {
                 _myWindowPlacement = value;
 
-                plcMgr.PlaceChildWindow(this, value);
+                //plcMgr.PlaceChildWindow(this, value);
                 //plcMgr.PlaceWindow((int)this.Handle, value);
             }
         }
 
-        WindowPlacementMgr _myWindowPlacement;
+        WindowPlacement _myWindowPlacement;
 
         private void leftHalfToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MyWindowPlacement = WindowPlacementMgr.Left;
+            MyWindowPlacement = WindowPlacement.Left;
+
+            if(plcMgr.AreMainAndChildOnSameScreen(this))
+            {
+                plcMgr.PlaceChildWindowsBelowMainWindow(this, MyWindowPlacement);
+            }
+            else
+            {
+                plcMgr.PlaceChildWindows(this, MyWindowPlacement);
+            }
         }
 
         private void rightHalfToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MyWindowPlacement = WindowPlacementMgr.Right;
+            MyWindowPlacement = WindowPlacement.Left;
+
+            if (plcMgr.AreMainAndChildOnSameScreen(this))
+            {
+                plcMgr.PlaceChildWindowsBelowMainWindow(this, MyWindowPlacement);
+            }
+            else
+            {
+                plcMgr.PlaceChildWindows(this, MyWindowPlacement);
+            }
         }
 
     }
