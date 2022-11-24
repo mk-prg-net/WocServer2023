@@ -8,15 +8,22 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+using DT = MKPRG.Tracing.DocuTerms;
+
 namespace MKPRG.MindWriter
 {
     /// <summary>
     /// mko, 20.11.2022
     /// Main Window, servers Commandlines, Windows- Managment etc.
+    /// 
+    /// Below Main Window can be created Child Windows. Main Window arranges Child Windows aoutomatically. 
+    /// If Main Window is moved to an other screen, then all child windows are created on Screen to wich Main Windows was moved.
     /// </summary>
     public partial class MainFrm : Form
     {
         WindowPlacementManager plcMgr;
+
+        DT.Composer pnL;
 
         public MainFrm()
         {
@@ -25,13 +32,15 @@ namespace MKPRG.MindWriter
             plcMgr = new WindowPlacementManager(this);
         }
 
-        private void MainFrm_Load(object sender, EventArgs e)
+        private async void MainFrm_Load(object sender, EventArgs e)
         {
             TopMost = true;            
-            WindowState = FormWindowState.Maximized;
-            Text = "Main Window";
+            WindowState = FormWindowState.Maximized;           
 
             plcMgr.PlaceMainWindow();
+            pnL = new DT.Composer();
+
+            await mainWindowWebView2.EnsureCoreWebView2Async();
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -39,10 +48,6 @@ namespace MKPRG.MindWriter
             Application.Exit();
         }
 
-        private void placeTopToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            plcMgr.PlaceMainWindow();
-        }      
 
         private void SecondForm_FormClosed(object sender, FormClosedEventArgs e)
         {      
@@ -57,27 +62,10 @@ namespace MKPRG.MindWriter
         {
             var childWnd = new ChildForm(plcMgr);
             childWnd.Location = this.Location;
-            childWnd.Text = $"{plcMgr.ChildWindowCount} Fenster";
+            childWnd.Text = $"🜶 {plcMgr.ChildWindowCount}";
             childWnd.Show();
             childWnd.FormClosed += SecondForm_FormClosed;
             
-        }
-
-        private void MainFrm_LocationChanged(object sender, EventArgs e)
-        {
-            //if (Location.Y != 0 && !moves)
-            //{
-            //    plcMgr.PlaceMainWindow();
-            //}
-
-            moves = false;
-        }
-
-        bool moves = false;
-
-        private void MainFrm_Move(object sender, EventArgs e)
-        {
-            moves = true;
         }
 
         /// <summary>
@@ -88,6 +76,26 @@ namespace MKPRG.MindWriter
         private void MainFrm_ResizeEnd(object sender, EventArgs e)
         {
             plcMgr.PlaceMainWindow();
+        }
+
+        private void mainWindowWebView2_CoreWebView2InitializationCompleted(object sender, Microsoft.Web.WebView2.Core.CoreWebView2InitializationCompletedEventArgs e)
+        {
+            if (e.IsSuccess)
+            {
+
+                var htm = new MKPRG.HTML.HTMLDocument(pnL);
+
+                htm.h1.txt("Hallo Welt ").html(MKPRG.Naming.Glyphs.Geographic.Globe).E
+                    .p.txt("Meine erste Testseite").E
+                    .build();
+
+
+                mainWindowWebView2.NavigateToString(htm.CloseDoc());
+            }
+            else
+            {
+                MessageBox.Show($"Laden der WevView2 ist fehlgeschlagen: {e.InitializationException.Message}");
+            }
         }
     }
 }

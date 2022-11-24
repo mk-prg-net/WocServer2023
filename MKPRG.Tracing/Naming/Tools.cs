@@ -189,8 +189,8 @@ namespace MKPRG.Naming
         /// <param name="Namespace"></param>
         /// <param name="recurseNamespaces"></param>
         /// <returns></returns>
-        public System.Collections.Concurrent.ConcurrentDictionary<long, INaming> GetNamingContainerAsConcurrentDict(string Namespace, bool recurseNamespaces = true)
-        {
+        public (bool succeded, System.Collections.Concurrent.ConcurrentDictionary<long, INaming> ncDict, INaming[] duplicates) GetNamingContainerAsConcurrentDict(string Namespace, bool recurseNamespaces = true)
+        {           
 
             var assemblies = AppDomain.CurrentDomain.GetAssemblies();
 
@@ -237,7 +237,25 @@ namespace MKPRG.Naming
                 Debug.WriteLineIf(ncTypes == null, "MKPRG.Naming.Tools.GetNamingContainerAsConcurrentDict(): NamingAss.GetTypes().FilterBy('INaming') → null");
                 Debug.WriteLineIf(ncTypes != null, $"MKPRG.Naming.Tools.GetNamingContainerAsConcurrentDict(): NamingAss.GetTypes().FilterBy('INaming').Length → {ncTypes.Count()}");
 
-                var namingContainer = ncTypes?.Select(r => (INaming)Activator.CreateInstance(r)).ToDictionary(r => r.ID);
+                var _namingContainer = ncTypes?.Select(r => (INaming)Activator.CreateInstance(r));
+
+                var dict = new Dictionary<long, INaming>(_namingContainer.Count());
+
+                var duplicates = new List<INaming>();
+
+                foreach(var nc in _namingContainer)
+                {
+                    if(dict.ContainsKey(nc.ID))
+                    {
+                        duplicates.Add(nc);
+                    }
+                    else
+                    {
+                        dict[nc.ID] = nc;
+                    }
+                }
+
+                var namingContainer = dict;
 
                 Debug.WriteLine("=====================================================================================================================");
                 Debug.WriteLineIf(namingContainer == null, "MKPRG.Naming.Tools.GetNamingContainerAsConcurrentDict(): namingContainer → null");

@@ -27,30 +27,37 @@ namespace MKPRG.MindWriter
         }
 
 
+        /// <summary>
+        /// Extends Window to Full Size
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void fullSizeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             MyWindowPlacement = WindowPlacement.Full;
+            PlaceMeNow();
         }
 
-        public WindowPlacement MyWindowPlacement
-        {
-            get => _myWindowPlacement;
-            set
-            {
-                _myWindowPlacement = value;
+        /// <summary>
+        /// Stores current valid placement
+        /// </summary>
+        public WindowPlacement MyWindowPlacement { get; set; }
 
-                //plcMgr.PlaceChildWindow(this, value);
-                //plcMgr.PlaceWindow((int)this.Handle, value);
-            }
-        }
 
-        WindowPlacement _myWindowPlacement;
 
         private void leftHalfToolStripMenuItem_Click(object sender, EventArgs e)
         {
             MyWindowPlacement = WindowPlacement.Left;
 
-            if(plcMgr.AreMainAndChildOnSameScreen(this))
+            PlaceMeNow();
+        }
+
+        /// <summary>
+        /// Resizes and moves to requested size and position.
+        /// </summary>
+        private void PlaceMeNow()
+        {
+            if (plcMgr.AreMainAndChildOnSameScreen(this))
             {
                 plcMgr.PlaceChildWindowsBelowMainWindow(this, MyWindowPlacement);
             }
@@ -62,17 +69,9 @@ namespace MKPRG.MindWriter
 
         private void rightHalfToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MyWindowPlacement = WindowPlacement.Left;
+            MyWindowPlacement = WindowPlacement.Right;
 
-            if (plcMgr.AreMainAndChildOnSameScreen(this))
-            {
-                plcMgr.PlaceChildWindowsBelowMainWindow(this, MyWindowPlacement);
-            }
-            else
-            {
-                plcMgr.PlaceChildWindows(this, MyWindowPlacement);
-            }
+            PlaceMeNow();
         }
-
     }
 }

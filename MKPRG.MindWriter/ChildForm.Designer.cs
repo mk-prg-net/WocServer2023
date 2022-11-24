@@ -68,22 +68,23 @@ namespace MKPRG.MindWriter
             // 
             // fullSizeToolStripMenuItem
             // 
+            this.fullSizeToolStripMenuItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.fullSizeToolStripMenuItem.Name = "fullSizeToolStripMenuItem";
-            this.fullSizeToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
+            this.fullSizeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.fullSizeToolStripMenuItem.Text = "&Full Size";
             this.fullSizeToolStripMenuItem.Click += new System.EventHandler(this.fullSizeToolStripMenuItem_Click);
             // 
             // leftHalfToolStripMenuItem
             // 
             this.leftHalfToolStripMenuItem.Name = "leftHalfToolStripMenuItem";
-            this.leftHalfToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
+            this.leftHalfToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.leftHalfToolStripMenuItem.Text = "&Left Hlaf";
             this.leftHalfToolStripMenuItem.Click += new System.EventHandler(this.leftHalfToolStripMenuItem_Click);
             // 
             // rightHalfToolStripMenuItem
             // 
             this.rightHalfToolStripMenuItem.Name = "rightHalfToolStripMenuItem";
-            this.rightHalfToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
+            this.rightHalfToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.rightHalfToolStripMenuItem.Text = "&Right Half";
             this.rightHalfToolStripMenuItem.Click += new System.EventHandler(this.rightHalfToolStripMenuItem_Click);
             // 
@@ -104,7 +105,8 @@ namespace MKPRG.MindWriter
             this.Controls.Add(this.menuStripOfChildWindow);
             this.MainMenuStrip = this.menuStripOfChildWindow;
             this.Name = "ChildForm";
-            this.Text = "ChildForm";
+            this.ShowIcon = false;
+            this.Text = "⊞ ChildForm";
             this.Load += new System.EventHandler(this.ChildForm_Load);
             this.menuStripOfChildWindow.ResumeLayout(false);
             this.menuStripOfChildWindow.PerformLayout();

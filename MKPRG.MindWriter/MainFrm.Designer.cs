@@ -32,24 +32,17 @@ namespace MKPRG.MindWriter
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.windowPlacementToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.placeOnTopToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.leftHalfToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.rightHalfToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addChildWindowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.mainFormTableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
-            this.cmdLabel = new System.Windows.Forms.Label();
-            this.tbxCmd = new System.Windows.Forms.TextBox();
+            this.mainWindowWebView2 = new Microsoft.Web.WebView2.WinForms.WebView2();
             this.menuStrip1.SuspendLayout();
-            this.mainFormTableLayoutPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.mainWindowWebView2)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
-            this.windowPlacementToolStripMenuItem,
             this.addChildWindowToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
@@ -72,35 +65,6 @@ namespace MKPRG.MindWriter
             this.exitToolStripMenuItem.Text = "E&xit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
-            // windowPlacementToolStripMenuItem
-            // 
-            this.windowPlacementToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.placeOnTopToolStripMenuItem,
-            this.leftHalfToolStripMenuItem,
-            this.rightHalfToolStripMenuItem});
-            this.windowPlacementToolStripMenuItem.Name = "windowPlacementToolStripMenuItem";
-            this.windowPlacementToolStripMenuItem.Size = new System.Drawing.Size(136, 20);
-            this.windowPlacementToolStripMenuItem.Text = "&Placement of Window";
-            // 
-            // placeOnTopToolStripMenuItem
-            // 
-            this.placeOnTopToolStripMenuItem.Name = "placeOnTopToolStripMenuItem";
-            this.placeOnTopToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.placeOnTopToolStripMenuItem.Text = "&Top";
-            this.placeOnTopToolStripMenuItem.Click += new System.EventHandler(this.placeTopToolStripMenuItem_Click);
-            // 
-            // leftHalfToolStripMenuItem
-            // 
-            this.leftHalfToolStripMenuItem.Name = "leftHalfToolStripMenuItem";
-            this.leftHalfToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.leftHalfToolStripMenuItem.Text = "&Left Half";
-            // 
-            // rightHalfToolStripMenuItem
-            // 
-            this.rightHalfToolStripMenuItem.Name = "rightHalfToolStripMenuItem";
-            this.rightHalfToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.rightHalfToolStripMenuItem.Text = "&Right Half";
-            // 
             // addChildWindowToolStripMenuItem
             // 
             this.addChildWindowToolStripMenuItem.Name = "addChildWindowToolStripMenuItem";
@@ -110,71 +74,43 @@ namespace MKPRG.MindWriter
             // 
             // statusStrip1
             // 
-            this.statusStrip1.Location = new System.Drawing.Point(0, 480);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 237);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(800, 22);
             this.statusStrip1.TabIndex = 1;
             this.statusStrip1.Text = "statusStrip1";
             // 
-            // mainFormTableLayoutPanel
+            // mainWindowWebView2
             // 
-            this.mainFormTableLayoutPanel.ColumnCount = 3;
-            this.mainFormTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 50F));
-            this.mainFormTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.mainFormTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.mainFormTableLayoutPanel.Controls.Add(this.cmdLabel, 0, 0);
-            this.mainFormTableLayoutPanel.Controls.Add(this.tbxCmd, 1, 0);
-            this.mainFormTableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mainFormTableLayoutPanel.Location = new System.Drawing.Point(0, 24);
-            this.mainFormTableLayoutPanel.Name = "mainFormTableLayoutPanel";
-            this.mainFormTableLayoutPanel.RowCount = 4;
-            this.mainFormTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
-            this.mainFormTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 100F));
-            this.mainFormTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.mainFormTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.mainFormTableLayoutPanel.Size = new System.Drawing.Size(800, 456);
-            this.mainFormTableLayoutPanel.TabIndex = 2;
-            // 
-            // cmdLabel
-            // 
-            this.cmdLabel.AutoSize = true;
-            this.cmdLabel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.cmdLabel.Location = new System.Drawing.Point(3, 0);
-            this.cmdLabel.Name = "cmdLabel";
-            this.cmdLabel.Size = new System.Drawing.Size(44, 40);
-            this.cmdLabel.TabIndex = 0;
-            this.cmdLabel.Text = "CMD";
-            this.cmdLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // tbxCmd
-            // 
-            this.tbxCmd.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tbxCmd.Location = new System.Drawing.Point(53, 3);
-            this.tbxCmd.Name = "tbxCmd";
-            this.tbxCmd.Size = new System.Drawing.Size(724, 22);
-            this.tbxCmd.TabIndex = 1;
+            this.mainWindowWebView2.AllowExternalDrop = true;
+            this.mainWindowWebView2.CreationProperties = null;
+            this.mainWindowWebView2.DefaultBackgroundColor = System.Drawing.Color.White;
+            this.mainWindowWebView2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mainWindowWebView2.Location = new System.Drawing.Point(0, 24);
+            this.mainWindowWebView2.Name = "mainWindowWebView2";
+            this.mainWindowWebView2.Size = new System.Drawing.Size(800, 213);
+            this.mainWindowWebView2.TabIndex = 2;
+            this.mainWindowWebView2.ZoomFactor = 1D;
+            this.mainWindowWebView2.CoreWebView2InitializationCompleted += new System.EventHandler<Microsoft.Web.WebView2.Core.CoreWebView2InitializationCompletedEventArgs>(this.mainWindowWebView2_CoreWebView2InitializationCompleted);
             // 
             // MainFrm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 502);
-            this.Controls.Add(this.mainFormTableLayoutPanel);
+            this.ClientSize = new System.Drawing.Size(800, 259);
+            this.Controls.Add(this.mainWindowWebView2);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.menuStrip1);
             this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainFrm";
             this.ShowIcon = false;
-            this.Text = "Mind Writer ";
+            this.Text = "🛸 Mind Writer ";
             this.Load += new System.EventHandler(this.MainFrm_Load);
             this.ResizeEnd += new System.EventHandler(this.MainFrm_ResizeEnd);
-            this.LocationChanged += new System.EventHandler(this.MainFrm_LocationChanged);
-            this.Move += new System.EventHandler(this.MainFrm_Move);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
-            this.mainFormTableLayoutPanel.ResumeLayout(false);
-            this.mainFormTableLayoutPanel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.mainWindowWebView2)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -186,14 +122,8 @@ namespace MKPRG.MindWriter
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
         private System.Windows.Forms.StatusStrip statusStrip1;
-        private System.Windows.Forms.ToolStripMenuItem windowPlacementToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem placeOnTopToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem leftHalfToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem rightHalfToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem addChildWindowToolStripMenuItem;
-        private System.Windows.Forms.TableLayoutPanel mainFormTableLayoutPanel;
-        private System.Windows.Forms.Label cmdLabel;
-        private System.Windows.Forms.TextBox tbxCmd;
+        private Microsoft.Web.WebView2.WinForms.WebView2 mainWindowWebView2;
     }
 }
 
