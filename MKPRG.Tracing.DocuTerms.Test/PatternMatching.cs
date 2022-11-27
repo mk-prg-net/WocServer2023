@@ -39,12 +39,11 @@ namespace MKPRG.Tracing.DocuTerms.Test
         public void Init()
         {
             var ntools = new ANC.Tools();
-            var getEventNames = ntools.GetNamingDictOf("MKPRG.Naming", new Composer());
+            var getNamingContainers = ntools.GetNamingContainers("MKPRG.Naming", true);
 
-            TraceHlp.ThrowArgExIfNot(getEventNames.Succeeded, getEventNames.ToPlx());
+            Assert.IsTrue(getNamingContainers.succeded);
 
-            MapUIDToName = getEventNames.Value;
-
+            MapUIDToName = getNamingContainers.ncDict;
 
             fmt = new IndentedTextFormatter(Parser.FnRunen._, RC.NC, ANC.Language.CNT);
             

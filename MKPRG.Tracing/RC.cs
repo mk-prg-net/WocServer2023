@@ -11,7 +11,7 @@ using mko.Logging;
 using mko.RPN;
 using MKPRG.Tracing.DocuTerms;
 
-using ANC = MKPRG.Naming;
+using NM = MKPRG.Naming;
 using TT = MKPRG.Naming.TechTerms;
 using TTD = MKPRG.Naming.DocuTerms;
 using System.Diagnostics;
@@ -27,14 +27,14 @@ namespace MKPRG.Tracing
     /// InnerException entfernt.
     /// MessageDocuTerm hinzugefügt.
     /// </summary>
-    public class RC: ISucceeded, ITraceInfo
+    public class RC : ISucceeded, ITraceInfo
     {
 
         /// <summary>
         /// mko, 15.6.2020
         /// Globaler Naming- Container
         /// </summary>
-        public static IReadOnlyDictionary<long, ANC.INaming> NC;
+        public static IReadOnlyDictionary<long, NM.INaming> NC;
 
         /// <summary>
         /// mko
@@ -55,9 +55,46 @@ namespace MKPRG.Tracing
         /// </summary>
         static RC()
         {
-            NC = new ANC.Tools().GetNamingContainerAsConcurrentDict("MKPRG.Naming");
-            fmtPN = new DocuTerms.Formatter.PNFormater(DocuTerms.Parser.Fn._, NC, ANC.Language.CNT);
-            pnL = new DocuTerms.Composer(fmtPN);
+            try
+            {
+                var nmTools = new NM.Tools();
+                var retGetNaming = nmTools.GetNamingContainers("MKPRG.Naming", true);
+
+                if (retGetNaming.succeded)
+                {
+                    NC = retGetNaming.ncDict;
+                }
+                else
+                {
+                    NC = retGetNaming.ncDict;
+
+                    if (!retGetNaming.includedAssemblies.Any())
+                    {
+                        Debug.WriteLine("No any Naming assembly found!");
+                    }
+                    else if (retGetNaming.duplicates.Any())
+                    {
+                        Debug.WriteLine("Warning: Duplicate Naming IDs found during loding of Naming Containers!");
+
+                        foreach (var duplicat in retGetNaming.duplicates)
+                        {
+                            Debug.WriteLine($"\tID{duplicat.ID}, {duplicat.CNT}");
+                        }
+                    }
+                    else
+                    {
+                        Debug.WriteLine($"{NC.Count} Naming Containers are loaded");
+                    }
+                }
+
+                fmtPN = new DocuTerms.Formatter.PNFormater(DocuTerms.Parser.Fn._, NC, NM.Language.CNT);
+                var NH = new MKPRG.Naming.NamingHelper(NC);
+                pnL = new DocuTerms.Composer(DocuTerms.Parser.Fn._, NC, NH, fmtPN);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+            }
         }
 
 
@@ -283,7 +320,7 @@ namespace MKPRG.Tracing
                     rc.User,
                     rc.AssemblyName,
                     rc.TypeName,
-                    rc.FunctionName,                    
+                    rc.FunctionName,
                     pnL.txt(rc.Message));
             }
             else
@@ -477,12 +514,12 @@ namespace MKPRG.Tracing
 
         public RC(mko.Logging.RC<T> mkoRc)
             : base(
-                  mkoRc.Succeeded, 
-                  mkoRc.LogDate, 
-                  mkoRc.User, 
-                  mkoRc.AssemblyName, 
-                  mkoRc.TypeName, 
-                  mkoRc.FunctionName, 
+                  mkoRc.Succeeded,
+                  mkoRc.LogDate,
+                  mkoRc.User,
+                  mkoRc.AssemblyName,
+                  mkoRc.TypeName,
+                  mkoRc.FunctionName,
                   pnL.txt(mkoRc.Message))
         { }
 

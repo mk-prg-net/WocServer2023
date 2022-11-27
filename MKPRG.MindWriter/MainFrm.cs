@@ -23,7 +23,7 @@ namespace MKPRG.MindWriter
     {
         WindowPlacementManager plcMgr;
 
-        DT.Composer pnL;
+        DT.IComposer pnL;
 
         public MainFrm()
         {
@@ -38,7 +38,7 @@ namespace MKPRG.MindWriter
             WindowState = FormWindowState.Maximized;           
 
             plcMgr.PlaceMainWindow();
-            pnL = new DT.Composer();
+            pnL = MKPRG.Tracing.RC.pnL;
 
             await mainWindowWebView2.EnsureCoreWebView2Async();
         }

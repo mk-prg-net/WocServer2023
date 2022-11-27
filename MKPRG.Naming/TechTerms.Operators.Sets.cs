@@ -612,7 +612,7 @@ namespace MKPRG.Naming.TechTerms.Operators.Sets
     public class IsOutOfRange
     : NamingBase, Grammar.Adjectives.IAdjective, Grammar.IInProgressActivity
     {
-        public const long UID = 0xCD75E08A;
+        public const long UID = 0x95C63981;
 
         public IsOutOfRange()
             : base(UID)
