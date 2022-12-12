@@ -47,7 +47,5 @@ namespace MKPRG.HTML
                 return this;
             }
         }
-
-
     }
 }

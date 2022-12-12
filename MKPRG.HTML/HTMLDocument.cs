@@ -195,6 +195,37 @@ namespace MKPRG.HTML
         }
 
         /// <summary>
+        /// mko, 12.12.2022
+        /// </summary>
+        /// <param name="tagname"></param>
+        /// <param name="idName"></param>
+        /// <returns></returns>
+        public HTMLDocument tWithId(string tagname, string idName)
+        {
+            tags.Push(tagname);
+            bldDoc.Append($"<{tagname} id='{idName}'>");
+
+            return this;
+        }
+
+        /// <summary>
+        /// mko, 12.12.2022
+        /// </summary>
+        /// <param name="tagname"></param>
+        /// <param name="idName"></param>
+        /// <param name="className"></param>
+        /// <returns></returns>
+        public HTMLDocument tWithIdAndClass(string tagname, string idName, string className)
+        {
+            tags.Push(tagname);
+            bldDoc.Append($"<{tagname} id='{idName}' class='{className}'>");
+
+            return this;
+        }
+
+
+
+        /// <summary>
         /// mko, 4.1.2021
         /// 
         /// Eröffnet automatisiert einen HTML- Block, der attributiert ist.
