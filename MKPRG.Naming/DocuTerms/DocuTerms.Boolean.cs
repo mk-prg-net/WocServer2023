@@ -17,7 +17,7 @@ namespace MKPRG.Naming.DocuTerms.Boolean
     public class Boolean
         : NamingBase
     {
-        public const long UID = 0xD7960352;
+        public const long UID = 0x36128A85991E3504L; //0xD7960352;
 
         public Boolean()
             : base(UID, 1, Wocs.DocuTerms._TypeDocuTerms.UID, Wocs.Authors.KorneffelMartin.UID, Wocs.Nodes.DLL.MkprgNamingDll.UID,

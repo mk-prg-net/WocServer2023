@@ -53,6 +53,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MKPRG.WormTron.V1", "MKPRG.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MKPRG.MindWriter", "MKPRG.MindWriter\MKPRG.MindWriter.csproj", "{EF83FE38-7007-41C6-A1BE-9F57F499ED65}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MKPRG.Naming.SVC", "MKPRG.Naming.SVC\MKPRG.Naming.SVC.csproj", "{BFEA9452-39C3-4E53-8BDE-125DA8DAF7C5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Beta|Any CPU = Beta|Any CPU
@@ -577,6 +579,26 @@ Global
 		{EF83FE38-7007-41C6-A1BE-9F57F499ED65}.Release|Any CPU.Build.0 = Release|Any CPU
 		{EF83FE38-7007-41C6-A1BE-9F57F499ED65}.Release|x86.ActiveCfg = Release|Any CPU
 		{EF83FE38-7007-41C6-A1BE-9F57F499ED65}.Release|x86.Build.0 = Release|Any CPU
+		{BFEA9452-39C3-4E53-8BDE-125DA8DAF7C5}.Beta|Any CPU.ActiveCfg = Debug|Any CPU
+		{BFEA9452-39C3-4E53-8BDE-125DA8DAF7C5}.Beta|Any CPU.Build.0 = Debug|Any CPU
+		{BFEA9452-39C3-4E53-8BDE-125DA8DAF7C5}.Beta|x86.ActiveCfg = Debug|Any CPU
+		{BFEA9452-39C3-4E53-8BDE-125DA8DAF7C5}.Beta|x86.Build.0 = Debug|Any CPU
+		{BFEA9452-39C3-4E53-8BDE-125DA8DAF7C5}.Debug_with_local_IIS|Any CPU.ActiveCfg = Debug|Any CPU
+		{BFEA9452-39C3-4E53-8BDE-125DA8DAF7C5}.Debug_with_local_IIS|Any CPU.Build.0 = Debug|Any CPU
+		{BFEA9452-39C3-4E53-8BDE-125DA8DAF7C5}.Debug_with_local_IIS|x86.ActiveCfg = Debug|Any CPU
+		{BFEA9452-39C3-4E53-8BDE-125DA8DAF7C5}.Debug_with_local_IIS|x86.Build.0 = Debug|Any CPU
+		{BFEA9452-39C3-4E53-8BDE-125DA8DAF7C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BFEA9452-39C3-4E53-8BDE-125DA8DAF7C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BFEA9452-39C3-4E53-8BDE-125DA8DAF7C5}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{BFEA9452-39C3-4E53-8BDE-125DA8DAF7C5}.Debug|x86.Build.0 = Debug|Any CPU
+		{BFEA9452-39C3-4E53-8BDE-125DA8DAF7C5}.localIIS|Any CPU.ActiveCfg = Debug|Any CPU
+		{BFEA9452-39C3-4E53-8BDE-125DA8DAF7C5}.localIIS|Any CPU.Build.0 = Debug|Any CPU
+		{BFEA9452-39C3-4E53-8BDE-125DA8DAF7C5}.localIIS|x86.ActiveCfg = Debug|Any CPU
+		{BFEA9452-39C3-4E53-8BDE-125DA8DAF7C5}.localIIS|x86.Build.0 = Debug|Any CPU
+		{BFEA9452-39C3-4E53-8BDE-125DA8DAF7C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BFEA9452-39C3-4E53-8BDE-125DA8DAF7C5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BFEA9452-39C3-4E53-8BDE-125DA8DAF7C5}.Release|x86.ActiveCfg = Release|Any CPU
+		{BFEA9452-39C3-4E53-8BDE-125DA8DAF7C5}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

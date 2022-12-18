@@ -31,7 +31,7 @@ namespace MKPRG.DatatypeHandling
                 | ((long)b8[4] << 32)
                 | ((long)b8[5] << 40)
                 | ((long)b8[6] << 48)
-                | ((long)b8[7] << 56)) & 0xFFFFFFFFL;
+                | ((long)b8[7] << 56)) & 0x7FFFFFFFFFFFFFFFL;
 
             return sid;
         }

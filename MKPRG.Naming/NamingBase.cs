@@ -14,7 +14,8 @@ namespace MKPRG.Naming
     /// Geändert auf long- GUID's (kompakter)
     /// </summary>
     public abstract class NamingBase
-        : Woc.Types.BaseTypes.Structure.IPlainText
+        : IGetNameSpaceOfNamingContainer,
+        Woc.Types.BaseTypes.Structure.IPlainText
     {
         public NamingBase(long uid)
         {
@@ -23,7 +24,7 @@ namespace MKPRG.Naming
 
         /// <summary>
         /// mko, 25.3.2021
-        /// Konstruktor für die Anlage von Naming- Kontainern als PlainText- Wocs
+        /// Konstruktor für die Anlage von Naming- Containern als PlainText- Wocs
         /// </summary>
         /// <param name="uid"></param>
         /// <param name="WocTypeId"></param>
@@ -118,6 +119,34 @@ namespace MKPRG.Naming
         /// Hier in der Regel DLL.
         /// </summary>
         public long WocNodeId { get; }
+
+        // Implementierung von IGetNamespaceOfNamingContainer
+
+        T _InitializeIfRequiredAndGet<T>(Func<T> getRetVal)
+        {
+            // Initialisierung aller Felder in einem Schritt aus Effizienzgründen
+            if (!_IsGetNameSpaceOfNamingContainerInitialized)
+            {
+                var myType = GetType();
+                _MyNamingContainerName = myType.Name;
+                _MyNamespace = myType.Namespace;
+                _MyNamespaceLevel = _MyNamespace.Count(c => c == '.');
+                _IsGetNameSpaceOfNamingContainerInitialized = true;
+            }
+
+            return getRetVal();
+        }
+
+        bool _IsGetNameSpaceOfNamingContainerInitialized = false;
+        string _MyNamingContainerName;
+        string _MyNamespace;
+        int _MyNamespaceLevel = -1;
+
+        public string MyNamingContainerName => _InitializeIfRequiredAndGet(() => _MyNamingContainerName);
+
+        public string MyNamespace => _InitializeIfRequiredAndGet(() => _MyNamespace);
+
+        public int MyNameSpaceLevel => _InitializeIfRequiredAndGet(() => _MyNamespaceLevel);
 
         /// <summary>
         /// Ausgabe des Namens/Meldung in der gewünschten Sprache

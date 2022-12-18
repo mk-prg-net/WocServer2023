@@ -5,10 +5,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-
-using MKPRG.Tracing;
-using MKPRG.Tracing.DocuTerms;
-
 /// <summary>
 /// mko, 18.2.2020
 /// Liefert die Bennenung einer Entität in mehreren Sprachen.
@@ -16,6 +12,10 @@ using MKPRG.Tracing.DocuTerms;
 /// 
 /// mko, 18.2.2021
 /// Umgezogen in MKPRG.Tracing
+/// 
+/// 18.12.2022
+/// Abhängigkeit von MKPRG.Tracing gelöst.
+/// Umgezogen von MKPRG.Tracing nach MKPRG.Naming.
 /// </summary>
 namespace MKPRG.Naming
 {
@@ -23,7 +23,7 @@ namespace MKPRG.Naming
     /// mko, 27.2.2020
     /// Methoden zum Abrufen von Naming- Instanzen unte Namensräumen etc
     /// </summary>
-    public class Tools
+    public partial class Tools
     {
         /// <summary>
         /// mko, 28.5.2020
@@ -125,7 +125,8 @@ namespace MKPRG.Naming
                     Debug.WriteLineIf(namingContainer == null, "MKPRG.Naming.Tools.GetNamingContainerAsConcurrentDict(): namingContainer → null");
                     Debug.WriteLineIf(namingContainer != null, $"MKPRG.Naming.Tools.GetNamingContainerAsConcurrentDict(): namingContainer.Count() -> {namingContainer.Count()}");
 
-                    var succeded = !dict.Any();
+                    var succeded = dict.Any() && !duplicates.Any();
+
 
                     return (succeded, 
                             new System.Collections.Concurrent.ConcurrentDictionary<long, INaming>(namingContainer), 

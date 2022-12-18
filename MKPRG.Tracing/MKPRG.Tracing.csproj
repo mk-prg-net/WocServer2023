@@ -215,7 +215,6 @@
     <Compile Include="Monitoring\IJobMonitoringEvents.cs" />
     <Compile Include="Monitoring\Job.cs" />
     <Compile Include="Monitoring\JobMonitoringConsole.cs" />
-    <Compile Include="Naming\Tools.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RC.cs" />
     <Compile Include="RCException.cs" />
@@ -240,6 +239,8 @@
       <Name>MKPRG.Woc</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Naming\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
