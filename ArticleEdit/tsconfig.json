@@ -4,11 +4,12 @@
     "noEmitOnError": true,
     "removeComments": false,
     "sourceMap": true,
-    "target": "es5",
+    "target": "es6",
     "outDir": "Scripts/tsJs"
   },
   "include": [
-    "Scripts/ts/**/*"
+    "./Scripts/ts/**/*",
+    "./Scripts/typings/**/*"
   ],
   "exclude": [
     "node_modules",

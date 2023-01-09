@@ -131,6 +131,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\EditorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\PopScriptController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -150,6 +151,11 @@
     <Content Include="ReadMe.md" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\Editor\DocumentReady.js" />
+    <None Include="Scripts\jquery-3.6.3.intellisense.js" />
+    <Content Include="Scripts\jquery-3.6.3.js" />
+    <Content Include="Scripts\jquery-3.6.3.min.js" />
+    <Content Include="Scripts\jquery-3.6.3.slim.js" />
+    <Content Include="Scripts\jquery-3.6.3.slim.min.js" />
     <Content Include="Scripts\Polyfills.js" />
     <Content Include="Scripts\qunit.js" />
     <Content Include="Scripts\Editor\RPNHtml.js" />
@@ -157,8 +163,8 @@
     <Content Include="Scripts\Editor\RPN.js" />
     <Content Include="Scripts\Editor\StringHlp.js" />
     <Content Include="Scripts\Editor\Tests.js" />
-    <Content Include="Scripts\jquery-1.10.2.js" />
-    <Content Include="Scripts\jquery-1.10.2.min.js" />
+    <Content Include="Scripts\jquery-3.6.3.slim.min.map" />
+    <Content Include="Scripts\jquery-3.6.3.min.map" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
@@ -168,6 +174,15 @@
     <Content Include="Scripts\require.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\ts\DocumentReady.js" />
+    <Content Include="Scripts\ts\Parser.js" />
+    <TypeScriptCompile Include="Scripts\ts\IPrintable.ts" />
+    <TypeScriptCompile Include="Scripts\ts\IFunction.ts" />
+    <TypeScriptCompile Include="Scripts\ts\IToken.ts" />
+    <TypeScriptCompile Include="Scripts\ts\RPN.ts" />
+    <Content Include="Scripts\ts\RPNHtml.js" />
+    <TypeScriptCompile Include="Scripts\ts\StringHlp.ts" />
+    <Content Include="Scripts\ts\Tests.js" />
     <Content Include="Scripts\underscore.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config" />
@@ -184,15 +199,16 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Scripts\jquery-1.10.2.min.map" />
     <Content Include="Views\Editor\EditText.cshtml" />
     <Content Include="Scripts\package.json" />
     <Content Include="Views\Editor\Test.cshtml" />
+    <Content Include="tsconfig.json" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
     <Folder Include="Scripts\tsJs\" />
+    <Folder Include="Views\PopScript\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
