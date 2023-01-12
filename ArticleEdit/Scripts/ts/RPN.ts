@@ -78,7 +78,6 @@ export default class RPN {
         stack.push(newStackElem);
     }
 
-
     EvalBlockFunc(stack, Tag, isArgTypeTest) {
         // Alle zur OL gehörenden li vom Stack entfernen
         let stackElems = [];
@@ -94,7 +93,7 @@ export default class RPN {
 
     }
 
-    StackElemStructs = {
+    public StackElemStructs = {
 
         CreateToken(token): IToken {
             return {

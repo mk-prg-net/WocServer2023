@@ -180,7 +180,7 @@
     <TypeScriptCompile Include="Scripts\ts\IFunction.ts" />
     <TypeScriptCompile Include="Scripts\ts\IToken.ts" />
     <TypeScriptCompile Include="Scripts\ts\RPN.ts" />
-    <Content Include="Scripts\ts\RPNHtml.js" />
+    <TypeScriptCompile Include="Scripts\ts\RPNHtml.ts" />
     <TypeScriptCompile Include="Scripts\ts\StringHlp.ts" />
     <Content Include="Scripts\ts\Tests.js" />
     <Content Include="Scripts\underscore.js" />
