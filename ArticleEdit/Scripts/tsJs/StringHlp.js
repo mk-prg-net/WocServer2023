@@ -32,38 +32,43 @@
 //
 //</unit_history>
 //</unit_header> 
-export default class StringHlp {
-    eatWhiteSpace(inString) {
-        // Entfernt alle führenden Leerraumzeichen im übergeben String
-        return inString.replace(/^\s+/, "");
-    }
-    tokenize(inString) {
-        // Zerlegt einen String in alle Worte und Wortzeichen
-        // Separation der Worte
-        let newString = inString.trim()
-            .replace("\n", " ")
-            .replace(/\,\s/g, " , ")
-            .replace(/\.\s/g, " . ")
-            .replace(/\?\s/g, " ? ")
-            .replace(/\!\s/g, " ! ")
-            .replace(/\=/g, " = ")
-            .replace(/\(/g, " ( ")
-            .replace(/\)/g, " ) ")
-            .replace(/\{/g, " { ")
-            .replace(/\}/g, " } ")
-            .replace(/\[/g, " [ ")
-            .replace(/\]/g, " ] ")
-            .replace(/\+/g, " + ")
-            .replace(/\*/g, " * ")
-            .replace(/\-/g, " - ")
-            .replace(/\//g, " / ")
-            .replace(/#+/g, " $&");
-        let tokens = newString.split(/\s+/g);
-        // Ein führendes Leerwort entfernen
-        if (tokens.length > 0 && tokens[0] === "") {
-            tokens.shift();
+define(["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    class StringHlp {
+        eatWhiteSpace(inString) {
+            // Entfernt alle führenden Leerraumzeichen im übergeben String
+            return inString.replace(/^\s+/, "");
         }
-        return tokens;
+        tokenize(inString) {
+            // Zerlegt einen String in alle Worte und Wortzeichen
+            // Separation der Worte
+            let newString = inString.trim()
+                .replace("\n", " ")
+                .replace(/\,\s/g, " , ")
+                .replace(/\.\s/g, " . ")
+                .replace(/\?\s/g, " ? ")
+                .replace(/\!\s/g, " ! ")
+                .replace(/\=/g, " = ")
+                .replace(/\(/g, " ( ")
+                .replace(/\)/g, " ) ")
+                .replace(/\{/g, " { ")
+                .replace(/\}/g, " } ")
+                .replace(/\[/g, " [ ")
+                .replace(/\]/g, " ] ")
+                .replace(/\+/g, " + ")
+                .replace(/\*/g, " * ")
+                .replace(/\-/g, " - ")
+                .replace(/\//g, " / ")
+                .replace(/#+/g, " $&");
+            let tokens = newString.split(/\s+/g);
+            // Ein führendes Leerwort entfernen
+            if (tokens.length > 0 && tokens[0] === "") {
+                tokens.shift();
+            }
+            return tokens;
+        }
     }
-}
+    exports.default = StringHlp;
+});
 //# sourceMappingURL=StringHlp.js.map

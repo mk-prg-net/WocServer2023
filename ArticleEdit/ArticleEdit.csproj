@@ -174,13 +174,16 @@
     <Content Include="Scripts\require.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
-    <Content Include="Scripts\ts\DocumentReady.js" />
-    <Content Include="Scripts\ts\Parser.js" />
+    <Content Include="Scripts\tsJs\DocumentReady.js" />
+    <TypeScriptCompile Include="Scripts\ts\Parser.ts" />
+    <TypeScriptCompile Include="Scripts\ts\RPNHtmlInlineFunctions.ts" />
     <TypeScriptCompile Include="Scripts\ts\IPrintable.ts" />
     <TypeScriptCompile Include="Scripts\ts\IFunction.ts" />
     <TypeScriptCompile Include="Scripts\ts\IToken.ts" />
     <TypeScriptCompile Include="Scripts\ts\RPN.ts" />
     <TypeScriptCompile Include="Scripts\ts\RPNHtml.ts" />
+    <TypeScriptCompile Include="Scripts\ts\RPNHtmlBlockFunctions.ts" />
+    <TypeScriptCompile Include="Scripts\ts\StackElemFuncs.ts" />
     <TypeScriptCompile Include="Scripts\ts\StringHlp.ts" />
     <Content Include="Scripts\ts\Tests.js" />
     <Content Include="Scripts\underscore.js" />
@@ -207,7 +210,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
-    <Folder Include="Scripts\tsJs\" />
     <Folder Include="Views\PopScript\" />
   </ItemGroup>
   <ItemGroup>

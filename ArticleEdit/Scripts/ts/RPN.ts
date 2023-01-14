@@ -39,8 +39,11 @@ import IFunction from "./IFunction";
 import IPrintable from "./IPrintable";
 import IToken from "./IToken";
 import StringHlp from "./StringHlp"
+import StackElemStructsClass from "./StackElemFuncs"
 
 export default class RPN {
+
+    StackElemStructs = new StackElemStructsClass();
 
     isFuncName(inString: string): boolean {
         // true, wenn das Token den Namen einer RPN- Funktion darstellt,  sonst false
@@ -54,6 +57,25 @@ export default class RPN {
     ArgCount(rpnFuncName: string): number {
         return rpnFuncName.lastIndexOf('#') + 1;
     }
+
+    isFuncOfTypeToken(strToken: string, FuncType): boolean {
+        // Hilfsfunktion. Liefert true zurück, wenn das Token dem Namen einer Funktion entspricht, 
+        // die den erwarteten Funktionstyp hat.
+
+        var res = false;
+
+        if (this.isFuncName(strToken)) {
+
+            // Abschneiden aller führender #
+            let FuncName = this.ExtractFuncName(strToken);
+
+            // Prüfen, ob token einem bekannten Funktionsnamen entspricht
+            res = (FuncName in FuncType);
+        }
+
+        return res;
+    };
+
 
     Peek(stack: IPrintable[]) : IPrintable {
         if (stack.length > 0)
@@ -90,111 +112,6 @@ export default class RPN {
         // Token in einem p- Element verpacken und auf den Stack legen.
         let newStackElem = this.StackElemStructs.CreateBlockFunc(Tag, stackElems);
         stack.push(newStackElem);
-
     }
-
-    public StackElemStructs = {
-
-        CreateToken(token): IToken {
-            return {
-                tok: token,
-                print: function () { return this.tok; },
-                printRPN: function () { return this.tok; }
-            };
-        },
-
-        isToken(stackElem: IPrintable): boolean {
-            return "tok" in stackElem;
-        },
-
-        isBlockContent(stackElem): boolean {
-            // Liefert true, wenn das Element zum Inhalt einer Blockfunktion gehört
-            return this.isToken(stackElem) || this.isFunc(stackElem, "b") || this.isFunc(stackElem, "i") || this.isFunc(stackElem, "sub") || this.isFunc(stackElem, "sup");
-        },
-
-        CreateInlineFunc: function (TagName, args) {
-            // Klassenfabrik für Stack- Elemente, die Inlinefunktionen darstellen
-
-            let thisStackElemStructs = this;
-
-            if (args.length > 0) {
-                return {
-                    Tag: TagName,
-                    Args: args,
-                    print: function () {
-                        return "<" + this.Tag + ">"
-                            + this.Args.map(function (arg) { return arg.print(); }).join(" ")
-                            + "</" + this.Tag + ">";
-                    },
-                    printRPN: function () {
-                        // Die Anzahl der Argumente wird bei Inline- Funktionen durch wiederholte # kodiert
-                        return "\n" + this.Args.map(function (arg) { return arg.printRPN(); }).join(" ")
-                            + "\n"
-                            + "#".repeat(this.Args.length)
-                            + this.Tag
-                            + "\n\n";
-                    }
-                };
-            } else {
-                return {
-                    Tag: TagName,
-                    Args: [thisStackElemStructs.CreateToken("")],
-                    print: function () {
-                        return "<" + this.Tag + "></" + this.Tag + ">\n";
-                    },
-                    printRPN: function () {
-                        return "\n#" + this.Tag + "\n\n";
-                    }
-                };
-
-            }
-        },
-
-        CreateBlockFunc(TagName: string, args: IPrintable[]): IFunction {
-            // Klassenfabrik für Stack- Elemente, die Blockfunktionen darstellen
-
-            let thisStackElemStructs = this;
-
-            if (args.length > 0) {
-                return {
-                    Tag: TagName,
-                    Args: args,
-                    print(): string {
-                        return "<" + this.Tag + ">\n"
-                            + this.Args.map(function (arg) { return arg.print(); }).join(" ")
-                            + "\n</" + this.Tag + ">\n";
-                    },
-                    printRPN(): string {
-                        return "\n" + this.Args.map(function (arg) { return arg.printRPN(); }).join(" ")
-                            + "\n#" + this.Tag + "\n\n";
-                    }
-                };
-            } else {
-                return {
-                    Tag: TagName,
-                    Args: [thisStackElemStructs.CreateToken("")],
-                    print: function () {
-                        return "<" + this.Tag + "></" + this.Tag + ">\n";
-                    },
-                    printRPN: function () {
-                        return "\n#" + this.Tag + "\n\n";
-                    }
-                };
-
-            }
-        },
-
-
-        isFunc(stackElem : IPrintable, Tag: string): boolean {
-            // Prädikat, gibt true zurück, wenn auf dem Stack eine Blockfunktion liegt.            
-            if (("Tag" in stackElem) && ("Args" in stackElem)) {
-                let func = stackElem as IFunction;
-                return func.Tag === Tag;
-            }
-            else {
-                return false;
-            }
-        }
-    };
 };
 

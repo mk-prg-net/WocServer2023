@@ -5,12 +5,13 @@
     "removeComments": false,
     "sourceMap": true,
     "target": "es6",
-    "outDir": "Scripts/tsJs"
+    "outDir": "Scripts/tsJs",
+    "module": "AMD"
   },
   "include": [
     "./Scripts/ts/**/*",
     "./Scripts/typings/**/*"
-  ],
+, "Scripts/tsJs/DocumentReady.js"  ],
   "exclude": [
     "node_modules",
     "wwwroot"

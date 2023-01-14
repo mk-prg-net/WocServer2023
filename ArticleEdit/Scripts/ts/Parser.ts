@@ -27,35 +27,53 @@
 //
 //  Version.......: 1.1
 //  Autor.........: Martin Korneffel (mko)
-//  Datum.........: 
-//  Änderungen....: 
+//  Datum.........: 13.1.2023
+//  Änderungen....: Umgestellt auf Typescript
 //
 //</unit_history>
 //</unit_header>   
 
-"use strict";
+import IPrintable from "./IPrintable";
+import RPNclass from "./RPN"; 
+import RPNHtmlClass from "./RPNHtml";
+import StringHlpClass from "./StringHlp"
 
-define(["./StringHlp", "./RPN", "./RPNHtml"], function (StringHlp, RPN, Html) {
 
-    return function (inTxt) {
+export default class Parser {
 
-        let token = StringHlp.tokenize(inTxt);        
-        let stack = [];        
+    constructor(strHlp: StringHlpClass, rpn: RPNclass, html: RPNHtmlClass) {
+        this.StringHlp = strHlp;
+        this.RPN = rpn;
+        this.Html = html;
+    }
+      
+    StringHlp: StringHlpClass;
+    RPN: RPNclass;
+    Html: RPNHtmlClass;
 
-        for (let pos = 0; pos < token.length; pos++) {
+    Parse(inTxt: string)
+        : {
+            html: string,
+            Rest: string,
+            Stack: IPrintable[]
+        } {
+        let strTokens = this.StringHlp.tokenize(inTxt);
+        let stack: IPrintable[] = [];
 
-            if (Html.isBlockFuncToken(token[pos])) {
+        for (let pos = 0; pos < strTokens.length; pos++) {
 
-                let fname = RPN.ExtractFuncName(token[pos]);
-                Html.BlockFuncs[fname](stack);
+            if (this.Html.isBlockFuncToken(strTokens[pos])) {
 
-            } else if (Html.isInlineFuncToken(token[pos])) {
+                let fname = this.RPN.ExtractFuncName(strTokens[pos]);
+                this.Html.BlockFuncs[fname](stack);
 
-                let fname = RPN.ExtractFuncName(token[pos]);
-                Html.InlineFuncs[fname](stack, RPN.ArgCount(token[pos]));
+            } else if (this.Html.isInlineFuncToken(strTokens[pos])) {
+
+                let fname = this.RPN.ExtractFuncName(strTokens[pos]);
+                this.Html.InlineFuncs[fname](stack, this.RPN.ArgCount(strTokens[pos]));
 
             } else {
-                Html.Token(stack, token[pos]);                
+                this.Html.Token(stack, strTokens[pos]);
             }
         }
 
@@ -68,7 +86,7 @@ define(["./StringHlp", "./RPN", "./RPNHtml"], function (StringHlp, RPN, Html) {
 
         for (; i < stack.length; i++) {
 
-            if (!RPN.StackElemStructs.isBlockContent(stack[i]) && !RPN.StackElemStructs.isFunc(stack[i], "li")) {
+            if (!this.RPN.StackElemStructs.isBlockContent(stack[i]) && !this.RPN.StackElemStructs.isFunc(stack[i], "li")) {
                 htmlText += stack[i].print();
             } else {
                 break;
@@ -85,12 +103,12 @@ define(["./StringHlp", "./RPN", "./RPNHtml"], function (StringHlp, RPN, Html) {
             stack.pop();
         }
 
-        return {
-            html: htmlText,
-            Rest: Rest,
-            Stack: stack
+        let ret = {
+            html: htmlText as string,
+            Rest: Rest as string,
+            Stack: stack as IPrintable[]
         };
-
-    };
-
-});
+         
+        return ret;
+    }
+}

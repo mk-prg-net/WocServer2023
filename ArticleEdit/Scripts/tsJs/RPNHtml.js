@@ -32,88 +32,25 @@
 //
 //</unit_history>
 //</unit_header>   
-//import StringHlp from "./StringHlp";
-import RPNclass from "./RPN";
-export default function () {
-    let RPN = new RPNclass();
-    var isFuncOfTypeToken = function (token, FuncType) {
-        // Hilfsfunktion. Liefert true zurück, wenn das Token dem Namen einer Funktion entspricht, 
-        // die den erwarteten Funktionstyp hat.
-        var res = false;
-        if (RPN.isFuncName(token)) {
-            // Abschneiden aller führender #
-            let FuncName = RPN.ExtractFuncName(token);
-            // Prüfen, ob token einem bekannten Funktionsnamen entspricht
-            res = (FuncName in FuncType);
+define(["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    class RPNHtml {
+        constructor(rpn, inlineFuncs, blockFuncs) {
+            this.RPN = rpn;
+            this.InlineFuncs = inlineFuncs;
+            this.BlockFuncs = blockFuncs;
         }
-        return res;
-    };
-    var Html = {
-        isBlockFuncToken: function (token) {
-            return isFuncOfTypeToken(token, this.BlockFuncs);
-        },
-        isInlineFuncToken: function (token) {
-            return isFuncOfTypeToken(token, this.InlineFuncs);
-        },
-        Token: function (stack, tok) {
-            stack.push(RPN.StackElemStructs.CreateToken(tok));
-        },
-        InlineFuncs: {
-            b: function (stack, argc) {
-                RPN.EvalInlineFunc(stack, "b", argc);
-            },
-            i: function (stack, argc) {
-                RPN.EvalInlineFunc(stack, "i", argc);
-            },
-            sub: function (stack, argc) {
-                RPN.EvalInlineFunc(stack, "sub", argc);
-            },
-            sup: function (stack, argc) {
-                RPN.EvalInlineFunc(stack, "sup", argc);
-            },
-        },
-        BlockFuncs: {
-            p: function (stack) {
-                RPN.EvalBlockFunc(stack, "p", RPN.StackElemStructs.isBlockContent.bind(RPN.StackElemStructs));
-            },
-            pre: function (stack) {
-                throw new Error("nicht implementiert");
-            },
-            ol: function (stack) {
-                RPN.EvalBlockFunc(stack, "ol", function (stackElem) { return RPN.StackElemStructs.isFunc(stackElem, "li"); });
-            },
-            ul: function (stack) {
-                RPN.EvalBlockFunc(stack, "ul", function (stackElem) { return RPN.StackElemStructs.isFunc(stackElem, "li"); });
-            },
-            li: function (stack) {
-                if (RPN.StackElemStructs.isFunc(RPN.Peek(stack), "ol") || RPN.StackElemStructs.isFunc(RPN.Peek(stack), "ul")) {
-                    let liElem = RPN.StackElemStructs.CreateBlockFunc("li", [stack.pop()]);
-                    stack.push(liElem);
-                }
-                else {
-                    RPN.EvalBlockFunc(stack, "li", RPN.StackElemStructs.isBlockContent.bind(RPN.StackElemStructs));
-                }
-            },
-            h1: function (stack) {
-                RPN.EvalBlockFunc(stack, "h1", RPN.StackElemStructs.isBlockContent.bind(RPN.StackElemStructs));
-            },
-            h2: function (stack) {
-                RPN.EvalBlockFunc(stack, "h2", RPN.StackElemStructs.isBlockContent.bind(RPN.StackElemStructs));
-            },
-            h3: function (stack) {
-                RPN.EvalBlockFunc(stack, "h3", RPN.StackElemStructs.isBlockContent.bind(RPN.StackElemStructs));
-            },
-            h4: function (stack) {
-                RPN.EvalBlockFunc(stack, "h4", RPN.StackElemStructs.isBlockContent.bind(RPN.StackElemStructs));
-            },
-            h5: function (stack) {
-                RPN.EvalBlockFunc(stack, "h5", RPN.StackElemStructs.isBlockContent.bind(RPN.StackElemStructs));
-            },
-            h6: function (stack) {
-                RPN.EvalBlockFunc(stack, "h6", RPN.StackElemStructs.isBlockContent.bind(RPN.StackElemStructs));
-            },
+        isBlockFuncToken(strToken) {
+            return this.RPN.isFuncOfTypeToken(strToken, this.BlockFuncs);
         }
-    };
-    return Html;
-}
+        isInlineFuncToken(strToken) {
+            return this.RPN.isFuncOfTypeToken(strToken, this.InlineFuncs);
+        }
+        Token(stack, tok) {
+            stack.push(this.RPN.StackElemStructs.CreateToken(tok));
+        }
+    }
+    exports.default = RPNHtml;
+});
 //# sourceMappingURL=RPNHtml.js.map

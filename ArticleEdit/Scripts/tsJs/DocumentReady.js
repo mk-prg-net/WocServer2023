@@ -7,7 +7,7 @@ requirejs.config({
 });
 
 // Start the main app logic.
-requirejs(['Editor/StringHlp', 'Editor/Parser', 'Editor/RPNHtml'],
+requirejs(['tsJs/StringHlp', 'tsJs/Parser', 'tsJs/RPNHtml'],
 function (StringHlp, Parser, RPNHtml) {
 
     let main_data = [];
