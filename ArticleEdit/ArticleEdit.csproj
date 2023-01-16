@@ -141,7 +141,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\html-rpn.txt" />
-    <Content Include="Content\qunit.css" />
+    <Content Include="Content\qunit-2.19.3.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -157,7 +157,7 @@
     <Content Include="Scripts\jquery-3.6.3.slim.js" />
     <Content Include="Scripts\jquery-3.6.3.slim.min.js" />
     <Content Include="Scripts\Polyfills.js" />
-    <Content Include="Scripts\qunit.js" />
+    <Content Include="Scripts\qunit-2.19.3.js" />
     <Content Include="Scripts\Editor\RPNHtml.js" />
     <Content Include="Scripts\Editor\Parser.js" />
     <Content Include="Scripts\Editor\RPN.js" />
@@ -185,7 +185,8 @@
     <TypeScriptCompile Include="Scripts\ts\RPNHtmlBlockFunctions.ts" />
     <TypeScriptCompile Include="Scripts\ts\StackElemFuncs.ts" />
     <TypeScriptCompile Include="Scripts\ts\StringHlp.ts" />
-    <Content Include="Scripts\ts\Tests.js" />
+    <Content Include="Scripts\tsJs\Tests.js" />
+    <TypeScriptCompile Include="Scripts\ts\RPNTests.ts" />
     <Content Include="Scripts\underscore.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config" />
@@ -206,6 +207,7 @@
     <Content Include="Scripts\package.json" />
     <Content Include="Views\Editor\Test.cshtml" />
     <Content Include="tsconfig.json" />
+    <TypeScriptCompile Include="Scripts\typings\qunit\qunit.d.ts" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

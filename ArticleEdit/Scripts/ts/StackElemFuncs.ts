@@ -28,7 +28,7 @@ export default class StackElemStructs {
         else {
             return false;
         }
-    }
+    } 
 
 
 
