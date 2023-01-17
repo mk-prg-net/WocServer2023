@@ -24,10 +24,12 @@ requirejs.config({
 
 
 // 2. Starten der Anwendung
-requirejs(['Polyfills', 'tsJs/RPNTests'],
-    function (Polyfills, RPNTests) {
+//requirejs(['Polyfills', 'jquery-3.6.3.min',  'qunit-2.19.3', 'tsJs/RPNTests'],
+//    function (Polyfills, $, QUnit, RPNTests) {
+requirejs(['Polyfills', 'qunit-2.19.3', 'tsJs/RPNTests'],
+    function (Polyfills, QUnit, RPNTests) {
         debugger;
 
-        RPNTests.default();
+        RPNTests.default($, QUnit);
 
 });

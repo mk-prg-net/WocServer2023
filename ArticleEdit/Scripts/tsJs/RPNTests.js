@@ -1,16 +1,17 @@
-// Ausprobieren der Module
-define(["require", "exports", "../qunit-2.19.3", "./StringHlp", "./RPN", "./RPNHtmlInlineFunctions", "./RPNHtmlBlockFunctions", "./RPNHtml", "./Parser"], function (require, exports, qunit_2_19_3_1, StringHlp_1, RPN_1, RPNHtmlInlineFunctions_1, RPNHtmlBlockFunctions_1, RPNHtml_1, Parser_1) {
+define(["require", "exports", "./StringHlp", "./RPN", "./RPNHtmlInlineFunctions", "./RPNHtmlBlockFunctions", "./RPNHtml", "./Parser"], function (require, exports, StringHlp_1, RPN_1, RPNHtmlInlineFunctions_1, RPNHtmlBlockFunctions_1, RPNHtml_1, Parser_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     // 2. Starten der Anwendung
-    function RPNTest() {
+    function RPNTest($, QUnit) {
         let StringHlp = new StringHlp_1.default();
         let RPN = new RPN_1.default();
         let InlineFunc = new RPNHtmlInlineFunctions_1.default(RPN);
         let BlockFunc = new RPNHtmlBlockFunctions_1.default(RPN);
         let RPNHtml = new RPNHtml_1.default(RPN, InlineFunc, BlockFunc);
         let Parser = new Parser_1.default(StringHlp, RPN, RPNHtml);
-        qunit_2_19_3_1.default.test("Test der StringHlp", function (assert) {
+        const { test } = QUnit;
+        QUnit.module("RPNTests");
+        test("Test der StringHlp", assert => {
             let txt = "     \n\t \f    3.14   ";
             let res = StringHlp.eatWhiteSpace(txt);
             assert.equal(res, "3.14   ", "eatWhitespace sollte [     \n\t \f    3.14   ] -> [3.14   ] wandeln");
@@ -26,7 +27,7 @@ define(["require", "exports", "../qunit-2.19.3", "./StringHlp", "./RPN", "./RPNH
             txt = "Hallo Welt#h1\nDas ist ein Text der in html RPN##b notiert wird. RPN steht für R#_ everse##1 P#_ olish##1 N#_notation##1###i.";
             resTok = StringHlp.tokenize(txt);
         });
-        qunit_2_19_3_1.default.test("Test der RPN- Funktionen", function (assert) {
+        test("Test der RPN- Funktionen", assert => {
             let txt = "Hallo Welt#h1\nDas ist ein Text der in html RPN##b notiert wird. RPN steht für R#_ everse##1 P#_ olish##1 N#_notation##1###i.";
             let res = StringHlp.tokenize(txt);
             // Zählen aller Funktionen
@@ -63,34 +64,34 @@ define(["require", "exports", "../qunit-2.19.3", "./StringHlp", "./RPN", "./RPNH
             // Parser- Integrationstest
             let pres = Parser.Parse(txt);
             $("#result").html(pres.html);
-            assert.equal($("#result h1").size(), 1, "Das Ergebnis [" + pres.html + "] enthält genau eine h1");
+            assert.equal($("#result h1").length, 1, "Das Ergebnis [" + pres.html + "] enthält genau eine h1");
             assert.equal($("#result h1").text().trim(), "Grußformeln in Programmierwelten", "[" + txt + "] soll in <h1> ... <h1> gewandelt werden");
             // 
             txt = "Hallo Welt #sub ##b #h1";
             pres = Parser.Parse(txt);
             $("#result").html(pres.html);
-            assert.ok($("#result h1").size() === 1
-                && $("#result h1 b").size() === 1, "Das Ergebnis [" + pres.html + "] sollte die Struktur <h1><b><sub></sub></b></h1> aufweisen");
+            assert.ok($("#result h1").length === 1
+                && $("#result h1 b").length === 1, "Das Ergebnis [" + pres.html + "] sollte die Struktur <h1><b><sub></sub></b></h1> aufweisen");
             //
             txt = "Grußformeln in Programmierwelten #h1 Hallo Welt #sub ##b #p";
             pres = Parser.Parse(txt);
             $("#result").html(pres.html);
-            assert.ok($("#result h1").size() === 1
-                && $("#result p").size() === 1
-                && $("#result p b").size() === 1
-                && $("#result p b sub").size() === 1
+            assert.ok($("#result h1").length === 1
+                && $("#result p").length === 1
+                && $("#result p b").length === 1
+                && $("#result p b sub").length === 1
                 && $("#result p b sub").text() === "Welt", "Das Ergebnis [" + pres.html + "] sollte die Struktur <h1></h1><p><b><sub></sub></b></p> aufweisen");
             // 
             txt = "Eins #li Zwei #b #li Drei #i #li #ol";
             pres = Parser.Parse(txt);
             $("#result").html(pres.html);
-            assert.ok($("#result ol").size() === 1
-                && $("#result ol li").size() === 3, "Das Ergebnis [" + pres.html + "] sollte die Struktur <ol><li x 3></ol> aufweisen");
+            assert.ok($("#result ol").length === 1
+                && $("#result ol li").length === 3, "Das Ergebnis [" + pres.html + "] sollte die Struktur <ol><li x 3></ol> aufweisen");
             txt = "#ol";
             pres = Parser.Parse(txt);
             $("#result").html(pres.html);
-            assert.ok($("#result > ol").size() === 1
-                && $("#result > ol > li").size() === 0, "Das Ergebnis [" + pres.html + "] sollte die Struktur <ol></ol> aufweisen");
+            assert.ok($("#result > ol").length === 1
+                && $("#result > ol > li").length === 0, "Das Ergebnis [" + pres.html + "] sollte die Struktur <ol></ol> aufweisen");
             txt = "Test Liste in Liste #h1\n"
                 + "a 1 #li\n"
                 + "a 2 #li\n"
@@ -100,20 +101,20 @@ define(["require", "exports", "../qunit-2.19.3", "./StringHlp", "./RPN", "./RPNH
                 + " #ol\n";
             pres = Parser.Parse(txt);
             $("#result").html(pres.html);
-            assert.ok($("#result h1").size() === 1
-                && $("#result > ol").size() === 1
-                && $("#result > ol > li").size() === 3
-                && $("#result > ol > li > ol").size() === 1
-                && $("#result > ol > li > ol > li").size() === 2, "Das Ergebnis [" + pres.html + "] sollte die Struktur <ol><li><ol><li x 2></li><li></li><li></li></ol> aufweisen");
+            assert.ok($("#result h1").length === 1
+                && $("#result > ol").length === 1
+                && $("#result > ol > li").length === 3
+                && $("#result > ol > li > ol").length === 1
+                && $("#result > ol > li > ol > li").length === 2, "Das Ergebnis [" + pres.html + "] sollte die Struktur <ol><li><ol><li x 2></li><li></li><li></li></ol> aufweisen");
             txt = "Eins #li Zwei #b #li Drei #i #li #ul";
             pres = Parser.Parse(txt);
             $("#result").html(pres.html);
-            assert.ok($("#result ul").size() === 1
-                && $("#result ul li").size() === 3, "Das Ergebnis [" + pres.html + "] sollte die Struktur <ul><li x 3></ul> aufweisen");
+            assert.ok($("#result ul").length === 1
+                && $("#result ul li").length === 3, "Das Ergebnis [" + pres.html + "] sollte die Struktur <ul><li x 3></ul> aufweisen");
         });
         // start QUnit.
         //QUnit.load();
-        qunit_2_19_3_1.default.start();
+        QUnit.start();
     }
     exports.default = RPNTest;
 });
