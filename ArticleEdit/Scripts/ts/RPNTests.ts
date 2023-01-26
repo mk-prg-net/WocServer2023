@@ -124,6 +124,7 @@ export default function RPNTest($ : JQueryStatic, QUnit: QUnit) {
 
         // 
         txt = "Eins #li Zwei #b #li Drei #i #li #ol";
+
         pres = Parser.Parse(txt);
         $("#result").html(pres.html);
         assert.ok($("#result ol").length === 1
