@@ -13,10 +13,18 @@ define(["require", "exports"], function (require, exports) {
             throw new Error("nicht implementiert");
         }
         ol(stack) {
-            this.RPN.EvalBlockFunc(stack, "ol", function (stackElem) { return this.RPN.StackElemStructs.isFunc(stackElem, "li"); });
+            let that = this;
+            this.RPN.EvalBlockFunc(stack, "ol", function (stackElem) {
+                // Achtung: this ist hier das this von function. Deshalb anstatt this that
+                return that.RPN.StackElemStructs.isFunc(stackElem, "li");
+            });
         }
         ul(stack) {
-            this.RPN.EvalBlockFunc(stack, "ul", function (stackElem) { return this.RPN.StackElemStructs.isFunc(stackElem, "li"); });
+            let that = this;
+            this.RPN.EvalBlockFunc(stack, "ul", function (stackElem) {
+                // Achtung: this ist hier das this von function. Deshalb anstatt this that
+                return that.RPN.StackElemStructs.isFunc(stackElem, "li");
+            });
         }
         li(stack) {
             if (this.RPN.StackElemStructs.isFunc(this.RPN.Peek(stack), "ol") || this.RPN.StackElemStructs.isFunc(this.RPN.Peek(stack), "ul")) {

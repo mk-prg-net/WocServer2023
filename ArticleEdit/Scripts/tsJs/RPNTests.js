@@ -20,10 +20,10 @@ define(["require", "exports", "./StringHlp", "./RPN", "./RPNHtmlInlineFunctions"
             assert.equal(resTok.length, 3, "Der Text [" + txt + "] sollte in 3 token aufgesplittet werden");
             txt = "(3+5+9)*2 #code #br";
             resTok = StringHlp.tokenize(txt);
-            assert.equal(res.length, 11, "Der Text [" + txt + "] sollte in 12 token aufgesplittet werden");
+            assert.equal(resTok.length, 11, "Der Text [" + txt + "] sollte in 12 token aufgesplittet werden");
             txt = "(3.14+2,72+9)*2 #code #br";
             resTok = StringHlp.tokenize(txt);
-            assert.equal(res.length, 11, "Der Text [" + txt + "] sollte in 12 token aufgesplittet werden");
+            assert.equal(resTok.length, 11, "Der Text [" + txt + "] sollte in 12 token aufgesplittet werden");
             txt = "Hallo Welt#h1\nDas ist ein Text der in html RPN##b notiert wird. RPN steht für R#_ everse##1 P#_ olish##1 N#_notation##1###i.";
             resTok = StringHlp.tokenize(txt);
         });
@@ -60,7 +60,7 @@ define(["require", "exports", "./StringHlp", "./RPN", "./RPNHtmlInlineFunctions"
             RPNHtml.Token(stack, tokens[1]);
             RPNHtml.Token(stack, tokens[2]);
             RPNHtml.BlockFuncs[RPN.ExtractFuncName(tokens[3])](stack, RPN.ArgCount(tokens[3]));
-            assert.ok(RPN.StackElemStructs.isFunc(RPN.Peek(stack), "h1"), "Eine b- Funktion wurde auf dem Stack erwartet");
+            assert.ok(RPN.StackElemStructs.isFunc(RPN.Peek(stack), "h1"), "Eine h1- Funktion wurde auf dem Stack erwartet");
             // Parser- Integrationstest
             let pres = Parser.Parse(txt);
             $("#result").html(pres.html);
