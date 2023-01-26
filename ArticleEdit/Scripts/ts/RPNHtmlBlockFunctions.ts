@@ -23,11 +23,25 @@ export default class BlockFuncs {
     }
 
     ol(stack) {
-        this.RPN.EvalBlockFunc(stack, "ol", function (stackElem) { return this.RPN.StackElemStructs.isFunc(stackElem, "li"); });
+        let that = this;
+        this.RPN.EvalBlockFunc(
+            stack,
+            "ol",
+            function (stackElem) {
+                // Achtung: this ist hier das this von function. Deshalb anstatt this that
+                return that.RPN.StackElemStructs.isFunc(stackElem, "li");
+            });
     }
 
     ul(stack) {
-        this.RPN.EvalBlockFunc(stack, "ul", function (stackElem) { return this.RPN.StackElemStructs.isFunc(stackElem, "li"); });
+        let that = this;
+        this.RPN.EvalBlockFunc(
+            stack,
+            "ul",
+            function (stackElem) {
+                // Achtung: this ist hier das this von function. Deshalb anstatt this that
+                return that.RPN.StackElemStructs.isFunc(stackElem, "li");
+            });
     }
 
     li (stack) {
