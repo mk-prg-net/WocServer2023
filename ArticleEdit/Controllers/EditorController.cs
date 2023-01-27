@@ -6,6 +6,7 @@ using System.Web.Mvc;
 
 namespace ArticleEdit.Controllers
 {
+    [Authorize]
     public class EditorController : Controller
     {
         // GET: Editor

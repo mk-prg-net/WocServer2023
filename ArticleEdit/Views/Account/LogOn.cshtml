@@ -1,0 +1,25 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>LogOn</title>
+</head>
+<body>
+    <h1>Login</h1>
+    <form action="/Account/TryAuthenticate">
+        <dl>
+            <dt>User Name</dt>
+            <dd><input type="text" id="userName" name="userName" /></dd>
+        </dl>
+        <input type="submit" value="Log in" />
+    </form>
+    <div> 
+    </div>
+</body>
+</html>
