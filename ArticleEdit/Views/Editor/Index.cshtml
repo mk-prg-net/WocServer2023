@@ -3,14 +3,16 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Editor- Übersicht</h2>
+<h2>🌐 Editor- Übersicht</h2>
+
+@Html.ActionLink("Logout", "Logout", new { Controller = "Account" });
 
 <dl>
     <dt>Test</dt>
-    <dd>@Html.ActionLink("Test Basic functions of Editor", "Test")</dd>
+    <dd>@Html.ActionLink("🧪 Test Basic functions of Editor", "Test")</dd>
 
     <dt>Editor Simple</dt>
-    <dd>@Html.ActionLink("Start simple Editor Window", "EditText")</dd>
+    <dd>@Html.ActionLink("⌨ Start simple Editor Window", "EditText")</dd>
 </dl>
 
 

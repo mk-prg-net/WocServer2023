@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
+using System.Security.Principal;
 
 // Steht nur bereit, wenn das Niget- Paket Mocrosoft.AspNet.Identity.Core installiert wurde
 using Microsoft.AspNet.Identity;
@@ -11,6 +12,9 @@ namespace ArticleEdit.Models
 {
     // Implementierung eines App- Users
     public class AppUser : 
+        // Muss implementiert werden, damit der User in Context.User abgegt werden kann
+        IIdentity,
+
         // Idiotisch: alle weiteren Schnittstellen erfordern einen IUser<string>
         IUser<string>, 
         // Der User hat eine 64 Bit UID
@@ -34,5 +38,11 @@ namespace ArticleEdit.Models
             get;
             set;
         }
+
+        public string Name => UserName;
+
+        public string AuthenticationType => "Froms Authentication";
+
+        public bool IsAuthenticated => true;
     }
 }

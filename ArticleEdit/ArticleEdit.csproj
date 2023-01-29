@@ -130,6 +130,8 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccessMgmt\AppUser.cs" />
+    <Compile Include="Models\AccessMgmt\MyIdentity.cs" />
+    <Compile Include="Models\AccessMgmt\MyPrincipal.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
