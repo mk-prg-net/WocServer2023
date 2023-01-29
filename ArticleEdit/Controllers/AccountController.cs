@@ -39,7 +39,7 @@ namespace ArticleEdit.Controllers
                 //                 |           ↗                                          |
                 //                 |      Extern zugesandtes 🔑 kryptoId eintragen--+    |
                 //                 |                                                |     |
-                //                 +- 🖵 Login Fenster                              |     |                //                 |      
+                //                 +- 🖵 Login Fenster                              |     |           
                 //                         +- 🔑 Password ------------------+      |     |
                 //                                                           ↓      ↓     ↓
                 //                                                           ⎔⎔⎔⎔⎔ Encrypt
@@ -53,7 +53,10 @@ namespace ArticleEdit.Controllers
                 //                                           +→ 🔑 kryptoId
                 //                                           |
                 //                                           +→ 🔑 Password
-                //                                           
+                //
+                //   Crypto- Lib: https://github.com/bitwiseshiftleft/sjcl/
+                //   
+
                 var user = new Models.AppUser(1, "Anton");
                 var expire = DateTime.Now.AddMinutes(FormsAuthentication.Timeout.TotalMinutes);
                 var ticket = new FormsAuthenticationTicket("Anton", false, expire.Minute);
