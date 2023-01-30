@@ -33,16 +33,16 @@ namespace ArticleEdit.Controllers
                 // 30.1.2023
                 // ToDo: sichere Passwort- Authentifizierung mit Security- Token
                 // Idee: 
-                //                              Extern zugesandten 🔑 öffentlichen Schlüssel eintragen  
+                //                               zugesandten 🔑 öffentlichen Schlüssel eintragen  
                 //             🖵 Browser        ↙                                        |
-                //                 +- 🗄 peronal id-value store                           |
+                //                 +- 🗄 personal id-value store                          |
                 //                 |           ↗                                          |
                 //                 |      Extern zugesandtes 🔑 kryptoId eintragen--+    |
                 //                 |                                                |     |
                 //                 +- 🖵 Login Fenster                              |     |           
                 //                         +- 🔑 Password ------------------+      |     |
                 //                                                           ↓      ↓     ↓
-                //                                                           ⎔⎔⎔⎔⎔ Encrypt
+                //                         🎲 Random numbers -----------→ ⎔⎔⎔ Encrypt ⎔⎔⎔
                 //                                                                 ↓
                 //                                          🔒SecurityToken ←------+                                                       
                 //                                           |
@@ -55,6 +55,11 @@ namespace ArticleEdit.Controllers
                 //                                           +→ 🔑 Password
                 //
                 //   Crypto- Lib: https://github.com/bitwiseshiftleft/sjcl/
+                //   - https://www.section.io/engineering-education/implementing-public-key-cryptography-in-javascript/
+                //   - http://nacl.cr.yp.to/
+                //   - https://medium.com/@tikiatua/symmetric-and-asymmetric-encryption-with-javascript-and-go-240043e56daf
+                //   - https://github.com/digitalbazaar/forge
+                // 
                 //   
 
                 var user = new Models.AppUser(1, "Anton");

@@ -1400,6 +1400,18 @@ namespace MKPRG.Naming
 
             }
 
+            public static class Probabilistic
+            {
+                public static (string glyph, string html) GameDie => ("🎲", "&#x1F3B2;");
+
+                public static (string glyph, string html) DieFace1 => ("⚀", "&#x2680;");
+                public static (string glyph, string html) DieFace2 => ("⚁", "&#x2681;");
+                public static (string glyph, string html) DieFace3 => ("⚂", "&#x2682;");
+                public static (string glyph, string html) DieFace4 => ("⚃", "&#x2683;");
+                public static (string glyph, string html) DieFace5 => ("⚄", "&#x2684;");
+                public static (string glyph, string html) DieFace6 => ("⚅", "&#x2685;");
+            }
+
         }
 
         public static class MechanicalEngineering
