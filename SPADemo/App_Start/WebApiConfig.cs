@@ -13,6 +13,15 @@ namespace SPADemo
 
             GlobalConfiguration.Configuration.Formatters.Add(new Controllers.HtmlWebApiFormater());
 
+            // Tracing konfigurieren. 
+            // https://learn.microsoft.com/en-us/aspnet/web-api/overview/testing-and-debugging/tracing-in-aspnet-web-api
+
+            var traceWriter = config.EnableSystemDiagnosticsTracing();
+
+            // Alles Meldungstypen werden ausführlich protokolliert
+            traceWriter.IsVerbose = true;
+            traceWriter.MinimumLevel = System.Web.Http.Tracing.TraceLevel.Debug;
+
             // Web API routes
             config.MapHttpAttributeRoutes();
 

@@ -13,25 +13,32 @@ using System.IO;
 namespace SPADemo.Controllers
 {
     /// <summary>
+    /// mko, 9.2.2023
     /// Ist der Einstiegspunkt in die Anwendung
     /// </summary>
     public class BootController : ApiController
     {
-
-        public class ReturnStartPage
+        /// <summary>
+        /// 
+        /// </summary>
+        public class CreateStartPageJob
             : IHttpActionResult
         {
 
             string PathStartPageFile;
             HttpRequestMessage reqMsg;
 
-            public ReturnStartPage(string pathToStartPageFile, HttpRequestMessage reqMsg)
+            public CreateStartPageJob(string pathToStartPageFile, HttpRequestMessage reqMsg)
             {
                 PathStartPageFile = pathToStartPageFile;
                 this.reqMsg = reqMsg;
             }
 
-
+            /// <summary>
+            /// Hier wird der Job ausgeführt
+            /// </summary>
+            /// <param name="cancellationToken"></param>
+            /// <returns></returns>
             public async Task<HttpResponseMessage> ExecuteAsync(CancellationToken cancellationToken)
             {
                 HttpResponseMessage response;
@@ -61,9 +68,6 @@ namespace SPADemo.Controllers
             }
         }
 
-
-
-
         /// <summary>
         /// Typen von Response- Nachrichten
         /// https://www.c-sharpcorner.com/article/types-of-web-api-action-results/
@@ -72,8 +76,9 @@ namespace SPADemo.Controllers
         [Route("start")]
         public IHttpActionResult Get()
         {
+            // Die Get- Methode instanziert einen Job, der an die WebApi Pipeline delegiert wird.
             var root = System.Web.Hosting.HostingEnvironment.MapPath("\\Content\\HTML\\index.html");
-            var ret = new ReturnStartPage($"{root}", Request);
+            var ret = new CreateStartPageJob($"{root}", Request);
             return ret;
         }
 

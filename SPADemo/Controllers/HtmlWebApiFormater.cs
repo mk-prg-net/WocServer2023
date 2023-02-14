@@ -5,6 +5,9 @@ using System.Web;
 
 namespace SPADemo.Controllers
 {
+    /// <summary>
+    /// mko, 9.2.2023
+    /// </summary>
     public class HtmlWebApiFormater : System.Net.Http.Formatting.BufferedMediaTypeFormatter
     {
         public HtmlWebApiFormater()

@@ -330,12 +330,6 @@ namespace MKPRG.Naming
 
             public static string AdminRights => "&#x1F731;";
 
-            public static class ATMO
-            {
-                public static string CustomerView => Authentication.Customer + Computer.Display;
-            }
-
-
             public static string PermissionVector => $"{Math.Functions.OpenAngleArgList}{Math.r}|{Math.w}|{Math.x}{Math.Functions.CloseAngleArgList}";
         }
 
