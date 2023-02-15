@@ -1,0 +1,28 @@
+﻿{
+  "baseUrl": ".",
+  "path": {
+    "qunit": "Scripts/qunit-2.19.3"
+  },
+  "compilerOptions": {
+    "noImplicitAny": false,
+    "noEmitOnError": true,
+    "removeComments": false,
+    "sourceMap": true,
+    "target": "ES2015",
+    "outDir": "Scripts/TSCompiled",
+    "module": "AMD"
+  },
+  "include": [
+    "./Scripts/index/**/*",
+    "./Scripts/Login/**/*",
+    "./Scripts/typings/**/*",
+    "./Scripts"
+  ],
+  //"Scripts/tsJs/DocumentReady.js", "Scripts/tsJs/Tests.js"  ],
+  "exclude": [
+    "node_modules",
+    "wwwroot",
+    "content"
+  ],
+  "compileOnSave": true
+}

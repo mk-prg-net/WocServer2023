@@ -10,8 +10,8 @@ namespace SPADemo
         public static void Register(HttpConfiguration config)
         {
             // Web API configuration and services
-
-            GlobalConfiguration.Configuration.Formatters.Add(new Controllers.HtmlWebApiFormater());
+            GlobalConfiguration.Configuration.Formatters.Add(new Formater.HtmlWebApiFormater());
+            GlobalConfiguration.Configuration.Formatters.Add(new Formater.NamingContainerFormater());
 
             // Tracing konfigurieren. 
             // https://learn.microsoft.com/en-us/aspnet/web-api/overview/testing-and-debugging/tracing-in-aspnet-web-api

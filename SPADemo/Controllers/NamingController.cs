@@ -11,6 +11,9 @@ namespace SPADemo.Controllers
 {
     public class NamingController : ApiController
     {
+        /// <summary>
+        /// Liefert zu einer NId einen Naming- Container aus.
+        /// </summary>
         public class DeliverNamingContainerJob
             : IHttpActionResult
         {
@@ -34,7 +37,7 @@ namespace SPADemo.Controllers
                     var ncdict= (System.Collections.Concurrent.ConcurrentDictionary<long, MKPRG.Naming.INaming>)System.Web.HttpContext.Current.Application[WebApiApplication.ncDictKey];
 
                     nc = ncdict[NID];
-                    rsp = reqMsg.CreateResponse(HttpStatusCode.OK, nc);
+                    rsp = reqMsg.CreateResponse(HttpStatusCode.OK, nc, "json/nc");
                 } catch(Exception ex)
                 {
                     rsp = reqMsg.CreateResponse(HttpStatusCode.InternalServerError, ex);

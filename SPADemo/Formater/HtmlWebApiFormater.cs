@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace SPADemo.Controllers
+namespace SPADemo.Formater
 {
     /// <summary>
     /// mko, 9.2.2023
     /// </summary>
-    public class HtmlWebApiFormater : System.Net.Http.Formatting.BufferedMediaTypeFormatter
+    public class HtmlWebApiFormater 
+        : System.Net.Http.Formatting.BufferedMediaTypeFormatter
     {
         public HtmlWebApiFormater()
         {
