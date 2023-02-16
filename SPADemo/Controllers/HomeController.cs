@@ -12,7 +12,8 @@ namespace SPADemo.Controllers
         {
             ViewBag.Title = "Home Page";
 
-            return View();
+            var tools = new Tools.UrlTools();
+            return Redirect($"{tools.ParseOrigin(Request.Url)}/start");
         }
     }
 }

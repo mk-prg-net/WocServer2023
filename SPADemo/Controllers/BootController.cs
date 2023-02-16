@@ -51,9 +51,17 @@ namespace SPADemo.Controllers
                 {
                     try
                     {
+                        // Read main SPA Frame Template
                         var reader = new StreamReader(PathStartPageFile);
-
                         var htmlFile = await reader.ReadToEndAsync();
+
+                        // Adjust all path to current origin
+                        var tools = new Tools.UrlTools();
+                        var origin = tools.ParseOrigin(reqMsg.RequestUri);
+                        //var root = $"{reqMsg.RequestUri.Scheme}://{reqMsg.RequestUri.Authority}";
+                        htmlFile = htmlFile.Replace("{☀}", origin);
+
+                        // put html to an characterictic object that will be grabed by the **HtmlWebApiFormater**
                         var html = new Models.HtmlContainer() { Html = htmlFile };
 
                         response = reqMsg.CreateResponse(HttpStatusCode.OK, html, "text/html");
