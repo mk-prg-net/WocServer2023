@@ -48,18 +48,6 @@
     <Reference Include="Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\MSTest.TestFramework.2.1.1\lib\net45\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.dll</HintPath>
     </Reference>
-    <Reference Include="mko, Version=7.4.1.0, Culture=neutral, PublicKeyToken=f4d93f46e53e0656, processorArchitecture=MSIL">
-      <HintPath>..\packages\mko.7.4.1\lib\net45\mko.dll</HintPath>
-    </Reference>
-    <Reference Include="mko.Algo, Version=1.2.3.0, Culture=neutral, PublicKeyToken=f4d93f46e53e0656, processorArchitecture=MSIL">
-      <HintPath>..\packages\mko.Algo.1.2.3\lib\net45\mko.Algo.dll</HintPath>
-    </Reference>
-    <Reference Include="mko.NaLisp, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\mko.NaLisp.1.2.0\lib\net45\mko.NaLisp.dll</HintPath>
-    </Reference>
-    <Reference Include="mko.RPN, Version=20.6.7727.25015, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\mko.RPN.20.6.7727.25015\lib\net45\mko.RPN.dll</HintPath>
-    </Reference>
     <Reference Include="Moq, Version=4.16.0.0, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
       <HintPath>..\packages\Moq.4.16.1\lib\net45\Moq.dll</HintPath>
     </Reference>
@@ -91,6 +79,22 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\mko.Algo\mko.Algo.csproj">
+      <Project>{e4390e39-d913-4a9a-9227-5e2cdcf04a4e}</Project>
+      <Name>mko.Algo</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\mko.NaLisp\mko.NaLisp.csproj">
+      <Project>{b9f9cca3-8ef5-4071-98d2-8233188f39a4}</Project>
+      <Name>mko.NaLisp</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\mko.RPN\mko.RPN.csproj">
+      <Project>{31fa4574-e070-4bbc-af5c-5586b782cc0e}</Project>
+      <Name>mko.RPN</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\mko\mko.csproj">
+      <Project>{fd808f4f-00bd-4bc6-8142-ef944200c901}</Project>
+      <Name>mko</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MKPRG.CSSQL\MKPRG.CSSQL.csproj">
       <Project>{cfcbaef7-4c2b-4e8b-a1be-8ddf46eab484}</Project>
       <Name>MKPRG.CSSQL</Name>

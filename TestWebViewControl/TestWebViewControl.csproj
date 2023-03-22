@@ -85,6 +85,18 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\mko.Algo\mko.Algo.csproj">
+      <Project>{e4390e39-d913-4a9a-9227-5e2cdcf04a4e}</Project>
+      <Name>mko.Algo</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\mko.RPN\mko.RPN.csproj">
+      <Project>{31fa4574-e070-4bbc-af5c-5586b782cc0e}</Project>
+      <Name>mko.RPN</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\mko\mko.csproj">
+      <Project>{fd808f4f-00bd-4bc6-8142-ef944200c901}</Project>
+      <Name>mko</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MKPRG.HTML\MKPRG.HTML.csproj">
       <Project>{3dd01775-84fa-4477-b14f-9e56e66f12d1}</Project>
       <Name>MKPRG.HTML</Name>
@@ -109,12 +121,6 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Toolkit.Forms.UI.Controls.WebView">
       <Version>6.1.2</Version>
-    </PackageReference>
-    <PackageReference Include="mko.Algo">
-      <Version>1.2.3</Version>
-    </PackageReference>
-    <PackageReference Include="mko.RPN">
-      <Version>20.6.7727.25015</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

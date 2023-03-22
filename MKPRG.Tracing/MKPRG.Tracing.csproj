@@ -31,18 +31,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="mko, Version=7.4.1.0, Culture=neutral, PublicKeyToken=f4d93f46e53e0656, processorArchitecture=MSIL">
-      <HintPath>..\packages\mko.7.4.1\lib\net45\mko.dll</HintPath>
-    </Reference>
-    <Reference Include="mko.Algo, Version=1.2.3.0, Culture=neutral, PublicKeyToken=f4d93f46e53e0656, processorArchitecture=MSIL">
-      <HintPath>..\packages\mko.Algo.1.2.3\lib\net45\mko.Algo.dll</HintPath>
-    </Reference>
-    <Reference Include="mko.RPN, Version=20.6.7727.25015, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\mko.RPN.20.6.7727.25015\lib\net45\mko.RPN.dll</HintPath>
-    </Reference>
-    <Reference Include="mko.RPN.Arithmetik, Version=20.3.7727.25015, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\mko.RPN.Arithmetik.20.3.7727.25015\lib\net45\mko.RPN.Arithmetik.dll</HintPath>
-    </Reference>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -230,6 +218,22 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\mko.Algo\mko.Algo.csproj">
+      <Project>{e4390e39-d913-4a9a-9227-5e2cdcf04a4e}</Project>
+      <Name>mko.Algo</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\mko.RPN.Arithmetik\mko.RPN.Arithmetik.csproj">
+      <Project>{9f025918-eb9f-4c92-b18e-2382578d3db6}</Project>
+      <Name>mko.RPN.Arithmetik</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\mko.RPN\mko.RPN.csproj">
+      <Project>{31fa4574-e070-4bbc-af5c-5586b782cc0e}</Project>
+      <Name>mko.RPN</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\mko\mko.csproj">
+      <Project>{fd808f4f-00bd-4bc6-8142-ef944200c901}</Project>
+      <Name>mko</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MKPRG.Naming\MKPRG.Naming.csproj">
       <Project>{ee9d24a7-80bf-4d6d-a164-2e49743386f8}</Project>
       <Name>MKPRG.Naming</Name>

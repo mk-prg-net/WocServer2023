@@ -1,0 +1,65 @@
+﻿//<unit_header>
+//----------------------------------------------------------------
+//
+// Martin Korneffel: IT Beratung/Softwareentwicklung
+// Stuttgart, den 7.8.2017
+//
+//  Projekt.......: MkPrgNet.Pattern.Automaton
+//  Name..........: IMooreTransistionFunctionBuilder.cs
+//  Aufgabe/Fkt...: Definiert für jede Eingabe alle Folgezustände.
+//                  Anschließend kann die Ausgabefunktion für jeden 
+//                  Zustand definiert werden    
+//                  Die Zustände sind als Enum zu definieren.
+//
+//
+//
+//<unit_environment>
+//------------------------------------------------------------------
+//  Zielmaschine..: PC 
+//  Betriebssystem: Windows 7 mit .NET 4.5
+//  Werkzeuge.....: Visual Studio 2013
+//  Autor.........: Martin Korneffel (mko)
+//  Version 1.0...: 
+//
+// </unit_environment>
+//
+//<unit_history>
+//------------------------------------------------------------------
+//
+//  Version.......: 1.1
+//  Autor.........: Martin Korneffel (mko)
+//  Datum.........: 
+//  Änderungen....: 
+//
+//</unit_history>
+//</unit_header>        
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace MkPrgNet.Pattern.Automaton
+{
+    /// <summary>
+    /// mko, 
+    /// 
+    /// Phase 2 of automaton definition.
+    /// Definition of state- transistions.
+    /// If all state transistions are defined, calling CreateOutputFunctionBuilder 
+    /// switches to Phase 3.    /// 
+    /// </summary>
+    /// <typeparam name="TState">Enum, that defines all states of automaton</typeparam>
+    public interface IMooreTransitionFunctionBuilder<TStateEnum> : IStateTransitionsBuilder<TStateEnum>
+        where TStateEnum : struct
+    {
+
+        /// <summary>
+        /// Creates a Builder, that defines for every state a output function
+        /// </summary>
+        /// <returns></returns>
+        IMooreOutputFunctionBuilder<TStateEnum> CreateOutputFunctionBuilder();
+
+    }
+}

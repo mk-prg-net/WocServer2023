@@ -31,12 +31,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="mko, Version=7.4.1.0, Culture=neutral, PublicKeyToken=f4d93f46e53e0656, processorArchitecture=MSIL">
-      <HintPath>..\packages\mko.7.4.1\lib\net45\mko.dll</HintPath>
-    </Reference>
-    <Reference Include="mko.RPN, Version=20.6.7727.25015, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\mko.RPN.20.6.7727.25015\lib\net45\mko.RPN.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -54,6 +48,14 @@
     <Compile Include="ResultSet.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\mko.RPN\mko.RPN.csproj">
+      <Project>{31fa4574-e070-4bbc-af5c-5586b782cc0e}</Project>
+      <Name>mko.RPN</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\mko\mko.csproj">
+      <Project>{fd808f4f-00bd-4bc6-8142-ef944200c901}</Project>
+      <Name>mko</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MKPRG.CSSQL\MKPRG.CSSQL.csproj">
       <Project>{cfcbaef7-4c2b-4e8b-a1be-8ddf46eab484}</Project>
       <Name>MKPRG.CSSQL</Name>
@@ -73,7 +75,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

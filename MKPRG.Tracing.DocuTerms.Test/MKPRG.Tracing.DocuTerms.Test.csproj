@@ -46,12 +46,6 @@
     <Reference Include="Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\MSTest.TestFramework.2.1.1\lib\net45\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.dll</HintPath>
     </Reference>
-    <Reference Include="mko, Version=7.4.1.0, Culture=neutral, PublicKeyToken=f4d93f46e53e0656, processorArchitecture=MSIL">
-      <HintPath>..\packages\mko.7.4.1\lib\net45\mko.dll</HintPath>
-    </Reference>
-    <Reference Include="mko.RPN, Version=20.6.7727.25015, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\mko.RPN.20.6.7727.25015\lib\net45\mko.RPN.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
   </ItemGroup>
@@ -64,6 +58,14 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\mko.RPN\mko.RPN.csproj">
+      <Project>{31fa4574-e070-4bbc-af5c-5586b782cc0e}</Project>
+      <Name>mko.RPN</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\mko\mko.csproj">
+      <Project>{fd808f4f-00bd-4bc6-8142-ef944200c901}</Project>
+      <Name>mko</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MKPRG.HTML\MKPRG.HTML.csproj">
       <Project>{3dd01775-84fa-4477-b14f-9e56e66f12d1}</Project>
       <Name>MKPRG.HTML</Name>
