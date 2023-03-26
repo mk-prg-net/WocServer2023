@@ -101,7 +101,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "mko.RPN.DateTime", "mko.RPN
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mko.RPN.DateTime.Test", "mko.RPN.DateTime.Test\mko.RPN.DateTime.Test.csproj", "{F57ED634-64CC-4F1B-9294-96C3954302B4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mko.RPN.Filter", "mko.RPN.Filter\mko.RPN.Filter.csproj", "{B5AB246B-C17B-44D8-A8FB-9FA118073C81}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "mko.RPN.Filter", "mko.RPN.Filter\mko.RPN.Filter.csproj", "{B5AB246B-C17B-44D8-A8FB-9FA118073C81}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mko.RPN.Filter.Test", "mko.RPN.Filter.Test\mko.RPN.Filter.Test.csproj", "{2D796B15-CC3A-449B-8CC5-D677241765D4}"
 EndProject
@@ -111,7 +111,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mko.Test", "mko.Test\mko.Te
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mko.Testdata", "mko.Testdata\mko.Testdata.csproj", "{942D361E-D8D9-429D-BF73-FAA044B6168C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mko.Xhtml", "mko.Xhtml\mko.Xhtml.csproj", "{EDB7190F-0F5A-495F-ADF9-681E0B58A009}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "mko.Xhtml", "mko.Xhtml\mko.Xhtml.csproj", "{EDB7190F-0F5A-495F-ADF9-681E0B58A009}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mko.Xhtml.Test", "mko.Xhtml.Test\mko.Xhtml.Test.csproj", "{ABB3BDEB-3D1A-4D07-85D7-55AB00367F21}"
 EndProject
