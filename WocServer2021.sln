@@ -1,4 +1,4 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33502.453
@@ -61,43 +61,43 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MKPRG", "MKPRG", "{4CA158E2
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NewWebTec", "NewWebTec", "{6E70DF1D-E9F0-4934-9119-3D8FD63E7E6A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mko", "mko\mko.csproj", "{FD808F4F-00BD-4BC6-8142-EF944200C901}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "mko", "mko\mko.csproj", "{FD808F4F-00BD-4BC6-8142-EF944200C901}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mko.Algo", "mko.Algo\mko.Algo.csproj", "{E4390E39-D913-4A9A-9227-5E2CDCF04A4E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "mko.Algo", "mko.Algo\mko.Algo.csproj", "{E4390E39-D913-4A9A-9227-5E2CDCF04A4E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mko.Algo.Test", "mko.Algo.Test\mko.Algo.Test.csproj", "{5543B11A-E56D-4F6B-B916-446E2197C213}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mko.Ballistik", "mko.Ballistik\mko.Ballistik.csproj", "{1696DD29-5575-488E-A75F-9D2994C71ED1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "mko.Ballistik", "mko.Ballistik\mko.Ballistik.csproj", "{1696DD29-5575-488E-A75F-9D2994C71ED1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mko.BatchProcessing", "mko.BatchProcessing\mko.BatchProcessing.csproj", "{E274E34D-E723-4DE9-8DF6-38CB599E54DB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "mko.BatchProcessing", "mko.BatchProcessing\mko.BatchProcessing.csproj", "{E274E34D-E723-4DE9-8DF6-38CB599E54DB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mko.BI", "mko.BI\mko.BI.csproj", "{9C1FC4C5-5BE2-4EFD-87D9-6BD6F12AC07E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "mko.BI", "mko.BI\mko.BI.csproj", "{9C1FC4C5-5BE2-4EFD-87D9-6BD6F12AC07E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mko.Euklid", "mko.Euklid\mko.Euklid.csproj", "{695D15FC-879A-407F-9E1D-D50C9733B0A6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "mko.Euklid", "mko.Euklid\mko.Euklid.csproj", "{695D15FC-879A-407F-9E1D-D50C9733B0A6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mko.Euklid.Test", "mko.Euklid.Test\mko.Euklid.Test.csproj", "{2043CF05-539C-4E9B-AB4E-538013EAD457}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mko.NaLisp", "mko.NaLisp\mko.NaLisp.csproj", "{B9F9CCA3-8EF5-4071-98D2-8233188F39A4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "mko.NaLisp", "mko.NaLisp\mko.NaLisp.csproj", "{B9F9CCA3-8EF5-4071-98D2-8233188F39A4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mko.NaLisp.JSon", "mko.NaLisp.JSon\mko.NaLisp.JSon.csproj", "{118B7652-4451-408A-8CE8-E8440038E48C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "mko.NaLisp.JSon", "mko.NaLisp.JSon\mko.NaLisp.JSon.csproj", "{118B7652-4451-408A-8CE8-E8440038E48C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mko.NaLisp.JSon.Test", "mko.NaLisp.JSon.Test\mko.NaLisp.JSon.Test.csproj", "{A79088B4-90C9-4EA0-AFE8-982258AAA0DA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mko.NaLisp.RPN", "mko.NaLisp.RPN\mko.NaLisp.RPN.csproj", "{17C26EF8-FA6F-4F47-AA28-6B6FB3045BB2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "mko.NaLisp.RPN", "mko.NaLisp.RPN\mko.NaLisp.RPN.csproj", "{17C26EF8-FA6F-4F47-AA28-6B6FB3045BB2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mko.NaLisp.Test", "mko.NaLisp.Test\mko.NaLisp.Test.csproj", "{547DB98A-B49F-4717-867D-D6BB2DD25790}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mko.Newton", "mko.Newton\mko.Newton.csproj", "{3A0F1C60-DE64-4965-BA4A-C62CAEC54A65}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "mko.Newton", "mko.Newton\mko.Newton.csproj", "{3A0F1C60-DE64-4965-BA4A-C62CAEC54A65}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mko.Newton.Test", "mko.Newton.Test\mko.Newton.Test.csproj", "{975783E0-57FD-4471-ADA2-53F7397909F5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mko.RPN", "mko.RPN\mko.RPN.csproj", "{31FA4574-E070-4BBC-AF5C-5586B782CC0E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "mko.RPN", "mko.RPN\mko.RPN.csproj", "{31FA4574-E070-4BBC-AF5C-5586B782CC0E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mko.RPN.Arithmetik", "mko.RPN.Arithmetik\mko.RPN.Arithmetik.csproj", "{9F025918-EB9F-4C92-B18E-2382578D3DB6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "mko.RPN.Arithmetik", "mko.RPN.Arithmetik\mko.RPN.Arithmetik.csproj", "{9F025918-EB9F-4C92-B18E-2382578D3DB6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mko.RPN.Arithmetik.Test", "mko.RPN.Arithmetik.Test\mko.RPN.Arithmetik.Test.csproj", "{88B5A7AF-E504-4EF7-A0F6-32ABEE4339D4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mko.RPN.DateTime", "mko.RPN.DateTime\mko.RPN.DateTime.csproj", "{BDD6F0CB-2500-4109-85FB-E0BC7D09B04F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "mko.RPN.DateTime", "mko.RPN.DateTime\mko.RPN.DateTime.csproj", "{BDD6F0CB-2500-4109-85FB-E0BC7D09B04F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mko.RPN.DateTime.Test", "mko.RPN.DateTime.Test\mko.RPN.DateTime.Test.csproj", "{F57ED634-64CC-4F1B-9294-96C3954302B4}"
 EndProject
