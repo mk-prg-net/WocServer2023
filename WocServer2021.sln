@@ -1,4 +1,3 @@
-
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33502.453
@@ -116,6 +115,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mko.Xhtml.Test", "mko.Xhtml.Test\mko.Xhtml.Test.csproj", "{ABB3BDEB-3D1A-4D07-85D7-55AB00367F21}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "mkoLibs", "mkoLibs", "{1D2C3A5C-27B1-42E7-AF69-771A670E8981}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TryOut", "TryOut\TryOut.csproj", "{F89F7E61-2530-4400-97E3-604890CB885E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -1441,6 +1442,30 @@ Global
 		{ABB3BDEB-3D1A-4D07-85D7-55AB00367F21}.Release|Any CPU.Build.0 = Release|Any CPU
 		{ABB3BDEB-3D1A-4D07-85D7-55AB00367F21}.Release|x86.ActiveCfg = Release|Any CPU
 		{ABB3BDEB-3D1A-4D07-85D7-55AB00367F21}.Release|x86.Build.0 = Release|Any CPU
+		{F89F7E61-2530-4400-97E3-604890CB885E}.Beta|Any CPU.ActiveCfg = Debug|Any CPU
+		{F89F7E61-2530-4400-97E3-604890CB885E}.Beta|Any CPU.Build.0 = Debug|Any CPU
+		{F89F7E61-2530-4400-97E3-604890CB885E}.Beta|x86.ActiveCfg = Debug|Any CPU
+		{F89F7E61-2530-4400-97E3-604890CB885E}.Beta|x86.Build.0 = Debug|Any CPU
+		{F89F7E61-2530-4400-97E3-604890CB885E}.Debug_with_local_IIS|Any CPU.ActiveCfg = Debug|Any CPU
+		{F89F7E61-2530-4400-97E3-604890CB885E}.Debug_with_local_IIS|Any CPU.Build.0 = Debug|Any CPU
+		{F89F7E61-2530-4400-97E3-604890CB885E}.Debug_with_local_IIS|x86.ActiveCfg = Debug|Any CPU
+		{F89F7E61-2530-4400-97E3-604890CB885E}.Debug_with_local_IIS|x86.Build.0 = Debug|Any CPU
+		{F89F7E61-2530-4400-97E3-604890CB885E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F89F7E61-2530-4400-97E3-604890CB885E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F89F7E61-2530-4400-97E3-604890CB885E}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F89F7E61-2530-4400-97E3-604890CB885E}.Debug|x86.Build.0 = Debug|Any CPU
+		{F89F7E61-2530-4400-97E3-604890CB885E}.localIIS|Any CPU.ActiveCfg = Debug|Any CPU
+		{F89F7E61-2530-4400-97E3-604890CB885E}.localIIS|Any CPU.Build.0 = Debug|Any CPU
+		{F89F7E61-2530-4400-97E3-604890CB885E}.localIIS|x86.ActiveCfg = Debug|Any CPU
+		{F89F7E61-2530-4400-97E3-604890CB885E}.localIIS|x86.Build.0 = Debug|Any CPU
+		{F89F7E61-2530-4400-97E3-604890CB885E}.Release_ohne_Trace|Any CPU.ActiveCfg = Release|Any CPU
+		{F89F7E61-2530-4400-97E3-604890CB885E}.Release_ohne_Trace|Any CPU.Build.0 = Release|Any CPU
+		{F89F7E61-2530-4400-97E3-604890CB885E}.Release_ohne_Trace|x86.ActiveCfg = Release|Any CPU
+		{F89F7E61-2530-4400-97E3-604890CB885E}.Release_ohne_Trace|x86.Build.0 = Release|Any CPU
+		{F89F7E61-2530-4400-97E3-604890CB885E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F89F7E61-2530-4400-97E3-604890CB885E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F89F7E61-2530-4400-97E3-604890CB885E}.Release|x86.ActiveCfg = Release|Any CPU
+		{F89F7E61-2530-4400-97E3-604890CB885E}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1499,6 +1524,7 @@ Global
 		{942D361E-D8D9-429D-BF73-FAA044B6168C} = {1D2C3A5C-27B1-42E7-AF69-771A670E8981}
 		{EDB7190F-0F5A-495F-ADF9-681E0B58A009} = {1D2C3A5C-27B1-42E7-AF69-771A670E8981}
 		{ABB3BDEB-3D1A-4D07-85D7-55AB00367F21} = {1D2C3A5C-27B1-42E7-AF69-771A670E8981}
+		{F89F7E61-2530-4400-97E3-604890CB885E} = {6E70DF1D-E9F0-4934-9119-3D8FD63E7E6A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {66326880-314B-4A32-8B9D-9177F6A2A0D7}
