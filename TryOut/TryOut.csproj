@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <TypeScriptTarget>ES2016</TypeScriptTarget>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <TypeScriptTarget>ES2016</TypeScriptTarget>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <TypeScriptModuleKind>amd</TypeScriptModuleKind>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="wwwroot\edit.test.html" />
+    <Content Remove="wwwroot\js\startup.edit.test.js" />
+  </ItemGroup>
+  <ItemGroup><!-- <Content Include="wwwroot\**">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content> -->
+  
+    <Folder Include="wwwroot\js\mod\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="jQuery" Version="3.6.3" />
+  </ItemGroup>
+
+</Project>
