@@ -3,6 +3,6 @@
 
 import IToken from "./IToken";
 
-export default interface IIntToken extends IToken {
-    intValue: number
+export default interface INumToken extends IToken {
+    numValue: number
 }

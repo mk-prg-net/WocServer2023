@@ -5,7 +5,7 @@ import IOpSym from "./IOpSym";
 import IFunction from "./IFunction";
 import IToken from "./IToken";
 import IIntToken from "./IIntToken";
-import IDblToken from "./IDblToken";
+import INumToken from "./INumToken";
 import IStrToken from "./IStrToken";
 import IListToken from "./IListToken";
 import IBoolToken from "./IBoolToken";
@@ -27,18 +27,17 @@ export default class StackElemStructs {
         };
     }
 
-    CreateIntToken(i: number): IIntToken
-    {
+    CreateIntToken(i: BigInteger): IIntToken {
         return {
             tokOpSym: this.opSym.rpnIntType,
             intValue: i
-        }        
+        }
     }
 
-    CreateDblToken(dbl: number): IDblToken {
+    CreateDblToken(dbl: number): INumToken {
         return {
-            tokOpSym: this.opSym.rpnDblType,
-            dblValue: dbl
+            tokOpSym: this.opSym.rpnNumType,
+            numValue: dbl
         }
     }
 
@@ -86,8 +85,7 @@ export default class StackElemStructs {
             return false;
         }
     }
-    CreateFunc(fnName: string, args: IToken[]): IFunction
-    {
+    CreateFunc(fnName: string, args: IToken[]): IFunction {
         // Klassenfabrik für Stack- Elemente, die Inlinefunktionen darstellen
 
         let thisStackElemStructs = this;

@@ -21,8 +21,8 @@ define(["require", "exports"], function (require, exports) {
         }
         CreateDblToken(dbl) {
             return {
-                tokOpSym: this.opSym.rpnDblType,
-                dblValue: dbl
+                tokOpSym: this.opSym.rpnNumType,
+                numValue: dbl
             };
         }
         CreateBoolToken(bool) {

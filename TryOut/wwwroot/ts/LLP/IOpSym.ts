@@ -5,14 +5,14 @@ export default interface IOpSym
     // Kennzeichnet das Default/Empty/None Token
     rpnNoneToken: string;
 
-    // Kennzeichnet einen boolean in RPN, z.B. true #bool
+    // Kennzeichnet einen boolean in RPN, z.B. true #b
     rpnBoolType: string;
 
-    // Kennzeichnet einen Integer in RPN, z.B. 99 #int
+    // Kennzeichnet einen Integer in RPN, z.B. 99 #i
     rpnIntType: string;
 
-    // Kennzeichnet einen double in RPN, z.B. 3.14 #dbl
-    rpnDblType: string;
+    // Kennzeichnet einen double in RPN, z.B. 3.14 #n
+    rpnNumType: string;
 
     // Kennzeichnet einen String in RPN, z.B. #$ Hallo Welt #.
     rpnStrType: string;

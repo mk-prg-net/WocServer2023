@@ -1,8 +1,7 @@
-﻿// mko, 9.1.2023
-
-import IPrintable from "./IPrintable"
-
+﻿// mko, 1.4.2023
+// **Lukasiewicz List Processor**
 // Token
-export default interface IToken extends IPrintable  {
-    tok: string
+export default interface IToken
+{
+    tokOpSym: string
 }

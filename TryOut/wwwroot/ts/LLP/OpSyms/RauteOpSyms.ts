@@ -4,10 +4,10 @@
 import IOpSym from "../IOpSym";
 
 export default class RauteOpSyms implements IOpSym {
+    rpnFuncPrefix: "#";
     rpnBoolType: "#b";
     rpnComment: "#/";
-    rpnDblType: "#dbl";
-    rpnFuncPrefix: "#f";
+    rpnNumType: "#n";    
     rpnIntType: "#i";
     rpnListEnd: "#.";
     rpnListStart: "#_";

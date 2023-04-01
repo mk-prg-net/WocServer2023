@@ -18,15 +18,31 @@
   <ItemGroup>
     <Content Remove="wwwroot\edit.test.html" />
     <Content Remove="wwwroot\js\startup.edit.test.js" />
+    <Content Remove="wwwroot\ts\LLP\IRC.ts" />
+    <Content Remove="wwwroot\ts\LLP\IRCwithValue.ts" />
+    <Content Remove="wwwroot\ts\LLP\ITokenizer.ts" />
+    <Content Remove="wwwroot\ts\LLP\RC\RC.ts" />
+    <Content Remove="wwwroot\ts\LLP\RC\RCwithValue.ts" />
+    <Content Remove="wwwroot\ts\LLP\Tokenizer\BasicTokenizer.ts" />
   </ItemGroup>
   <ItemGroup><!-- <Content Include="wwwroot\**">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content> -->
   
     <Folder Include="wwwroot\js\mod\" />
+  
+    <Folder Include="wwwroot\data\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="jQuery" Version="3.6.3" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="wwwroot\ts\LLP\IRC.ts" />
+    <TypeScriptCompile Include="wwwroot\ts\LLP\IRCwithValue.ts" />
+    <TypeScriptCompile Include="wwwroot\ts\LLP\ITokenizer.ts" />
+    <TypeScriptCompile Include="wwwroot\ts\LLP\RC\RC.ts" />
+    <TypeScriptCompile Include="wwwroot\ts\LLP\RC\RCwithValue.ts" />
+    <TypeScriptCompile Include="wwwroot\ts\LLP\Tokenizer\BasicTokenizer.ts" />
   </ItemGroup>
 
 </Project>
