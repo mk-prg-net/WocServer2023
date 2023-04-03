@@ -13,5 +13,6 @@ export default class RauteOpSyms implements IOpSym {
     rpnListStart: "#_";
     rpnNoneToken: "#*";
     rpnSingleLineComment: "#//";
-    rpnStrType: "#s";    
+    rpnStrType: "#s"; 
+    rpnFuncHeadPrefix: "#f";
 }

@@ -18,12 +18,15 @@
   <ItemGroup>
     <Content Remove="wwwroot\edit.test.html" />
     <Content Remove="wwwroot\js\startup.edit.test.js" />
+    <Content Remove="wwwroot\ts\LLP\IFunctionHeadToken.ts" />
+    <Content Remove="wwwroot\ts\LLP\IListEndToken.ts" />
     <Content Remove="wwwroot\ts\LLP\IRC.ts" />
     <Content Remove="wwwroot\ts\LLP\IRCwithValue.ts" />
     <Content Remove="wwwroot\ts\LLP\ITokenizer.ts" />
     <Content Remove="wwwroot\ts\LLP\RC\RC.ts" />
     <Content Remove="wwwroot\ts\LLP\RC\RCwithValue.ts" />
     <Content Remove="wwwroot\ts\LLP\Tokenizer\BasicTokenizer.ts" />
+    <Content Remove="wwwroot\ts\LLP\Tokenizer\IListBeginToken.ts" />
   </ItemGroup>
   <ItemGroup><!-- <Content Include="wwwroot\**">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -37,12 +40,15 @@
     <PackageReference Include="jQuery" Version="3.6.3" />
   </ItemGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="wwwroot\ts\LLP\IFunctionHeadToken.ts" />
+    <TypeScriptCompile Include="wwwroot\ts\LLP\IListEndToken.ts" />
     <TypeScriptCompile Include="wwwroot\ts\LLP\IRC.ts" />
     <TypeScriptCompile Include="wwwroot\ts\LLP\IRCwithValue.ts" />
     <TypeScriptCompile Include="wwwroot\ts\LLP\ITokenizer.ts" />
     <TypeScriptCompile Include="wwwroot\ts\LLP\RC\RC.ts" />
     <TypeScriptCompile Include="wwwroot\ts\LLP\RC\RCwithValue.ts" />
     <TypeScriptCompile Include="wwwroot\ts\LLP\Tokenizer\BasicTokenizer.ts" />
+    <TypeScriptCompile Include="wwwroot\ts\LLP\IListStartToken.ts" />
   </ItemGroup>
 
 </Project>

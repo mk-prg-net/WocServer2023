@@ -43,6 +43,18 @@ define(["require", "exports"], function (require, exports) {
                 comment: str
             };
         }
+        CreateListEndToken(pos) {
+            return {
+                tokOpSym: this.opSym.rpnListEnd,
+                ListEndPos: pos
+            };
+        }
+        CreateListStartToken(pos) {
+            return {
+                tokOpSym: this.opSym.rpnListEnd,
+                ListBeginPos: pos
+            };
+        }
         CreateListToken(listElems) {
             return {
                 tokOpSym: this.opSym.rpnListStart,
@@ -61,6 +73,14 @@ define(["require", "exports"], function (require, exports) {
             else {
                 return false;
             }
+        }
+        CreateFunctionHeadToken(functionName, pos) {
+            // Klassenfabrik für ein Token, das einen Funktionskopf markiert
+            return {
+                tokOpSym: this.opSym.rpnFuncHeadPrefix,
+                FunctionName: functionName,
+                FuntionHeadPos: pos
+            };
         }
         CreateFunc(fnName, args) {
             // Klassenfabrik für Stack- Elemente, die Inlinefunktionen darstellen

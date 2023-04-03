@@ -10,6 +10,9 @@ import IStrToken from "./IStrToken";
 import IListToken from "./IListToken";
 import IBoolToken from "./IBoolToken";
 import ICommentToken from "./ICommentToken";
+import IListEndToken from "./IListEndToken";
+import IListStartToken from "./IListStartToken";
+import IFunctionHeadToken from "./IFunctionHeadToken";
 
 export default class StackElemStructs {
 
@@ -27,7 +30,7 @@ export default class StackElemStructs {
         };
     }
 
-    CreateIntToken(i: BigInteger): IIntToken {
+    CreateIntToken(i: bigint): IIntToken {
         return {
             tokOpSym: this.opSym.rpnIntType,
             intValue: i
@@ -63,6 +66,19 @@ export default class StackElemStructs {
     }
 
 
+    CreateListEndToken(pos: number) : IListEndToken {
+        return {
+            tokOpSym: this.opSym.rpnListEnd,
+            ListEndPos: pos
+        };
+    }
+
+    CreateListStartToken(pos: number): IListStartToken {
+        return {
+            tokOpSym: this.opSym.rpnListEnd,
+            ListBeginPos: pos
+        };
+    }
 
     CreateListToken(listElems: IToken[]): IListToken {
         return {
@@ -85,6 +101,16 @@ export default class StackElemStructs {
             return false;
         }
     }
+
+    CreateFunctionHeadToken(functionName: string, pos: number): IFunctionHeadToken {
+        // Klassenfabrik für ein Token, das einen Funktionskopf markiert
+        return {
+            tokOpSym: this.opSym.rpnFuncHeadPrefix,
+            FunctionName: functionName,
+            FuntionHeadPos: pos
+        };
+    }
+
     CreateFunc(fnName: string, args: IToken[]): IFunction {
         // Klassenfabrik für Stack- Elemente, die Inlinefunktionen darstellen
 

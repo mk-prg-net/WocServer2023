@@ -23,6 +23,9 @@ export default interface IOpSym
     // KEnnzeichnet ein Listenende in RPN, z.B. #.
     rpnListEnd: string;
 
+    // Kennzeichnet einen allgemeinen Listenanfang
+    rpnListBegin: string;
+
     // Kennzeichnet ganz allgemein ein Funktionsprefix, z.B. #
     rpnFuncPrefix: string; 
 
