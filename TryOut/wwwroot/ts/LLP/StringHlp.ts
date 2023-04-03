@@ -40,6 +40,10 @@ export default class StringHlp
         // Entfernt alle führenden Leerraumzeichen im übergeben String
         return inString.replace(/^\s+/, "");
     }
+
+
+
+
     
     tokenize(inString: string): string[] {
         // Zerlegt einen String in alle Worte und Wortzeichen

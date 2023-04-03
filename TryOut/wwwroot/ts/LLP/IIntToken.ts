@@ -4,5 +4,5 @@
 import IToken from "./IToken";
 
 export default interface IIntToken extends IToken {
-    intValue: number
+    intValue: BigInteger
 }
