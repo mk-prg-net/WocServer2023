@@ -54,10 +54,15 @@ header {
     vertical-align: middle;
 }
 
+    header h1 {
+        color: #404040;
+    }
+
     header section {
         margin: 4px;
         border-width: 0px;
         background-color: gold;
+        color: #404040;
         padding: 0px;
         vertical-align: baseline;
         font-size: 30pt;

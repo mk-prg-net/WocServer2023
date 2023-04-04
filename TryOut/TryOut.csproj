@@ -32,9 +32,11 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content> -->
   
+    <Folder Include="wwwroot\data\" />
+  
     <Folder Include="wwwroot\js\mod\" />
   
-    <Folder Include="wwwroot\data\" />
+    <Folder Include="wwwroot\ts\LLP\Edit\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="jQuery" Version="3.6.3" />

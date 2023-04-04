@@ -5,5 +5,7 @@ import IToken from "./IToken";
 
 
 export default interface IListEndToken extends IToken {
+
+    ListEndPos: number;
     
 }
