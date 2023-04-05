@@ -100,6 +100,42 @@ define(["require", "exports"], function (require, exports) {
                 };
             }
         }
+        CreateFuncUno(fnName, arg) {
+            // Klassenfabrik für Stack- Elemente, die Inlinefunktionen darstellen
+            let thisStackElemStructs = this;
+            return {
+                tokOpSym: this.opSym.rpnFuncPrefix,
+                fnName: fnName,
+                Args: [arg]
+            };
+        }
+        CreateFuncDue(fnName, arg1, arg2) {
+            // Klassenfabrik für Stack- Elemente, die Inlinefunktionen darstellen
+            let thisStackElemStructs = this;
+            return {
+                tokOpSym: this.opSym.rpnFuncPrefix,
+                fnName: fnName,
+                Args: [arg1, arg2]
+            };
+        }
+        CreateFuncTri(fnName, arg1, arg2, arg3) {
+            // Klassenfabrik für Stack- Elemente, die Inlinefunktionen darstellen
+            let thisStackElemStructs = this;
+            return {
+                tokOpSym: this.opSym.rpnFuncPrefix,
+                fnName: fnName,
+                Args: [arg1, arg2, arg3]
+            };
+        }
+        CreateFuncQuattro(fnName, arg1, arg2, arg3, arg4) {
+            // Klassenfabrik für Stack- Elemente, die Inlinefunktionen darstellen
+            let thisStackElemStructs = this;
+            return {
+                tokOpSym: this.opSym.rpnFuncPrefix,
+                fnName: fnName,
+                Args: [arg1, arg2, arg3, arg4]
+            };
+        }
     }
     exports.default = StackElemStructs;
 });

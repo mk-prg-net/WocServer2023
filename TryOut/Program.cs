@@ -69,7 +69,7 @@ app.MapGet("/LLPedit", (HttpRequest req) => {
     var wwwroot = $"{req.Scheme}://{req.Host}";
 
     // Alle {☀} oOrigin Symbole mit der Root ersetzen in der HTML- Datei
-    var content = string.Join('\n', System.IO.File.ReadAllLines(@".\wwwroot\LLPedit.html")).Replace("{*}", wwwroot);
+    var content = string.Join('\n', System.IO.File.ReadAllLines(@".\wwwroot\Apps\LLPedit\MainView.html")).Replace("{*}", wwwroot);
 
     return Results.Content(content, "text/html", System.Text.Encoding.UTF8);
 });

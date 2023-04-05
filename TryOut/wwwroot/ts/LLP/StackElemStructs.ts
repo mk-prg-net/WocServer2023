@@ -130,4 +130,54 @@ export default class StackElemStructs {
             };
         }
     }
+
+    CreateFuncUno(fnName: string, arg: IToken): IFunction {
+        // Klassenfabrik für Stack- Elemente, die Inlinefunktionen darstellen
+
+        let thisStackElemStructs = this;
+
+            return {
+                tokOpSym: this.opSym.rpnFuncPrefix,
+                fnName: fnName,
+                Args: [arg]
+            };
+    }
+
+    CreateFuncDue(fnName: string, arg1: IToken, arg2: IToken): IFunction {
+        // Klassenfabrik für Stack- Elemente, die Inlinefunktionen darstellen
+
+        let thisStackElemStructs = this;
+
+        return {
+            tokOpSym: this.opSym.rpnFuncPrefix,
+            fnName: fnName,
+            Args: [arg1, arg2]
+        };
+    }
+
+    CreateFuncTri(fnName: string, arg1: IToken, arg2: IToken, arg3: IToken): IFunction {
+        // Klassenfabrik für Stack- Elemente, die Inlinefunktionen darstellen
+
+        let thisStackElemStructs = this;
+
+        return {
+            tokOpSym: this.opSym.rpnFuncPrefix,
+            fnName: fnName,
+            Args: [arg1, arg2, arg3]
+        };
+    }
+
+    CreateFuncQuattro(fnName: string, arg1: IToken, arg2: IToken, arg3: IToken, arg4: IToken): IFunction {
+        // Klassenfabrik für Stack- Elemente, die Inlinefunktionen darstellen
+
+        let thisStackElemStructs = this;
+
+        return {
+            tokOpSym: this.opSym.rpnFuncPrefix,
+            fnName: fnName,
+            Args: [arg1, arg2, arg3, arg4]
+        };
+    }
+
+
 }

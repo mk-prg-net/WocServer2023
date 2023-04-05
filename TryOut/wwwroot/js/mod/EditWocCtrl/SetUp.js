@@ -4,7 +4,7 @@ define(["require", "exports"], function (require, exports) {
     Object.defineProperty(exports, "__esModule", { value: true });
     // mko, 4.4.2023
     // Installiert ein JQuery- Plugin für das editieren von WocId's
-    function InstallEditWocIdCtrl($, urlPartView) {
+    function EditWocIdCtrlSetUp($, urlTSRoot) {
         // JQuery Collection Plugin.
         // Die hier definierte Funktion wird für jeden selektierten Knoten aufgerufen.
         // Jeder selektierte Knoten wird durch **this** repräsentiert. Durch $(this) wird der 
@@ -14,13 +14,13 @@ define(["require", "exports"], function (require, exports) {
         $.fn.EditWocIdCtrl = function (options) {
             options = $.extend({ editWocIdClass: 'editWocId' }, options || {});
             // Prüfen, ob die EditWocId- Struktur bereits in den Kindfenstern eingefügt wurde
-            let searchRes = $(this).find(".EditWocHtm");
+            let searchRes = $(this).find(".EditWocCtrlHtm");
             if (searchRes.length === 0) {
                 // Edit Woc ist noch nicht definiert
-                $(this).load(`${urlPartView}/EditWocIdCtrl.htm`);
+                $(this).load(`${urlTSRoot}/EditWocCtrl/View.htm`);
             }
         };
     }
-    exports.default = InstallEditWocIdCtrl;
+    exports.default = EditWocIdCtrlSetUp;
 });
-//# sourceMappingURL=InstallEditWocIdCtrl.js.map
+//# sourceMappingURL=SetUp.js.map
