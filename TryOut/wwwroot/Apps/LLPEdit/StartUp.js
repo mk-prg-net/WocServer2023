@@ -16,6 +16,9 @@ requirejs(['mod/WocHeaderCtrl/SetUp', 'mod/LLP/OpSyms/RauteOpSyms', 'mod/LLP/Sta
         WocHeaderCtrlSetUp.default($, "ts/", stackOps, stackElemStructs);
 
         var llpStack = stackOps.NewStack();
+        $.ajax({
+            cache: false
+        });
 
         $('#woc-descriptor').WocHeaderCtrl({llpStack: llpStack});
 

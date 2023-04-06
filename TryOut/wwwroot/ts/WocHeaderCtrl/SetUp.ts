@@ -6,8 +6,7 @@ import StackOps from "../LLP/StackOps";
 
 // mko, 5.4.2023
 // Definiert die Struktur des JQuery Plugin- Option Objektes
-interface IWocHeaderCtrlOptions
-{
+interface IWocHeaderCtrlOptions {
     llpStack: IToken[]
 }
 
@@ -31,49 +30,65 @@ export default function WocHeaderCtrlSetUp($: JQueryStatic, urlTSRoot: string, s
 
         if (searchRes.length === 0) {
 
+            let that = this;
+
+
+            $(document).ajaxComplete(function (evt: JQueryEventObject, xmlReq: XMLHttpRequest, ajaxOptions: any) {
+
+                // Zugriff auf das Ctrl
+                let wocHeaderCtrl = $(that).find(c_wocHeaderCtrlId).first();
+
+                // Elemente ausuchen, an die Eventhandler zu binden sind
+
+                // Button mit dem 
+                let btnDef = $(wocHeaderCtrl).find("button").first();
+
+                $(btnDef).text("Testinhalt");
+
+                $(btnDef).click(function () {
+
+                    // Validates the Input fields 
+
+                    // Link to the input elements
+                    let inTitle = $(wocHeaderCtrl).find("#WocHeaderCtrl-input-title").first();
+                    let inTitleErrMsg = $(wocHeaderCtrl).find("#WocHeaderCtrlInputTitleValidate").first();
+
+                    let inAuthor = $(wocHeaderCtrl).find("#WocHeaderCtrl-input-author").first();
+                    let inAuthorErrMsg = $(wocHeaderCtrl).find("#WocHeaderCtrl-input-author-validate").first();
+
+                    $(inTitleErrMsg).html("");
+                    $(inAuthorErrMsg).html("");
+
+                    if (!$(inTitle).val()) {
+                        // Title was not defined
+                        $(inTitleErrMsg).html("↯ title is not defined");
+                    }
+                    else if (!$(inAuthor).val()) {
+                        // Author is not defined
+                        $(inAuthorErrMsg).html("↯ author is not defined");
+                    }
+                    else {
+                        // Create the initial Stack with the woc header
+                        let wocHeader = stackElemStructs.CreateFuncDue(
+                            "WocHeader",
+                            stackElemStructs.CreateFuncUno("WocTitle", stackElemStructs.CreateStrToken($(inTitle).val() as string)),
+                            stackElemStructs.CreateFuncUno("WocAuthor", stackElemStructs.CreateStrToken($(inAuthor).val() as string))
+                        );
+
+                        let myOptions = options as IWocHeaderCtrlOptions;
+
+                        stackOps.Push(myOptions.llpStack, wocHeader);
+
+                        // Remove the the control, after the woc header was successful defined
+                        $(wocHeaderCtrl).remove();
+                    }
+                });
+            }).ajaxError(function (evt: BaseJQueryEventObject, jqXHR: JQueryXHR, ajaxSettings: JQueryAjaxSettings, thrownError: any) {
+                alert("Error");
+            });
+
             // Ctrl ist noch nicht definiert- wird geladen und in das DOM integriert
             $(this).load(`${urlTSRoot}/WocHeaderCtrl/View.htm`);
-
-            // Zugriff auf das Ctrl
-            let wocHeaderCtrl = $(this).find(c_wocHeaderCtrlId).first();
-
-            // Elemente ausuchen, an die Eventhandler zu binden sind
-
-            // Button mit dem 
-            let btnDef = $(wocHeaderCtrl).find("#WocHeaderCtrl-btn-def-woc").first();
-            
-            $(btnDef).click(function () {
-
-                // Validates the Input fields 
-
-                // Link to the input elements
-                let inTitle = $(wocHeaderCtrl).find("#EditWocCtrl-input-title").first();
-                let inAuthor = $(wocHeaderCtrl).find("#EditWocCtrl-input-author").first();
-
-                if (!$(inTitle).val()) {
-                    // Title was not defined
-                    $(wocHeaderCtrl).find("#WocHeaderCtrl-input-title-validate").val("↯ title is not defined");
-                }
-                else if (!$(inAuthor).val()) {
-                    // Author is not defined
-                    $(wocHeaderCtrl).find("#WocHeaderCtrl-input-author-validate").val("↯ author is not defined");
-                }
-                else {
-                    // Create the initial Stack with the woc header
-                    let wocHeader = stackElemStructs.CreateFuncDue(
-                        "WocHeader",
-                        stackElemStructs.CreateFuncUno("WocTitle", stackElemStructs.CreateStrToken($(inTitle).val() as string)),
-                        stackElemStructs.CreateFuncUno("WocAuthor", stackElemStructs.CreateStrToken($(inAuthor).val() as string))
-                    );
-
-                    let myOptions = options as IWocHeaderCtrlOptions;
-
-                    stackOps.Push(myOptions.llpStack, wocHeader);
-
-                    // Remove the the control, after the woc header was successful defined
-                    $(wocHeaderCtrl).remove();
-                }
-            });
         }
     }
 }
