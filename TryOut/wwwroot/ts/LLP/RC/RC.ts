@@ -1,7 +1,7 @@
 ﻿// mko, 1.4.2023
 // **Lukasiewicz List Processor**
 
-import IRC from "../IRC";
+import IRC from "../RC/IRC";
 
 export default class RC implements IRC {
 

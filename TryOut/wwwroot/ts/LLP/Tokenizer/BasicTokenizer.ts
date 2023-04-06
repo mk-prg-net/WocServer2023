@@ -2,17 +2,17 @@
 // **Lukasiewicz List Processor**
 
 
-import IToken from "../IToken";
-import ITokenizer from "../ITokenizer";
-import IBoolToken from "../IBoolToken";
-import IInttoken from "../IIntToken";
-import ICommentToken from "../ICommentToken";
-import IFunctionToken from "../IFunction";
-import INumToken from "../INumToken";
-import IStrToken from "../IStrToken";
-import IOpSym from "../IOpSym";
-import IRC from "../IRC";
-import IRCwithValue from "../IRCwithValue";
+import IToken from "./IToken";
+import ITokenizer from "./ITokenizer";
+import IBoolToken from "./IBoolToken";
+import IInttoken from "./IIntToken";
+import ICommentToken from "./ICommentToken";
+import IFunctionToken from "./IFunction";
+import INumToken from "./INumToken";
+import IStrToken from "./IStrToken";
+import IOpSym from "../OpSyms/IOpSym";
+import IRC from "../RC/IRC";
+import IRCwithValue from "../RC/IRCwithValue";
 import RC from "../RC/RC";
 
 import StrHlp from "../StringHlp";

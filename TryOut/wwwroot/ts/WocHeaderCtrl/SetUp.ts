@@ -1,6 +1,6 @@
 ﻿/// <reference path ="../../typings/jquery.d.ts"/>
 
-import IToken from "../LLP/IToken";
+import IToken from "../LLP/Tokenizer/IToken";
 import StackElemStructs from "../LLP/StackElemStructs";
 import StackOps from "../LLP/StackOps";
 

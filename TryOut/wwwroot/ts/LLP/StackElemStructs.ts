@@ -1,18 +1,18 @@
 ﻿// mko, 29.3.2023
 // **Lukasiewicz List Processor**
 
-import IOpSym from "./IOpSym";
-import IFunction from "./IFunction";
-import IToken from "./IToken";
-import IIntToken from "./IIntToken";
-import INumToken from "./INumToken";
-import IStrToken from "./IStrToken";
-import IListToken from "./IListToken";
-import IBoolToken from "./IBoolToken";
-import ICommentToken from "./ICommentToken";
-import IListEndToken from "./IListEndToken";
-import IListStartToken from "./IListStartToken";
-import IFunctionHeadToken from "./IFunctionHeadToken";
+import IOpSym from "./OpSyms/IOpSym";
+import IFunction from "./Tokenizer/IFunction";
+import IToken from "./Tokenizer/IToken";
+import IIntToken from "./Tokenizer/IIntToken";
+import INumToken from "./Tokenizer/INumToken";
+import IStrToken from "./Tokenizer/IStrToken";
+import IListToken from "./Tokenizer/IListToken";
+import IBoolToken from "./Tokenizer/IBoolToken";
+import ICommentToken from "./Tokenizer/ICommentToken";
+import IListEndToken from "./Tokenizer/IListEndToken";
+import IListStartToken from "./Tokenizer/IListStartToken";
+import IFunctionHeadToken from "./Tokenizer/IFunctionHeadToken";
 
 export default class StackElemStructs {
 

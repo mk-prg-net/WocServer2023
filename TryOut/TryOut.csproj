@@ -37,20 +37,22 @@
     <Folder Include="wwwroot\js\mod\" />
   
     <Folder Include="wwwroot\ts\LLP\Edit\" />
+  
+    <Folder Include="wwwroot\ts\LLP\Abstract\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="jQuery" Version="3.6.3" />
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="wwwroot\ts\LLP\IFunctionHeadToken.ts" />
-    <TypeScriptCompile Include="wwwroot\ts\LLP\IListEndToken.ts" />
-    <TypeScriptCompile Include="wwwroot\ts\LLP\IRC.ts" />
-    <TypeScriptCompile Include="wwwroot\ts\LLP\IRCwithValue.ts" />
-    <TypeScriptCompile Include="wwwroot\ts\LLP\ITokenizer.ts" />
+    <TypeScriptCompile Include="wwwroot\ts\LLP\Tokenizer\IFunctionHeadToken.ts" />
+    <TypeScriptCompile Include="wwwroot\ts\LLP\Tokenizer\IListEndToken.ts" />
+    <TypeScriptCompile Include="wwwroot\ts\LLP\RC\IRC.ts" />
+    <TypeScriptCompile Include="wwwroot\ts\LLP\RC\IRCwithValue.ts" />
+    <TypeScriptCompile Include="wwwroot\ts\LLP\Tokenizer\ITokenizer.ts" />
     <TypeScriptCompile Include="wwwroot\ts\LLP\RC\RC.ts" />
     <TypeScriptCompile Include="wwwroot\ts\LLP\RC\RCwithValue.ts" />
     <TypeScriptCompile Include="wwwroot\ts\LLP\Tokenizer\BasicTokenizer.ts" />
-    <TypeScriptCompile Include="wwwroot\ts\LLP\IListStartToken.ts" />
+    <TypeScriptCompile Include="wwwroot\ts\LLP\Tokenizer\IListStartToken.ts" />
   </ItemGroup>
 
 </Project>

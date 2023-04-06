@@ -1,19 +1,19 @@
 // mko, 29.3.2023
 // **Lukasiewicz List Processor**
 
-import IOpSym from "./IOpSym";
-import IFunction from "./IFunction";
-import IToken from "./IToken";
-import IRC from "./IRC";
-import IRCwithValue from "./IRCwithValue";
+import IOpSym from "./OpSyms/IOpSym";
+import IFunction from "./Tokenizer/IFunction";
+import IToken from "./Tokenizer/IToken";
+import IRC from "./RC/IRC";
+import IRCwithValue from "./RC/IRCwithValue";
 import RC from "./RC/RC";
 import RCwithVal from "./RC/RCwithValue";
-import IIntToken from "./IIntToken";
-import INumToken from "./INumToken";
-import IStrToken from "./IStrToken";
-import IListToken from "./IListToken";
-import IBoolToken from "./IBoolToken";
-import ICommentToken from "./ICommentToken";
+import IIntToken from "./Tokenizer/IIntToken";
+import INumToken from "./Tokenizer/INumToken";
+import IStrToken from "./Tokenizer/IStrToken";
+import IListToken from "./Tokenizer/IListToken";
+import IBoolToken from "./Tokenizer/IBoolToken";
+import ICommentToken from "./Tokenizer/ICommentToken";
 
 import StackElemStructsClass from "./StackElemStructs";
 import RCwithValue from "./RC/RCwithValue";

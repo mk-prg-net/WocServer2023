@@ -2,8 +2,8 @@
 // mko, 1.4.2023
 //
 
-import IRC from "./IRC";
-import IRCwithValue from "./IRCwithValue";
+import IRC from "../RC/IRC";
+import IRCwithValue from "../RC/IRCwithValue";
 import IToken from "./IToken"
 
 // Schnittstelle eines Tokenizers, der Texte in der der Reverse Polish Notation (RPN), in die Grundbausteine

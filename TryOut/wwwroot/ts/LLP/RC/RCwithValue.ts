@@ -2,8 +2,8 @@
 // **Lukasiewicz List Processor**
 
 
-import IRCwithValue from "../IRCwithValue";
-import IRC from "../IRCwithValue";
+import IRCwithValue from "../RC/IRCwithValue";
+import IRC from "../RC/IRCwithValue";
 
 export default class RCwithValue<TValue> implements IRCwithValue<TValue> {
 
