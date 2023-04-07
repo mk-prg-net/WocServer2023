@@ -27,12 +27,12 @@ export default class StackOps
         this.stackStructs = new StackElemStructsClass(opSym);
     }
 
-    NewStack(): IToken[]
+    public NewStack(): IToken[]
     {
         return [];
     }
 
-    Peek(stack: IToken[]): RCwithValue<IToken>
+    public Peek(stack: IToken[]): RCwithValue<IToken>
     {
         // Liefert den obersten Eintrag im Stack.
         if (stack.length > 0)
@@ -41,7 +41,7 @@ export default class StackOps
             return new RCwithValue<IToken>(false, "stack is empty", this.stackStructs.CreateNoneToken());
     }
 
-    Pop(stack: IToken[]): RCwithValue<IToken>
+    public Pop(stack: IToken[]): RCwithValue<IToken>
     {
         // Liefert den obersten Eintrag im Stack.
         if (stack.length > 0)
@@ -50,7 +50,7 @@ export default class StackOps
             return new RCwithValue<IToken>(false, "stack is empty", this.stackStructs.CreateNoneToken());
     }
 
-    Push(stack: IToken[], token: IToken) : boolean
+    public Push(stack: IToken[], token: IToken) : boolean
     {
         stack.push(token);
         return true;

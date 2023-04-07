@@ -27,7 +27,7 @@ define(["require", "exports"], function (require, exports) {
         }
         CreateBoolToken(bool) {
             return {
-                tokOpSym: this.opSym.rpnStrType,
+                tokOpSym: this.opSym.rpnBoolType,
                 booValue: bool
             };
         }
@@ -39,7 +39,7 @@ define(["require", "exports"], function (require, exports) {
         }
         CreateCommentToken(str) {
             return {
-                tokOpSym: this.opSym.rpnStrType,
+                tokOpSym: this.opSym.rpnComment,
                 comment: str
             };
         }

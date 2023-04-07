@@ -59,7 +59,7 @@ define(["require", "exports"], function (require, exports) {
                 .replace(/\+/g, " + ")
                 .replace(/\*/g, " * ")
                 .replace(/\-/g, " - ")
-                .replace(/\//g, " / ")
+                //.replace(/\//g, " / ")
                 .replace(/#+/g, " $&");
             let tokens = newString.split(/\s+/g);
             // Ein führendes Leerwort entfernen

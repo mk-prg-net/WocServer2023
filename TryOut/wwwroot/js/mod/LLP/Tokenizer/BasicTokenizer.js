@@ -53,13 +53,14 @@ define(["require", "exports", "../../rpnParser/StringHlp", "../RC/RCwithValue"],
                     }
                     // Kommentar einlesen
                     else if (currentStrTok === this.opSym.rpnComment) {
-                        let pc = pos + 1;
                         let commentTxt = "";
                         // alle tokens rechts vom Kommentarzeichen bis zum Zeilenende als Kommentartext zusammenfassen
-                        while (pc < strTokens.length) {
-                            commentTxt += strTokens[pc] + " ";
+                        for (pos = pos + 1; pos < strTokens.length; pos++) {
+                            commentTxt += strTokens[pos] + " ";
                         }
                         this.stackOps.Push(tokenStack, this.stackElemStructs.CreateCommentToken(commentTxt));
+                        // Alles wurde eingelesen
+                        break;
                     }
                     // int einlesen
                     else if (currentStrTok == this.opSym.rpnIntType) {

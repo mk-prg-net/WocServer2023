@@ -62,6 +62,18 @@ app.MapGet("/edit-test", (HttpRequest req) => {
     return Results.Content(content, "text/html", System.Text.Encoding.UTF8);
 });
 
+app.MapGet("/LLPedit-test", (HttpRequest req) => {
+
+    // Origin des statischen Content bestimmen
+    var wwwroot = $"{req.Scheme}://{req.Host}";
+
+    // Alle {☀} oOrigin Symbole mit der Root ersetzen in der HTML- Datei
+    var content = string.Join('\n', System.IO.File.ReadAllLines(@".\wwwroot\Apps\LLPedit_Test\MainView.html")).Replace("{*}", wwwroot);
+
+    return Results.Content(content, "text/html", System.Text.Encoding.UTF8);
+});
+
+
 // Lädt den Editor vom Server
 app.MapGet("/LLPedit", (HttpRequest req) => {
 

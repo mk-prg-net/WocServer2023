@@ -16,6 +16,21 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="wwwroot\data\**" />
+    <Compile Remove="wwwroot\ts\LLP\Abstract\**" />
+    <Compile Remove="wwwroot\ts\LLP\Edit\**" />
+    <Content Remove="wwwroot\data\**" />
+    <Content Remove="wwwroot\ts\LLP\Abstract\**" />
+    <Content Remove="wwwroot\ts\LLP\Edit\**" />
+    <EmbeddedResource Remove="wwwroot\data\**" />
+    <EmbeddedResource Remove="wwwroot\ts\LLP\Abstract\**" />
+    <EmbeddedResource Remove="wwwroot\ts\LLP\Edit\**" />
+    <None Remove="wwwroot\data\**" />
+    <None Remove="wwwroot\ts\LLP\Abstract\**" />
+    <None Remove="wwwroot\ts\LLP\Edit\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Remove="wwwroot\edit.test.html" />
     <Content Remove="wwwroot\js\startup.edit.test.js" />
     <Content Remove="wwwroot\ts\LLP\IFunctionHeadToken.ts" />
@@ -32,13 +47,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content> -->
   
-    <Folder Include="wwwroot\data\" />
-  
     <Folder Include="wwwroot\js\mod\" />
   
-    <Folder Include="wwwroot\ts\LLP\Edit\" />
-  
-    <Folder Include="wwwroot\ts\LLP\Abstract\" />
+    <Folder Include="wwwroot\ts\LLP\Test\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="jQuery" Version="3.6.3" />

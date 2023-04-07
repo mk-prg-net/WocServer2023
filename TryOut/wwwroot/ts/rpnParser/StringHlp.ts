@@ -65,7 +65,7 @@ export default class StringHlp
                                 .replace(/\+/g, " + ")
                                 .replace(/\*/g, " * ")
                                 .replace(/\-/g, " - ")
-                                .replace(/\//g, " / ")
+                                //.replace(/\//g, " / ")
                                 .replace(/#+/g, " $&");
 
         let tokens = newString.split(/\s+/g);

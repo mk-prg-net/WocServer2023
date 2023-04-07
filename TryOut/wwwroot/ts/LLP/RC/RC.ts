@@ -10,6 +10,6 @@ export default class RC implements IRC {
         this.Success = success;
     }
     
-    Success: boolean;
-    ErrorMsgIfNotSuccesful: string;
+    public Success: boolean;
+    public ErrorMsgIfNotSuccesful: string;
 }

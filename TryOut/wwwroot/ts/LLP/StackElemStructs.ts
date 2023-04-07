@@ -24,74 +24,74 @@ export default class StackElemStructs {
 
     // Definiert Klassenfabriken für Strukturen, die im Stack verwaltet werden
 
-    CreateNoneToken(): IToken {
+    public CreateNoneToken(): IToken {
         return {
             tokOpSym: this.opSym.rpnNoneToken
         };
     }
 
-    CreateIntToken(i: bigint): IIntToken {
+    public CreateIntToken(i: bigint): IIntToken {
         return {
             tokOpSym: this.opSym.rpnIntType,
             intValue: i
         }
     }
 
-    CreateDblToken(dbl: number): INumToken {
+    public CreateDblToken(dbl: number): INumToken {
         return {
             tokOpSym: this.opSym.rpnNumType,
             numValue: dbl
         }
     }
 
-    CreateBoolToken(bool: boolean): IBoolToken {
+    public CreateBoolToken(bool: boolean): IBoolToken {
         return {
-            tokOpSym: this.opSym.rpnStrType,
+            tokOpSym: this.opSym.rpnBoolType,
             booValue: bool
         }
     }
 
-    CreateStrToken(str: string): IStrToken {
+    public CreateStrToken(str: string): IStrToken {
         return {
             tokOpSym: this.opSym.rpnStrType,
             strValue: str
         }
     }
 
-    CreateCommentToken(str: string): ICommentToken {
+    public CreateCommentToken(str: string): ICommentToken {
         return {
-            tokOpSym: this.opSym.rpnStrType,
+            tokOpSym: this.opSym.rpnComment,
             comment: str
         }
     }
 
 
-    CreateListEndToken(pos: number) : IListEndToken {
+    public CreateListEndToken(pos: number) : IListEndToken {
         return {
             tokOpSym: this.opSym.rpnListEnd,
             ListEndPos: pos
         };
     }
 
-    CreateListStartToken(pos: number): IListStartToken {
+    public CreateListStartToken(pos: number): IListStartToken {
         return {
             tokOpSym: this.opSym.rpnListEnd,
             ListBeginPos: pos
         };
     }
 
-    CreateListToken(listElems: IToken[]): IListToken {
+    public CreateListToken(listElems: IToken[]): IListToken {
         return {
             tokOpSym: this.opSym.rpnListStart,
             listElems: listElems
         }
     }
 
-    isToken(stackElem): boolean {
+    public isToken(stackElem): boolean {
         return "tokOpSym" in stackElem;
     }
 
-    isFunc(stackElem: IToken, fnName: string): boolean {
+    public isFunc(stackElem: IToken, fnName: string): boolean {
         // Prädikat, gibt true zurück, wenn auf dem Stack eine Blockfunktion liegt.        
         if (stackElem.tokOpSym === this.opSym.rpnFuncPrefix && ("fnName" in stackElem) && ("Args" in stackElem)) {
             let func = stackElem as IFunction;
@@ -102,7 +102,7 @@ export default class StackElemStructs {
         }
     }
 
-    CreateFunctionHeadToken(functionName: string, pos: number): IFunctionHeadToken {
+    public CreateFunctionHeadToken(functionName: string, pos: number): IFunctionHeadToken {
         // Klassenfabrik für ein Token, das einen Funktionskopf markiert
         return {
             tokOpSym: this.opSym.rpnFuncHeadPrefix,
@@ -111,7 +111,7 @@ export default class StackElemStructs {
         };
     }
 
-    CreateFunc(fnName: string, args: IToken[]): IFunction {
+    public CreateFunc(fnName: string, args: IToken[]): IFunction {
         // Klassenfabrik für Stack- Elemente, die Inlinefunktionen darstellen
 
         let thisStackElemStructs = this;
@@ -131,7 +131,7 @@ export default class StackElemStructs {
         }
     }
 
-    CreateFuncUno(fnName: string, arg: IToken): IFunction {
+    public CreateFuncUno(fnName: string, arg: IToken): IFunction {
         // Klassenfabrik für Stack- Elemente, die Inlinefunktionen darstellen
 
         let thisStackElemStructs = this;
@@ -143,7 +143,7 @@ export default class StackElemStructs {
             };
     }
 
-    CreateFuncDue(fnName: string, arg1: IToken, arg2: IToken): IFunction {
+    public CreateFuncDue(fnName: string, arg1: IToken, arg2: IToken): IFunction {
         // Klassenfabrik für Stack- Elemente, die Inlinefunktionen darstellen
 
         let thisStackElemStructs = this;
@@ -155,7 +155,7 @@ export default class StackElemStructs {
         };
     }
 
-    CreateFuncTri(fnName: string, arg1: IToken, arg2: IToken, arg3: IToken): IFunction {
+    public CreateFuncTri(fnName: string, arg1: IToken, arg2: IToken, arg3: IToken): IFunction {
         // Klassenfabrik für Stack- Elemente, die Inlinefunktionen darstellen
 
         let thisStackElemStructs = this;
@@ -167,7 +167,7 @@ export default class StackElemStructs {
         };
     }
 
-    CreateFuncQuattro(fnName: string, arg1: IToken, arg2: IToken, arg3: IToken, arg4: IToken): IFunction {
+    public CreateFuncQuattro(fnName: string, arg1: IToken, arg2: IToken, arg3: IToken, arg4: IToken): IFunction {
         // Klassenfabrik für Stack- Elemente, die Inlinefunktionen darstellen
 
         let thisStackElemStructs = this;

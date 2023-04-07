@@ -4,15 +4,31 @@
 import IOpSym from "./IOpSym";
 
 export default class RauteOpSyms implements IOpSym {
-    rpnFuncPrefix: "#";
-    rpnBoolType: "#b";
-    rpnComment: "#/";
-    rpnNumType: "#n";    
-    rpnIntType: "#i";
-    rpnListEnd: "#.";
-    rpnListStart: "#_";
-    rpnNoneToken: "#*";
-    rpnSingleLineComment: "#//";
-    rpnStrType: "#s"; 
-    rpnFuncHeadPrefix: "#f";
+
+    public rpnFuncPrefix: string;
+    public rpnBoolType: string;
+    public rpnComment: string;
+    public rpnNumType: string;
+    public rpnIntType: string;
+    public rpnListEnd: string;
+    public rpnListStart: string;
+    public rpnNoneToken: string;
+    public rpnSingleLineComment: string;
+    public rpnStrType: string;
+    public rpnFuncHeadPrefix: string;
+
+    constructor() {
+        this.rpnFuncPrefix = "#";
+        this.rpnBoolType = "#b";
+        this.rpnComment = "#/";
+        this.rpnNumType = "#n";
+        this.rpnIntType = "#i";
+        this.rpnListEnd = "#.";
+        this.rpnListStart = "#_";
+        this.rpnNoneToken = "#*";
+        this.rpnSingleLineComment = "#//";
+        this.rpnStrType = "#s";
+        this.rpnFuncHeadPrefix = "#f";
+
+    }
 }
