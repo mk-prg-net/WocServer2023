@@ -1,7 +1,11 @@
 // mko, 13.1.2023
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 define(["require", "exports", "../RPN"], function (require, exports, RPN_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
+    RPN_1 = __importDefault(RPN_1);
     // import StackElemStructsClass from "./StackElemFuncs"
     class BlockFuncs {
         constructor() {

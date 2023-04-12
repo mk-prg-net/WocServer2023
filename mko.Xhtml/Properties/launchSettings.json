@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "mko.Xhtml": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:59745;http://localhost:59746"
+    }
+  }
+}

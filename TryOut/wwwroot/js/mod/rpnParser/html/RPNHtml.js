@@ -32,9 +32,15 @@
 //
 //</unit_history>
 //</unit_header>   
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 define(["require", "exports", "../RPN", "./RPNHtmlInlineFunctions", "./RPNHtmlBlockFunctions"], function (require, exports, RPN_1, RPNHtmlInlineFunctions_1, RPNHtmlBlockFunctions_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
+    RPN_1 = __importDefault(RPN_1);
+    RPNHtmlInlineFunctions_1 = __importDefault(RPNHtmlInlineFunctions_1);
+    RPNHtmlBlockFunctions_1 = __importDefault(RPNHtmlBlockFunctions_1);
     class RPNHtml {
         constructor() {
             this.RPN = new RPN_1.default();

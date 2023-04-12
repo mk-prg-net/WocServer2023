@@ -1,8 +1,13 @@
 // mko, 29.3.2023
 // **Lukasiewicz List Processor**
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 define(["require", "exports", "./StackElemStructs", "./RC/RCwithValue"], function (require, exports, StackElemStructs_1, RCwithValue_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
+    StackElemStructs_1 = __importDefault(StackElemStructs_1);
+    RCwithValue_1 = __importDefault(RCwithValue_1);
     class StackOps {
         constructor(opSym) {
             this.stackStructs = new StackElemStructs_1.default(opSym);

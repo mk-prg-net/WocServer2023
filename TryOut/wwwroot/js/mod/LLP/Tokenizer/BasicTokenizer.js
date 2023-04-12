@@ -1,8 +1,13 @@
 // mko, 1.4.2023
 // **Lukasiewicz List Processor**
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 define(["require", "exports", "../../rpnParser/StringHlp", "../RC/RCwithValue"], function (require, exports, StringHlp_1, RCwithValue_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
+    StringHlp_1 = __importDefault(StringHlp_1);
+    RCwithValue_1 = __importDefault(RCwithValue_1);
     class BasicTokenizer {
         constructor(opSym, stackOps, stackElemStructs) {
             this.opSym = opSym;

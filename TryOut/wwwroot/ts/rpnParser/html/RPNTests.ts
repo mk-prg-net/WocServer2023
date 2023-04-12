@@ -1,14 +1,13 @@
-﻿// Ausprobieren der Module
-/// <reference path ="../../../typings/jquery.d.ts"/> 
-/// <reference path ="../../../typings/qunit.d.ts"/> 
-//import QUnit from "qunit";
+﻿
+import $ from "jquery";
+import QUnit from "qunit";
 import StringHlpClass from "../StringHlp";
 import RPNclass from "../RPN";
 import RPNHtmlClass from "./RPNHtml";
 import ParserClass from "./Parser"; 
 
 // 2. Starten der Anwendung
-export default function RPNTest($ : JQueryStatic, QUnit: QUnit) {    
+export default function RPNTest() { //$ : JQueryStatic, QUnit: QUnit) {    
 
     let StringHlp = new StringHlpClass();
     let RPN = new RPNclass();

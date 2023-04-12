@@ -32,9 +32,14 @@
 //
 //</unit_history>
 //</unit_header>   
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 define(["require", "exports", "./RPNHtml", "../StringHlp"], function (require, exports, RPNHtml_1, StringHlp_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
+    RPNHtml_1 = __importDefault(RPNHtml_1);
+    StringHlp_1 = __importDefault(StringHlp_1);
     class Parser {
         constructor() {
             this.StringHlp = new StringHlp_1.default();

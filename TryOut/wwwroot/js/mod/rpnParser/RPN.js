@@ -32,9 +32,13 @@
 //
 //</unit_history>
 //</unit_header> 
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 define(["require", "exports", "./StackElemStructs"], function (require, exports, StackElemStructs_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
+    StackElemStructs_1 = __importDefault(StackElemStructs_1);
     class RPN {
         constructor() {
             this.StackElemStructs = new StackElemStructs_1.default();

@@ -1,10 +1,16 @@
-/// <reference path ="../../../typings/jquery.d.ts"/>
-/// <reference path ="../../../typings/qunit.d.ts"/>
-define(["require", "exports", "../OpSyms/RauteOpSyms", "../StackOps", "../StackElemStructs", "../Tokenizer/BasicTokenizer"], function (require, exports, RauteOpSyms_1, StackOps_1, StackElemStructs_1, BasicTokenizer_1) {
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+define(["require", "exports", "qunit", "../OpSyms/RauteOpSyms", "../StackOps", "../StackElemStructs", "../Tokenizer/BasicTokenizer"], function (require, exports, qunit_1, RauteOpSyms_1, StackOps_1, StackElemStructs_1, BasicTokenizer_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    function LLPTest($, QUnit) {
-        QUnit.test("Test des Tokenizers", function (assert) {
+    qunit_1 = __importDefault(qunit_1);
+    RauteOpSyms_1 = __importDefault(RauteOpSyms_1);
+    StackOps_1 = __importDefault(StackOps_1);
+    StackElemStructs_1 = __importDefault(StackElemStructs_1);
+    BasicTokenizer_1 = __importDefault(BasicTokenizer_1);
+    function LLPTest() {
+        qunit_1.default.test("Test des Tokenizers", function (assert) {
             let opSyms = new RauteOpSyms_1.default();
             let stackElemStructs = new StackElemStructs_1.default(opSyms);
             let stackOps = new StackOps_1.default(opSyms);
@@ -59,7 +65,7 @@ define(["require", "exports", "../OpSyms/RauteOpSyms", "../StackOps", "../StackE
                 assert.equal(getTokens.ReturnValue.length, 4, `Aus '${line}''sollten eine Add- Funktion, bestehend aus 4 Token  eingelesen werden. Es wurden jedoch ${getTokens.ReturnValue.length} Token eingelesen`);
             }
         });
-        QUnit.start();
+        qunit_1.default.start();
     }
     exports.default = LLPTest;
 });

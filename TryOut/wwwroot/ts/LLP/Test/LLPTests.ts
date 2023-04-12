@@ -1,14 +1,10 @@
-/// <reference path ="../../../typings/jquery.d.ts"/>
-/// <reference path ="../../../typings/qunit.d.ts"/>
-
-
+import QUnit from "qunit";
 import OpSyms from '../OpSyms/RauteOpSyms';
 import StackOps from '../StackOps';
 import StackElemStructs from '../StackElemStructs';
 import BasicTokenizer from '../Tokenizer/BasicTokenizer';
-import { get } from 'jquery';
 
-export default function LLPTest($: JQueryStatic, QUnit: QUnit) {
+export default function LLPTest() {  //($: JQueryStatic, QUnit: QUnit) {
 
     QUnit.test("Test des Tokenizers", function (assert) {
 
@@ -68,12 +64,6 @@ export default function LLPTest($: JQueryStatic, QUnit: QUnit) {
             assert.ok(getTokens.Success);
             assert.equal(getTokens.ReturnValue.length, 4, `Aus '${line}''sollten eine Add- Funktion, bestehend aus 4 Token  eingelesen werden. Es wurden jedoch ${getTokens.ReturnValue.length} Token eingelesen`);
         }
-
-
-
-
-
-
 
     });
 

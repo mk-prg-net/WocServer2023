@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "MKPRG.Woc": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:59741;http://localhost:59742"
+    }
+  }
+}

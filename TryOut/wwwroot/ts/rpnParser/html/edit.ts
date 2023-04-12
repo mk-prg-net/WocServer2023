@@ -1,9 +1,8 @@
-/// <reference path ="../../../typings/jquery.d.ts"/> 
-
+import $ from "jquery";
 import RPNHtmlClass from "./RPNHtml"
 import ParserClass from "./Parser"
 
-export default function Edit($: JQueryStatic) {
+export default function Edit() { //($: JQueryStatic) {
 
     let main_data = [];
     let pos = 0;
@@ -14,7 +13,7 @@ export default function Edit($: JQueryStatic) {
 
     //RPNHtml.Token(main_data, "Bitte Text eingeben !");
     rpnHtml.Token(main_data, "Bitte Text eingeben !");
-
+    
 
     $("#edit_text").keydown(function () {
 

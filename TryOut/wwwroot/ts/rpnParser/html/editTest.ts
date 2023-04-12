@@ -1,6 +1,5 @@
-/// <reference path ="../../../typings/jquery.d.ts"/> 
-/// <reference path ="../../../typings/qunit.d.ts"/> 
-
+import $ from "jquery";
+import QUnit from "qunit";
 import StringHlpClass from "../StringHlp";
 import RPNClass from "../RPN";
 import RPNHtmlClass from "./RPNHtml";
@@ -10,7 +9,7 @@ import RPNHtml from "./RPNHtml";
 // 2. Starten der Anwendung
 //requirejs(['QUnit', 'mod/StringHlp', 'mod/RPN', 'mod/RPNHtml', 'mod/Parser'],
 
-export default function EditTest($: JQueryStatic, QUnit: QUnit) {
+export default function EditTest() { //($: JQueryStatic, QUnit: QUnit) {
 
 
     QUnit.test("Test der StringHlp", function (assert) {
