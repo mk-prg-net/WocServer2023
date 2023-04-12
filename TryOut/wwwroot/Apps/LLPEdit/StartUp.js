@@ -9,14 +9,14 @@ requirejs.config({
     baseUrl: '../../js',
     paths: {
         jquery: "../node_modules/jquery/dist/jquery",
-        react: "../node_modules/react/umd/react.development",
-        "react-dom": "../node_modules/react-dom/umd/react-dom.development",
-        "react/jsx-runtime": "../node_modules/react/jsx-dev-runtime"
+        react: "../node_modules/react/umd/react.production.min",
+        "react-dom": "../node_modules/react-dom/umd/react-dom.production.min",
+        "react/jsx-runtime": "../node_modules/react/jsx-runtime"
         //,WocHeaderReactCtrl: "mod/WocHeaderReactCtrl/WocHeaderReactCtrl"
     }
 });
 
-requirejs(['jquery', "react", "reac-dom", 'mod/WocHeaderReactCtrl/WocHeaderReactCtrl', 'mod/WocHeaderCtrl/SetUp', 'mod/LLP/OpSyms/RauteOpSyms', 'mod/LLP/StackOps', 'mod/LLP/StackElemStructs'],
+requirejs(['jquery', "react", "react-dom", 'mod/WocHeaderReactCtrl/WocHeaderReactCtrl', 'mod/WocHeaderCtrl/SetUp', 'mod/LLP/OpSyms/RauteOpSyms', 'mod/LLP/StackOps', 'mod/LLP/StackElemStructs'],
     function ($, React, ReacDOM, WocHeaderReactCtrl, WocHeaderCtrlSetUp, OpSyms, StackOps, StackElemStructs) {        
 
         //let WocHeaderReactCtrl = require('WocHeaderReactCtrl');
@@ -25,12 +25,12 @@ requirejs(['jquery', "react", "reac-dom", 'mod/WocHeaderReactCtrl/WocHeaderReact
         let stackOps = new StackOps.default(opSyms);
         let stackElemStructs = new StackElemStructs.default(opSyms);
 
-        WocHeaderCtrlSetUp.default($, "ts/", stackOps, stackElemStructs);
+        //WocHeaderCtrlSetUp.default($, "ts/", stackOps, stackElemStructs);
 
-        var llpStack = stackOps.NewStack();
-        $.ajax({
-            cache: false
-        });        
+        //var llpStack = stackOps.NewStack();
+        //$.ajax({
+        //    cache: false
+        //});        
 
         //$('#woc-descriptor').WocHeaderCtrl({ llpStack: llpStack });        
 

@@ -3,6 +3,7 @@
 // https://stackoverflow.com/questions/35788857/karma-unit-testing-module-name-react-has-not-been-loaded-yet-for-context
 import React from 'react';
 import ReactDOM from 'react-dom';
+//import jsx from 'react/jsx-runtime';
 //let React = require('react');
 //let ReactDOM = require('react-dom');
 import $ from "jquery";
