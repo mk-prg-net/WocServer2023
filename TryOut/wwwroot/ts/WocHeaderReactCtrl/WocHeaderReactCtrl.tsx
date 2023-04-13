@@ -31,6 +31,6 @@ function Greeter(props) {
 
 export default function WocHeaderReactCtrlSetUp(idElem: string) {
 
-    ReactDOM.render(<Greeter maxlength={20} />, $(`#${idElem}`)[0]);
+    ReactDOM.render(<Greeter maxLength={20} />, $(`#${idElem}`)[0]);
 
 }
