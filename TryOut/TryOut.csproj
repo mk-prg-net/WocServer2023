@@ -296,6 +296,8 @@
     <Folder Include="wwwroot\ts\LLP\Edit\" />
   
     <Folder Include="wwwroot\ts\LLP\Test\" />
+  
+    <Folder Include="wwwroot\ts\NewWoc\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="jQuery" Version="3.6.3" />
