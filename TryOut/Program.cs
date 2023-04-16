@@ -100,7 +100,7 @@ app.MapGet("/LLPedit", (HttpRequest req) => {
     return Results.Content(content, "text/html", System.Text.Encoding.UTF8);
 });
 
-app.MapPost("WocTitlesStartsWith", (MyNamingContainers myNamingContainers, HttpRequest req) =>
+app.MapPost("WocTitlesStartsWith", (HttpRequest req, MyNamingContainers myNamingContainers) =>
 {
     var wwwroot = GetWwwRootOrigin(req);
 
@@ -133,7 +133,11 @@ app.MapPost("WocTitlesStartsWith", (MyNamingContainers myNamingContainers, HttpR
             }
             else
             {
-                return Results.Json(JsonArray.Create(new JsonObject { ["txt"] = "none", ["id"] = 0L }));
+                var arr = new JsonArray
+                {
+                    new JsonObject { ["txt"] = "none", ["id"] = 0L }
+                };
+                return Results.Json(arr);
             }
         }
     }
@@ -142,6 +146,7 @@ app.MapPost("WocTitlesStartsWith", (MyNamingContainers myNamingContainers, HttpR
         return Results.Problem("This Post accepts only JSON content with { 'titleStart': '...'} elements!");
     }
 });
+
 
 
 
