@@ -303,6 +303,9 @@
     <PackageReference Include="jQuery" Version="3.6.3" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\MKPRG.Naming\MKPRG.Naming.csproj" />
+  </ItemGroup>
+  <ItemGroup>
     <TypeScriptCompile Include="wwwroot\ts\LLP\Tokenizer\IFunctionHeadToken.ts" />
     <TypeScriptCompile Include="wwwroot\ts\LLP\Tokenizer\IListEndToken.ts" />
     <TypeScriptCompile Include="wwwroot\ts\LLP\RC\IRC.ts" />

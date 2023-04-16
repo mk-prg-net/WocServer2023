@@ -1,6 +1,12 @@
 using Microsoft.AspNetCore.Http.Extensions;
+using MKPRG.Naming.TechTerms.Timeline;
+using System.Net.Mime;
+using System.Text.Json.Nodes;
+using TryOut.MySingeltons;
+
 // Martin Korneffel, Feb.2023
-// SPA- Grundgerüst auf Basis von minimal WebApi entwickeln
+// SPA- Grundgerüst auf Basis
+// von minimal WebApi entwickeln
 
 // Konfigurieren des Builders
 var builder = WebApplication.CreateBuilder(
@@ -12,26 +18,34 @@ var builder = WebApplication.CreateBuilder(
         EnvironmentName = Environments.Staging,
 
         // Hier wird das Wurzelverzeichnis für den statischen Content definiert (html, css, scripte)
-        WebRootPath = "wwwroot"  
+        WebRootPath = "wwwroot"
     }
-); 
+);
 
 // Alle Dienste konfigurieren, welche die Anwendung nutzt
+
+builder.Services.AddSingleton<MyNamingContainers>();
 
 var app = builder.Build();
 
 // Schaltet wwwroot und unterverzeichnisse frei
 app.UseStaticFiles();
 
-//app.MapGet("/", () => "Hello World!");
+// mko, 16.4.2023
+// Ermittelt die Origin der wwwroot
+string GetWwwRootOrigin(HttpRequest req)
+{
+    return $"{req.Scheme}://{req.Host}";
+}
+
 
 // Startup der SPA- Applikation: Hier wird das initiale HTML- Dokument geladen
 app.MapGet("/", (HttpRequest req) =>
 {
     // Origin des statischen Content bestimmen
-    var wwwroot = $"{req.Scheme}://{req.Host}";
+    var wwwroot = GetWwwRootOrigin(req);
 
-    // Alle {☀} oOrigin Symbole mit der Root ersetzen in der HTML- Datei
+    // Alle {*} oOrigin Symbole mit der Root ersetzen in der HTML- Datei
     var content = string.Join('\n', System.IO.File.ReadAllLines(@".\wwwroot\index.html")).Replace("{*}", wwwroot);
 
     return Results.Content(content, "text/html", System.Text.Encoding.UTF8);
@@ -42,9 +56,9 @@ app.MapGet("/", (HttpRequest req) =>
 app.MapGet("/edit", (HttpRequest req) => {
 
     // Origin des statischen Content bestimmen
-    var wwwroot = $"{req.Scheme}://{req.Host}";
+    var wwwroot = GetWwwRootOrigin(req);
 
-    // Alle {☀} oOrigin Symbole mit der Root ersetzen in der HTML- Datei
+    // Alle {*} oOrigin Symbole mit der Root ersetzen in der HTML- Datei
     var content = string.Join('\n', System.IO.File.ReadAllLines(@".\wwwroot\edit.html")).Replace("{*}", wwwroot);
 
     return Results.Content(content, "text/html", System.Text.Encoding.UTF8);
@@ -54,9 +68,9 @@ app.MapGet("/edit", (HttpRequest req) => {
 app.MapGet("/edit-test", (HttpRequest req) => {
 
     // Origin des statischen Content bestimmen
-    var wwwroot = $"{req.Scheme}://{req.Host}";
+    var wwwroot = GetWwwRootOrigin(req);
 
-    // Alle {☀} oOrigin Symbole mit der Root ersetzen in der HTML- Datei
+    // Alle {*} oOrigin Symbole mit der Root ersetzen in der HTML- Datei
     var content = string.Join('\n', System.IO.File.ReadAllLines(@".\wwwroot\edit_test.html")).Replace("{*}", wwwroot);
 
     return Results.Content(content, "text/html", System.Text.Encoding.UTF8);
@@ -65,9 +79,9 @@ app.MapGet("/edit-test", (HttpRequest req) => {
 app.MapGet("/LLPedit-test", (HttpRequest req) => {
 
     // Origin des statischen Content bestimmen
-    var wwwroot = $"{req.Scheme}://{req.Host}";
+    var wwwroot = GetWwwRootOrigin(req);
 
-    // Alle {☀} oOrigin Symbole mit der Root ersetzen in der HTML- Datei
+    // Alle {*} oOrigin Symbole mit der Root ersetzen in der HTML- Datei
     var content = string.Join('\n', System.IO.File.ReadAllLines(@".\wwwroot\Apps\LLPedit_Test\MainView.html")).Replace("{*}", wwwroot);
 
     return Results.Content(content, "text/html", System.Text.Encoding.UTF8);
@@ -78,12 +92,55 @@ app.MapGet("/LLPedit-test", (HttpRequest req) => {
 app.MapGet("/LLPedit", (HttpRequest req) => {
 
     // Origin des statischen Content bestimmen
-    var wwwroot = $"{req.Scheme}://{req.Host}";
+    var wwwroot = GetWwwRootOrigin(req);
 
-    // Alle {☀} oOrigin Symbole mit der Root ersetzen in der HTML- Datei
+    // Alle {*} oOrigin Symbole mit der Root ersetzen in der HTML- Datei
     var content = string.Join('\n', System.IO.File.ReadAllLines(@".\wwwroot\Apps\LLPedit\MainView.html")).Replace("{*}", wwwroot);
 
     return Results.Content(content, "text/html", System.Text.Encoding.UTF8);
+});
+
+app.MapPost("WocTitlesStartsWith", (MyNamingContainers myNamingContainers, HttpRequest req) =>
+{
+    var wwwroot = GetWwwRootOrigin(req);
+
+    if (req.ContentType == "application/json")
+    {
+        var wocTitleStartsWithJson = JsonNode.Parse(req.Body);
+        var titleStart = wocTitleStartsWithJson?["titleStart"]?.ToString();
+
+        if (!string.IsNullOrWhiteSpace(titleStart))
+        {
+            var allStartsWith = myNamingContainers.NC.Where(r => r.Value.DE.StartsWith(titleStart))
+                                                     .OrderBy(r => r)
+                                                     .Select(r => new { txt = r.Value.DE, id = r.Key })
+                                                     .ToArray();
+
+            if (allStartsWith.Any())
+            {
+                // Response aufbauen
+                // Einzelner Treffer: { "txt": "bla bla...", "id": "1234..." }
+                // Liste von Treffern als Array
+
+                var options = new System.Text.Json.JsonSerializerOptions(System.Text.Json.JsonSerializerDefaults.Web)
+                {
+                    NumberHandling = System.Text.Json.Serialization.JsonNumberHandling.WriteAsString,
+                    WriteIndented = true,
+                };
+
+                return Results.Json(allStartsWith, options);
+
+            }
+            else
+            {
+                return Results.Json(JsonArray.Create(new JsonObject { ["txt"] = "none", ["id"] = 0L }));
+            }
+        }
+    }
+    else
+    {
+        return Results.Problem("This Post accepts only JSON content with { 'titleStart': '...'} elements!");
+    }
 });
 
 

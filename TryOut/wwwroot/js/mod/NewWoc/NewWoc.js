@@ -1,5 +1,5 @@
 // mko, 13.4.2023
-// React- Komponente zum anlegen eines neuen Woc (Woc := Web Document)
+// React- Komponente zum Anlegen eines neuen Woc (Woc := Web Document)
 // Achtung: in der tsjson.config muss unter Compileroptions festgelegt sein: "jsx": "react"
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
