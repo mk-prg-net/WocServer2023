@@ -10,8 +10,6 @@ namespace MKPRG.Naming
     /// Sammlung von Glyphen und Ideogrammen. Dabei handelt es sich um eine strukturierte Auswahl von Unicodes,
     /// die für die hier entwickleten Anwendungen mit einer Semmantik verknüpft werden.
     /// 
-    /// mko, 26.1.2021
-    /// Erstelle aus der Klasse ATMO.mko.Logging.HTML.HTMLDocument.Glyphs
     /// </summary>
     public static class Glyphs
     {

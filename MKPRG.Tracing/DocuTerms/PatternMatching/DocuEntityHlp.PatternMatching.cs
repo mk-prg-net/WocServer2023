@@ -10,9 +10,6 @@ using ANC = MKPRG.Naming;
 using TT = MKPRG.Naming.TechTerms;
 using TTD = MKPRG.Naming.DocuTerms;
 
-
-//using TechTerms = ATMO.mko.Logging.PNDocuTerms.DocuEntities.Composer.TechTerms;
-
 namespace MKPRG.Tracing.DocuTerms
 {
     /// <summary>

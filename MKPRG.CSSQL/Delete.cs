@@ -12,7 +12,6 @@ namespace MKPRG.CSSQL
 {
     /// <summary>
     /// mko, 11.2.2020
-    /// Im Rahmen der Entwicklung des Datentransferjobs DFC.DB nach DFC.Olap.SFC implementiert
     /// </summary>
     public class Delete<TBo> 
     {

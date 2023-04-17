@@ -105,8 +105,6 @@ namespace MKPRG.Naming.DocuTerms.StateDescription
     /// Funktion nicht die erwarteten Ergebnisse liefern konnte, werden hier z.B. die
     /// Ursachen beschrieben.
     /// 
-    /// mko, 19.6.2020
-    /// Umstellung auf ATMO.DFC.Naming
     /// </summary>
     public class FinStateDescr
     : NamingBase

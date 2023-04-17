@@ -19,9 +19,9 @@ Hier eine Pilotimplementierung für die *DocuTerm*- `IInstance`
 
 ``````c#
 using mko.RPN;
-using ATMO.mko.Logging.PNDocuTerms.DocuEntities;
 
-namespace ATMO.mko.Logging.PNDocuTerms.Parser
+
+
 {
     public class InstanceTokenDeco
         : DocuTermToken,

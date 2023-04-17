@@ -312,7 +312,7 @@ namespace MKPRG.Tracing.DocuTerms
         /// Wird beim Pattern- Matching berücksichtigt.
         /// 
         /// Bsp.:
-        /// pnL.m("Query", pnL.p("MatNr", pnL._()))
+        /// pnL.m("Query", pnL.p("ID", pnL._()))
         /// 
         /// mko, 28.7.2021
         /// Umbenannt von _() in _v()
@@ -330,7 +330,7 @@ namespace MKPRG.Tracing.DocuTerms
         /// 
         /// 
         /// pnL.m("Query", 
-        ///      pnL.p("MatNr", pnL._()),
+        ///      pnL.p("ID", pnL._()),
         ///      pnL.eFails(pnL._(pnL.eSucceded(_pnL._())))).IsSubTreeOf(X);
         ///      
         /// mko, 28.7.2021
@@ -567,7 +567,7 @@ namespace MKPRG.Tracing.DocuTerms
         /// mko, 28.5.2020
         /// Event durch eine mehrsprachig abrufbare NID beschreiben
         /// </summary>
-        /// <param name="NID">ATMO.DFC.Naming- ID</param>
+        /// <param name="NID">Naming- ID</param>
         /// <returns></returns>
         IEvent eWarn(long NID);
 

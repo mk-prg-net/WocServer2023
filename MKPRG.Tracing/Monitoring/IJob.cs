@@ -30,7 +30,7 @@ namespace MKPRG.Tracing.Monitoring
 
     /// <summary>
     /// mko, 8.11.2018
-    /// Beschreibt Zustand eines aktuell in Bearbeitung befindlichen DFC- Auftrages
+    /// Beschreibt Zustand eines aktuell in Bearbeitung befindlichen  Auftrages
     /// 
     /// mko, 15.11.2019
     /// Das Ergebnis eines Jobs kann jetzt durch einen Docuterm dokumentiert/bewertet werden.

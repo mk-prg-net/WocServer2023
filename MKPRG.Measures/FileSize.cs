@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ATMO.mko.Logging.Tools
+namespace MKPRG.Measures.Filesystem
 {
     /// <summary>
     /// mko, 18.11.2019

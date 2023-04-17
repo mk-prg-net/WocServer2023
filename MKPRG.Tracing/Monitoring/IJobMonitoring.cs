@@ -10,7 +10,7 @@ namespace MKPRG.Tracing.Monitoring
 {
     /// <summary>
     /// mko, 8.11.2018
-    /// Überwachung von nebenläufigen Prozessen in DFC. 
+    /// Überwachung von nebenläufigen Prozessen.
     /// Diese Schnittstelle wird vom Job selbst benutzt, um über seinen aktuellen Zustand einen sog. JobMonitor
     /// zu informieren. Dabei registiriert und deregistriert sich im Job- Monitor. Zudem informiert er über seinen 
     /// Prozessfortschritt.

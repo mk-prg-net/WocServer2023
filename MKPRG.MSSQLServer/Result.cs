@@ -10,8 +10,6 @@ namespace MKPRG.MSSQLServer
     /// mko, 26.7.2018
     /// Beschreibt das Ergebnis eines Datensatzabrufes über einen Schlüssel.
     /// 
-    /// mko, 4.2.2020
-    /// Verschoben aus DFC3.DB hierher
     /// </summary>
     public class Result<T>
         where T : new()

@@ -90,7 +90,7 @@ namespace MKPRG.Tracing.DocuTerms
         Float,
 
         /// <summary>
-        /// Dokuterm einer ATMO.DFC.Naming Naming- ID
+        /// Dokuterm einer Naming- ID
         /// </summary>
         NID,
 

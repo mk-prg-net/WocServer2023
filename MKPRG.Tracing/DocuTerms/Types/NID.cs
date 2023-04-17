@@ -10,7 +10,7 @@ namespace MKPRG.Tracing.DocuTerms
 {
     /// <summary>
     /// mko, 8.6.2020
-    /// DokuTerm, der eine NID (= Naming ID) speichert. Details siehe ATMO.DFC.Naming
+    /// DokuTerm, der eine NID (= Naming ID) speichert.
     /// 
     /// mko, 23.7.2021
     /// Implementiert ab jetzt die Schnittstelle INID

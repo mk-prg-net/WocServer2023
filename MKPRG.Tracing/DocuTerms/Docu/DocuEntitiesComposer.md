@@ -67,28 +67,11 @@ Stellt einen Decorator für IDocuEntity- Objekte bereit. Das IDocuEntity- Objekt
 
 Hier werden Erweiterungmethoden für die Schnittstelle **IDocuEntity** angeboten, mit denen in denen im durch das DocuEntity aufgespannten Baum nach bestimmten Strukturen gesucht werden kann.
 
-``````C#
-
-    getUser = boschCom.GetBoschUserFromDC("DonaldDuck", pnL);
-    
-    var warn = getUser.MessageEntity.FindNamedEntity(DocuEntityTypes.Event, Composer.TechTerms.eWarn); 
-``````
 
 
 #### IsSubTreeOf
 
 Prüft, ob eine DocuTerm als Teil in einem anderen enthalten ist.
-
-     var tree = pnL.i("DFC"
-        pnL.p("prj", 
-            pnL.i("P.2998",
-                pnL.i("S.010", ...)
-                pnL.i("S.020", ...)
-                ...
-            ))
-     );
-
-    Assert.IsTrue(pnL.p("prj", pnL._()).IsSubTreeOf(tree))
 
 ##### Wann passt ein Pattern auf eine Methode
 

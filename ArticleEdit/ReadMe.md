@@ -31,8 +31,6 @@ mkit
         +- bootstrap*.js
         +- jquery*.js
         +- require.js       // AMD- Loader for Browser
-        +- ATMO.DFC.Naming  // All TypeScript- Sources
-        +- ATMO.DFC.Naming.JS // All JavaScript files resulting from TSC.exe Compilations  
 ```
 
 ## Installiere das Microsoft.TypeScript.MSBuild Nuget Pkg in der Webanwendung

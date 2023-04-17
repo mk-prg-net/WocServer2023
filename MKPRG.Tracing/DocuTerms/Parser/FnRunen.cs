@@ -11,7 +11,7 @@ namespace MKPRG.Tracing.DocuTerms.Parser
     /// <summary>
     /// 
     /// mko, 8.6.2020
-    /// Prefixe für Boolean, Int, Double und ATMO.DFC.Naming NID's hinzugefügt
+    /// Prefixe für Boolean, Int, Double und NID's hinzugefügt
     /// </summary>
     public class FnRunen : IFn
     {

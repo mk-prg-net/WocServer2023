@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("LngUIDGenerator")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("BOSCH")]
+[assembly: AssemblyCompany("MKPRG")]
 [assembly: AssemblyProduct("LngUIDGenerator")]
-[assembly: AssemblyCopyright("Copyright © BOSCH 2020")]
+[assembly: AssemblyCopyright("Copyright © MKPRG 2023")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

@@ -39,7 +39,7 @@
 //
 //  Autor.........: Martin Korneffel (mko)
 //  Datum.........: 21.9.2017
-//  Änderungen....: Integration in ATMO.mko.Logging
+//  Änderungen....: Integration 
 //
 //  Autor.........: Martin Korneffel (mko)
 //  Datum.........: 22.9.2017
@@ -86,8 +86,6 @@ using ANC = MKPRG.Naming;
 
 using TT = MKPRG.Naming.TechTerms;
 using TTD = MKPRG.Naming.DocuTerms;
-
-//using pnL = ATMO.mko.Logging.PNDocuTerms.Composer;
 
 namespace MKPRG.Tracing
 {

@@ -908,7 +908,7 @@ namespace MKPRG.Tracing.DocuTerms
 
         /// <summary>
         /// mko, 15.6.2020
-        /// Rückgabewert erzeugen, dessen Wert durch sprachneutrale Naming ID definiert wird (siehe ATMO.DFC.Naming)
+        /// Rückgabewert erzeugen, dessen Wert durch sprachneutrale Naming ID definiert wird 
         /// </summary>
         /// <param name="nid"></param>
         /// <returns></returns>
@@ -1099,7 +1099,7 @@ namespace MKPRG.Tracing.DocuTerms
             => p(nid, CreateDblEntity(Value));
 
         /// <summary>
-        /// Eigenschaft erzeugen, deren Name als auch Wert durch sprachneutrale Naming ID's definiert werden (siehe ATMO.DFC.Naming)
+        /// Eigenschaft erzeugen, deren Name als auch Wert durch sprachneutrale Naming ID's definiert werden 
         /// </summary>
         /// <param name="nid"></param>
         /// <param name="nidVal"></param>
@@ -1108,7 +1108,7 @@ namespace MKPRG.Tracing.DocuTerms
             => p(nid, new NID(nidVal));
 
         /// <summary>
-        /// Eigenschaft erzeugen, deren Wert durch sprachneutrale Naming ID's definiert werden (siehe ATMO.DFC.Naming)
+        /// Eigenschaft erzeugen, deren Wert durch sprachneutrale Naming ID's definiert werden 
         /// </summary>
         /// <param name="Name"></param>
         /// <param name="nidVal"></param>
