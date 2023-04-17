@@ -1,18 +1,19 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <TypeScriptTarget>ES2016</TypeScriptTarget>
+    <TypeScriptTarget>ES2020</TypeScriptTarget>
   </PropertyGroup>
 
   <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <TypeScriptTarget>ES2016</TypeScriptTarget>
+    <TypeScriptTarget>ES2020</TypeScriptTarget>
   </PropertyGroup>
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <TypeScriptModuleKind>amd</TypeScriptModuleKind>
+    <TypeScriptJSXEmit>react</TypeScriptJSXEmit>
   </PropertyGroup>
 
   <ItemGroup>
@@ -301,6 +302,10 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="jQuery" Version="3.6.3" />
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.5" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="6.5.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="6.5.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.5.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MKPRG.Naming\MKPRG.Naming.csproj" />

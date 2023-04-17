@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Http.Extensions;
 using MKPRG.Naming.TechTerms.Timeline;
 using System.Net.Mime;
+//using Microsoft.AspNetCore.Op
+using Microsoft.AspNetCore.OpenApi;
 using System.Text.Json.Nodes;
 using TryOut.MySingeltons;
 
@@ -25,8 +27,16 @@ var builder = WebApplication.CreateBuilder(
 // Alle Dienste konfigurieren, welche die Anwendung nutzt
 
 builder.Services.AddSingleton<MyNamingContainers>();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
 
 // Schaltet wwwroot und unterverzeichnisse frei
 app.UseStaticFiles();
@@ -50,10 +60,11 @@ app.MapGet("/", (HttpRequest req) =>
 
     return Results.Content(content, "text/html", System.Text.Encoding.UTF8);
 
-});
+}).WithOpenApi();
 
 // Lädt den Editor vom Server
-app.MapGet("/edit", (HttpRequest req) => {
+app.MapGet("/edit", (HttpRequest req) =>
+{
 
     // Origin des statischen Content bestimmen
     var wwwroot = GetWwwRootOrigin(req);
@@ -65,7 +76,8 @@ app.MapGet("/edit", (HttpRequest req) => {
 });
 
 // Lädt den Client vom Server
-app.MapGet("/edit-test", (HttpRequest req) => {
+app.MapGet("/edit-test", (HttpRequest req) =>
+{
 
     // Origin des statischen Content bestimmen
     var wwwroot = GetWwwRootOrigin(req);
@@ -76,7 +88,8 @@ app.MapGet("/edit-test", (HttpRequest req) => {
     return Results.Content(content, "text/html", System.Text.Encoding.UTF8);
 });
 
-app.MapGet("/LLPedit-test", (HttpRequest req) => {
+app.MapGet("/LLPedit-test", (HttpRequest req) =>
+{
 
     // Origin des statischen Content bestimmen
     var wwwroot = GetWwwRootOrigin(req);
@@ -89,7 +102,8 @@ app.MapGet("/LLPedit-test", (HttpRequest req) => {
 
 
 // Lädt den Editor vom Server
-app.MapGet("/LLPedit", (HttpRequest req) => {
+app.MapGet("/LLPedit", (HttpRequest req) =>
+{
 
     // Origin des statischen Content bestimmen
     var wwwroot = GetWwwRootOrigin(req);
@@ -100,9 +114,16 @@ app.MapGet("/LLPedit", (HttpRequest req) => {
     return Results.Content(content, "text/html", System.Text.Encoding.UTF8);
 });
 
-app.MapPost("WocTitlesStartsWith", (HttpRequest req, MyNamingContainers myNamingContainers) =>
+// For Autocomplete of Title fragments with Naming- Containers
+app.MapPost("/WocTitlesStartsWith", (HttpRequest req, MyNamingContainers myNamingContainers) =>
 {
     var wwwroot = GetWwwRootOrigin(req);
+
+    // Erzeugt ein Default- Objekt
+    var defaultValue = () => new JsonArray
+                                    {
+                                        new JsonObject { ["txt"] = "none", ["id"] = 0L }
+                                    };
 
     if (req.ContentType == "application/json")
     {
@@ -133,19 +154,19 @@ app.MapPost("WocTitlesStartsWith", (HttpRequest req, MyNamingContainers myNaming
             }
             else
             {
-                var arr = new JsonArray
-                {
-                    new JsonObject { ["txt"] = "none", ["id"] = 0L }
-                };
-                return Results.Json(arr);
+                return Results.Json(defaultValue());
             }
+        }
+        else
+        {
+            return Results.Json(defaultValue());
         }
     }
     else
     {
         return Results.Problem("This Post accepts only JSON content with { 'titleStart': '...'} elements!");
     }
-});
+}).WithOpenApi();
 
 
 
