@@ -5,6 +5,8 @@ using System.Net.Mime;
 using Microsoft.AspNetCore.OpenApi;
 using System.Text.Json.Nodes;
 using TryOut.MySingeltons;
+using Microsoft.AspNetCore.Mvc;
+using MKPRG.Naming.TechTerms.Development;
 
 // Martin Korneffel, Feb.2023
 // SPA- Grundgerüst auf Basis
@@ -29,6 +31,7 @@ var builder = WebApplication.CreateBuilder(
 builder.Services.AddSingleton<MyNamingContainers>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
 
 var app = builder.Build();
 
@@ -114,58 +117,73 @@ app.MapGet("/LLPedit", (HttpRequest req) =>
     return Results.Content(content, "text/html", System.Text.Encoding.UTF8);
 });
 
+
 // For Autocomplete of Title fragments with Naming- Containers
-app.MapPost("/WocTitlesStartsWith", (HttpRequest req, MyNamingContainers myNamingContainers) =>
+app.MapPost("/WocTitlesStartsWith", async (HttpRequest req, MyNamingContainers myNamingContainers) =>
 {
     var wwwroot = GetWwwRootOrigin(req);
 
-    // Erzeugt ein Default- Objekt
-    var defaultValue = () => new JsonArray
-                                    {
-                                        new JsonObject { ["txt"] = "none", ["id"] = 0L }
-                                    };
+    // Erzeugt ein Default - Objekt
+    var defaultValue = () => new JsonArray{ new JsonObject { ["txt"] = "none", ["id"] = 0L }};
 
-    if (req.ContentType == "application/json")
+    if (req.ContentType == "application/json" || req.ContentType == "application/x-www-form-urlencoded")
     {
-        var wocTitleStartsWithJson = JsonNode.Parse(req.Body);
-        var titleStart = wocTitleStartsWithJson?["titleStart"]?.ToString();
 
-        if (!string.IsNullOrWhiteSpace(titleStart))
+        var reader = new System.IO.StreamReader(req.Body);
+        //var buffer = new byte[1024];
+        //await req.Body.ReadAsync(buffer, 0, (int)1024);
+
+        //var json = System.Text.Encoding.ASCII.GetString(buffer);
+
+        var json = await reader.ReadToEndAsync();
+        try
         {
-            var allStartsWith = myNamingContainers.NC.Where(r => r.Value.DE.StartsWith(titleStart))
-                                                     .OrderBy(r => r)
-                                                     .Select(r => new { txt = r.Value.DE, id = r.Key })
-                                                     .ToArray();
+            var wocTitleStartsWithJson = JsonNode.Parse(json);
+            var titleStart = wocTitleStartsWithJson?["titleStart"]?.ToString();
 
-            if (allStartsWith.Any())
+            if (!string.IsNullOrWhiteSpace(titleStart))
             {
-                // Response aufbauen
-                // Einzelner Treffer: { "txt": "bla bla...", "id": "1234..." }
-                // Liste von Treffern als Array
+                var allStartsWith = myNamingContainers.NC.Where(r => r.Value.DE.StartsWith(titleStart))
+                                                         .OrderBy(r => r.Value.DE)
+                                                         .Select(r => new { txt = r.Value.DE, id = r.Key })
+                                                         .ToArray();
 
-                var options = new System.Text.Json.JsonSerializerOptions(System.Text.Json.JsonSerializerDefaults.Web)
+                if (allStartsWith.Any())
                 {
-                    NumberHandling = System.Text.Json.Serialization.JsonNumberHandling.WriteAsString,
-                    WriteIndented = true,
-                };
+                    // Response aufbauen
+                    // Einzelner Treffer: { "txt": "bla bla...", "id": "1234..." }
+                    // Liste von Treffern als Array
 
-                return Results.Json(allStartsWith, options);
+                    var options = new System.Text.Json.JsonSerializerOptions(System.Text.Json.JsonSerializerDefaults.Web)
+                    {
+                        NumberHandling = System.Text.Json.Serialization.JsonNumberHandling.WriteAsString,
+                        WriteIndented = true,
+                    };
 
+                    return Results.Json(allStartsWith, options);
+
+                }
+                else
+                {
+                    return Results.Json(defaultValue());
+                }
             }
             else
             {
                 return Results.Json(defaultValue());
             }
         }
-        else
+        catch (Exception ex)
         {
-            return Results.Json(defaultValue());
+            return Results.Problem(ex.ToString());
         }
+
     }
     else
     {
         return Results.Problem("This Post accepts only JSON content with { 'titleStart': '...'} elements!");
     }
+;
 }).WithOpenApi();
 
 

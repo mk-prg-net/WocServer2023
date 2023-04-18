@@ -70,35 +70,35 @@ define(["require", "exports", "jquery", "qunit", "../StringHlp", "../RPN", "./RP
             assert.ok(RPN.StackElemStructs.isFunc(RPN.Peek(stack), "h1"), "Eine h1- Funktion wurde auf dem Stack erwartet");
             // Parser- Integrationstest
             let pres = Parser.Parse(txt);
-            (0, jquery_1.default)("#result").html(pres.html);
-            assert.equal((0, jquery_1.default)("#result h1").length, 1, "Das Ergebnis [" + pres.html + "] enthält genau eine h1");
-            assert.equal((0, jquery_1.default)("#result h1").text().trim(), "Grußformeln in Programmierwelten", "[" + txt + "] soll in <h1> ... <h1> gewandelt werden");
+            jquery_1.default("#result").html(pres.html);
+            assert.equal(jquery_1.default("#result h1").length, 1, "Das Ergebnis [" + pres.html + "] enthält genau eine h1");
+            assert.equal(jquery_1.default("#result h1").text().trim(), "Grußformeln in Programmierwelten", "[" + txt + "] soll in <h1> ... <h1> gewandelt werden");
             // 
             txt = "Hallo Welt #sub ##b #h1";
             pres = Parser.Parse(txt);
-            (0, jquery_1.default)("#result").html(pres.html);
-            assert.ok((0, jquery_1.default)("#result h1").length === 1
-                && (0, jquery_1.default)("#result h1 b").length === 1, "Das Ergebnis [" + pres.html + "] sollte die Struktur <h1><b><sub></sub></b></h1> aufweisen");
+            jquery_1.default("#result").html(pres.html);
+            assert.ok(jquery_1.default("#result h1").length === 1
+                && jquery_1.default("#result h1 b").length === 1, "Das Ergebnis [" + pres.html + "] sollte die Struktur <h1><b><sub></sub></b></h1> aufweisen");
             //
             txt = "Grußformeln in Programmierwelten #h1 Hallo Welt #sub ##b #p";
             pres = Parser.Parse(txt);
-            (0, jquery_1.default)("#result").html(pres.html);
-            assert.ok((0, jquery_1.default)("#result h1").length === 1
-                && (0, jquery_1.default)("#result p").length === 1
-                && (0, jquery_1.default)("#result p b").length === 1
-                && (0, jquery_1.default)("#result p b sub").length === 1
-                && (0, jquery_1.default)("#result p b sub").text() === "Welt", "Das Ergebnis [" + pres.html + "] sollte die Struktur <h1></h1><p><b><sub></sub></b></p> aufweisen");
+            jquery_1.default("#result").html(pres.html);
+            assert.ok(jquery_1.default("#result h1").length === 1
+                && jquery_1.default("#result p").length === 1
+                && jquery_1.default("#result p b").length === 1
+                && jquery_1.default("#result p b sub").length === 1
+                && jquery_1.default("#result p b sub").text() === "Welt", "Das Ergebnis [" + pres.html + "] sollte die Struktur <h1></h1><p><b><sub></sub></b></p> aufweisen");
             // 
             txt = "Eins #li Zwei #b #li Drei #i #li #ol";
             pres = Parser.Parse(txt);
-            (0, jquery_1.default)("#result").html(pres.html);
-            assert.ok((0, jquery_1.default)("#result ol").length === 1
-                && (0, jquery_1.default)("#result ol li").length === 3, "Das Ergebnis [" + pres.html + "] sollte die Struktur <ol><li x 3></ol> aufweisen");
+            jquery_1.default("#result").html(pres.html);
+            assert.ok(jquery_1.default("#result ol").length === 1
+                && jquery_1.default("#result ol li").length === 3, "Das Ergebnis [" + pres.html + "] sollte die Struktur <ol><li x 3></ol> aufweisen");
             txt = "#ol";
             pres = Parser.Parse(txt);
-            (0, jquery_1.default)("#result").html(pres.html);
-            assert.ok((0, jquery_1.default)("#result > ol").length === 1
-                && (0, jquery_1.default)("#result > ol > li").length === 0, "Das Ergebnis [" + pres.html + "] sollte die Struktur <ol></ol> aufweisen");
+            jquery_1.default("#result").html(pres.html);
+            assert.ok(jquery_1.default("#result > ol").length === 1
+                && jquery_1.default("#result > ol > li").length === 0, "Das Ergebnis [" + pres.html + "] sollte die Struktur <ol></ol> aufweisen");
             txt = "Test Liste in Liste #h1\n"
                 + "a 1 #li\n"
                 + "a 2 #li\n"
@@ -107,17 +107,17 @@ define(["require", "exports", "jquery", "qunit", "../StringHlp", "../RPN", "./RP
                 + " Drei #i #li\n"
                 + " #ol\n";
             pres = Parser.Parse(txt);
-            (0, jquery_1.default)("#result").html(pres.html);
-            assert.ok((0, jquery_1.default)("#result h1").length === 1
-                && (0, jquery_1.default)("#result > ol").length === 1
-                && (0, jquery_1.default)("#result > ol > li").length === 3
-                && (0, jquery_1.default)("#result > ol > li > ol").length === 1
-                && (0, jquery_1.default)("#result > ol > li > ol > li").length === 2, "Das Ergebnis [" + pres.html + "] sollte die Struktur <ol><li><ol><li x 2></li><li></li><li></li></ol> aufweisen");
+            jquery_1.default("#result").html(pres.html);
+            assert.ok(jquery_1.default("#result h1").length === 1
+                && jquery_1.default("#result > ol").length === 1
+                && jquery_1.default("#result > ol > li").length === 3
+                && jquery_1.default("#result > ol > li > ol").length === 1
+                && jquery_1.default("#result > ol > li > ol > li").length === 2, "Das Ergebnis [" + pres.html + "] sollte die Struktur <ol><li><ol><li x 2></li><li></li><li></li></ol> aufweisen");
             txt = "Eins #li Zwei #b #li Drei #i #li #ul";
             pres = Parser.Parse(txt);
-            (0, jquery_1.default)("#result").html(pres.html);
-            assert.ok((0, jquery_1.default)("#result ul").length === 1
-                && (0, jquery_1.default)("#result ul li").length === 3, "Das Ergebnis [" + pres.html + "] sollte die Struktur <ul><li x 3></ul> aufweisen");
+            jquery_1.default("#result").html(pres.html);
+            assert.ok(jquery_1.default("#result ul").length === 1
+                && jquery_1.default("#result ul li").length === 3, "Das Ergebnis [" + pres.html + "] sollte die Struktur <ul><li x 3></ul> aufweisen");
         });
         // start QUnit.
         //QUnit.load();

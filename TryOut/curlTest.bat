@@ -1,0 +1,1 @@
+curl https://localhost:7179/WocTitlesStartsWith  -H "Content-Type:application/json" -d {\"titleStart\":\"kann\"}

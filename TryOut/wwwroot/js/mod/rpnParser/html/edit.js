@@ -14,10 +14,10 @@ define(["require", "exports", "jquery", "./RPNHtml", "./Parser"], function (requ
         let parser = new Parser_1.default();
         //RPNHtml.Token(main_data, "Bitte Text eingeben !");
         rpnHtml.Token(main_data, "Bitte Text eingeben !");
-        (0, jquery_1.default)("#edit_text").keydown(function () {
+        jquery_1.default("#edit_text").keydown(function () {
             if (window.event.keyCode == 13 && window.event.ctrlKey) {
                 // Ctrl+Enter: Neuen Text übernehmen
-                let txt = (0, jquery_1.default)(this).html();
+                let txt = jquery_1.default(this).html();
                 txt = txt.replace(/\&nbsp;/gi, " ")
                     .replace(/<div>/gi, " ")
                     .replace(/<\/div>/gi, " ")
@@ -33,26 +33,26 @@ define(["require", "exports", "jquery", "./RPNHtml", "./Parser"], function (requ
                 main_data.splice.apply(main_data, spliceargs);
                 pos = pos + res.Stack.length;
                 // Analyse des Textes hier
-                (0, jquery_1.default)("#pre_text").html(main_data.slice(0, pos).map(fn => fn.print()).join(" "));
-                (0, jquery_1.default)(this).text(res.Rest);
-                (0, jquery_1.default)("#post_text").html(main_data.slice(pos + 1, main_data.length).map(fn => fn.print()).join(" "));
+                jquery_1.default("#pre_text").html(main_data.slice(0, pos).map(fn => fn.print()).join(" "));
+                jquery_1.default(this).text(res.Rest);
+                jquery_1.default("#post_text").html(main_data.slice(pos + 1, main_data.length).map(fn => fn.print()).join(" "));
             }
             else if (window.event.keyCode == 38 && window.event.ctrlKey) {
                 // Ctrl+Arrow Up: Vorausgehenden Textabschnitt bearbeiten                
                 if (pos > 0)
                     pos--;
                 if (pos > 0) {
-                    (0, jquery_1.default)("#pre_text").html(main_data.slice(0, pos).map(fn => fn.print()).join(" "));
+                    jquery_1.default("#pre_text").html(main_data.slice(0, pos).map(fn => fn.print()).join(" "));
                 }
                 else {
-                    (0, jquery_1.default)("#pre_text").html("");
+                    jquery_1.default("#pre_text").html("");
                 }
-                (0, jquery_1.default)(this).text(main_data[pos].printRPN());
+                jquery_1.default(this).text(main_data[pos].printRPN());
                 if (main_data.length > pos + 1) {
-                    (0, jquery_1.default)("#post_text").html(main_data.slice(pos + 1, main_data.length).map(fn => fn.print()).join(" "));
+                    jquery_1.default("#post_text").html(main_data.slice(pos + 1, main_data.length).map(fn => fn.print()).join(" "));
                 }
                 else {
-                    (0, jquery_1.default)("#post_text").html("");
+                    jquery_1.default("#post_text").html("");
                 }
             }
             else if (window.event.keyCode == 40 && window.event.ctrlKey) {
@@ -60,17 +60,17 @@ define(["require", "exports", "jquery", "./RPNHtml", "./Parser"], function (requ
                 if (pos < main_data.length - 1)
                     pos++;
                 if (pos > 0) {
-                    (0, jquery_1.default)("#pre_text").html(main_data.slice(0, pos).map(fn => fn.print()).join(" "));
+                    jquery_1.default("#pre_text").html(main_data.slice(0, pos).map(fn => fn.print()).join(" "));
                 }
                 else {
-                    (0, jquery_1.default)("#pre_text").html("");
+                    jquery_1.default("#pre_text").html("");
                 }
-                (0, jquery_1.default)(this).text(main_data[pos].printRPN());
+                jquery_1.default(this).text(main_data[pos].printRPN());
                 if (main_data.length > pos + 1) {
-                    (0, jquery_1.default)("#post_text").html(main_data.slice(pos + 1, main_data.length).map(fn => fn.print()).join(" "));
+                    jquery_1.default("#post_text").html(main_data.slice(pos + 1, main_data.length).map(fn => fn.print()).join(" "));
                 }
                 else {
-                    (0, jquery_1.default)("#post_text").html("");
+                    jquery_1.default("#post_text").html("");
                 }
             }
         });
