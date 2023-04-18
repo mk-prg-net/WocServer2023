@@ -145,7 +145,13 @@ app.MapPost("/WocTitlesStartsWith", async (HttpRequest req, MyNamingContainers m
             {
                 var allStartsWith = myNamingContainers.NC.Where(r => r.Value.DE.StartsWith(titleStart))
                                                          .OrderBy(r => r.Value.DE)
-                                                         .Select(r => new { txt = r.Value.DE, id = r.Key })
+                                                         .Select(r => new {
+                                                             id = r.Key,
+                                                             cnt = r.Value.CNT,
+                                                             cn = r.Value.CN,
+                                                             en = r.Value.EN,
+                                                             es = r.Value.ES,                                                             
+                                                             de = r.Value.DE, })
                                                          .ToArray();
 
                 if (allStartsWith.Any())

@@ -1,1 +1,1 @@
-curl https://localhost:7179/WocTitlesStartsWith  -H "Content-Type:application/json" -d {\"titleStart\":\"kann\"}
+curl https://localhost:7179/WocTitlesStartsWith -X POST -H "Content-Type:application/json" -d @req_title1.json
