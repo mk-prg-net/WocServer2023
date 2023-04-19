@@ -16,23 +16,27 @@ requirejs.config({
     }
 });
 
-requirejs(['jquery', "react", "react-dom", 'mod/WocHeaderReactCtrl/WocHeaderReactCtrl', 'mod/WocHeaderCtrl/SetUp', 'mod/LLP/OpSyms/RauteOpSyms', 'mod/LLP/StackOps', 'mod/LLP/StackElemStructs'],
-    function ($, React, ReacDOM, WocHeaderReactCtrl, WocHeaderCtrlSetUp, OpSyms, StackOps, StackElemStructs) {        
+requirejs(['jquery', "react", "react-dom", 'mod/NewWoc/NewWoc', 'mod/WocHeaderReactCtrl/WocHeaderReactCtrl', 'mod/LLP/OpSyms/RauteOpSyms', 'mod/LLP/StackOps', 'mod/LLP/StackElemStructs'],
+    function ($, React, ReacDOM, NewWoc, WocHeaderReactCtrl, OpSyms, StackOps, StackElemStructs) {        
 
-        //let WocHeaderReactCtrl = require('WocHeaderReactCtrl');
+        // Caching in ajax abschalten
+        $.ajax({
+            cache: false
+        });        
 
+        let urlOrigin = $('#urlOrigin').val();
+
+        // LLP initialisieren
         let opSyms = new OpSyms.default();
         let stackOps = new StackOps.default(opSyms);
         let stackElemStructs = new StackElemStructs.default(opSyms);
 
         //WocHeaderCtrlSetUp.default($, "ts/", stackOps, stackElemStructs);
-
         //var llpStack = stackOps.NewStack();
-        //$.ajax({
-        //    cache: false
-        //});        
-
-        //$('#woc-descriptor').WocHeaderCtrl({ llpStack: llpStack });        
+        //$('#woc-descriptor').WocHeaderCtrl({ llpStack: llpStack });
 
         WocHeaderReactCtrl.default("react_greeting");
+
+
+        NewWoc.default("woc-descriptor", urlOrigin);
     });
