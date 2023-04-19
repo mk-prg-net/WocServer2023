@@ -46,6 +46,13 @@ function NewWocReact(props) {
         ncList: []
     });
 
+    React.useEffect(() => {
+        $("#wocTitleEdit").focus();
+        let el = $("#wocTitleEdit")[0];
+    //    window.getSelection().selectAllChildren(el);
+    //    window.getSelection().collapseToEnd();        
+    });
+
     let wocHeaderState = wocHeader as IWocHeaderState;
 
     function setProposalAsTitle(ix: number, wocHeaderState: IWocHeaderState): IWocHeaderState {
@@ -59,7 +66,7 @@ function NewWocReact(props) {
             errLoadProposalsTxt: "",
             ncList: wocHeaderState.ncList
         }
-    }
+    }    
 
     function processInput(userText: string) {
 
@@ -119,14 +126,38 @@ function NewWocReact(props) {
                 });
         }
     }
+
+    function txtHead(txt: string): string {
+        if (txt.length > 1) {
+            return txt.substring(txt.length - 2);
+        }
+        else {
+            return "";
+        }
+    }
+
+    function txtLast(txt: string): string {
+        if (txt.length > 1) {
+            return txt.substring(txt.length - 1, txt.length);
+        }
+        else if (txt.length == 1) {
+            return txt;
+        }
+        else {
+            return "";
+        }
+    }
+
     return (
         <div className="wocHeader">
             // Es kann ein neuer Titel definiert werden. Das erzeugt eine neue wocId
             // Oder es wird ein vorhandener Titel ausgewählt.
             // Die Auswahl kann explizit erfolgen, oder es wird eine Autocomplete- Vervollständigung angeboten.
-            <div className="wocTitleMe" contentEditable onInput={e => processInput(e.currentTarget.textContent)}>
-                {wocHeaderState.title}
-            </div>
+            <div id="" className="wocTitleMe">
+                {txtHead(wocHeaderState.title)}
+                [<span contentEditable onInput={e => processInput(e.currentTarget.textContent)}>
+                    {txtLast(wocHeaderState.title)}</span>]
+            </div>            
             // Hier wird der Autocomplete- vorschlag eingeblendet
             <ol className="wocTitleAutocompletePart">
                 {wocHeaderState.ncList.map(nc => <li>{nc.de}</li>)}

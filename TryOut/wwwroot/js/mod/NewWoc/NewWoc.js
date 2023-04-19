@@ -22,6 +22,12 @@ define(["require", "exports", "react", "react-dom", "jquery"], function (require
             errLoadProposalsTxt: "",
             ncList: []
         });
+        react_1.default.useEffect(() => {
+            (0, jquery_1.default)("#wocTitleEdit").focus();
+            let el = (0, jquery_1.default)("#wocTitleEdit")[0];
+            //    window.getSelection().selectAllChildren(el);
+            //    window.getSelection().collapseToEnd();        
+        });
         let wocHeaderState = wocHeader;
         function setProposalAsTitle(ix, wocHeaderState) {
             return {
@@ -89,9 +95,32 @@ define(["require", "exports", "react", "react-dom", "jquery"], function (require
                 });
             }
         }
+        function txtHead(txt) {
+            if (txt.length > 1) {
+                return txt.substring(txt.length - 2);
+            }
+            else {
+                return "";
+            }
+        }
+        function txtLast(txt) {
+            if (txt.length > 1) {
+                return txt.substring(txt.length - 1, txt.length);
+            }
+            else if (txt.length == 1) {
+                return txt;
+            }
+            else {
+                return "";
+            }
+        }
         return (react_1.default.createElement("div", { className: "wocHeader" },
             "// Es kann ein neuer Titel definiert werden. Das erzeugt eine neue wocId // Oder es wird ein vorhandener Titel ausgew\u00E4hlt. // Die Auswahl kann explizit erfolgen, oder es wird eine Autocomplete- Vervollst\u00E4ndigung angeboten.",
-            react_1.default.createElement("div", { className: "wocTitleMe", contentEditable: true, onInput: e => processInput(e.currentTarget.textContent) }, wocHeaderState.title)
+            react_1.default.createElement("div", { id: "", className: "wocTitleMe" },
+                txtHead(wocHeaderState.title),
+                "[",
+                react_1.default.createElement("span", { contentEditable: true, onInput: e => processInput(e.currentTarget.textContent) }, txtLast(wocHeaderState.title)),
+                "]")
         // Hier wird der Autocomplete- vorschlag eingeblendet
         ,
             "// Hier wird der Autocomplete- vorschlag eingeblendet",
