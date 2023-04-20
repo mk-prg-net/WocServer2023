@@ -48,9 +48,9 @@ function NewWocReact(props) {
 
     React.useEffect(() => {
         $("#wocTitleEdit").focus();
-        let el = $("#wocTitleEdit")[0];
-    //    window.getSelection().selectAllChildren(el);
-    //    window.getSelection().collapseToEnd();        
+        $("#wocTitleEdit").html("_");
+        //    window.getSelection().selectAllChildren(el);
+        //    window.getSelection().collapseToEnd();        
     });
 
     let wocHeaderState = wocHeader as IWocHeaderState;
@@ -66,9 +66,12 @@ function NewWocReact(props) {
             errLoadProposalsTxt: "",
             ncList: wocHeaderState.ncList
         }
-    }    
+    }
 
     function processInput(userText: string) {
+
+
+        userText = userText.trim();
 
         if (userText === "") {
             // Noch kein Text eingegeben
@@ -94,9 +97,25 @@ function NewWocReact(props) {
         } else {
             // Vorschläge vom Server laden
 
+            if (userText.endsWith("#")) {
+                userText = userText.substring(0, userText.length - 1);
+            }
+            else if (userText.endsWith("#1")) {
+                userText = userText.substring(0, userText.length - 2);
+            }
+            else if (userText.endsWith("#2")) {
+                userText = userText.substring(0, userText.length - 2);
+            }
+            else if (userText.endsWith("#3")) {
+                userText = userText.substring(0, userText.length - 2);
+            }
+            else if (userText.endsWith("#4")) {
+                userText = userText.substring(0, userText.length - 2);
+            }
+
             let params = JSON.stringify({ titleStart: userText });
 
-            $.ajax(`${propsTyped.ServerOrigin}/WocTitlesStartsWith`, { method: "POST", contentType: "application/json", data: params})
+            $.ajax(`${propsTyped.ServerOrigin}/WocTitlesStartsWith`, { method: "POST", contentType: "application/json", data: params })
                 .done((data, textStatus, jqXhr) => {
                     let _ncList = data as Array<INamingContainer>;
                     setWocHeader({
@@ -150,20 +169,34 @@ function NewWocReact(props) {
 
     return (
         <div className="wocHeader">
-            // Es kann ein neuer Titel definiert werden. Das erzeugt eine neue wocId
-            // Oder es wird ein vorhandener Titel ausgewählt.
-            // Die Auswahl kann explizit erfolgen, oder es wird eine Autocomplete- Vervollständigung angeboten.
-            <div id="" className="wocTitleMe">
-                {txtHead(wocHeaderState.title)}
-                [<span contentEditable onInput={e => processInput(e.currentTarget.textContent)}>
-                    {txtLast(wocHeaderState.title)}</span>]
-            </div>            
-            // Hier wird der Autocomplete- vorschlag eingeblendet
-            <ol className="wocTitleAutocompletePart">
-                {wocHeaderState.ncList.map(nc => <li>{nc.de}</li>)}
-            </ol>
-            {wocHeaderState.errLoadProposals ? <div>Error: {wocHeaderState.errLoadProposalsTxt} </div>: ""}
+            <div className="wocHeaderEdit">
+                {
+                    // Es kann ein neuer Titel definiert werden. Das erzeugt eine neue wocId
+                    // Oder es wird ein vorhandener Titel ausgewählt.
+                    // Die Auswahl kann explizit erfolgen, oder es wird eine Autocomplete- Vervollständigung angeboten.
+                }
+                <div className="LLP-EditorLine">
+                    {
+                        //wocHeaderState.title
+                    }
+                    <b>&gt;</b><span id="#wocTitleEdit" contentEditable onInput={e => processInput(e.currentTarget.textContent)}></span>
+                </div>
+
+                // Hier wird der Autocomplete- Vorschlag eingeblendet
+                <ol className="wocTitleAutocompletePart">
+                    {wocHeaderState.ncList.map(nc => <li>{nc.de}</li>)}
+                </ol>
+                {wocHeaderState.errLoadProposals ? <div>Error: {wocHeaderState.errLoadProposalsTxt} </div> : ""}
+            </div>
+            <div className="wocHeaderView">
+                <h1>Woc Header</h1>
+                <dl>
+                    <dt>Title</dt>
+                    <dd>{wocHeaderState.title}</dd>
+                </dl>
+            </div>
         </div>
+
     );
 
 }

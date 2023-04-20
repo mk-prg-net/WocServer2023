@@ -24,7 +24,7 @@ define(["require", "exports", "react", "react-dom", "jquery"], function (require
         });
         react_1.default.useEffect(() => {
             (0, jquery_1.default)("#wocTitleEdit").focus();
-            let el = (0, jquery_1.default)("#wocTitleEdit")[0];
+            (0, jquery_1.default)("#wocTitleEdit").html("_");
             //    window.getSelection().selectAllChildren(el);
             //    window.getSelection().collapseToEnd();        
         });
@@ -42,6 +42,7 @@ define(["require", "exports", "react", "react-dom", "jquery"], function (require
             };
         }
         function processInput(userText) {
+            userText = userText.trim();
             if (userText === "") {
                 // Noch kein Text eingegeben
             }
@@ -66,6 +67,21 @@ define(["require", "exports", "react", "react-dom", "jquery"], function (require
             }
             else {
                 // Vorschläge vom Server laden
+                if (userText.endsWith("#")) {
+                    userText = userText.substring(0, userText.length - 1);
+                }
+                else if (userText.endsWith("#1")) {
+                    userText = userText.substring(0, userText.length - 2);
+                }
+                else if (userText.endsWith("#2")) {
+                    userText = userText.substring(0, userText.length - 2);
+                }
+                else if (userText.endsWith("#3")) {
+                    userText = userText.substring(0, userText.length - 2);
+                }
+                else if (userText.endsWith("#4")) {
+                    userText = userText.substring(0, userText.length - 2);
+                }
                 let params = JSON.stringify({ titleStart: userText });
                 jquery_1.default.ajax(`${propsTyped.ServerOrigin}/WocTitlesStartsWith`, { method: "POST", contentType: "application/json", data: params })
                     .done((data, textStatus, jqXhr) => {
@@ -115,20 +131,23 @@ define(["require", "exports", "react", "react-dom", "jquery"], function (require
             }
         }
         return (react_1.default.createElement("div", { className: "wocHeader" },
-            "// Es kann ein neuer Titel definiert werden. Das erzeugt eine neue wocId // Oder es wird ein vorhandener Titel ausgew\u00E4hlt. // Die Auswahl kann explizit erfolgen, oder es wird eine Autocomplete- Vervollst\u00E4ndigung angeboten.",
-            react_1.default.createElement("div", { id: "", className: "wocTitleMe" },
-                txtHead(wocHeaderState.title),
-                "[",
-                react_1.default.createElement("span", { contentEditable: true, onInput: e => processInput(e.currentTarget.textContent) }, txtLast(wocHeaderState.title)),
-                "]")
-        // Hier wird der Autocomplete- vorschlag eingeblendet
-        ,
-            "// Hier wird der Autocomplete- vorschlag eingeblendet",
-            react_1.default.createElement("ol", { className: "wocTitleAutocompletePart" }, wocHeaderState.ncList.map(nc => react_1.default.createElement("li", null, nc.de))),
-            wocHeaderState.errLoadProposals ? react_1.default.createElement("div", null,
-                "Error: ",
-                wocHeaderState.errLoadProposalsTxt,
-                " ") : ""));
+            react_1.default.createElement("div", { className: "wocHeaderEdit" },
+                react_1.default.createElement("div", { className: "LLP-EditorLine" },
+                    react_1.default.createElement("b", null, ">"),
+                    react_1.default.createElement("span", { id: "#wocTitleEdit", contentEditable: true, onInput: e => processInput(e.currentTarget.textContent) }))
+            // Hier wird der Autocomplete- Vorschlag eingeblendet
+            ,
+                "// Hier wird der Autocomplete- Vorschlag eingeblendet",
+                react_1.default.createElement("ol", { className: "wocTitleAutocompletePart" }, wocHeaderState.ncList.map(nc => react_1.default.createElement("li", null, nc.de))),
+                wocHeaderState.errLoadProposals ? react_1.default.createElement("div", null,
+                    "Error: ",
+                    wocHeaderState.errLoadProposalsTxt,
+                    " ") : ""),
+            react_1.default.createElement("div", { className: "wocHeaderView" },
+                react_1.default.createElement("h1", null, "Woc Header"),
+                react_1.default.createElement("dl", null,
+                    react_1.default.createElement("dt", null, "Title"),
+                    react_1.default.createElement("dd", null, wocHeaderState.title)))));
     }
     function WocHeaderReactCtrlSetUp(idRoot, ServerOrigin) {
         react_dom_1.default.render(react_1.default.createElement(NewWocReact, { ServerOrigin: ServerOrigin }), (0, jquery_1.default)(`#${idRoot}`)[0]);
