@@ -308,7 +308,10 @@
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.5.0" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\MKPRG.GUID64\MKPRG.GUID64.csproj" />
     <ProjectReference Include="..\MKPRG.Naming\MKPRG.Naming.csproj" />
+    <ProjectReference Include="..\MKPRG.Tracing.DocuTerms.Formatter\MKPRG.Tracing.DocuTerms.Formatter.csproj" />
+    <ProjectReference Include="..\MKPRG.Tracing\MKPRG.Tracing.csproj" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="wwwroot\ts\LLP\Tokenizer\IFunctionHeadToken.ts" />

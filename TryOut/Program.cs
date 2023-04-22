@@ -29,6 +29,7 @@ var builder = WebApplication.CreateBuilder(
 // Alle Dienste konfigurieren, welche die Anwendung nutzt
 
 builder.Services.AddSingleton<MyNamingContainers>();
+builder.Services.AddSingleton
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -116,6 +117,12 @@ app.MapGet("/LLPedit", (HttpRequest req) =>
 
     return Results.Content(content, "text/html", System.Text.Encoding.UTF8);
 });
+
+
+app.MapPost("/GUID64", (HttpRequest request) =>
+{
+
+})
 
 
 // For Autocomplete of Title fragments with Naming- Containers
