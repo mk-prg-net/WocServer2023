@@ -29,7 +29,6 @@ var builder = WebApplication.CreateBuilder(
 // Alle Dienste konfigurieren, welche die Anwendung nutzt
 
 builder.Services.AddSingleton<MyNamingContainers>();
-builder.Services.AddSingleton
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -119,13 +118,43 @@ app.MapGet("/LLPedit", (HttpRequest req) =>
 });
 
 
-app.MapPost("/GUID64", (HttpRequest request) =>
+// mko, 23.4.2023
+// Liefert Liste von GUID64
+// Aufruf: .../GUID64?reqCount=3 -> JsonArray mit drei neuen GUID's
+app.MapGet("/GUID64", (HttpRequest request) =>
 {
+    // Erzeugt ein Default - Objekt
+    var defaultValue = () => new JsonArray { "none" };
+        
+    if(request.Query.ContainsKey("ReqCount"))
+    {
+        var reqCountStr = request.Query["RequestCount"];
+        if(int.TryParse(reqCountStr, out int reqCount))
+        {
+            var lstGuid64 = new List<long>(reqCount);
+            for(int i = 0; i < reqCount; i++)
+            {
+                lstGuid64.Add(MKPRG.GUID64.GUID64Generator.NewGUID64());
+            }
 
-})
+            var ret = new JsonArray { lstGuid64.Select(r => r.ToString()).ToArray() };
+            return Results.Json(ret);
+        }
+        else
+        {
+            return Results.Problem(statusCode: 500, detail: "RequestCount must be an integer"); 
+        }
+    }
+    else
+    {
+        return Results.Json(new JsonArray { MKPRG.GUID64.GUID64Generator.NewGUID64().ToString() });
+    }
+});
 
 
+// mko, 20.4.2023
 // For Autocomplete of Title fragments with Naming- Containers
+// Call: .../WocTitlesStartsWith, body: { "titleStart": "prefix..."} -> 
 app.MapPost("/WocTitlesStartsWith", async (HttpRequest req, MyNamingContainers myNamingContainers) =>
 {
     var wwwroot = GetWwwRootOrigin(req);
