@@ -23,8 +23,8 @@ define(["require", "exports", "react", "react-dom", "jquery"], function (require
             ncList: []
         });
         react_1.default.useEffect(() => {
-            (0, jquery_1.default)("#wocTitleEdit").focus();
-            (0, jquery_1.default)("#wocTitleEdit").html("_");
+            jquery_1.default("#wocTitleEdit").focus();
+            jquery_1.default("#wocTitleEdit").html("_");
             //    window.getSelection().selectAllChildren(el);
             //    window.getSelection().collapseToEnd();        
         });
@@ -47,26 +47,26 @@ define(["require", "exports", "react", "react-dom", "jquery"], function (require
                 // Noch kein Text eingegeben
             }
             else if (userText.endsWith("#0")) {
-                // Der Title ist ohne Autocomplete zu übernehmen.            
+                // Der Title ist ohne Autocomplete zu �bernehmen.            
             }
             else if (userText.endsWith("#1")) {
-                // Der erste Vorschlag ist an den Titel anzuhängen            
+                // Der erste Vorschlag ist an den Titel anzuh�ngen            
                 setWocHeader(setProposalAsTitle(0, wocHeaderState));
             }
             else if (userText.endsWith("#2")) {
-                // Der zweite Vorschlag ist an den Titel anzuhängen
+                // Der zweite Vorschlag ist an den Titel anzuh�ngen
                 setWocHeader(setProposalAsTitle(1, wocHeaderState));
             }
             else if (userText.endsWith("#3")) {
-                // Der dritten Vorschlag ist an den Titel anzuhängen
+                // Der dritten Vorschlag ist an den Titel anzuh�ngen
                 setWocHeader(setProposalAsTitle(2, wocHeaderState));
             }
             else if (userText.endsWith("#4")) {
-                // Der vierte Vorschlag ist an den Titel anzuhängen
+                // Der vierte Vorschlag ist an den Titel anzuh�ngen
                 setWocHeader(setProposalAsTitle(3, wocHeaderState));
             }
             else {
-                // Vorschläge vom Server laden
+                // Vorschl�ge vom Server laden
                 if (userText.endsWith("#")) {
                     userText = userText.substring(0, userText.length - 1);
                 }
@@ -150,7 +150,7 @@ define(["require", "exports", "react", "react-dom", "jquery"], function (require
                     react_1.default.createElement("dd", null, wocHeaderState.title)))));
     }
     function WocHeaderReactCtrlSetUp(idRoot, ServerOrigin) {
-        react_dom_1.default.render(react_1.default.createElement(NewWocReact, { ServerOrigin: ServerOrigin }), (0, jquery_1.default)(`#${idRoot}`)[0]);
+        react_dom_1.default.render(react_1.default.createElement(NewWocReact, { ServerOrigin: ServerOrigin }), jquery_1.default(`#${idRoot}`)[0]);
     }
     exports.default = WocHeaderReactCtrlSetUp;
 });
