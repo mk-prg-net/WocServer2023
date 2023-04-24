@@ -15,6 +15,7 @@ namespace MKPRG.Naming
     /// </summary>
     public abstract class NamingBase
         : IGetNameSpaceOfNamingContainer,
+        ILangCN, ILangDE, ILangEN, ILangES,
         Woc.Types.BaseTypes.Structure.IPlainText
     {
         public NamingBase(long uid)

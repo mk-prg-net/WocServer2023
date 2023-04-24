@@ -1,11 +1,24 @@
 // mko, 13.4.2023
 // React- Komponente zum Anlegen eines neuen Woc (Woc := Web Document)
 // Achtung: in der tsjson.config muss unter Compileroptions festgelegt sein: "jsx": "react"
+//
+// Das Ergebnis ist (TitleId, AuthorId, NodeId, NameSpace) Triple. Dieses wird als DocuTerm an den Server Übermittelt
+// #i wocHeader
+//  #_
+//      #p Title  #int TitleId          // Vordefiniert oder neu
+//      #p Author #int AuthorId         // Muss aus einer Liste von vordefinierten entnommen werden
+//      #p Node   #int NodeId           // Muss aus einer Liste von vordefinierten entnommen werden
+//      #p NS     #str root/...         // Muss aus der Liste der existierenden ausgewählt werden
+//  #.
+// 
+// Die Sparache kann ausgewählt werden
+
 
 import React from 'react';
 import ReactDOM from 'react-dom';
 import $, { error } from 'jquery';
 
+import NamingIds from '../NamingIds';
 
 interface IPropsParam {
     ServerOrigin: string
@@ -70,6 +83,8 @@ function NewWocReact(props) {
 
     function processInput(userText: string) {
 
+        // Demo: get Neming- Id of Creator
+        let CreatorNamingId = NamingIds().MKPRG.Naming.TechTerms.Lifecycle.Creator;
 
         userText = userText.trim();
 

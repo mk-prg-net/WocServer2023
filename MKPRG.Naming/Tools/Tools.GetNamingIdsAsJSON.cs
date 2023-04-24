@@ -9,12 +9,34 @@ namespace MKPRG.Naming
     partial class Tools
     {
 
-        string Nid64To2x32bitPair(long nid)
+        public enum NidJsonFormat
         {
-            long upper = nid >> 32;
-            long lower = nid & 0x00000000FFFFFFFF;
+            Pair_2x32bit,
+            DecString,
+            HexString
+        }
 
-            return $"[{upper}, {lower}]";
+        string Nid64ToJson(long nid, NidJsonFormat fmt)
+        {
+            if (fmt == NidJsonFormat.Pair_2x32bit)
+            {
+                long upper = nid >> 32;
+                long lower = nid & 0x00000000FFFFFFFF;
+
+                return $"[{upper}, {lower}]";
+            }
+            else if (fmt == NidJsonFormat.DecString)
+            {
+                return $"\"{nid.ToString()}\"";
+            }
+            else if (fmt == NidJsonFormat.HexString)
+            {
+                return $"\"0x{nid.ToString("X")}\"";
+            }
+            else
+            {
+                return $"\"{nid.ToString()}\"";
+            }
         }
 
         /// <summary>
@@ -68,26 +90,27 @@ namespace MKPRG.Naming
                 var jsonStrBld = new StringBuilder("{");
                 var ncSeparators = new char[] { '.' };
 
-                foreach(var nc in ncOrderedByNamespaces)
+                foreach (var nc in ncOrderedByNamespaces)
                 {
-                    if (first) {
+                    if (first)
+                    {
                         var namespaceParts = nc.ns.MyNamespace.Split(ncSeparators);
 
-                        for(; Level < namespaceParts.Length; Level++)
+                        for (; Level < namespaceParts.Length; Level++)
                         {
                             jsonStrBld.Append($"{Indent(Level)}\"{namespaceParts[Level]}\": {{");
                         }
 
-                        jsonStrBld.Append($"{Indent(Level + 1)}\"{nc.ns.MyNamingContainerName}\": {Nid64To2x32bitPair(nc.nc.ID)}");
+                        jsonStrBld.Append($"{Indent(Level + 1)}\"{nc.ns.MyNamingContainerName}\": {Nid64ToJson(nc.nc.ID, NidJsonFormat.HexString)}");
 
                         first = false;
                         LastNameSpace = nc.ns.MyNamespace;
                     }
                     else
                     {
-                        if(Level == nc.ns.MyNameSpaceLevel && LastNameSpace == nc.ns.MyNamespace)
+                        if (Level == nc.ns.MyNameSpaceLevel && LastNameSpace == nc.ns.MyNamespace)
                         {
-                            jsonStrBld.Append($",{Indent(Level + 1)}\"{nc.ns.MyNamingContainerName}\": {Nid64To2x32bitPair(nc.nc.ID)}");
+                            jsonStrBld.Append($",{Indent(Level + 1)}\"{nc.ns.MyNamingContainerName}\": {Nid64ToJson(nc.nc.ID, NidJsonFormat.HexString)}");
                         }
                         else
                         {
@@ -97,13 +120,13 @@ namespace MKPRG.Naming
                             var countEqualLevels = 0;
 
                             // Gemeinsame Wurzel bestimmen
-                            while(countEqualLevels < namespaceParts.Length && countEqualLevels < LastNameSpaceParts.Length && namespaceParts[countEqualLevels] == LastNameSpaceParts[countEqualLevels])
+                            while (countEqualLevels < namespaceParts.Length && countEqualLevels < LastNameSpaceParts.Length && namespaceParts[countEqualLevels] == LastNameSpaceParts[countEqualLevels])
                             {
                                 countEqualLevels++;
                             }
 
                             // Vorausgegangenen Namespace wieder schließen
-                            for(int i = 0; Level > countEqualLevels; i++, Level--)
+                            for (int i = 0; Level > countEqualLevels; i++, Level--)
                             {
                                 jsonStrBld.Append($"{Indent(Level)}}}");
                             }
@@ -117,7 +140,7 @@ namespace MKPRG.Naming
                             }
 
                             // NamensID definieren
-                            jsonStrBld.Append($"{Indent(Level + 1)}\"{nc.ns.MyNamingContainerName}\": {Nid64To2x32bitPair(nc.nc.ID)}");
+                            jsonStrBld.Append($"{Indent(Level + 1)}\"{nc.ns.MyNamingContainerName}\": {Nid64ToJson(nc.nc.ID, NidJsonFormat.HexString )}");
 
                             LastNameSpace = nc.ns.MyNamespace;
                         }
@@ -130,7 +153,7 @@ namespace MKPRG.Naming
                     jsonStrBld.Append($"{Indent(Level)}}}");
                 }
 
-                ret = ((true, ""), jsonStrBld.ToString());               
+                ret = ((true, ""), jsonStrBld.ToString());
             }
             return ret;
         }

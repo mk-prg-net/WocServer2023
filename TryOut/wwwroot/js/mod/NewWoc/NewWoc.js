@@ -1,15 +1,27 @@
 // mko, 13.4.2023
 // React- Komponente zum Anlegen eines neuen Woc (Woc := Web Document)
 // Achtung: in der tsjson.config muss unter Compileroptions festgelegt sein: "jsx": "react"
+//
+// Das Ergebnis ist (TitleId, AuthorId, NodeId, NameSpace) Triple. Dieses wird als DocuTerm an den Server Übermittelt
+// #i wocHeader
+//  #_
+//      #p Title  #int TitleId          // Vordefiniert oder neu
+//      #p Author #int AuthorId         // Muss aus einer Liste von vordefinierten entnommen werden
+//      #p Node   #int NodeId           // Muss aus einer Liste von vordefinierten entnommen werden
+//      #p NS     #str root/...         // Muss aus der Liste der existierenden ausgewählt werden
+//  #.
+// 
+// Die Sparache kann ausgewählt werden
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-define(["require", "exports", "react", "react-dom", "jquery"], function (require, exports, react_1, react_dom_1, jquery_1) {
+define(["require", "exports", "react", "react-dom", "jquery", "../NamingIds"], function (require, exports, react_1, react_dom_1, jquery_1, NamingIds_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     react_1 = __importDefault(react_1);
     react_dom_1 = __importDefault(react_dom_1);
     jquery_1 = __importDefault(jquery_1);
+    NamingIds_1 = __importDefault(NamingIds_1);
     function NewWocReact(props) {
         let propsTyped = props;
         let [wocHeader, setWocHeader] = react_1.default.useState({
@@ -23,8 +35,8 @@ define(["require", "exports", "react", "react-dom", "jquery"], function (require
             ncList: []
         });
         react_1.default.useEffect(() => {
-            jquery_1.default("#wocTitleEdit").focus();
-            jquery_1.default("#wocTitleEdit").html("_");
+            (0, jquery_1.default)("#wocTitleEdit").focus();
+            (0, jquery_1.default)("#wocTitleEdit").html("_");
             //    window.getSelection().selectAllChildren(el);
             //    window.getSelection().collapseToEnd();        
         });
@@ -42,31 +54,33 @@ define(["require", "exports", "react", "react-dom", "jquery"], function (require
             };
         }
         function processInput(userText) {
+            // Demo: get Neming- Id of Creator
+            let CreatorNamingId = (0, NamingIds_1.default)().MKPRG.Naming.TechTerms.Lifecycle.Creator;
             userText = userText.trim();
             if (userText === "") {
                 // Noch kein Text eingegeben
             }
             else if (userText.endsWith("#0")) {
-                // Der Title ist ohne Autocomplete zu �bernehmen.            
+                // Der Title ist ohne Autocomplete zu übernehmen.            
             }
             else if (userText.endsWith("#1")) {
-                // Der erste Vorschlag ist an den Titel anzuh�ngen            
+                // Der erste Vorschlag ist an den Titel anzuhängen            
                 setWocHeader(setProposalAsTitle(0, wocHeaderState));
             }
             else if (userText.endsWith("#2")) {
-                // Der zweite Vorschlag ist an den Titel anzuh�ngen
+                // Der zweite Vorschlag ist an den Titel anzuhängen
                 setWocHeader(setProposalAsTitle(1, wocHeaderState));
             }
             else if (userText.endsWith("#3")) {
-                // Der dritten Vorschlag ist an den Titel anzuh�ngen
+                // Der dritten Vorschlag ist an den Titel anzuhängen
                 setWocHeader(setProposalAsTitle(2, wocHeaderState));
             }
             else if (userText.endsWith("#4")) {
-                // Der vierte Vorschlag ist an den Titel anzuh�ngen
+                // Der vierte Vorschlag ist an den Titel anzuhängen
                 setWocHeader(setProposalAsTitle(3, wocHeaderState));
             }
             else {
-                // Vorschl�ge vom Server laden
+                // Vorschläge vom Server laden
                 if (userText.endsWith("#")) {
                     userText = userText.substring(0, userText.length - 1);
                 }
@@ -150,7 +164,7 @@ define(["require", "exports", "react", "react-dom", "jquery"], function (require
                     react_1.default.createElement("dd", null, wocHeaderState.title)))));
     }
     function WocHeaderReactCtrlSetUp(idRoot, ServerOrigin) {
-        react_dom_1.default.render(react_1.default.createElement(NewWocReact, { ServerOrigin: ServerOrigin }), jquery_1.default(`#${idRoot}`)[0]);
+        react_dom_1.default.render(react_1.default.createElement(NewWocReact, { ServerOrigin: ServerOrigin }), (0, jquery_1.default)(`#${idRoot}`)[0]);
     }
     exports.default = WocHeaderReactCtrlSetUp;
 });

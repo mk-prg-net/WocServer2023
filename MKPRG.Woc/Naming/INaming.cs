@@ -56,8 +56,12 @@ namespace MKPRG.Naming
     /// mko, 26.1.2021
     /// Erweitert um Eigenschaft Glyph. Diese stellt einen Unicode für ein Ideogramm/Glyphen dar,
     /// der für den Namen steht. Z. B. &#x2139; für das Informationssymbol
+    /// 
+    /// mko, 24.4.2023
+    /// Die Konkreten Sprachen wurden aus der Schnittstelle entfernt. Sie sind jetzt in 
+    /// Schnittstellen ausgelagert worden.
     /// </summary>
-    public interface INaming
+    public interface INaming : ILangCN, ILangDE, ILangEN, ILangES, IGlyph       
     {
         /// <summary>
         /// Sprachneutraler und technisch eindeutiger Namen in Form eines 64bit Hashwertes
@@ -84,31 +88,5 @@ namespace MKPRG.Naming
         /// bestehen, wenn zusammengesetzt, dann in camelBack- Notation.
         /// </summary>
         string CNT { get; }
-
-        /// <summary>
-        /// Bennenung in deutsch
-        /// </summary>
-        string DE { get; }
-
-        /// <summary>
-        /// Bennenung in englisch
-        /// </summary>
-        string EN { get; }
-
-        /// <summary>
-        /// Benennung in spanisch
-        /// </summary>
-        string ES { get; }
-
-        /// <summary>
-        ///  Benennung in chinesich
-        /// </summary>
-        string CN { get; }
-
-        /// <summary>
-        /// Stellt einen Unicode für ein Ideogramm/Glyphen dar,
-        /// der für den Namen steht. Z. B. &#x2139; für das Informationssymbol.
-        /// </summary>
-        string Glyph { get; }
     }
 }

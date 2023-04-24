@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MKPRG.Naming\MKPRG.Naming.csproj" />
+    <ProjectReference Include="..\MKPRG.Tracing.DocuTerms.Formatter\MKPRG.Tracing.DocuTerms.Formatter.csproj" />
+    <ProjectReference Include="..\MKPRG.Tracing\MKPRG.Tracing.csproj" />
+    <ProjectReference Include="..\MKPRG.Woc.Repos\MKPRG.Woc.Repos.csproj" />
+    <ProjectReference Include="..\MKPRG.Woc\MKPRG.Woc.csproj" />
+  </ItemGroup>
+
+</Project>

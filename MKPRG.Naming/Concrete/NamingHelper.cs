@@ -59,7 +59,7 @@ namespace MKPRG.Naming
             (
                 NIDPluralForm,
                 (errType, nid, cnt, cn, de, en, es)
-                => new PluralFormConversionError(errType, nid, cnt, cn, de, en, es)
+                    => new PluralFormConversionError(errType, nid, cnt, cn, de, en, es)
             );
 
         /// <summary>
