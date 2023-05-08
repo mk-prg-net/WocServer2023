@@ -9,8 +9,8 @@ requirejs.config({
     baseUrl: '../../js',
     paths: {
         jquery: "../node_modules/jquery/dist/jquery",
-        react: "../node_modules/react/umd/react.production.min",
-        "react-dom": "../node_modules/react-dom/umd/react-dom.production.min",
+        react: "../node_modules/react/umd/react.development",
+        "react-dom": "../node_modules/react-dom/umd/react-dom.development",
         "react/jsx-runtime": "../node_modules/react/jsx-runtime"
         //,WocHeaderReactCtrl: "mod/WocHeaderReactCtrl/WocHeaderReactCtrl"
     }

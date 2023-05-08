@@ -31,7 +31,7 @@ namespace MKPRG.Naming
             }
             else if (fmt == NidJsonFormat.HexString)
             {
-                return $"\"0x{nid.ToString("X")}\"";
+                return $"\"{nid.ToString("X")}\"";
             }
             else
             {

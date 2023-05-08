@@ -22,7 +22,7 @@ define(["require", "exports", "react", "react-dom", "jquery"], function (require
             react_1.default.createElement("button", { disabled: greetinginvalid, onClick: handleGreetClick }, "Greet")));
     }
     function WocHeaderReactCtrlSetUp(idElem) {
-        react_dom_1.default.render(react_1.default.createElement(Greeter, { maxLength: 20 }), jquery_1.default(`#${idElem}`)[0]);
+        react_dom_1.default.render(react_1.default.createElement(Greeter, { maxLength: 20 }), (0, jquery_1.default)(`#${idElem}`)[0]);
     }
     exports.default = WocHeaderReactCtrlSetUp;
 });

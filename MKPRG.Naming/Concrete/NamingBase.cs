@@ -59,6 +59,11 @@ namespace MKPRG.Naming
         public long ID { get; }
 
         /// <summary>
+        /// Naming- ID, Synonym
+        /// </summary>
+        public long NID => ID;
+
+        /// <summary>
         /// Name/Meldung als regulärer Name (keine Lerraumzeichen) in *CamelBack* Notation
         /// </summary>
         public abstract string CNT { get; }
@@ -148,6 +153,7 @@ namespace MKPRG.Naming
         public string MyNamespace => _InitializeIfRequiredAndGet(() => _MyNamespace);
 
         public int MyNameSpaceLevel => _InitializeIfRequiredAndGet(() => _MyNamespaceLevel);
+        
 
         /// <summary>
         /// Ausgabe des Namens/Meldung in der gewünschten Sprache

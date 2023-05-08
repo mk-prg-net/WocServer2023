@@ -61,7 +61,7 @@ namespace MKPRG.Naming
     /// Die Konkreten Sprachen wurden aus der Schnittstelle entfernt. Sie sind jetzt in 
     /// Schnittstellen ausgelagert worden.
     /// </summary>
-    public interface INaming : ILangCN, ILangDE, ILangEN, ILangES, IGlyph       
+    public interface INaming : INamingId, ILangCN, ILangDE, ILangEN, ILangES, IGlyph       
     {
         /// <summary>
         /// Sprachneutraler und technisch eindeutiger Namen in Form eines 64bit Hashwertes

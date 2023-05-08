@@ -1,52 +1,41 @@
-// mko, 13.4.2023
-// React- Komponente zum Anlegen eines neuen Woc (Woc := Web Document)
+// mko, 27.4.2023
+// React- Komponente Auswählen eines Namenscontainers
 // Achtung: in der tsjson.config muss unter Compileroptions festgelegt sein: "jsx": "react"
 //
-// Das Ergebnis ist (TitleId, AuthorId, NodeId, NameSpace) Triple. Dieses wird als DocuTerm an den Server Übermittelt
-// #i wocHeader
-//  #_
-//      #p Title  #int TitleId          // Vordefiniert oder neu
-//      #p Author #int AuthorId         // Muss aus einer Liste von vordefinierten entnommen werden
-//      #p Node   #int NodeId           // Muss aus einer Liste von vordefinierten entnommen werden
-//      #p NS     #str root/...         // Muss aus der Liste der existierenden ausgewählt werden
-//  #.
-// 
-// Die Sparache kann ausgewählt werden
+// Das Ergebnis ist die NID des ausgewählten Naming- Containers.
+
 
 
 import React from 'react';
 import ReactDOM from 'react-dom';
 import $, { error } from 'jquery';
 
-import NamingIds from '../NC/NamingIds';
-import NIDStr from '../NC/NIDStr';
-import INamingContainer from '../NC/INamingContainer'
+import NamingIds from './NamingIds';
+import NIDStr from './NIDStr';
+import INamingContainer from './INamingContainer'
 
+// Properties von NCAutocomplete
 interface IPropsParam {
-    ServerOrigin: string
+    ServerOrigin: string,
+    LanguageNid: string
 }
 
-interface IWocHeaderState {
-    wocId: string,
+// Zustand von NCAutocomplete
+interface INCAutocompleteState {
+    NID: string,
     title: string,
-    authorId: string,
-    author: string,
-    threadId: string
     errLoadProposals: boolean,
     errLoadProposalsTxt: string,
     ncList: Array<INamingContainer>
 }
 
-function NewWocReact(props) {
+function NCAutocomplete(props) {
 
     let propsTyped = props as IPropsParam;
 
-    let [wocHeaderState, setWocHeader] = React.useState<IWocHeaderState>({
-        wocId: "none",
+    let [ncAutocompleteState, setNcAutocompleteState] = React.useState<INCAutocompleteState>({
+        NID: "0000",
         title: "",
-        authorId: "none",
-        author: "",
-        threadId: "none",
         errLoadProposals: false,
         errLoadProposalsTxt: "",
         ncList: []
@@ -57,13 +46,10 @@ function NewWocReact(props) {
         $("#wocTitleEdit").html("_");
     });
 
-    function setProposalAsTitle(ix: number, wocHeaderState: IWocHeaderState): IWocHeaderState {
+    function setProposalAsTitle(ix: number, wocHeaderState: INCAutocompleteState): INCAutocompleteState {
         return {
-            wocId: wocHeaderState.ncList[ix].NIDstr,
+            NID: wocHeaderState.ncList[ix].NIDstr,
             title: wocHeaderState.ncList[ix].DE,
-            authorId: wocHeaderState.authorId,
-            author: wocHeaderState.author,
-            threadId: wocHeaderState.threadId,
             errLoadProposals: false,
             errLoadProposalsTxt: "",
             ncList: wocHeaderState.ncList
@@ -85,19 +71,19 @@ function NewWocReact(props) {
         }
         else if (userText.endsWith("#1")) {
             // Der erste Vorschlag ist an den Titel anzuhängen            
-            setWocHeader(setProposalAsTitle(0, wocHeaderState));
+            setNcAutocompleteState(setProposalAsTitle(0, ncAutocompleteState));
         }
         else if (userText.endsWith("#2")) {
             // Der zweite Vorschlag ist an den Titel anzuhängen
-            setWocHeader(setProposalAsTitle(1, wocHeaderState));
+            setNcAutocompleteState(setProposalAsTitle(1, ncAutocompleteState));
         }
         else if (userText.endsWith("#3")) {
             // Der dritten Vorschlag ist an den Titel anzuhängen
-            setWocHeader(setProposalAsTitle(2, wocHeaderState));
+            setNcAutocompleteState(setProposalAsTitle(2, ncAutocompleteState));
         }
         else if (userText.endsWith("#4")) {
             // Der vierte Vorschlag ist an den Titel anzuhängen
-            setWocHeader(setProposalAsTitle(3, wocHeaderState));
+            setNcAutocompleteState(setProposalAsTitle(3, ncAutocompleteState));
         } else {
             // Vorschläge vom Server laden
 
@@ -122,12 +108,9 @@ function NewWocReact(props) {
             $.ajax(`${propsTyped.ServerOrigin}/WocTitlesStartsWith`, { method: "POST", contentType: "application/json", data: params })
                 .done((data, textStatus, jqXhr) => {
                     let _ncList = data as Array<INamingContainer>;
-                    setWocHeader({
-                        wocId: wocHeaderState.wocId,
+                    setNcAutocompleteState({
+                        NID: ncAutocompleteState.NID,
                         title: userText,
-                        authorId: wocHeaderState.authorId,
-                        author: wocHeaderState.author,
-                        threadId: wocHeaderState.threadId,
                         errLoadProposals: false,
                         errLoadProposalsTxt: "",
                         ncList: _ncList
@@ -135,12 +118,9 @@ function NewWocReact(props) {
                 })
                 .fail((jqXHR, textStatus, errorThrown) => {
 
-                    setWocHeader({
-                        wocId: wocHeaderState.wocId,
+                    setNcAutocompleteState({
+                        NID: ncAutocompleteState.NID,
                         title: userText,
-                        authorId: wocHeaderState.authorId,
-                        author: wocHeaderState.author,
-                        threadId: wocHeaderState.threadId,
                         errLoadProposals: true,
                         errLoadProposalsTxt: `HTTP Status:${textStatus}, ${errorThrown}`,
                         ncList: []
@@ -172,37 +152,28 @@ function NewWocReact(props) {
     }
 
     return (
-        <div className="wocHeader">
-            <div className="wocHeaderEdit">
-                {
-                    // Es kann ein neuer Titel definiert werden. Das erzeugt eine neue wocId
-                    // Oder es wird ein vorhandener Titel ausgewählt.
-                    // Die Auswahl kann explizit erfolgen, oder es wird eine Autocomplete- Vervollständigung angeboten.
-                }
+        <div className="ncAutocomplete">
+            <div className="ncAutocompleteInput">
                 <NIDStr
                     ServerOrigin={propsTyped.ServerOrigin}
-                    lng={NamingIds().MKPRG.Naming.English}
-                    nid={NamingIds().MKPRG.Naming.TechTerms.Development.Compiler}
-                    cssClass="wocTitle"/>                
+                    lng={propsTyped.LanguageNid}
+                    nid={NamingIds().MKPRG.Naming.NamingContainerNC}
+                    cssClass="wocTitle" />
 
                 <div className="LLP-EditorLine">
-                    {
-                        //wocHeaderState.title
-                    }
-                    <b>&gt;</b><span id="#wocTitleEdit" contentEditable onInput={e => processInput(e.currentTarget.textContent)}></span>
+                    <b>&gt;</b><span id="#ncInput" contentEditable onInput={e => processInput(e.currentTarget.textContent)}></span>
                 </div>
-
-                // Hier wird der Autocomplete- Vorschlag eingeblendet
-                <ol className="wocTitleAutocompletePart">
-                    {wocHeaderState.ncList.map(nc => <li>{nc.DE}</li>)}
+                
+                <ol className="ncAutocompletePart">
+                    {ncAutocompleteState.ncList.map(nc => <li>{nc.DE}</li>)}
                 </ol>
-                {wocHeaderState.errLoadProposals ? <div>Error: {wocHeaderState.errLoadProposalsTxt} </div> : ""}
+                {ncAutocompleteState.errLoadProposals ? <div>Error: {ncAutocompleteState.errLoadProposalsTxt} </div> : ""}
             </div>
-            <div className="wocHeaderView">
+            <div className="ncAutocompleteChoice">
                 <h1>Woc Header</h1>
                 <dl>
                     <dt>Title</dt>
-                    <dd>{wocHeaderState.title}</dd>
+                    <dd>{ncAutocompleteState.title}</dd>
                 </dl>
             </div>
         </div>
@@ -211,8 +182,8 @@ function NewWocReact(props) {
 
 }
 
-export default function WocHeaderReactCtrlSetUp(idRoot: string, ServerOrigin: string) {
+export default function NCAutocompleteCtrlSetUp(idRoot: string, ServerOrigin: string) {
 
-    ReactDOM.render(<NewWocReact ServerOrigin={ServerOrigin} />, $(`#${idRoot}`)[0]);
+    ReactDOM.render(<NCAutocomplete ServerOrigin={ServerOrigin} />, $(`#${idRoot}`)[0]);
 
 }

@@ -5,8 +5,10 @@ using System.Net.Mime;
 using Microsoft.AspNetCore.OpenApi;
 using System.Text.Json.Nodes;
 using TryOut.MySingeltons;
+using TryOut.Models;
 using Microsoft.AspNetCore.Mvc;
 using MKPRG.Naming.TechTerms.Development;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 // Martin Korneffel, Feb.2023
 // SPA- Grundgerüst auf Basis
@@ -117,6 +119,61 @@ app.MapGet("/LLPedit", (HttpRequest req) =>
     return Results.Content(content, "text/html", System.Text.Encoding.UTF8);
 });
 
+// Löst eine Liste von NamingId's im Hex- Format (z.B. NC=0xABCDEF123,0x987654321,...,0xFFBBEEDD)
+// in eine Liste von Namenscontainern auf.
+app.MapGet("/NamingContainers", (HttpRequest request, MyNamingContainers myNamingContainers) =>
+{
+    if (request.Query.ContainsKey("NC"))
+    {
+        var undefNc = myNamingContainers.NC[MKPRG.Naming.DocuTerms.Types.UndefinedDocuTerm.UID];
+        var undef = new NamingContainerSimple()
+        {
+            NIDstr = undefNc.NID.ToString("X"),
+            CN = undefNc.CN,
+            CNT = undefNc.CNT,
+            DE = undefNc.DE,
+            EN = undefNc.EN,
+            ES = undefNc.ES
+        };
+
+        var nidString = request.Query["NC"].FirstOrDefault();
+
+        var ncList = nidString?.Split(new char[] { ',' }).Select(r =>
+        {
+
+            if (long.TryParse(r, 
+                              System.Globalization.NumberStyles.HexNumber, 
+                              System.Globalization.CultureInfo.InvariantCulture,
+                              out long nid))
+            {
+                var nc = myNamingContainers.NC[nid];
+                return new NamingContainerSimple()
+                {
+                    NIDstr = nc.NID.ToString("X"),
+                    CN = nc.CN,
+                    CNT = nc.CNT,
+                    DE = nc.DE,
+                    EN = nc.EN,
+                    ES = nc.ES
+                };
+            }
+            else
+            {
+                return undef;
+            }
+        }).ToArray();
+
+        return Results.Json(ncList, new System.Text.Json.JsonSerializerOptions()
+        {
+            PropertyNamingPolicy = null
+        });
+    }
+    else
+    {
+        return Results.Problem("QueryString is incorrect! NC=ABCDEF123,987654321,...,FFBBEEDD expected");
+    }
+});
+
 
 // mko, 23.4.2023
 // Liefert Liste von GUID64
@@ -125,14 +182,14 @@ app.MapGet("/GUID64", (HttpRequest request) =>
 {
     // Erzeugt ein Default - Objekt
     var defaultValue = () => new JsonArray { "none" };
-        
-    if(request.Query.ContainsKey("ReqCount"))
+
+    if (request.Query.ContainsKey("ReqCount"))
     {
         var reqCountStr = request.Query["RequestCount"];
-        if(int.TryParse(reqCountStr, out int reqCount))
+        if (int.TryParse(reqCountStr, out int reqCount))
         {
             var lstGuid64 = new List<long>(reqCount);
-            for(int i = 0; i < reqCount; i++)
+            for (int i = 0; i < reqCount; i++)
             {
                 lstGuid64.Add(MKPRG.GUID64.GUID64Generator.NewGUID64());
             }
@@ -142,7 +199,7 @@ app.MapGet("/GUID64", (HttpRequest request) =>
         }
         else
         {
-            return Results.Problem(statusCode: 500, detail: "RequestCount must be an integer"); 
+            return Results.Problem(statusCode: 500, detail: "RequestCount must be an integer");
         }
     }
     else
@@ -160,7 +217,7 @@ app.MapPost("/WocTitlesStartsWith", async (HttpRequest req, MyNamingContainers m
     var wwwroot = GetWwwRootOrigin(req);
 
     // Erzeugt ein Default - Objekt
-    var defaultValue = () => new JsonArray{ new JsonObject { ["txt"] = "none", ["id"] = 0L }};
+    var defaultValue = () => new JsonArray { new JsonObject { ["txt"] = "none", ["id"] = 0L } };
 
     if (req.ContentType == "application/json" || req.ContentType == "application/x-www-form-urlencoded")
     {
@@ -177,17 +234,27 @@ app.MapPost("/WocTitlesStartsWith", async (HttpRequest req, MyNamingContainers m
             var wocTitleStartsWithJson = JsonNode.Parse(json);
             var titleStart = wocTitleStartsWithJson?["titleStart"]?.ToString();
 
+
+            var options = new System.Text.Json.JsonSerializerOptions(System.Text.Json.JsonSerializerDefaults.Web)
+            {
+                NumberHandling = System.Text.Json.Serialization.JsonNumberHandling.WriteAsString,
+                WriteIndented = true,
+                PropertyNamingPolicy = null
+            };
+
             if (!string.IsNullOrWhiteSpace(titleStart))
             {
                 var allStartsWith = myNamingContainers.NC.Where(r => r.Value.DE.StartsWith(titleStart))
                                                          .OrderBy(r => r.Value.DE)
-                                                         .Select(r => new {
-                                                             id = r.Key,
-                                                             cnt = r.Value.CNT,
-                                                             cn = r.Value.CN,
-                                                             en = r.Value.EN,
-                                                             es = r.Value.ES,                                                             
-                                                             de = r.Value.DE, })
+                                                         .Select(r => new NamingContainerSimple()
+                                                         {
+                                                             NIDstr = r.Key.ToString("X"),
+                                                             CNT = r.Value.CNT,
+                                                             CN = r.Value.CN,
+                                                             EN = r.Value.EN,
+                                                             ES = r.Value.ES,
+                                                             DE = r.Value.DE,
+                                                         })
                                                          .ToArray();
 
                 if (allStartsWith.Any())
@@ -196,23 +263,18 @@ app.MapPost("/WocTitlesStartsWith", async (HttpRequest req, MyNamingContainers m
                     // Einzelner Treffer: { "txt": "bla bla...", "id": "1234..." }
                     // Liste von Treffern als Array
 
-                    var options = new System.Text.Json.JsonSerializerOptions(System.Text.Json.JsonSerializerDefaults.Web)
-                    {
-                        NumberHandling = System.Text.Json.Serialization.JsonNumberHandling.WriteAsString,
-                        WriteIndented = true,
-                    };
 
                     return Results.Json(allStartsWith, options);
 
                 }
                 else
                 {
-                    return Results.Json(defaultValue());
+                    return Results.Json(defaultValue(), options);
                 }
             }
             else
             {
-                return Results.Json(defaultValue());
+                return Results.Json(defaultValue(), options);
             }
         }
         catch (Exception ex)

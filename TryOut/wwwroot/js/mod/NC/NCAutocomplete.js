@@ -1,21 +1,12 @@
-// mko, 13.4.2023
-// React- Komponente zum Anlegen eines neuen Woc (Woc := Web Document)
+// mko, 27.4.2023
+// React- Komponente Ausw�hlen eines Namenscontainers
 // Achtung: in der tsjson.config muss unter Compileroptions festgelegt sein: "jsx": "react"
 //
-// Das Ergebnis ist (TitleId, AuthorId, NodeId, NameSpace) Triple. Dieses wird als DocuTerm an den Server �bermittelt
-// #i wocHeader
-//  #_
-//      #p Title  #int TitleId          // Vordefiniert oder neu
-//      #p Author #int AuthorId         // Muss aus einer Liste von vordefinierten entnommen werden
-//      #p Node   #int NodeId           // Muss aus einer Liste von vordefinierten entnommen werden
-//      #p NS     #str root/...         // Muss aus der Liste der existierenden ausgew�hlt werden
-//  #.
-// 
-// Die Sparache kann ausgew�hlt werden
+// Das Ergebnis ist die NID des ausgew�hlten Naming- Containers.
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-define(["require", "exports", "react", "react-dom", "jquery", "../NC/NamingIds", "../NC/NIDStr"], function (require, exports, react_1, react_dom_1, jquery_1, NamingIds_1, NIDStr_1) {
+define(["require", "exports", "react", "react-dom", "jquery", "./NamingIds", "./NIDStr"], function (require, exports, react_1, react_dom_1, jquery_1, NamingIds_1, NIDStr_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     react_1 = __importDefault(react_1);
@@ -23,14 +14,11 @@ define(["require", "exports", "react", "react-dom", "jquery", "../NC/NamingIds",
     jquery_1 = __importDefault(jquery_1);
     NamingIds_1 = __importDefault(NamingIds_1);
     NIDStr_1 = __importDefault(NIDStr_1);
-    function NewWocReact(props) {
+    function NCAutocomplete(props) {
         let propsTyped = props;
-        let [wocHeaderState, setWocHeader] = react_1.default.useState({
-            wocId: "none",
+        let [ncAutocompleteState, setNcAutocompleteState] = react_1.default.useState({
+            NID: "0000",
             title: "",
-            authorId: "none",
-            author: "",
-            threadId: "none",
             errLoadProposals: false,
             errLoadProposalsTxt: "",
             ncList: []
@@ -41,11 +29,8 @@ define(["require", "exports", "react", "react-dom", "jquery", "../NC/NamingIds",
         });
         function setProposalAsTitle(ix, wocHeaderState) {
             return {
-                wocId: wocHeaderState.ncList[ix].NIDstr,
+                NID: wocHeaderState.ncList[ix].NIDstr,
                 title: wocHeaderState.ncList[ix].DE,
-                authorId: wocHeaderState.authorId,
-                author: wocHeaderState.author,
-                threadId: wocHeaderState.threadId,
                 errLoadProposals: false,
                 errLoadProposalsTxt: "",
                 ncList: wocHeaderState.ncList
@@ -63,19 +48,19 @@ define(["require", "exports", "react", "react-dom", "jquery", "../NC/NamingIds",
             }
             else if (userText.endsWith("#1")) {
                 // Der erste Vorschlag ist an den Titel anzuh�ngen            
-                setWocHeader(setProposalAsTitle(0, wocHeaderState));
+                setNcAutocompleteState(setProposalAsTitle(0, ncAutocompleteState));
             }
             else if (userText.endsWith("#2")) {
                 // Der zweite Vorschlag ist an den Titel anzuh�ngen
-                setWocHeader(setProposalAsTitle(1, wocHeaderState));
+                setNcAutocompleteState(setProposalAsTitle(1, ncAutocompleteState));
             }
             else if (userText.endsWith("#3")) {
                 // Der dritten Vorschlag ist an den Titel anzuh�ngen
-                setWocHeader(setProposalAsTitle(2, wocHeaderState));
+                setNcAutocompleteState(setProposalAsTitle(2, ncAutocompleteState));
             }
             else if (userText.endsWith("#4")) {
                 // Der vierte Vorschlag ist an den Titel anzuh�ngen
-                setWocHeader(setProposalAsTitle(3, wocHeaderState));
+                setNcAutocompleteState(setProposalAsTitle(3, ncAutocompleteState));
             }
             else {
                 // Vorschl�ge vom Server laden
@@ -98,24 +83,18 @@ define(["require", "exports", "react", "react-dom", "jquery", "../NC/NamingIds",
                 jquery_1.default.ajax(`${propsTyped.ServerOrigin}/WocTitlesStartsWith`, { method: "POST", contentType: "application/json", data: params })
                     .done((data, textStatus, jqXhr) => {
                     let _ncList = data;
-                    setWocHeader({
-                        wocId: wocHeaderState.wocId,
+                    setNcAutocompleteState({
+                        NID: ncAutocompleteState.NID,
                         title: userText,
-                        authorId: wocHeaderState.authorId,
-                        author: wocHeaderState.author,
-                        threadId: wocHeaderState.threadId,
                         errLoadProposals: false,
                         errLoadProposalsTxt: "",
                         ncList: _ncList
                     });
                 })
                     .fail((jqXHR, textStatus, errorThrown) => {
-                    setWocHeader({
-                        wocId: wocHeaderState.wocId,
+                    setNcAutocompleteState({
+                        NID: ncAutocompleteState.NID,
                         title: userText,
-                        authorId: wocHeaderState.authorId,
-                        author: wocHeaderState.author,
-                        threadId: wocHeaderState.threadId,
                         errLoadProposals: true,
                         errLoadProposalsTxt: `HTTP Status:${textStatus}, ${errorThrown}`,
                         ncList: []
@@ -142,29 +121,26 @@ define(["require", "exports", "react", "react-dom", "jquery", "../NC/NamingIds",
                 return "";
             }
         }
-        return (react_1.default.createElement("div", { className: "wocHeader" },
-            react_1.default.createElement("div", { className: "wocHeaderEdit" },
-                react_1.default.createElement(NIDStr_1.default, { ServerOrigin: propsTyped.ServerOrigin, lng: (0, NamingIds_1.default)().MKPRG.Naming.English, nid: (0, NamingIds_1.default)().MKPRG.Naming.TechTerms.Development.Compiler, cssClass: "wocTitle" }),
+        return (react_1.default.createElement("div", { className: "ncAutocomplete" },
+            react_1.default.createElement("div", { className: "ncAutocompleteInput" },
+                react_1.default.createElement(NIDStr_1.default, { ServerOrigin: propsTyped.ServerOrigin, lng: propsTyped.LanguageNid, nid: (0, NamingIds_1.default)().MKPRG.Naming.NamingContainerNC, cssClass: "wocTitle" }),
                 react_1.default.createElement("div", { className: "LLP-EditorLine" },
                     react_1.default.createElement("b", null, ">"),
-                    react_1.default.createElement("span", { id: "#wocTitleEdit", contentEditable: true, onInput: e => processInput(e.currentTarget.textContent) }))
-            // Hier wird der Autocomplete- Vorschlag eingeblendet
-            ,
-                "// Hier wird der Autocomplete- Vorschlag eingeblendet",
-                react_1.default.createElement("ol", { className: "wocTitleAutocompletePart" }, wocHeaderState.ncList.map(nc => react_1.default.createElement("li", null, nc.DE))),
-                wocHeaderState.errLoadProposals ? react_1.default.createElement("div", null,
+                    react_1.default.createElement("span", { id: "#ncInput", contentEditable: true, onInput: e => processInput(e.currentTarget.textContent) })),
+                react_1.default.createElement("ol", { className: "ncAutocompletePart" }, ncAutocompleteState.ncList.map(nc => react_1.default.createElement("li", null, nc.DE))),
+                ncAutocompleteState.errLoadProposals ? react_1.default.createElement("div", null,
                     "Error: ",
-                    wocHeaderState.errLoadProposalsTxt,
+                    ncAutocompleteState.errLoadProposalsTxt,
                     " ") : ""),
-            react_1.default.createElement("div", { className: "wocHeaderView" },
+            react_1.default.createElement("div", { className: "ncAutocompleteChoice" },
                 react_1.default.createElement("h1", null, "Woc Header"),
                 react_1.default.createElement("dl", null,
                     react_1.default.createElement("dt", null, "Title"),
-                    react_1.default.createElement("dd", null, wocHeaderState.title)))));
+                    react_1.default.createElement("dd", null, ncAutocompleteState.title)))));
     }
-    function WocHeaderReactCtrlSetUp(idRoot, ServerOrigin) {
-        react_dom_1.default.render(react_1.default.createElement(NewWocReact, { ServerOrigin: ServerOrigin }), (0, jquery_1.default)(`#${idRoot}`)[0]);
+    function NCAutocompleteCtrlSetUp(idRoot, ServerOrigin) {
+        react_dom_1.default.render(react_1.default.createElement(NCAutocomplete, { ServerOrigin: ServerOrigin }), (0, jquery_1.default)(`#${idRoot}`)[0]);
     }
-    exports.default = WocHeaderReactCtrlSetUp;
+    exports.default = NCAutocompleteCtrlSetUp;
 });
-//# sourceMappingURL=NewWoc.js.map
+//# sourceMappingURL=NCAutocomplete.js.map

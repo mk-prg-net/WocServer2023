@@ -129,4 +129,26 @@ namespace MKPRG.Naming
 
         public override string Glyph => Glyphs.Culture.Language.Spanish;
     }
+
+    public class Polish
+    : LanguageBase
+    {
+
+        public const long UID = 0x4F310076264CE5A4L;
+
+        public Polish()
+            : base(Naming.Language.ES, UID)
+        {
+        }
+
+
+        public override string CNT => "PL";
+        public override string CN => "抛光";
+        public override string DE => "Polnisch";
+        public override string EN => "Polish";
+        public override string ES => "Polaco";
+
+        public override string Glyph => Glyphs.Culture.Language.Polish;
+    }
+
 }

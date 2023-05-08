@@ -566,11 +566,12 @@ namespace MKPRG.Naming
         {
             public static class Language
             {
-                public static string CNT => "**"; // Joker
-                public static string Chiniese => "&#x1F1E8;&#x1F1F3;"; //"CN"; // Mahjongg, roter Drache
-                public static string German => "&#x1F1E9;&#x1F1EA;"; // "DE"; //  Bierzelt
-                public static string English => "&#x1F1EC;&#x1F1E7;"; // "EN"; //  Schach, Dame weiss
-                public static string Spanish => "&#x1F1EA;&#x1F1F8;"; // "ES"; //  Schach, König schwarz
+                public static string CNT => "**";                       // Joker
+                public static string Chiniese => "&#x1F1E8;&#x1F1F3;";  // 🇨🇳 
+                public static string German => "&#x1F1E9;&#x1F1EA;";    // 🇩🇪
+                public static string English => "&#x1F1EC;&#x1F1E7;";   // 🇪🇳
+                public static string Spanish => "&#x1F1EA;&#x1F1F8;";   // 🇪🇸
+                public static string Polish => "&#x1F1F5;&#x1F1F1;";    // 🇵🇱
             }
         }
 
@@ -1492,6 +1493,18 @@ namespace MKPRG.Naming
                 public static string micros => "&#x33B2;";
                 public static string ms => "&#x33B3;";
             }
+        }
+
+        public static class NamingContainers {
+            /// <summary>
+            /// 🄽
+            /// </summary>
+            public static string NamingContainer => "&#x1F13D;";
+
+            /// <summary>
+            /// 🆔
+            /// </summary>
+            public static string NamingId => "&#x1F194;";
         }
 
         public static class Navigation
