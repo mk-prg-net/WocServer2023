@@ -46,6 +46,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="NIDStr.Server.cs" />
     <Content Include="wwwroot\node_modules\%40types\prop-types\index.d.ts" />
     <Content Include="wwwroot\node_modules\%40types\prop-types\LICENSE" />
     <Content Include="wwwroot\node_modules\%40types\prop-types\package.json" />

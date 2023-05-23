@@ -123,45 +123,11 @@ app.MapGet("/LLPedit", (HttpRequest req) =>
 // in eine Liste von Namenscontainern auf.
 app.MapGet("/NamingContainers", (HttpRequest request, MyNamingContainers myNamingContainers) =>
 {
-    if (request.Query.ContainsKey("NC"))
-    {
-        var undefNc = myNamingContainers.NC[MKPRG.Naming.DocuTerms.Types.UndefinedDocuTerm.UID];
-        var undef = new NamingContainerSimple()
-        {
-            NIDstr = undefNc.NID.ToString("X"),
-            CN = undefNc.CN,
-            CNT = undefNc.CNT,
-            DE = undefNc.DE,
-            EN = undefNc.EN,
-            ES = undefNc.ES
-        };
+    if (request.Query.ContainsKey("NC") && request.Query["NC"].Any())
+    {       
+        var nidString = request.Query["NC"].First() ?? "";        
 
-        var nidString = request.Query["NC"].FirstOrDefault();
-
-        var ncList = nidString?.Split(new char[] { ',' }).Select(r =>
-        {
-
-            if (long.TryParse(r, 
-                              System.Globalization.NumberStyles.HexNumber, 
-                              System.Globalization.CultureInfo.InvariantCulture,
-                              out long nid))
-            {
-                var nc = myNamingContainers.NC[nid];
-                return new NamingContainerSimple()
-                {
-                    NIDstr = nc.NID.ToString("X"),
-                    CN = nc.CN,
-                    CNT = nc.CNT,
-                    DE = nc.DE,
-                    EN = nc.EN,
-                    ES = nc.ES
-                };
-            }
-            else
-            {
-                return undef;
-            }
-        }).ToArray();
+        var ncList = NamingContainerWebApiHlp.FetchNamingContainers(nidString, myNamingContainers);        
 
         return Results.Json(ncList, new System.Text.Json.JsonSerializerOptions()
         {
