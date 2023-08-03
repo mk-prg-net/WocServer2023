@@ -1,0 +1,91 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Apply a function</title>
+
+    <!-- allgemeine Stylesheets laden -->
+    <link rel="stylesheet" href="{*}/css/mk-prg-net/mk-prg-net.body.css" />
+    <link rel="stylesheet" href="{*}/css/mk-prg-net/mk-prg-net.raster.css" />
+    <link rel="stylesheet" href="{*}/css/mk-prg-net/mk-prg-net.buttons.css" />
+    <link rel="stylesheet" href="{*}/css/mk-prg-net/mk-prg-net.form-control.css" />
+    <link rel="stylesheet" href="{*}/css/mk-prg-net/mk-prg-net.glyphs.css" />
+    <link rel="stylesheet" href="{*}/css/mk-prg-net/mk-prg-net.header.css" />
+    <link rel="stylesheet" href="{*}/css/mk-prg-net/mk-prg-net.links.css" />
+    <link rel="stylesheet" href="{*}/css/mk-prg-net/mk-prg-net.lists.css" />
+    <link rel="stylesheet" href="{*}/css/mk-prg-net/mk-prg-net.nav.tiles.css" />
+    <link rel="stylesheet" href="{*}/css/mk-prg-net/mk-prg-net.table.css" />
+    <link rel="stylesheet" href="{*}/css/mk-prg-net/mk-prg-net.toc.css" />
+    <link rel="stylesheet" href="{*}/css/mk-prg-net/mk-prg-net.typografy.css" />
+
+    <!-- LLP Stylesheets laden -->
+    <link rel="stylesheet" href="{*}/css/LLP/edit-line.css" />
+
+    <!-- Script- laden -->
+    <script src="{*}/js/lib/require.js" data-main="{*}/Apps/ApplyF/StartUp.js"></script>
+
+</head>
+<body>
+
+    <!-- Hier wird die Origin der Seite bereitgestellt-->
+    <input type="hidden" id="urlOrigin" value="{*}" />
+
+    <header>
+        <h1>Apply 𝑓</h1>
+        <nav id="main_nav">
+            <!-- Allgemeines Navigationsfenster-->            
+        </nav>
+    </header>
+
+    <section id="static-function-apply">
+        <p>
+            Anwenden einer Funktion/Operator auf eine Menge von Werten. Hier können maximal 4 Werte eingegeben, und dann darauf eine Funktion angewendet werden.
+        </p>
+
+        <div class="row">
+            <div class="col col-4 frm">
+                <!-- Liste der Werte -->
+                <div class="frm-grp">
+                    <label>𝒶</label>
+                    <input type="text" id="A" class="frm-ctrl med num" />
+                </div>
+                <br />
+                <div class="frm-grp">
+                    <label>𝒷</label>
+                    <input type="text" id="B" class="frm-ctrl med num" /><br />
+                </div>
+                <br />
+                <div class="frm-grp">
+                    <label>𝒸</label>
+                    <input type="text" id="C" class="frm-ctrl med num" /><br />
+                </div>
+                <br />
+                <div class="frm-grp">
+                    <label>𝒹</label>
+                    <input type="text" id="D" class="frm-ctrl med num" /><br />
+                </div>
+            </div>
+            <div class="col col-4">
+                <!-- Operation -->
+                <div class="frm-grp">
+                    <label>𝒇</label>
+                    <select>
+                        <option id="add">+</option>
+                        <option id="sub">*</option>
+                    </select>
+                    <button id="btnApply" class="btn btn-normal">Apply</button>
+                </div>
+            </div>
+            <div class="col col-4">
+                <!-- Ergebnis der Operation -->
+                <span id="result">Result</span>
+            </div>
+        </div>
+    </section>
+
+    <footer id="main_status">
+        <!-- Statusmeldungen und technische Details werden hier präsentiert -->
+    </footer>
+
+</body>
+</html>

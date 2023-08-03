@@ -297,6 +297,8 @@
   
     <Folder Include="wwwroot\ts\LLP\Test\" />
   
+    <Folder Include="wwwroot\ts\ApplyAFunction\" />
+  
     <Folder Include="wwwroot\ts\NewWoc\" />
   </ItemGroup>
   <ItemGroup>

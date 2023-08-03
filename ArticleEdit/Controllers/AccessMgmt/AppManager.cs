@@ -7,7 +7,7 @@ using ArticleEdit.Models;
 
 using System.Collections.Concurrent;
 
-// Steht nur bereit, wenn das Niget- Paket Mocrosoft.AspNet.Identity.Core installiert wurde
+// Steht nur bereit, wenn das Nuget- Paket Mocrosoft.AspNet.Identity.Core installiert wurde
 using Microsoft.AspNet.Identity;
 
 using MKPRG.DatatypeHandling;

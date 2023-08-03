@@ -4,9 +4,9 @@
 
 
 /* Allegemeines Input- Element*/
-input.frm-ctrl{
-    
-    border-radius: 0.25em;   
+input.frm-ctrl {
+    color: #404040;
+    border-radius: 0.25em;
     border-style: none;
     width: auto;
     padding: 0.25em;
@@ -64,6 +64,7 @@ input.invalid {
 */
 div.frm-grp {
     display: inline-block;
+    color: #404040;
     background-color: lightblue;
     border-radius: 0.25em;
     /*border-style:outset;
@@ -98,7 +99,7 @@ fieldset div.frm-grp label.s {
 }
 
 
-fieldsetdiv.frm-grp label.med {
+fieldset div.frm-grp label.med {
     width: 10em;
 }
 
