@@ -1,0 +1,36 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>👤 Login</title>
+
+    <link rel="stylesheet" href="{*}/css/mk-prg-net/mk-prg-net.body.css" />
+    <link rel="stylesheet" href="{*}/css/mk-prg-net/mk-prg-net.buttons.css" />
+    <link rel="stylesheet" href="{*}/css/mk-prg-net/mk-prg-net.form-control.css" />
+    <link rel="stylesheet" href="{*}/css/mk-prg-net/mk-prg-net.glyphs.css" />
+    <link rel="stylesheet" href="{*}/css/mk-prg-net/mk-prg-net.header.css" />
+    <link rel="stylesheet" href="{*}/css/mk-prg-net/mk-prg-net.links.css" />
+    <link rel="stylesheet" href="{*}/css/mk-prg-net/mk-prg-net.lists.css" />
+    <link rel="stylesheet" href="{*}/css/mk-prg-net/mk-prg-net.nav.tiles.css" />
+    <link rel="stylesheet" href="{*}/css/mk-prg-net/mk-prg-net.table.css" />
+    <link rel="stylesheet" href="{*}/css/mk-prg-net/mk-prg-net.toc.css" />
+    <link rel="stylesheet" href="{*}/css/mk-prg-net/mk-prg-net.typografy.css" />
+
+</head>
+<body>
+    <h1>👤 Login</h1>
+    <form action="/Login/TryAuthenticate" method="post">
+        <dl>
+            <dt>User Name</dt>
+            <dd><input type="text" id="UserName" name="UserName" /></dd>
+
+            <dt>Password</dt>
+            <dd><input type="password" id="Password" name="Password" /></dd>
+
+        </dl>
+        <input type="submit" value="Log in" />
+    </form>
+    <div>
+    </div>
+</body>
+</html>

@@ -9,6 +9,7 @@ using TryOut.Models;
 using Microsoft.AspNetCore.Mvc;
 using MKPRG.Naming.TechTerms.Development;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using TryOut.Middelware;
 
 // Martin Korneffel, Feb.2023
 // SPA- Grundgerüst auf Basis
@@ -30,6 +31,8 @@ var builder = WebApplication.CreateBuilder(
 
 // Alle Dienste konfigurieren, welche die Anwendung nutzt
 
+builder.Services.AddSingleton<MyUserStore>();
+builder.Services.AddSingleton<MySessionStore>();
 builder.Services.AddSingleton<MyNamingContainers>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -46,6 +49,10 @@ if (app.Environment.IsDevelopment())
 // Schaltet wwwroot und unterverzeichnisse frei
 app.UseStaticFiles();
 
+// 6.8.2023
+// Selbstgebaute Authentivizierung, basierend auf Cookies
+app.AuthenticCookiesAuthentication();
+
 // mko, 16.4.2023
 // Ermittelt die Origin der wwwroot
 string GetWwwRootOrigin(HttpRequest req)
@@ -53,6 +60,69 @@ string GetWwwRootOrigin(HttpRequest req)
     return $"{req.Scheme}://{req.Host}";
 }
 
+
+app.MapGet("/Login", (HttpRequest req) =>
+{
+    // Liefert die Loginpage aus
+
+    // Origin des statischen Content bestimmen
+    var wwwroot = GetWwwRootOrigin(req);
+
+    // Alle {*} oOrigin Symbole mit der Root ersetzen in der HTML- Datei
+    var content = string.Join('\n', System.IO.File.ReadAllLines(@".\wwwroot\login.html")).Replace("{*}", wwwroot);
+
+    return Results.Content(content, "text/html", System.Text.Encoding.UTF8);
+
+}).WithOpenApi();
+
+app.MapPost("/Login/TryAuthenticate", async (HttpRequest req, HttpResponse rsp, MyNamingContainers myNamingContainers, MyUserStore myUserStore, MySessionStore mySessionStore) =>
+{
+    var wwwroot = GetWwwRootOrigin(req);
+
+    MyUserStore.MyUser user = new MyUserStore.MyUser(req.Form["UserName"], req.Form["Password"]);
+
+    var getUser = await myUserStore.GetUser(user.UserName);
+    if (getUser.UserFound)
+    {
+        if(getUser.User?.Password  == user.Password)
+        {
+            // Benutzer ist authentifiziert. Prüfen, ob bereits eine Sitzung läuft
+            var getSession = await mySessionStore.GetSessionFor(user.UserName);
+            if (!getSession.SessionFound)
+            {
+                // Neue Sitzung anlegen
+                var session = mySessionStore.CreateNewSession(user.UserName);
+
+                // Sitzungscookie erzeugen
+                rsp.Cookies.Append(AuthenticCookies.AuthenicationCoockieId, session.SessionId.ToString());
+            }
+            else
+            {
+                // Sitzung existiert bereits- prüfen, ob auch das Authentifizierungs Cookie schon existiert
+                if(req.Cookies.ContainsKey(AuthenticCookies.AuthenicationCoockieId)) {
+                    // Prüfen, ob das Cookie die richtige Sitzungnummer enthält
+                    if (req.Cookies[AuthenticCookies.AuthenicationCoockieId] != getSession.session?.SessionId.ToString())
+                    {
+                        rsp.Cookies.Delete(AuthenticCookies.AuthenicationCoockieId);
+                        rsp.Cookies.Append(AuthenticCookies.AuthenicationCoockieId, getSession.session?.SessionId.ToString() ?? "xxx");
+                    }
+                }
+            }
+            
+            Results.Redirect($"{wwwroot}/");
+        }
+        else 
+        {
+            // Passwort stimmt nicht - und wieder Login
+            Results.Redirect($"{wwwroot}/login");
+        }
+
+    }
+    else
+    {
+        // Unbekannter User- und wieder Login
+    }
+});
 
 // Startup der SPA- Applikation: Hier wird das initiale HTML- Dokument geladen
 app.MapGet("/", (HttpRequest req) =>
@@ -68,7 +138,8 @@ app.MapGet("/", (HttpRequest req) =>
 }).WithOpenApi();
 
 
-app.MapGet("/ApplyF", (HttpRequest req) => {
+app.MapGet("/ApplyF", (HttpRequest req) =>
+{
 
     // Origin des statischen Content bestimmen
     var wwwroot = GetWwwRootOrigin(req);
@@ -137,10 +208,10 @@ app.MapGet("/LLPedit", (HttpRequest req) =>
 app.MapGet("/NamingContainers", (HttpRequest request, MyNamingContainers myNamingContainers) =>
 {
     if (request.Query.ContainsKey("NC") && request.Query["NC"].Any())
-    {       
-        var nidString = request.Query["NC"].First() ?? "";        
+    {
+        var nidString = request.Query["NC"].First() ?? "";
 
-        var ncList = NamingContainerWebApiHlp.FetchNamingContainers(nidString, myNamingContainers);        
+        var ncList = NamingContainerWebApiHlp.FetchNamingContainers(nidString, myNamingContainers);
 
         return Results.Json(ncList, new System.Text.Json.JsonSerializerOptions()
         {
