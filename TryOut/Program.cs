@@ -61,17 +61,18 @@ string GetWwwRootOrigin(HttpRequest req)
     return $"{req.Scheme}://{req.Host}";
 }
 
-
 app.MapGet("/Login", (HttpRequest req) =>
 {
-    // Liefert die Loginpage aus
+    // Liefert die Login Anmeldeseite aus
 
     // Origin des statischen Content bestimmen
     var wwwroot = GetWwwRootOrigin(req);
 
+    // Route, die authorisiert werden soll, sichern
     var routeToAuthorize = req.Query[AuthenticCookies.RouteThatRequiresAuthorizationQueryStringParameter];
 
-    // Alle {*} oOrigin Symbole mit der Root ersetzen in der HTML- Datei
+    // Alle {*} Origin Symbole mit der Root ersetzen in der HTML- Datei
+    // Die routeToAuthorize in einem Hidden Field sichern.
     var content = string.Join('\n', System.IO.File.ReadAllLines(@".\wwwroot\login.html")).Replace("{*}", wwwroot).Replace("{*routeToAuthorize}", routeToAuthorize);
 
     return Results.Content(content, "text/html", System.Text.Encoding.UTF8);
@@ -88,7 +89,7 @@ app.MapPost("/Login/TryAuthenticate", async (HttpRequest req, HttpResponse rsp, 
     var getUser = await myUserStore.GetUser(user.UserName);
     if (getUser.UserFound)
     {
-        if(getUser.User?.Password  == user.Password)
+        if (getUser.User?.Password == user.Password)
         {
             // Benutzer ist authentifiziert. Prüfen, ob bereits eine Sitzung läuft
             var getSession = await mySessionStore.GetSessionFor(user.UserName);
@@ -103,7 +104,8 @@ app.MapPost("/Login/TryAuthenticate", async (HttpRequest req, HttpResponse rsp, 
             else
             {
                 // Sitzung existiert bereits- prüfen, ob auch das Authentifizierungs Cookie schon existiert
-                if(req.Cookies.ContainsKey(AuthenticCookies.AuthenicationCoockieId)) {
+                if (req.Cookies.ContainsKey(AuthenticCookies.AuthenicationCoockieId))
+                {
                     // Prüfen, ob das Cookie die richtige Sitzungnummer enthält
                     if (req.Cookies[AuthenticCookies.AuthenicationCoockieId] != getSession.session?.SessionId.ToString())
                     {
@@ -112,10 +114,10 @@ app.MapPost("/Login/TryAuthenticate", async (HttpRequest req, HttpResponse rsp, 
                     }
                 }
             }
-            
+
             return Results.Redirect($"{wwwroot}{routeToAuthorize}");
         }
-        else 
+        else
         {
             // Passwort stimmt nicht - und wieder Login
             return Results.Redirect($"{wwwroot}/login");
@@ -127,6 +129,32 @@ app.MapPost("/Login/TryAuthenticate", async (HttpRequest req, HttpResponse rsp, 
         // Unbekannter User- und wieder Login
         return Results.Redirect($"{wwwroot}/login");
     }
+});
+
+app.MapGet("/Logout", async (HttpRequest req, HttpResponse rsp, MySessionStore mySessionStore) =>
+{
+    // Abmeldung von einer Sitzung
+
+    if (req.Cookies.ContainsKey(AuthenticCookies.AuthenicationCoockieId))
+    {
+        // Sitzungscookie einlesen
+        var sessionIdAsTxt = req.Cookies[AuthenticCookies.AuthenicationCoockieId];
+
+        // Cookie- Inhalt versuchen, als Sitzungsnummer zu interpretieren.
+        if (long.TryParse(sessionIdAsTxt, out var sessionId))
+        {
+            // Sitzung beenden
+            mySessionStore.FinishSession(sessionId);
+        }
+
+        // Sitzungscoockie entfernen
+        rsp.Cookies.Delete(AuthenticCookies.AuthenicationCoockieId);       
+        
+    }
+
+    // Zur Loginseite weiterleiten
+    return Results.Redirect("/Login");
+
 });
 
 // Startup der SPA- Applikation: Hier wird das initiale HTML- Dokument geladen
