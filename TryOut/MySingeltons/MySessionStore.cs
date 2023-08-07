@@ -36,8 +36,9 @@ namespace TryOut.MySingeltons
         /// Berechnet threadsafe eine neue Sitzungsnummer
         /// </summary>
         /// <returns></returns>
-        public long NewSessionId() =>  Interlocked.Increment(ref _lastSessionId);
-        static long _lastSessionId;
+        //public long NewSessionId() =>  Interlocked.Increment(ref _lastSessionId);
+        //static long _lastSessionId;
+        public long NewSessionId() => MKPRG.GUID64.GUID64Generator.NewGUID64();
 
         /// <summary>
         /// Erzeugt eine neue Sitzung für einen Benutzer

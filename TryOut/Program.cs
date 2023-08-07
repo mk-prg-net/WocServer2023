@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using MKPRG.Naming.TechTerms.Development;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using TryOut.Middelware;
+using Microsoft.AspNetCore.Authorization;
 
 // Martin Korneffel, Feb.2023
 // SPA- Grundgerüst auf Basis
@@ -68,8 +69,10 @@ app.MapGet("/Login", (HttpRequest req) =>
     // Origin des statischen Content bestimmen
     var wwwroot = GetWwwRootOrigin(req);
 
+    var routeToAuthorize = req.Query[AuthenticCookies.RouteThatRequiresAuthorizationQueryStringParameter];
+
     // Alle {*} oOrigin Symbole mit der Root ersetzen in der HTML- Datei
-    var content = string.Join('\n', System.IO.File.ReadAllLines(@".\wwwroot\login.html")).Replace("{*}", wwwroot);
+    var content = string.Join('\n', System.IO.File.ReadAllLines(@".\wwwroot\login.html")).Replace("{*}", wwwroot).Replace("{*routeToAuthorize}", routeToAuthorize);
 
     return Results.Content(content, "text/html", System.Text.Encoding.UTF8);
 
@@ -79,7 +82,8 @@ app.MapPost("/Login/TryAuthenticate", async (HttpRequest req, HttpResponse rsp, 
 {
     var wwwroot = GetWwwRootOrigin(req);
 
-    MyUserStore.MyUser user = new MyUserStore.MyUser(req.Form["UserName"], req.Form["Password"]);
+    var routeToAuthorize = req.Form[AuthenticCookies.RouteThatRequiresAuthorizationQueryStringParameter][0];
+    MyUserStore.MyUser user = new MyUserStore.MyUser(req.Form["UserName"][0], req.Form["Password"][0]);
 
     var getUser = await myUserStore.GetUser(user.UserName);
     if (getUser.UserFound)
@@ -109,18 +113,19 @@ app.MapPost("/Login/TryAuthenticate", async (HttpRequest req, HttpResponse rsp, 
                 }
             }
             
-            Results.Redirect($"{wwwroot}/");
+            return Results.Redirect($"{wwwroot}{routeToAuthorize}");
         }
         else 
         {
             // Passwort stimmt nicht - und wieder Login
-            Results.Redirect($"{wwwroot}/login");
+            return Results.Redirect($"{wwwroot}/login");
         }
 
     }
     else
     {
         // Unbekannter User- und wieder Login
+        return Results.Redirect($"{wwwroot}/login");
     }
 });
 
@@ -149,7 +154,7 @@ app.MapGet("/ApplyF", (HttpRequest req) =>
 
     return Results.Content(content, "text/html", System.Text.Encoding.UTF8);
 
-});
+}).Authorize();
 
 // Lädt den Editor vom Server
 app.MapGet("/edit", (HttpRequest req) =>
@@ -162,7 +167,7 @@ app.MapGet("/edit", (HttpRequest req) =>
     var content = string.Join('\n', System.IO.File.ReadAllLines(@".\wwwroot\edit.html")).Replace("{*}", wwwroot);
 
     return Results.Content(content, "text/html", System.Text.Encoding.UTF8);
-});
+}).Authorize();
 
 // Lädt den Client vom Server
 app.MapGet("/edit-test", (HttpRequest req) =>
@@ -175,7 +180,7 @@ app.MapGet("/edit-test", (HttpRequest req) =>
     var content = string.Join('\n', System.IO.File.ReadAllLines(@".\wwwroot\edit_test.html")).Replace("{*}", wwwroot);
 
     return Results.Content(content, "text/html", System.Text.Encoding.UTF8);
-});
+}).Authorize();
 
 app.MapGet("/LLPedit-test", (HttpRequest req) =>
 {
@@ -187,7 +192,7 @@ app.MapGet("/LLPedit-test", (HttpRequest req) =>
     var content = string.Join('\n', System.IO.File.ReadAllLines(@".\wwwroot\Apps\LLPedit_Test\MainView.html")).Replace("{*}", wwwroot);
 
     return Results.Content(content, "text/html", System.Text.Encoding.UTF8);
-});
+}).Authorize();
 
 
 // Lädt den Editor vom Server
@@ -201,7 +206,7 @@ app.MapGet("/LLPedit", (HttpRequest req) =>
     var content = string.Join('\n', System.IO.File.ReadAllLines(@".\wwwroot\Apps\LLPedit\MainView.html")).Replace("{*}", wwwroot);
 
     return Results.Content(content, "text/html", System.Text.Encoding.UTF8);
-});
+}).Authorize();
 
 // Löst eine Liste von NamingId's im Hex- Format (z.B. NC=0xABCDEF123,0x987654321,...,0xFFBBEEDD)
 // in eine Liste von Namenscontainern auf.
@@ -222,7 +227,7 @@ app.MapGet("/NamingContainers", (HttpRequest request, MyNamingContainers myNamin
     {
         return Results.Problem("QueryString is incorrect! NC=ABCDEF123,987654321,...,FFBBEEDD expected");
     }
-});
+}).Authorize();
 
 
 // mko, 23.4.2023
@@ -338,7 +343,7 @@ app.MapPost("/WocTitlesStartsWith", async (HttpRequest req, MyNamingContainers m
         return Results.Problem("This Post accepts only JSON content with { 'titleStart': '...'} elements!");
     }
 ;
-}).WithOpenApi();
+}).Authorize().WithOpenApi();
 
 
 
