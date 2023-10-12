@@ -58,9 +58,13 @@ export default class BasicTokenizer implements ITokenizer {
 
                 let currentStrTok = strTokens[pos];
 
-                // Boolean Parsen in der Zeile, z.B. `true #b`
-                if (currentStrTok === this.opSym.rpnBoolType) {
+                // Prüfen, ob ein NID vorliegt
+                if (currentStrTok == this.opSym.rpnNidPrefix) {
 
+                }                
+                else if (currentStrTok === this.opSym.rpnBoolType) {
+
+                    // Boolean Parsen in der Zeile, z.B. `true #b`
                     let retPeek = this.stackOps.Peek(tokenStack);
 
                     if (retPeek.Success && retPeek.ReturnValue.tokOpSym == this.opSym.rpnStrType) {
@@ -85,7 +89,7 @@ export default class BasicTokenizer implements ITokenizer {
                 }
                 // Kommentar einlesen
                 else if (currentStrTok === this.opSym.rpnComment) {
-                    
+
                     let commentTxt = "";
                     // alle tokens rechts vom Kommentarzeichen bis zum Zeilenende als Kommentartext zusammenfassen
                     for (pos = pos + 1; pos < strTokens.length; pos++) {
@@ -141,41 +145,38 @@ export default class BasicTokenizer implements ITokenizer {
                     else {
                         ret = new RCwithValue<IToken[]>(false, `pos ${pos}: dbl token without value`, []);
                     }
-                }                
-                // Listenende- Markierung einlesen 
-                else if (currentStrTok == this.opSym.rpnListEnd) {
-
-                    this.stackOps.Push(tokenStack, this.stackElemStructs.CreateListEndToken(pos));
                 }
                 // allg. Listenanfang Markierung einlesen
                 else if (currentStrTok == this.opSym.rpnListStart) {
 
                     this.stackOps.Push(tokenStack, this.stackElemStructs.CreateListStartToken(pos));
                 }
-                else {
+                // Listenende- Markierung einlesen 
+                else if (currentStrTok == this.opSym.rpnListEnd) {
 
-                    // Prüfen, ob nicht ein Funktionsname vorliegt
-                    if (currentStrTok.startsWith(this.opSym.rpnFuncPrefix)) {
-
-                        // Funktion liegt vor
-                        this.stackOps.Push(tokenStack, this.stackElemStructs.CreateFunctionHeadToken(currentStrTok, pos));
-                    }
-                    else {
-                        // Ablage aller bis dato npicht klassifizierter strToken als Strings
-                        this.stackOps.Push(tokenStack, this.stackElemStructs.CreateStrToken(currentStrTok));
-                    }
+                    this.stackOps.Push(tokenStack, this.stackElemStructs.CreateListEndToken(pos));
                 }
-            } 
-
-            if (ret.Success) {
-                //  Wenn die Eingabezeile erfolgreich in Token aufgelöst werden konnte, dann wird die Liste der Token (tokenStack)
-                //  dem Rückgabewert hinzugefügt.
-                ret = new RCwithValue<IToken[]>(true, ret.ErrorMsgIfNotSuccesful, tokenStack);
+                // Prüfen, ob nicht ein Funktionsname vorliegt
+                else if (currentStrTok.startsWith(this.opSym.rpnFuncPrefix)) {
+                    // Funktion liegt vor
+                    this.stackOps.Push(tokenStack, this.stackElemStructs.CreateFunctionHeadToken(currentStrTok, pos));
+                }
+                else {
+                    // Ablage aller bis dato npicht klassifizierter strToken als Strings
+                    this.stackOps.Push(tokenStack, this.stackElemStructs.CreateStrToken(currentStrTok));
+                }
             }
-
-            return ret;
         }
+
+        if (ret.Success) {
+            //  Wenn die Eingabezeile erfolgreich in Token aufgelöst werden konnte, dann wird die Liste der Token (tokenStack)
+            //  dem Rückgabewert hinzugefügt.
+            ret = new RCwithValue<IToken[]>(true, ret.ErrorMsgIfNotSuccesful, tokenStack);
+        }
+
+        return ret;
     }
+}
 }
 
 

@@ -5,6 +5,9 @@ export default interface IOpSym
     // Kennzeichnet das Default/Empty/None Token
     rpnNoneToken: string;
 
+    // Kennzeichnet eine NamensId in Form eines CNT oder NID Hexwertes
+    rpnNidPrefix: string;
+
     // Kennzeichnet einen boolean in RPN, z.B. true #b
     rpnBoolType: string;
 
@@ -27,8 +30,17 @@ export default interface IOpSym
     // Kennzeichnet ganz allgemein ein Funktionsprefix, z.B. #
     rpnFuncPrefix: string; 
 
-    // Markiert meine Token für einen Funktionskopf
+    // Markiert eine Token für einen Funktionskopf
     rpnFuncHeadPrefix: string;
+
+    // Markiert einen Return- Wert.
+    rpnReturnPrefix: string;
+
+    // Markiert eine Instanz
+    rpnInstancePrefix: string;
+
+    // Markiert eine Property oder einen Funktionsparameter
+    rpnPropPrefix: string;
 
     // Kennzeicnet ganz allgemein einen Kommentar, z.B. #/ Ein Kommentar #.
     rpnComment: string

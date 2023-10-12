@@ -6,16 +6,20 @@ define(["require", "exports"], function (require, exports) {
     class RauteOpSyms {
         constructor() {
             this.rpnFuncPrefix = "#";
-            this.rpnBoolType = "#b";
+            this.rpnNidPrefix = "#*";
+            this.rpnNoneToken = "#0";
             this.rpnComment = "#/";
-            this.rpnNumType = "#n";
-            this.rpnIntType = "#i";
-            this.rpnListEnd = "#.";
-            this.rpnListStart = "#_";
-            this.rpnNoneToken = "#*";
             this.rpnSingleLineComment = "#//";
+            this.rpnBoolType = "#b";
+            this.rpnNumType = "#q";
+            this.rpnIntType = "#z";
             this.rpnStrType = "#s";
-            this.rpnFuncHeadPrefix = "#f";
+            this.rpnListStart = "#:";
+            this.rpnListEnd = "#.";
+            this.rpnFuncHeadPrefix = "#m";
+            this.rpnInstancePrefix = "#i";
+            this.rpnPropPrefix = "#+";
+            this.rpnReturnPrefix = "#<";
         }
     }
     exports.default = RauteOpSyms;
