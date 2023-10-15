@@ -295,6 +295,8 @@
   
     <Folder Include="wwwroot\js\mod\" />
   
+    <Folder Include="wwwroot\ts\LLP\DocuLLP\" />
+  
     <Folder Include="wwwroot\ts\LLP\Test\" />
   
     <Folder Include="wwwroot\ts\ApplyAFunction\" />

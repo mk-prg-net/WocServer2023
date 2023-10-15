@@ -16,11 +16,12 @@ export default class RauteOpSyms implements IOpSym {
     public rpnSingleLineComment: string;
     public rpnStrType: string;
     public rpnFuncHeadPrefix: string;
-
     public rpnNidPrefix: string;
     public rpnInstancePrefix: string;
     public rpnPropPrefix: string;
     public rpnReturnPrefix: string;
+    public rpnArrayPrefix: string;
+
 
     constructor() {
         this.rpnFuncPrefix = "#";
@@ -38,5 +39,6 @@ export default class RauteOpSyms implements IOpSym {
         this.rpnInstancePrefix = "#i";
         this.rpnPropPrefix = "#+";
         this.rpnReturnPrefix = "#<";
+        this.rpnArrayPrefix = "#a";
     }
 }

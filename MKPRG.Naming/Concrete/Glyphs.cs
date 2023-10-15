@@ -693,7 +693,7 @@ namespace MKPRG.Naming
 
         public static class DocuTerms
         {
-                       // ᚥ
+            // ᚥ
             public static string DocuTermSign => "&#x16A5;"; //"&#x1D53B;&#x1D54B;";
 
             // 🗲ᚥ
@@ -732,8 +732,8 @@ namespace MKPRG.Naming
             // ᛠ
             public static string Time => "&#x16E0;";
 
-            // ᛦ
-            public static string Version => "&#x16E6;";
+            // ᚠ
+            public static string Version => "&#x16A0;";
 
             // ᛔ
             public static string BoolPrefix => "&#x16D4;";
@@ -747,11 +747,17 @@ namespace MKPRG.Naming
             // ᛞ
             public static string NID_Prefix => "&#x16DE;";
 
+            // ᛥ Array of Basic Values
+            public static string ArrayPrefix => "&#x16E5;";
+
             // ᛍ
             public static string NameWildcard => "&#x16CD;";
 
             // ᛫
             public static string ValueWildcard => "&#x16EB;";
+
+            // ᛣ Semantic Reference between Naming Containers
+            public static string SemanticRef => "&#x16E3;";
 
         }
 

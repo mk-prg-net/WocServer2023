@@ -20,10 +20,12 @@ export default interface IOpSym
     // Kennzeichnet einen String in RPN, z.B. #$ Hallo Welt #.
     rpnStrType: string;
 
+    rpnArrayPrefix: string;
+
     // Kennzeichnet einen Listenbegin in RPN, z.B. #_
     rpnListStart: string;
 
-    // KEnnzeichnet ein Listenende in RPN, z.B. #.
+    // Kennzeichnet ein Listenende in RPN, z.B. #.
     rpnListEnd: string;
 
 

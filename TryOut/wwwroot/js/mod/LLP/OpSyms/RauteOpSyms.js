@@ -20,6 +20,7 @@ define(["require", "exports"], function (require, exports) {
             this.rpnInstancePrefix = "#i";
             this.rpnPropPrefix = "#+";
             this.rpnReturnPrefix = "#<";
+            this.rpnArrayPrefix = "#a";
         }
     }
     exports.default = RauteOpSyms;
