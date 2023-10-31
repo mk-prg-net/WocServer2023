@@ -47,7 +47,7 @@ Sei **milDiscCircularCenterOfDiskX** ein Namenscontainer, der die X- Koordinaten
      +---isPartOf-- **milDiscCircularCenterOfDiskX** --- isSubTermOf ---+ 
 ```
 
-Die Semantischen Beziehungen können z.B. durch Funktionsausdrücke dargestellt werden:
+Die semantischen Beziehungen können z.B. durch Funktionsausdrücke dargestellt werden:
 
 ```
 ᚪ ᛞ isInstanceOf
@@ -104,3 +104,41 @@ Beispiel: Bestimmen der Instanzen von **milProgram**:
    ᛜ ᛞ milCircRadius ᚪ ᛞ measureDistanceMillimeter ᛏ ᚱ 100.0
    ᚪ ᛞ milCircNext ᛏ ᚱ 100.0
 ```
+
+## Interaktives Parsen von LLP
+
+Es ist ein Editor für LLP zu implementieren, der den Benutzer aktiv bei der Eingabe unterstützt. 
+
+Nach jedem vollständig eingegeben Wort kann z.B. der Parser gestartet werden. 
+
+Z.B. folgende Sitzung
+
+```
+ᛣ _
+```
+Der Parser erkennt das Prefix für semantische Beziehungen. Nun kann die Definition oder die Abfrage einer semantischen Beziehung folgen. 
+
+```
+ᛣ ᛏ _
+> [1] ᛏ - semantische Beziehung abfragen
+> [2] ᚻ - semantische Bezihung definieren: _NID_Referring
+```
+Nachdem [1] gewählt wurde, ist nun eine der möglichen semantischen Beziehungen auszuwählen
+
+```
+ᛣ ᛏ ᛞ isInstanceOf
+> [1] 
+
+```
+
+
+```
+ᛣ ᛏ ᛞ isInstanceOf ᛞ milProgram
+```
+
+
+
+```
+ᛣ ᛏ ᛞ isInstanceOf ᛞ milProgram
+```
+

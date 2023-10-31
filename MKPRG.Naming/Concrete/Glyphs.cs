@@ -699,6 +699,9 @@ namespace MKPRG.Naming
             // 🗲ᚥ
             public static string InvalidDocuTerm => $"{Validation.Invalid}&#x16A5;";
 
+            // ᛭
+            public static string Comment => "&#x16ED;";
+
             // ᛝ 
             public static string Instance => "&#x16DD;";
 
@@ -744,8 +747,8 @@ namespace MKPRG.Naming
             // ᚱ
             public static string DoublePrefix => "&#x16B1;";
 
-            // ᛞ
-            public static string NID_Prefix => "&#x16DE;";
+            // ᚻ  //ᛞ
+            public static string NID_Prefix => "&#x16BB;";
 
             // ᛥ Array of Basic Values
             public static string ArrayPrefix => "&#x16E5;";
