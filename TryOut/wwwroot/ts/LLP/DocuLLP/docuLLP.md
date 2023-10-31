@@ -11,18 +11,18 @@ Eine wesentliche Rolle spielen dabei **Namenscontainer** mit semantischen Bezieh
 Sei **milDiscCircular** ein Namenscontainer, der eine Familie von Fräsprogrammen benennt, die Kresischeiben aus einer flachen Platte fräsen. Dann kann dieser Namenskontainer wie folgt referenziert werden:
 
 ```
-ᛞ milDiscCircular
+ᚻ milDiscCircular
 ```
 Diese Referenz kann selber zur Benennung von LLP Strukturen wie Instanzen etc dienen.
 
 ### Einen Namenscontainer definieren
 
 ```
-ᛖ ᛞdefNamingContainer
-    ᛜ ᛞ nid 0x1234567890
-    ᛜ ᛞ cnt milDiscCircular
-    ᛜ ᛞ lngDE 'Ein Fräsprogramm zum erstellen einer Kreisscheibe auf einer Platte'
-    ᛜ ᛞ lngEN 'A milling Program for milling a circular disc.'
+ᛖ ᚻdefNamingContainer
+    ᛜ ᚻ nid 0x1234567890
+    ᛜ ᚻ cnt milDiscCircular
+    ᛜ ᚻ lngDE 'Ein Fräsprogramm zum erstellen einer Kreisscheibe auf einer Platte'
+    ᛜ ᚻ lngEN 'A milling Program for milling a circular disc.'
 ᛩ
 ```
 
@@ -50,59 +50,63 @@ Sei **milDiscCircularCenterOfDiskX** ein Namenscontainer, der die X- Koordinaten
 Die semantischen Beziehungen können z.B. durch Funktionsausdrücke dargestellt werden:
 
 ```
-ᚪ ᛞ isInstanceOf
-    ᛜ ᛞsemRefReferring ᛞ milDiscCircular
-    ᛏ ᛞ milProgram
+ᚪ ᚻ isInstanceOf
+    ᛜ ᚻsemRefReferring ᚻ milDiscCircular
+    ᛏ ᚻ milProgram
 ```
 
-Eine Kurzform für diese Definition semantischer Referenzen ist sinnvoll. `ᛣ _NID_Referring_ _NID_SemRefName_ _NID_Related_` ist dann das Äquivalent zum Ausdruck 
+Eine Kurzform für diese Definition semantischer Referenzen ist sinnvoll. Sei ᛯ ein neues Präfix für semantische Referenzen. Dann kann eine semantische Referenz definiert werden durch:
+
+`ᛯ _NID_Referring_ _NID_SemRefName_ _NID_Related_` 
+
+Das ist die Kurzform für 
 
 ```
 ᚪ _NID _SemRefName_
-    ᛜ ᛞsemRefReferring _NID_Referring_
+    ᛜ ᚻsemRefReferring _NID_Referring_
     ᛏ _NID_Related_
 ```
 Damit kann das obige Beispiel vereinfacht werden zu:
 
 ```
-ᛣ ᛞ milDiscCircular ᛞ isInstanceOf ᛞ milProgram
+ᛯ ᚻ milDiscCircular ᚻ isInstanceOf ᚻ milProgram
 
 ```
 
 #### Abfragen der semantisch referenzierten Instanz
 
 ```
-ᛣ ᛞ _NID_Referring_ ᛞ _NID_SemRefName_ ᛏ
+ᛯ ᚻ _NID_Referring_ ᚻ _NID_SemRefName_ ᛏ
 
 ```
 
 Beispiel: Bestimmen, mit wem alles **milDiscCircular** in der semantischen Beziehung **isInstanceOf** steht:
 
 ```
-ᛣ ᛞ milDiscCircular ᛞ isInstanceOf ᛏ
+ᛯ ᚻ milDiscCircular ᚻ isInstanceOf ᛏ
 ```
 
 #### Abfragen der semantisch referenzierenden Instanzen
 
 ```
-ᛣ ᛞ ᛏ ᛞ _NID_SemRefName_ ᛞ _NID_Related_
+ᛯ ᛏ ᚻ _NID_SemRefName_ ᚻ _NID_Related_
 
 ```
 
 Beispiel: Bestimmen der Instanzen von **milProgram**:
 
 ```
-ᛣ ᛏ ᛞ isInstanceOf ᛞ milProgram
+ᛯ ᛏ ᚻ isInstanceOf ᚻ milProgram
 ```
 
 ### Fräsprogramm für einen Kreis
 
 ```
-ᛞ milCirc ᛝ   
-   ᛜ ᛞ milCircCx ᚪ ᛞ measureDistanceMillimeter ᛏ ᚱ 0.0
-   ᛜ ᛞ milCircCy ᚪ ᛞ measureDistanceMillimeter ᛏ ᚱ 0.0
-   ᛜ ᛞ milCircRadius ᚪ ᛞ measureDistanceMillimeter ᛏ ᚱ 100.0
-   ᚪ ᛞ milCircNext ᛏ ᚱ 100.0
+ᚻ milCirc ᛝ   
+   ᛜ ᚻ milCircCx ᚪ ᚻ measureDistanceMillimeter ᛏ ᚱ 0.0
+   ᛜ ᚻ milCircCy ᚪ ᚻ measureDistanceMillimeter ᛏ ᚱ 0.0
+   ᛜ ᚻ milCircRadius ᚪ ᚻ measureDistanceMillimeter ᛏ ᚱ 100.0
+   ᚪ ᚻ milCircNext ᛏ ᚱ 100.0
 ```
 
 ## Interaktives Parsen von LLP
@@ -111,34 +115,37 @@ Es ist ein Editor für LLP zu implementieren, der den Benutzer aktiv bei der Ein
 
 Nach jedem vollständig eingegeben Wort kann z.B. der Parser gestartet werden. 
 
-Z.B. folgende Sitzung
+Z.B. folgende Sitzung:
 
 ```
-ᛣ _
+ᛯ _
 ```
 Der Parser erkennt das Prefix für semantische Beziehungen. Nun kann die Definition oder die Abfrage einer semantischen Beziehung folgen. 
 
 ```
-ᛣ ᛏ _
-> [1] ᛏ - semantische Beziehung abfragen
-> [2] ᚻ - semantische Bezihung definieren: _NID_Referring
+ᛯ ᛏ _
+> [#1] ᛏ - semantische Beziehung abfragen
+> [#2] ᚻ - semantische Beziehung definieren: _NID_Referring
 ```
-Nachdem [1] gewählt wurde, ist nun eine der möglichen semantischen Beziehungen auszuwählen
-
-```
-ᛣ ᛏ ᛞ isInstanceOf
-> [1] 
+Nachdem [#1] gewählt wurde, ist nun eine der möglichen semantischen Beziehungen auszuwählen
 
 ```
-
-
+ᛯ ᛏ ᚻ isInstanceOf
+> [#1] ᚻ isPartOfSemContext
+> [#2] ᚻ isInstanceOf
+> [#3] ᚻ isPartOf
+> [#4] ᚻ isSubTermOf
+> [#5] ᚻ isSubNamespace
 ```
-ᛣ ᛏ ᛞ isInstanceOf ᛞ milProgram
+Nachdem [#2] gewählt wurde, gibt es eine große Auswahl von Namenscontainern, die Klassennamen von Klassen darstellen, mit denen andere Namenscontainer in der Beziehung **isInstanceOf** stehen können. Hier gibt es verschiedene Strategieen, um den gesuchten Namensconteiner des Klassennamens zu finden:
+
+1. Über den Namensraum- Pfad zur Naming ID des gesuchten Namenscontainers navigieren. 
+    1. Es werden nur Namensraum- Pfade unterstützt, die Klassennamen enthalten
+    2. Es werden alle Namensraumpfade unterstützt. In einem Namensraum werden nur Namnescontainer von Klassennamen angezeigt.
+2. Über ein Autocomplete- Textcontrol, das nur die CNT's von Klassennamen unterstützt, den CNT auswählen lassen.
+Sei Variante 2 der Standard- Modus. In Variante 1 kann bei Bedarf umgeschaltet werden:
 ```
-
-
-
-```
-ᛣ ᛏ ᛞ isInstanceOf ᛞ milProgram
+ᛯ ᛏ ᚻ isInstanceOf ᚻ milProgram
+> [#1] Select Naming- Containear with class name via Namespace
 ```
 
