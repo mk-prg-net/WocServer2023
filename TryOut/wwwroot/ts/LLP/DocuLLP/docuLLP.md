@@ -18,13 +18,74 @@ Diese Referenz kann selber zur Benennung von LLP Strukturen wie Instanzen etc di
 ### Einen Namenscontainer definieren
 
 ```
-ᛖ ᚻdefNamingContainer
+ᛖ ᚻdefNC
+
+    ᛭᛭ Bennennung und Einordnung in Taxionomien
+
     ᛜ ᚻ nid 0x1234567890
     ᛜ ᚻ cnt milDiscCircular
+    ᛜ ᚻ basicNamespace TechTerms.Milling.MilProgs
+
+    ᛭᛭ Beschreibung in verschiedenen Sprachen
+
     ᛜ ᚻ lngDE 'Ein Fräsprogramm zum erstellen einer Kreisscheibe auf einer Platte'
     ᛜ ᚻ lngEN 'A milling Program for milling a circular disc.'
+
+    ᛭᛭ Semantische Beziehungen definieren
+
+    ᛯ ᚻ instanceOf ᚻ namingContainers
+    ᛯ ᚻ instanceOf ᚻ milProgram
 ᛩ
 ```
+
+Die Methode erzeugt in der Laufzeitumgebung einen Instanz mit der **NID** 0x1234567890. 
+
+### Zugriff auf die Eigenschaften einer Instanz, z.B. Namenscontainer
+
+Auf die Eigenschaften von Instanzen oder Parameter von Methodenblöcken kann mittels *getter* zugegriffen werden. Achtung: Eigenschaftsnamen innerhalb von Methoden oder Funktionen sind stets eindeutig.
+
+```
+᛭᛭ Getter innerhalb eines Instanz oder Methodenblockes
+ᚲ ᛜ _PropertyName_ ᛖ _ErrorHandlerIfAccessToPropFails_ 
+
+᛭᛭ Getter, der eine Property einer Instanz oder Methode addressiert
+ᚲ _InstanceOrMEthodName_ ᛜ _PropertyName_ ᛖ _ErrorHandlerIfAccessToPropFails_ 
+```
+`ᛖ _ErrorHandlerIfAccessToPropFails_` verweist auf eine Methode, die aufgerufen wird, wenn der Zugriff auf die Eigenschaft zur Laufzeit fehlschlägt. Z.B. weil die referenzierte Eigenschaft nicht existiert. In diesem Fall ist stets ein Default- Wert zurückzugeben, so dass der Ausdruck, in dem der Getter steht evaluiert werden kann.
+
+Beispiele:
+```    
+᛭᛭ Liefert den Wert der Eigenschaft ᛜ ᚻ lngDE der Instanz milDiscCircular
+ᚲ ᛝ milDiscCircular ᛜ ᚻ lngDE ᛖ ᚻ errHndLngDoesNotExists 
+
+```
+
+### Arrays und Zugriff auf ein Array Element
+
+Arrays sind Listen von Werten gleichen Typs. Sie stellen komplexe, zusammengesetzte Werte dar (wie z.B. Real- und Imaginärteil einer komplexen Zahl). Sie dürfen deshalb nur als Werte von Eigenschaften, Parametern oder Rückgabewerte von Funktionen sein.
+Arrays werden stets mittels `ᛥ` eingeleitet, und mittels `ᛩ` beendet werden.
+
+Eine Liste der ersten fünf Primzahlen kann z.B. wie folgt dargestellt werden:
+
+``` 
+ᛥ ᛕ2 ᛕ3 ᛕ5 ᛕ7 ᛕ11 ᛩ
+```
+Auf einzelne Elemente eines Arrays wird mit dem `ᛊ`Operator zugegriffen.
+Dieser hat als Parameter den 0 basierte Index, das Array aus dem der Wert zu entnehmen ist, und den Verweis auf eine Fehlerbehandlungsmethode.
+
+```
+ᛝ 'Berechnung 1'
+    ᛜ 'liste Primzahlen'    ᛥ ᛕ2 ᛕ3 ᛕ5 ᛕ7 ᛕ11 ᛩ
+    ᛜ 'erste Primzahl'      ᛊ ᛕ1 ᚲ ᛜ 'liste Primzahlen' ᛖ ᚻ errPopDoesNotExistsHndl ᛖ ᚻ errOutOfRangeHndl
+
+```
+
+Ein weiteres Beispiel ist die Beschreibung eines Namenscontainers in einer Wunsch- Sprache abrufen:
+
+```
+ᛖ ᚻ ConsoleWriteLine ᛏ ᚲ ᛝ milDiscCircular ᛜ ᚻ lngDE ᛖ ᚻ errHndLngDoesNotExists 
+```
+
 
 ### Semantische Referenzen ausdrücken
 

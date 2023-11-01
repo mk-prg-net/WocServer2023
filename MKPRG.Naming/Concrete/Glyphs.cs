@@ -759,8 +759,8 @@ namespace MKPRG.Naming
             // ᛫
             public static string ValueWildcard => "&#x16EB;";
 
-            // ᛣ Semantic Reference between Naming Containers
-            public static string SemanticRef => "&#x16E3;";
+            // ᛯ Semantic Reference between Naming Containers
+            public static string SemanticRef => "&#x16EF;";
 
         }
 
