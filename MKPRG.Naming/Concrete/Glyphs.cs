@@ -754,7 +754,7 @@ namespace MKPRG.Naming
             public static string RationalNumber => "&#x16B1;";
 
             // ᚪ 
-            //public static string FloatingPointNumber => "&#x16AA;";
+            public static string FloatingPointNumber => "&#x16AA;";
 
             // ᚻ  //ᛞ
             public static string NID_Prefix => "&#x16BB;";

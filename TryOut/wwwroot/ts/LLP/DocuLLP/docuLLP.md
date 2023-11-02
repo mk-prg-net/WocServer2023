@@ -1,18 +1,107 @@
 # 𝓛𝓛𝓟: Łukasiewicz List Processor
 
-**LLP** soll eine minimalistische formale Sprache zur semantischen Auszeichung von Texten, zur funktionalen Formulierung von Algorithmen und zur generatorischen Beschreibung von Diagrammen und Bildern werden.
+**LLP** soll eine minimalistische formale Sprache zur semantischen Auszeichung von Texten, zur funktionalen Formulierung von Algorithmen und zur generatorischen Beschreibung von Diagrammen, Bildern und Fräskopfbahnen werden.
 
 Eine wesentliche Rolle spielen dabei **Namenscontainer** mit semantischen Beziehungen
 
-## Beispiele 
+## Grundlagen
 
-### N- stellige MEthoden und Funktionen
+### Werte elementarer Datentypen
 
-`ᛖ` ist das Prefix für eine Funktion/Methode. Folgt dem `ᛖ` ein Name, dann ist die Funktion allgemein N- stellig (hat beliebig viele Parameter).
+Um z.B. einen Zahlenwert wie 3.14 von einer textuellen Präsentation in einer Sprache zu unterscheiden, werden die Werte elementarer Datentypen in **LLP** stets durch ein spezielles Präfix explizit gekennzeichnet.
 
-`ᛖ᛫` definiert explizit eine einstellige Funktion. Diese hat genau einen Parameter.
+`ᛕ` ist das Präfix für ganze Zahlen:
+```
+ᛕ 1    ⟺ 1
+ᛕ -123 ⟺ -123
+```
 
-`ᛖ᛫᛫` definiert explizit eine zweistellige Funktion. Diese hat genau zwei Parameter usw..
+`ᚱ` ist das Präfix für gebrochen rationale Zahlen. Diese bestehen aus einem Nenner und einem Zähler, getrennt durch ein Leerzeichen: `ᚱ _Zähler_ _Nenner_`
+
+```
+ᚱ 1 2   ⟺ 1/2 = 0.5
+ᚱ 2 3   ⟺ 2/3 = 0.666
+ᚱ -4 16 ⟺ -4/16 = -0.25
+```
+
+`ᚪ` ist das Präfix für rationale Zahlen in der Gleitpunkt- Darstellung. Vor- und Nachkomma- Stellen werden hier stets durch einen Punkt `.` getrennt.
+
+```
+ᚪ 3.14  ⟺  3.14
+ᚪ -2.72 ⟺ -2.72
+```
+
+`ᛔ` ist das Präfix für boolsche Werte. Die beiden möglichen boolschen Werte werden durch die Namen **true** und **false** ausgedrückt:
+
+```
+ᛔ true  ⟺ True
+ᛔ false ⟺ False
+```
+
+`ᚻ` ist das Präfix für eine *NamingID*. Eine *NamingID* ist ein eindeutiger Schlüssel zu Identifizierung eines Namenscontainers.
+
+```
+ᚻ milProgramm ⟺ Referenz auf den Namenscontainer, der für Fräsenprogramme steht.
+```
+
+### Strings
+
+*Strings* sind Listen aus Zeichen. Enthalten sie Leerzeichen, dann müssen sie in Apostophe `'` gesetzt werden. Enthalten sie keine Leerzeichen, dann können die Apostrophe entfallen:
+
+```
+Hallo
+'Hallo Welt'
+```
+
+### Arrays
+
+*Arrays* sind Listen von Werten gleichen elementaren Typs. Sie stellen komplexe, zusammengesetzte Werte dar wie z.B. Real- und Imaginärteil einer komplexen Zahl, oder die Komponenten eines Vektors.
+
+Sie dürfen deshalb nur als Werte von Eigenschaften, Parametern oder Rückgabewerte von Funktionen sein.
+
+Arrays werden stets mittels `ᚤ` eingeleitet, und mittels `ᛩ` beendet werden.
+
+Eine Array mit den ersten fünf Primzahlen kann z.B. wie folgt dargestellt werden:
+
+``` 
+ᚤ ᛕ2 ᛕ3 ᛕ5 ᛕ7 ᛕ11 ᛩ
+```
+
+#### Zugriff auf Array Elemente
+
+Auf einzelne Elemente eines Arrays wird mittels der dreistelligen Funktion  `ᛖ᛫᛫᛫ ᚻ arrayIX _Array_ _ix_ _ErrIndexOutOfRangeHandler_` zugegriffen.
+
+Diese hat als Parameter den **0** basierte Index, das *Array* aus dem der Wert zu entnehmen ist, und den Verweis auf eine *Fehlerbehandlungsmethode*, falls der Zugriff scheitert.
+
+Wenn kein explizit definierte Fehlerbehandlungsmethode erforderlich ist, da der Default Fehlerhandler ausreicht, dann kann auch die zweistellige Funktion eingesetzt werden: `ᛖ᛫᛫ ᚻ arrayIX _Array_ _ix_`
+
+Verglichen mit anderen Programmiersprachen ist der Indexzugriffsoperator für Arrays hier sehr aufwendig formuliert. Deshalb bieten sich Kurzformen an:
+
+`ᛏᚤ` sei das vereinfachte Symbol für den zweistelligen Arrayzugriffs- Operator: `ᛏᚤ _array_ _index_`
+
+`ᛏᚤᛊ` sei das vereinfachte Symbol für den dreistelligen Arrayzugriffs- Operator: `ᛏᚤᛊ _array_ _index_ _errIndexOutOfRangeHandler_`
+
+
+### N- stellige Methoden und Funktionen
+
+`ᛖ` ist das Prefix für eine Funktion/Methode. Diesem muss ein Name der Funktion, eine Liste von Parametern und eventuell ein Rückgabewert folgen. Diese Liste wird mit `ᛩ` abgeschlossen. So definierte Funktione werden allgemein als N- Stellig bezeichnet.
+
+`ᛜ` ist das Präfix für einen *Parameter*. *Parameter* bestehen im allgemeinen immer aus einem Parameternamen und einem Wert, der an den Parameter gebunden ist: `ᛜ _paramName_ _paramValue_`
+
+Wird der _paramName_ durch eine *NamingID* definiert, dann kann mittels semantischer Referenzen im Namenscontainer der Datentyp eines Funktionsparameters implizit festgelegt werden.
+
+Alternativ könnte man den Datentyp eines Parameters durch eine Default- Wert eines elementaren Datentypen festlegen: `ᛜ CX ᚪ_ ⟺ CX ist vom Typ Gleitkommazahl`
+
+
+#### Vereinfachte Methoden/Funktionsdefinitionen
+
+
+`ᛖ᛫` definiert explizit eine einstellige Funktion. Diese hat genau einen Parameter: `ᛖ᛫ _funktionsName_ _parameter1_`
+
+`ᛖ᛫᛫` definiert explizit eine zweistellige Funktion. Diese hat genau zwei Parameter: 
+
+
+usw..
 
 Funktionen werden mit `ᛏ` (Return) aufgerufen, und liefert den Funktionswert. Nach dem CQR Pattern verändern Funktionen den inneren Zustand nicht.
 
@@ -20,15 +109,29 @@ Beispiele:
 
 ```
 ᛭᛭ Methode, die keinen Parameter hat (0 Stellig): Stoppt die Fräse
-ᛖ ᚻmilStop ᛩ
+ᛖ ᚻ milStop ᛩ
 
 ᛭᛭ Funktion, die keinen Parameter hat (0 Stellig): liefert die aktuelle Position X
-ᛏ ᛖ ᚻmilCurrentPosX ᛩ
+ᛏ ᛖ ᚻ milCurrentPosX ᛩ
 
 ᛭᛭ explizit zweistellige Funktion mit zwei PArametern: liefert die Summe der beiden Gleitpunktzahlen.
 ᛏ ᛖ᛫᛫ ᚻadd ᚪ 0.1 ᚪ 1.3
-
 ```
+
+
+
+### Instanzen
+
+`ᛝ` ist das Prefix für eine *Instanz*. Eine Instanz beschreibt ein ein Objekt aus dem Weltausschnitt, der durch das **LLP** Programm modelliert wird. 
+*Instanzen* beginnen stets mit einem Namen. Diesem schließt sich eine Auflistung von *Eigenschaften*, *Methoden* und *Funktionen*.
+
+Die *Eigenschaften* definieren den *inneren Zustand* eines Objektes. Sie werden als Attribut- Wertpaare aufgeliste. 
+
+*Methoden* ermöglichen das Ändern des *inneren Zustandes*. 
+
+Beispiel: 
+
+
 ### Einen Namingcontainer referenzieren
 
 Sei **milDiscCircular** ein Namenscontainer, der eine Familie von Fräsprogrammen benennt, die Kresischeiben aus einer flachen Platte fräsen. Dann kann dieser Namenskontainer wie folgt referenziert werden:
@@ -83,18 +186,6 @@ Beispiele:
 
 ```
 
-### Arrays und Zugriff auf ein Array Element
-
-Arrays sind Listen von Werten gleichen Typs. Sie stellen komplexe, zusammengesetzte Werte dar (wie z.B. Real- und Imaginärteil einer komplexen Zahl). Sie dürfen deshalb nur als Werte von Eigenschaften, Parametern oder Rückgabewerte von Funktionen sein.
-Arrays werden stets mittels `ᛥ` eingeleitet, und mittels `ᛩ` beendet werden.
-
-Eine Liste der ersten fünf Primzahlen kann z.B. wie folgt dargestellt werden:
-
-``` 
-ᛥ ᛕ2 ᛕ3 ᛕ5 ᛕ7 ᛕ11 ᛩ
-```
-Auf einzelne Elemente eines Arrays wird mit dem `ᛊ`Operator zugegriffen.
-Dieser hat als Parameter den 0 basierte Index, das Array aus dem der Wert zu entnehmen ist, und den Verweis auf eine Fehlerbehandlungsmethode.
 
 ```
 ᛝ 'Berechnung 1'
