@@ -6,6 +6,29 @@ Eine wesentliche Rolle spielen dabei **Namenscontainer** mit semantischen Bezieh
 
 ## Beispiele 
 
+### N- stellige MEthoden und Funktionen
+
+`ᛖ` ist das Prefix für eine Funktion/Methode. Folgt dem `ᛖ` ein Name, dann ist die Funktion allgemein N- stellig (hat beliebig viele Parameter).
+
+`ᛖ᛫` definiert explizit eine einstellige Funktion. Diese hat genau einen Parameter.
+
+`ᛖ᛫᛫` definiert explizit eine zweistellige Funktion. Diese hat genau zwei Parameter usw..
+
+Funktionen werden mit `ᛏ` (Return) aufgerufen, und liefert den Funktionswert. Nach dem CQR Pattern verändern Funktionen den inneren Zustand nicht.
+
+Beispiele:
+
+```
+᛭᛭ Methode, die keinen Parameter hat (0 Stellig): Stoppt die Fräse
+ᛖ ᚻmilStop ᛩ
+
+᛭᛭ Funktion, die keinen Parameter hat (0 Stellig): liefert die aktuelle Position X
+ᛏ ᛖ ᚻmilCurrentPosX ᛩ
+
+᛭᛭ explizit zweistellige Funktion mit zwei PArametern: liefert die Summe der beiden Gleitpunktzahlen.
+ᛏ ᛖ᛫᛫ ᚻadd ᚪ 0.1 ᚪ 1.3
+
+```
 ### Einen Namingcontainer referenzieren
 
 Sei **milDiscCircular** ein Namenscontainer, der eine Familie von Fräsprogrammen benennt, die Kresischeiben aus einer flachen Platte fräsen. Dann kann dieser Namenskontainer wie folgt referenziert werden:
@@ -137,14 +160,14 @@ Damit kann das obige Beispiel vereinfacht werden zu:
 #### Abfragen der semantisch referenzierten Instanz
 
 ```
-ᛯ ᚻ _NID_Referring_ ᚻ _NID_SemRefName_ ᛏ
+ᛯ ᛏ ᚻ _NID_Referring_ ᚻ _NID_SemRefName_ 
 
 ```
 
 Beispiel: Bestimmen, mit wem alles **milDiscCircular** in der semantischen Beziehung **isInstanceOf** steht:
 
 ```
-ᛯ ᚻ milDiscCircular ᚻ isInstanceOf ᛏ
+ᛯ ᛏ ᚻ milDiscCircular ᚻ isInstanceOf 
 ```
 
 #### Abfragen der semantisch referenzierenden Instanzen
@@ -163,11 +186,17 @@ Beispiel: Bestimmen der Instanzen von **milProgram**:
 ### Fräsprogramm für einen Kreis
 
 ```
-ᚻ milCirc ᛝ   
-   ᛜ ᚻ milCircCx ᚪ ᚻ measureDistanceMillimeter ᛏ ᚱ 0.0
-   ᛜ ᚻ milCircCy ᚪ ᚻ measureDistanceMillimeter ᛏ ᚱ 0.0
-   ᛜ ᚻ milCircRadius ᚪ ᚻ measureDistanceMillimeter ᛏ ᚱ 100.0
-   ᚪ ᚻ milCircNext ᛏ ᚱ 100.0
+ᛝ ᚻ milCirc    
+   ᛜ ᚻ Cx ᛏ ᛖ᛫᛫ ᚻ measureDistance ᚪ 0.0 ᚻ mm
+   ᛜ ᚻ Cy ᛏ ᛖ᛫᛫ ᚻ measureDistance ᚪ 0.0 ᚻ mm 
+   ᛜ ᚻ Cr ᛏ ᛖ᛫᛫ ᚻ measureDistance ᚪ 100.0 ᚻ mm
+   ᛖ ᚻ Next
+    ᛜ r _ 
+    ᛏ ᛝ ᚻ milCircNext
+        ᛜ ᚻ milCircCx ᚲ ᛝ ᚻ milCirc ᛜ Cx
+        ᛜ ᚻ milCircCy ᚲ ᛝ ᚻ milCirc ᛜ Cy
+        ᛜ ᚻ milCircRadius  ᛏ ᛖ᛫᛫ ᚻ ADD ᚪ 0.5 ᚲ ᛜ r _ 
+    
 ```
 
 ## Interaktives Parsen von LLP

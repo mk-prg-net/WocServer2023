@@ -702,6 +702,9 @@ namespace MKPRG.Naming
             // ᛭
             public static string Comment => "&#x16ED;";
 
+            // ᛚ unary Function Prefix
+            public static string UnaryFunction => "&#x16DA;";
+
             // ᛝ 
             public static string Instance => "&#x16DD;";
 
@@ -709,7 +712,7 @@ namespace MKPRG.Naming
             public static string Method => "&#x16D6;";
 
             // ᚪ 
-            public static string Function => "&#x16AA;";
+            //public static string Function => "&#x16AA;";
 
             // ᛏ 
             public static string Return => "&#x16CF;";
@@ -718,7 +721,10 @@ namespace MKPRG.Naming
             public static string Event => "&#x16EA;"; 
 
             // ᛜ 
-            public static string Property => "&#x16DC;"; 
+            public static string Property => "&#x16DC;";
+
+            // ᚲ Get Property Value: Getter            
+            public static string GetPropVal => "&#x16B2;";
 
             // ᚹ
             public static string ListBegin => "&#x16B9;";
@@ -744,14 +750,20 @@ namespace MKPRG.Naming
             // ᛕ
             public static string IntPrefix => "&#x16D5;";
 
-            // ᚱ
-            public static string DoublePrefix => "&#x16B1;";
+            // ᚱ rational Number: is a pair of nominator and denominator
+            public static string RationalNumber => "&#x16B1;";
+
+            // ᚪ 
+            //public static string FloatingPointNumber => "&#x16AA;";
 
             // ᚻ  //ᛞ
             public static string NID_Prefix => "&#x16BB;";
 
             // ᛥ Array of Basic Values
             public static string ArrayPrefix => "&#x16E5;";
+
+            // ᛊ Array Pic Value at Index Operator
+            public static string ArrayPicValAtIx => "&#x16CA;";
 
             // ᛍ
             public static string NameWildcard => "&#x16CD;";
@@ -760,7 +772,7 @@ namespace MKPRG.Naming
             public static string ValueWildcard => "&#x16EB;";
 
             // ᛯ Semantic Reference between Naming Containers
-            public static string SemanticRef => "&#x16EF;";
+            public static string SemanticRef => "&#x16EF;";           
 
         }
 
