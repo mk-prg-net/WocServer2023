@@ -6,6 +6,9 @@ Eine wesentliche Rolle spielen dabei **Namenscontainer** mit semantischen Bezieh
 
 ## Grundlagen
 
+### Kommentare
+`᛭᛭` schließt den Rest vom Parsen aus. Damit können nach `᛭᛭` beliebige Kommentare notiert werden.
+
 ### Werte elementarer Datentypen
 
 Um z.B. einen Zahlenwert wie 3.14 von einer textuellen Präsentation in einer Sprache zu unterscheiden, werden die Werte elementarer Datentypen in **LLP** stets durch ein spezielles Präfix explizit gekennzeichnet.
@@ -86,9 +89,56 @@ Verglichen mit anderen Programmiersprachen ist der Indexzugriffsoperator für Ar
 
 `ᛖ` ist das Prefix für eine Funktion/Methode. Diesem muss ein Name der Funktion, eine Liste von Parametern und eventuell ein Rückgabewert folgen. Diese Liste wird mit `ᛩ` abgeschlossen. So definierte Funktione werden allgemein als N- Stellig bezeichnet.
 
+Beispiel: Addition der beiden Gleitpunktzahlen ᚪ3.14 und ᚪ2.72 
+```
+ᛖ ᚻadd 
+    ᛜ A ᚪ3.14 
+    ᛜ B ᚪ2.72
+ᛩ
+```
+
+#### Parameter
+
 `ᛜ` ist das Präfix für einen *Parameter*. *Parameter* bestehen im allgemeinen immer aus einem Parameternamen und einem Wert, der an den Parameter gebunden ist: `ᛜ _paramName_ _paramValue_`
 
 Wird der _paramName_ durch eine *NamingID* definiert, dann kann mittels semantischer Referenzen im Namenscontainer der Datentyp eines Funktionsparameters implizit festgelegt werden.
+
+Der Parameterwert kann direkt gesetzt, durch einen Funbktionsaufruf errechnet, aus einer Eigenschaft einer Instanz referenziert oder durch einen Platzhalter offen gehalten werden. Letzteres erfolgt, wenn die Funktion eine *Implementierung* für die Berechnung des Funktionswertes in dem *Return* Abschnitt enthält:
+
+```
+ᛖ ᚻadd 
+    ᛜ A ᚪ3.14 
+    ᛜ B ᚪ2.72
+ᛩ
+
+᛭᛭  Eine Instanz, die eine Punktkoordinate darstellt
+ᛝ P1 
+    ᛭᛭ die folgende semantische Beziehung hat den Charakter einer Typdeklaration
+    ᛯ ᚻinstanceOf ᚻGeometricPoint
+
+    ᛭᛭ Koordinaten des Punktes
+    ᛜ ᚻpx ᚪ3.14 
+    ᛜ ᚻpy ᚪ2.72
+ᛩ    
+
+᛭᛭  Addiert die Werte der Koordinaten von P1
+ᛖ ᚻadd 
+    ᛜ A ᛏ ᛝ P1 ᛜ ᚻpx
+    ᛜ B ᛏ ᛝ P1 ᛜ ᚻpy
+ᛩ
+
+᛭᛭  Funtion mit einer Implementierung ᛣ
+
+ᛖ radiusOfP 
+    ᛜ ᚻpx ᛟ 
+    ᛜ ᚻpx ᛟ
+    ᛣ ᛏᛖ᛫ ᚻSQRT ᛏᛖ᛫᛫ ᚻadd
+                    ᛏᛖ᛫SQU ᛏᛜ ᚻpx 
+                    ᛏᛖ᛫SQU ᛏᛜ ᚻpy
+ᛩ
+
+
+``` 
 
 Alternativ könnte man den Datentyp eines Parameters durch eine Default- Wert eines elementaren Datentypen festlegen: `ᛜ CX ᚪ_ ⟺ CX ist vom Typ Gleitkommazahl`
 
@@ -98,10 +148,15 @@ Alternativ könnte man den Datentyp eines Parameters durch eine Default- Wert ei
 
 `ᛖ᛫` definiert explizit eine einstellige Funktion. Diese hat genau einen Parameter: `ᛖ᛫ _funktionsName_ _parameter1_`
 
-`ᛖ᛫᛫` definiert explizit eine zweistellige Funktion. Diese hat genau zwei Parameter: 
-
+`ᛖ᛫᛫` definiert explizit eine zweistellige Funktion. Diese hat genau zwei Parameter: ᛖ᛫᛫ _funktionsName_ _parameter1_ _parameter2_`
 
 usw..
+
+#### Platzhalter ᛟ für Parameterwerte
+
+`ᛟ` ist ein Platzhalter, der anstelle eines Parameterwertes notiert werden kann.
+
+#### Aufruf von Funktionen
 
 Funktionen werden mit `ᛏ` (Return) aufgerufen, und liefert den Funktionswert. Nach dem CQR Pattern verändern Funktionen den inneren Zustand nicht.
 
@@ -109,13 +164,13 @@ Beispiele:
 
 ```
 ᛭᛭ Methode, die keinen Parameter hat (0 Stellig): Stoppt die Fräse
-ᛖ ᚻ milStop ᛩ
+ᛖ ᚻmilStop ᛩ
 
 ᛭᛭ Funktion, die keinen Parameter hat (0 Stellig): liefert die aktuelle Position X
-ᛏ ᛖ ᚻ milCurrentPosX ᛩ
+ᛏ ᛖ ᚻmilCurrentPosX ᛩ
 
 ᛭᛭ explizit zweistellige Funktion mit zwei PArametern: liefert die Summe der beiden Gleitpunktzahlen.
-ᛏ ᛖ᛫᛫ ᚻadd ᚪ 0.1 ᚪ 1.3
+ᛏ ᛖ᛫᛫ ᚻadd ᚪ0.1 ᚪ1.3
 ```
 
 
