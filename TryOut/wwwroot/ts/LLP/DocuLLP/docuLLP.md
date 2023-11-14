@@ -84,6 +84,35 @@ Verglichen mit anderen Programmiersprachen ist der Indexzugriffsoperator für Ar
 
 `ᛏᚤᛊ` sei das vereinfachte Symbol für den dreistelligen Arrayzugriffs- Operator: `ᛏᚤᛊ _array_ _index_ _errIndexOutOfRangeHandler_`
 
+### Attribut Wertepaar
+
+
+
+
+### Heterogene Listen
+*Heterogene Listen* enthalten im unterschied zu Array Elemente beliebigen Typs.
+
+
+
+### Typ- Definitionen
+
+Um Parameterlisten von Funktionen oder Eigenschaftslisten von Instanzen abstrakt definieren zu können, werden Typdefinitionen benötigt. Typen stehen für endliche Mengen von Werten. 
+
+`ᛟ` schließt eine Typdefinition stets ab, und macht sie so erkennbar.
+
+`ᛕᛟ` steht für eine Zahl aus der Menge der ganzen Zahlen.
+
+`ᛔᛟ` steht für einen boolschen Wert.
+
+`ᚤ 3 ᛕᛟ ᛩᛟ` steht für ein Array aus drei ganzen Zahlen.
+
+`ᚤ ... ᛕᛟ ᛩᛟ` steht für ein Array aus beliebig vielen ganzen Zahlen.
+
+`ᚤ ... ᚻᛟ ᛩᛟ` steht für ein Array aus beliebig vielen Namensreferenzen.
+
+`ᚤ ᚻred ᚻgreen ᚻblue ᛩᛟ` steht für einen Aufzählungstyp/Set: Eingesetzt werden dürfen nur im Array aufgelistete Werte.
+
+#### Zusammengesetzte Typen
 
 ### N- stellige Methoden und Funktionen
 
