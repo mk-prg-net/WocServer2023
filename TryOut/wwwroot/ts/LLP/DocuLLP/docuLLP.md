@@ -6,32 +6,55 @@ Eine wesentliche Rolle spielen dabei **Namenscontainer** mit semantischen Bezieh
 
 ## Grundlagen
 
-### Kommentare
-`᛭᛭` schließt den Rest vom Parsen aus. Damit können nach `᛭᛭` beliebige Kommentare notiert werden.
+### Kommentare ᛭
+`᛭` schließt den Rest vom Parsen aus. Damit können nach `᛭` beliebige Kommentare notiert werden.
 
-### Werte elementarer Datentypen
+### Runen als Präfix
+
+Alle für den Parser unterscheidbaren Strukturen erhalten ein Präfix in Form einer nordischen **Rune**. 
+
+Die *Runen* werden in keiner heute mehr existierenden Sprache gennutzt. Damit sind die Präfixe, durch die Sparachstrukturen kenntlich werden, eindeutig von Textdaten unterscheidbar. 
 
 Um z.B. einen Zahlenwert wie 3.14 von einer textuellen Präsentation in einer Sprache zu unterscheiden, werden die Werte elementarer Datentypen in **LLP** stets durch ein spezielles Präfix explizit gekennzeichnet.
 
+### Kardinalzahlen ᛕ
+
 `ᛕ` ist das Präfix für ganze Zahlen:
 ```
-ᛕ 1    ⟺ 1
-ᛕ -123 ⟺ -123
+ᛕ 1         ⟺ 1
+ᛕ -123      ⟺ -123
+ᛕ 16 AFD    ⟺ nat. Zahl zur Basis 16 (hex)
+ᛕ  2 L00LLL ⟺ nat. Zahl zur Basis  2 (dual)  
+ᛕ ᛞ         ⟺ + Unendlich
+ᛕ -ᛞ        ⟺ - Unendlich
 ```
 
-`ᚱ` ist das Präfix für gebrochen rationale Zahlen. Diese bestehen aus einem Nenner und einem Zähler, getrennt durch ein Leerzeichen: `ᚱ _Zähler_ _Nenner_`
+### Gebrochen Rationale Zahlen ᚱ
 
+`ᚱ` ist das Präfix für gebrochen rationale Zahlen. Diese bestehen aus einem Nenner und einem Zähler, getrennt durch ein Leerzeichen: 
+
+1. `ᚱ _Zähler_` hier ist der Nenner stets 1
+2. `ᚱ _Zähler_ _Nenner_`
+3. `ᚱ _Ganzzahlig_ _Zähler_ _Nenner_`
+
+Beispiele:
 ```
+ᚱ 2     ⟺ 2/1 = 2.0
 ᚱ 1 2   ⟺ 1/2 = 0.5
-ᚱ 2 3   ⟺ 2/3 = 0.666
+ᚱ 1 2 3 ⟺ 1 2/3 = 1.666
 ᚱ -4 16 ⟺ -4/16 = -0.25
 ```
+Die rationalen Zahlen können z.B. als Zoll- Maße genutzt werden
+
+### Gleitpunktzahlen ᚪ
 
 `ᚪ` ist das Präfix für rationale Zahlen in der Gleitpunkt- Darstellung. Vor- und Nachkomma- Stellen werden hier stets durch einen Punkt `.` getrennt.
 
 ```
-ᚪ 3.14  ⟺  3.14
-ᚪ -2.72 ⟺ -2.72
+ᚪ 3       ⟺  3.0
+ᚪ 3 14    ⟺  3.14
+ᚪ -2 72   ⟺ -2.72
+ᚪ -2 72 3 ⟺ -2.72e3 = -2720 
 ```
 
 `ᛔ` ist das Präfix für boolsche Werte. Die beiden möglichen boolschen Werte werden durch die Namen **true** und **false** ausgedrückt:
@@ -43,9 +66,16 @@ Um z.B. einen Zahlenwert wie 3.14 von einer textuellen Präsentation in einer Sp
 
 `ᚻ` ist das Präfix für eine *NamingID*. Eine *NamingID* ist ein eindeutiger Schlüssel zu Identifizierung eines Namenscontainers.
 
-```
-ᚻ milProgramm ⟺ Referenz auf den Namenscontainer, der für Fräsenprogramme steht.
-```
+Beispiele:
+
+`ᚻ milProgramm` ⟺ Referenz auf den Namenscontainer, der für Fräsenprogramme steht.
+
+
+`ᚠ`ist das Präfix eines Pfades in einer Hierarchie. Der Pfad muß durch ein Listenendsymbol `ᛩ` abgeschlossen werden.
+
+`ᚠ ᛕ23 ᛕ10 ᛕ15 ᛩ` ⟺ Kann z.B. eine Versionsnummer mit den drei Hierarchieebnen *Hauptversion*, *Nebenversion*, *Buildnummer* darstellen. Oder die Uhrzeit **23:10:15**. Oder das Datum **15.10.2023**.
+
+`ᚠ ᚻ millingMachine ᚻ circelMilling ᚻ millDisc ᛩ` ⟺ Pfad in einem Namensraum
 
 ### Strings
 
@@ -59,8 +89,6 @@ Hallo
 ### Arrays
 
 *Arrays* sind Listen von Werten gleichen elementaren Typs. Sie stellen komplexe, zusammengesetzte Werte dar wie z.B. Real- und Imaginärteil einer komplexen Zahl, oder die Komponenten eines Vektors.
-
-Sie dürfen deshalb nur als Werte von Eigenschaften, Parametern oder Rückgabewerte von Funktionen sein.
 
 Arrays werden stets mittels `ᚤ` eingeleitet, und mittels `ᛩ` beendet werden.
 
@@ -84,13 +112,42 @@ Verglichen mit anderen Programmiersprachen ist der Indexzugriffsoperator für Ar
 
 `ᛏᚤᛊ` sei das vereinfachte Symbol für den dreistelligen Arrayzugriffs- Operator: `ᛏᚤᛊ _array_ _index_ _errIndexOutOfRangeHandler_`
 
+#### Benennen eines Arrays
+
+```
+ᛝ nameDesArrays ᚤᛕ2 ᛕ3 ᛕ5 ᛕ7 ᛕ11 ᛩ
+```
+
 ### Attribut Wertepaar
 
+`ᛜ` ist das Präfix eines Attribut Werteppares: `ᛜ _Attributname_ _Wert_`. Der Wert kann ein elementarer, eine Attributliste oder eine Methode sein.
 
+`ᛜ A ᚪ3 14`  ⟺ Attribut mit Namen **A** hat den Wert 3.14
 
+### Anonyme Attributlisten 
+Bündel von Attribute beschreiben Objekte/dinge in der Welt. Ein solches Attributbündel wird durch mit dem Präfix `ᚹ` eingeleitet.
 
-### Heterogene Listen
-*Heterogene Listen* enthalten im unterschied zu Array Elemente beliebigen Typs.
+Innerhalb einer Attributliste müssen die Attributnamen eindeutig sein.
+
+```
+ᚹ
+    ᛜ X ᚪ3 14
+    ᛜ Y ᚪ2 72
+ᛩ
+```
+
+### Benannte Attributlisten 
+
+Attributlisten können auch einen Namen erhalten. Dazu werden sie mit dem Präfix `ᛝ`.
+
+```
+ᛝ koordiate
+    ᛜ X ᚪ3 14
+    ᛜ Y ᚪ2 72
+ᛩ
+```
+
+#### Zugriff auf Elemente einer Attributliste
 
 
 
@@ -98,19 +155,19 @@ Verglichen mit anderen Programmiersprachen ist der Indexzugriffsoperator für Ar
 
 Um Parameterlisten von Funktionen oder Eigenschaftslisten von Instanzen abstrakt definieren zu können, werden Typdefinitionen benötigt. Typen stehen für endliche Mengen von Werten. 
 
-`ᛟ` schließt eine Typdefinition stets ab, und macht sie so erkennbar.
+`ᛟ` schaltet die Evaluierung einer Liste in die Evaluierung einer Typdeklaration um.
 
 `ᛕᛟ` steht für eine Zahl aus der Menge der ganzen Zahlen.
 
 `ᛔᛟ` steht für einen boolschen Wert.
 
-`ᚤ 3 ᛕᛟ ᛩᛟ` steht für ein Array aus drei ganzen Zahlen.
+`ᚤᛟ ᛕ3 ᛕᛟ ᛩ` steht für ein Array aus drei ganzen Zahlen.
 
-`ᚤ ... ᛕᛟ ᛩᛟ` steht für ein Array aus beliebig vielen ganzen Zahlen.
+`ᚤᛟ ... ᛕᛟ ᛩ` steht für ein Array aus beliebig vielen ganzen Zahlen.
 
 `ᚤ ... ᚻᛟ ᛩᛟ` steht für ein Array aus beliebig vielen Namensreferenzen.
 
-`ᚤ ᚻred ᚻgreen ᚻblue ᛩᛟ` steht für einen Aufzählungstyp/Set: Eingesetzt werden dürfen nur im Array aufgelistete Werte.
+`ᚤᛟ ᚻred ᚻgreen ᚻblue ᛩ` steht für einen Aufzählungstyp/Set: Eingesetzt werden dürfen nur die im Array aufgelistete Werte.
 
 #### Zusammengesetzte Typen
 
@@ -121,8 +178,8 @@ Um Parameterlisten von Funktionen oder Eigenschaftslisten von Instanzen abstrakt
 Beispiel: Addition der beiden Gleitpunktzahlen ᚪ3.14 und ᚪ2.72 
 ```
 ᛖ ᚻadd 
-    ᛜ A ᚪ3.14 
-    ᛜ B ᚪ2.72
+    ᛜ A ᚪ3 14 
+    ᛜ B ᚪ2 72
 ᛩ
 ```
 
@@ -136,8 +193,8 @@ Der Parameterwert kann direkt gesetzt, durch einen Funbktionsaufruf errechnet, a
 
 ```
 ᛖ ᚻadd 
-    ᛜ A ᚪ3.14 
-    ᛜ B ᚪ2.72
+    ᛜ A ᚪ3 14 
+    ᛜ B ᚪ2 72
 ᛩ
 
 ᛭᛭  Eine Instanz, die eine Punktkoordinate darstellt
