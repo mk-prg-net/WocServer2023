@@ -6,16 +6,20 @@ Eine wesentliche Rolle spielen dabei **Namenscontainer** mit semantischen Bezieh
 
 ## Grundlagen
 
-### Kommentare ᛭
-`᛭` schließt den Rest vom Parsen aus. Damit können nach `᛭` beliebige Kommentare notiert werden.
-
 ### Runen als Präfix
 
 Alle für den Parser unterscheidbaren Strukturen erhalten ein Präfix in Form einer nordischen **Rune**. 
 
 Die *Runen* werden in keiner heute mehr existierenden Sprache gennutzt. Damit sind die Präfixe, durch die Sparachstrukturen kenntlich werden, eindeutig von Textdaten unterscheidbar. 
 
-Um z.B. einen Zahlenwert wie 3.14 von einer textuellen Präsentation in einer Sprache zu unterscheiden, werden die Werte elementarer Datentypen in **LLP** stets durch ein spezielles Präfix explizit gekennzeichnet.
+### Kommentare ᛭
+`᛭` schließt den Rest vom Parsen aus. Damit können nach `᛭` beliebige Kommentare notiert werden.
+
+### Präfixe für Zahlenwerte
+
+Eine Gleitpunktzahl wie **3.14** ist eine kulturspezifische Notation (**en-US**). 
+
+Um Zahlenwert von einer textuellen und kulturspezifischen Präsentation in einer Sprache zu unterscheiden, werden diese in **LLP** stets durch ein spezielles Präfix explizit gekennzeichnet.
 
 ### Kardinalzahlen ᛕ
 
@@ -31,7 +35,7 @@ Um z.B. einen Zahlenwert wie 3.14 von einer textuellen Präsentation in einer Sp
 
 ### Gebrochen Rationale Zahlen ᚱ
 
-`ᚱ` ist das Präfix für gebrochen rationale Zahlen. Diese bestehen aus einem Nenner und einem Zähler, getrennt durch ein Leerzeichen: 
+`ᚱ` ist das Präfix für gebrochen rationale Zahlen. Diese bestehen aus einem *Nenner* und einem *Zähler*, getrennt durch ein Leerzeichen: 
 
 1. `ᚱ _Zähler_` hier ist der Nenner stets 1
 2. `ᚱ _Zähler_ _Nenner_`
@@ -48,7 +52,7 @@ Die rationalen Zahlen können z.B. als Zoll- Maße genutzt werden
 
 ### Gleitpunktzahlen ᚪ
 
-`ᚪ` ist das Präfix für rationale Zahlen in der Gleitpunkt- Darstellung. Vor- und Nachkomma- Stellen werden hier stets durch einen Punkt `.` getrennt.
+`ᚪ` ist das Präfix für rationale Zahlen in der Gleitpunkt- Darstellung. Vor- und Nachkomma- Stellen bilden die beiden Elemente einer Liste. Kulturspezikfische Spearatoren wie `,` oder `.` sind damit überwunden.
 
 ```
 ᚪ 3       ⟺  3.0
@@ -57,6 +61,8 @@ Die rationalen Zahlen können z.B. als Zoll- Maße genutzt werden
 ᚪ -2 72 3 ⟺ -2.72e3 = -2720 
 ```
 
+### Boolsche Werte ᛔ
+
 `ᛔ` ist das Präfix für boolsche Werte. Die beiden möglichen boolschen Werte werden durch die Namen **true** und **false** ausgedrückt:
 
 ```
@@ -64,12 +70,15 @@ Die rationalen Zahlen können z.B. als Zoll- Maße genutzt werden
 ᛔ false ⟺ False
 ```
 
+### Namensreferenzen ᚻ
+
 `ᚻ` ist das Präfix für eine *NamingID*. Eine *NamingID* ist ein eindeutiger Schlüssel zu Identifizierung eines Namenscontainers.
 
 Beispiele:
 
 `ᚻ milProgramm` ⟺ Referenz auf den Namenscontainer, der für Fräsenprogramme steht.
 
+### Hierarchieen ᚠ
 
 `ᚠ`ist das Präfix eines Pfades in einer Hierarchie. Der Pfad muß durch ein Listenendsymbol `ᛩ` abgeschlossen werden.
 
@@ -77,79 +86,152 @@ Beispiele:
 
 `ᚠ ᚻ millingMachine ᚻ circelMilling ᚻ millDisc ᛩ` ⟺ Pfad in einem Namensraum
 
-### Strings
+### Strings ᛒ
 
-*Strings* sind Listen aus Zeichen. Enthalten sie Leerzeichen, dann müssen sie in Apostophe `'` gesetzt werden. Enthalten sie keine Leerzeichen, dann können die Apostrophe entfallen:
+*Strings* sind Listen aus beliebigen Zeichen. Sie können auch Leerzeichen enthalten.
+
+*Strings*, die keine Leerzeichen enthalten, können direkt notiert werden.
 
 ```
+᛭ geschlossener String, enthält keine Leerzeichen
 Hallo
-'Hallo Welt'
+
+᛭ geschlossener Strings, die einzelne Hierarchieebenen benennen
+ᚠ All Galaxieen Andromeda ᛩ 
 ```
 
-### Arrays
+Enthalten *Strings* Leerzeichen, dann müssen sie in eine **B-Liste**: `ᛒ ... ᛩ`   gesetzt werden. 
+```
+᛭ String aus mehreren Wörtern
+ᛒ Hallo Weltᛩ
+
+᛭ Komplexe Texte als String
+ᛒ 
+    Mit *B- Liste* Strings können auch **MarkDown** formatierte Texte geschrieben werden.
+
+    So wird *Text* und *Logik* vollständig vermischt.     
+ᛩ
+```
+
+### Arrays ᚤ
 
 *Arrays* sind Listen von Werten gleichen elementaren Typs. Sie stellen komplexe, zusammengesetzte Werte dar wie z.B. Real- und Imaginärteil einer komplexen Zahl, oder die Komponenten eines Vektors.
 
-Arrays werden stets mittels `ᚤ` eingeleitet, und mittels `ᛩ` beendet werden.
-
-Eine Array mit den ersten fünf Primzahlen kann z.B. wie folgt dargestellt werden:
+Arrays werden stets mittels `ᚤ` eingeleitet, und mittels `ᛩ` beendet werden. Der erste Element von links legt dabei den Datentyp für alle anderen Elemente des Array verbindlich fest. Diese Regel unterscheidet das *Array* im wesentlichen vom *String* (neben den unterschiedlichen Präfixen).
 
 ``` 
+᛭ Array mit den ersten fünf Primzahlen
 ᚤ ᛕ2 ᛕ3 ᛕ5 ᛕ7 ᛕ11 ᛩ
+
+᛭ Fehlerhaft aufgebautes Array: Alle Elemente müssen vom gleichen Typ sein
+ᚤ ᛕ2 ᚪ3 ᛕ5 ᛕ7 ᛕ11 ᛩ ⟹ ERROR!
 ```
 
 #### Zugriff auf Array Elemente
 
-Auf einzelne Elemente eines Arrays wird mittels der dreistelligen Funktion  `ᛖ᛫᛫᛫ ᚻ arrayIX _Array_ _ix_ _ErrIndexOutOfRangeHandler_` zugegriffen.
+Auf einzelne Elemente eines Arrays kann mittels Operator `ᛏᚤ _array_ _index_` zugegriffen werden.
 
-Diese hat als Parameter den **0** basierte Index, das *Array* aus dem der Wert zu entnehmen ist, und den Verweis auf eine *Fehlerbehandlungsmethode*, falls der Zugriff scheitert.
+Dieser hat als Parameter den **0** basierte Index, das *Array* aus dem der Wert zu entnehmen ist.
 
-Wenn kein explizit definierte Fehlerbehandlungsmethode erforderlich ist, da der Default Fehlerhandler ausreicht, dann kann auch die zweistellige Funktion eingesetzt werden: `ᛖ᛫᛫ ᚻ arrayIX _Array_ _ix_`
+Soll im Falle eines Zugriffs auf ein nicht vorhandenes Element durch einen zu kleinen, o der zu großen Index keine Ausnahme, sondern eine benutzerdefinierte Fehlerbehandlung starten, dann ist der `ᛏᚤᛊ` Operator einzusetzen: `ᛏᚤᛊ _array_ _index_ _errIndexOutOfRangeHandler_`.
 
-Verglichen mit anderen Programmiersprachen ist der Indexzugriffsoperator für Arrays hier sehr aufwendig formuliert. Deshalb bieten sich Kurzformen an:
+#### Benennen von Werten mittels ᛝ Operator
 
-`ᛏᚤ` sei das vereinfachte Symbol für den zweistelligen Arrayzugriffs- Operator: `ᛏᚤ _array_ _index_`
+Werte können an einen *Namen* mittels dem **Bind** Operator ᛝ gebunden Werden. Über diesen Namen kann der wert dann referenziert und abgerufen werden.
 
-`ᛏᚤᛊ` sei das vereinfachte Symbol für den dreistelligen Arrayzugriffs- Operator: `ᛏᚤᛊ _array_ _index_ _errIndexOutOfRangeHandler_`
+`ᛝ _NameAlsString_ _Wert_` bindet den Wert an einen Namen, der nur im Kontext der aktuellen 𝓛𝓛𝓟 Datei gültig ist bei Referenzen.
 
-#### Benennen eines Arrays
-
-```
-ᛝ nameDesArrays ᚤᛕ2 ᛕ3 ᛕ5 ᛕ7 ᛕ11 ᛩ
-```
-
-### Attribut Wertepaar
-
-`ᛜ` ist das Präfix eines Attribut Werteppares: `ᛜ _Attributname_ _Wert_`. Der Wert kann ein elementarer, eine Attributliste oder eine Methode sein.
-
-`ᛜ A ᚪ3 14`  ⟺ Attribut mit Namen **A** hat den Wert 3.14
-
-### Anonyme Attributlisten 
-Bündel von Attribute beschreiben Objekte/dinge in der Welt. Ein solches Attributbündel wird durch mit dem Präfix `ᚹ` eingeleitet.
-
-Innerhalb einer Attributliste müssen die Attributnamen eindeutig sein.
+`ᛝ _MonikerForNamingIdAsString_ ᚻ _NamingID_` bindet lokal in der 𝓛𝓛𝓟 Datei einen Namen (Moniker)  an eine *NamingId*. Die *Naming* ID ist dabei ein 64bit Wert, der für einen global gültigen Namen steht.
 
 ```
+᛭ Konstante PI definieren
+ᛝ PI ᚪ 3 14 
+
+᛭ Den lokal gültigen Namen PI an eine global gültige Naming ID binden.
+ᛝ PI ᚻ ᛕ 16 7ABC123
+
+᛭ Liste der ersten fünf Primzahlen an einen Namen binden
+ᛝ ersteFünfPrimzahlen ᚤᛕ2 ᛕ3 ᛕ5 ᛕ7 ᛕ11 ᛩ
+```
+
+Die Bindung eines Namens an einen Wert kann auch als **Attribut Wertepaar** betrachtet werden!
+
+#### Zugriff Auf den Wert, der an einen Namen gebunden ist mittels ᛏᚻ
+
+Wurde an einen Namen ein Wert gebunden, dann kann überall, wo normalerweise der Wert eingesetzt wird, der Name eingesetzt werden, dem aber der **Replace by** Operator `ᛏᚻ` vorangesetzt werden muss:
+
+```
+᛭ Konstante PI definieren
+ᛝ PI ᚪ 3 14 
+
+᛭ Den Wert von **PI** an den synonymen Namen **pie** binden
+ᛝ pie ᛏᚻ PI
+
+᛭ Den Wert der globalen mit Naming ID definierten Konstante **PI** an den synonymen Namen **piee** binden
+
+ᛝ pie ᛏᚻ ᚻ ᛕ 16 7ABC123I
+
+```
+
+### Attributlisten ᚹ ... ᛩ
+
+Eine Menge von *Bind* Operationen können in Listen zusammengefasst werden. Innerhalb einer solchen Liste darf ein bestimmter Name stets nur einmal an einen Wert gebunden werden.
+
+Diese Listen stellen damit auch Listen aus **Attribut- Werteppare** dar.
+
+```
+᛭ Richtig: innerhalb der Liste wird der Name genau einmal gebunden
 ᚹ
-    ᛜ X ᚪ3 14
-    ᛜ Y ᚪ2 72
+    ᛝ X ᚪ3 14
+    ᛝ Y ᚪ2 72
+ᛩ
+
+᛭ Falsch: innerhalb der Liste wird der Name genau mehr als einmal gebunden
+ᚹ
+    ᛝ Value ᚪ3 14
+    ᛝ Value ᚪ2 72
 ᛩ
 ```
 
-### Benannte Attributlisten 
+### Benannte Attributlisten
 
-Attributlisten können auch einen Namen erhalten. Dazu werden sie mit dem Präfix `ᛝ`.
+Attributlisten sind komplexe Werte, die ebenfalls mit `ᛝ` an einen Namen gebunden werden können:
 
 ```
-ᛝ koordiate
-    ᛜ X ᚪ3 14
-    ᛜ Y ᚪ2 72
+᛭ Richtig: innerhalb der Liste wird der Name genau einmal gebunden
+ᛝ Punkt1
+ᚹ
+    ᛝ X ᚪ3 14
+    ᛝ Y ᚪ2 72
 ᛩ
 ```
 
-#### Zugriff auf Elemente einer Attributliste
+Für den Zugriff auf die Werte in der benannten Liste kann wieder mittels **Replace by** Operator `ᛏᚻ` benutzt werden. In diesem Fall sind die Namen jedoch als Hierarchie anzugeben: `ᛏᚻ ᚠ _NameListe_ _NameAttribut_ ᛩ`
 
+```
+᛭ Modelierung eines Vektors mit den Komponenten a und b als verschachtelte Attributliste
+ᛝ Vek
+ᚹ
+    ᛝ a
+    ᚹ
+        ᛝ X ᚪ3 14
+        ᛝ Y ᚪ2 72
+    ᛩ
 
+    ᛝ b
+    ᚹ
+        ᛝ X ᚪ12
+        ᛝ Y ᚪ6 1
+    ᛩ
+ᛩ
+
+᛭ Zugriff auf Komponente a
+ᛏᚻ ᚠ Vek a ᛩ
+
+᛭ Zugriff auf Y aus Komponente a
+ᛏᚻ ᚠ Vek a Y ᛩ
+
+```
 
 ### Typ- Definitionen
 
@@ -161,15 +243,13 @@ Um Parameterlisten von Funktionen oder Eigenschaftslisten von Instanzen abstrakt
 
 `ᛔᛟ` steht für einen boolschen Wert.
 
-`ᚤᛟ ᛕ3 ᛕᛟ ᛩ` steht für ein Array aus drei ganzen Zahlen.
+`ᚤᛟ ᛕᛟ ᛩ` steht für ein Array aus beliebig vielen ganzen Zahlen.
 
-`ᚤᛟ ... ᛕᛟ ᛩ` steht für ein Array aus beliebig vielen ganzen Zahlen.
+`ᚤᛟ ᛕᛟ ᛕ3 ᛩ` steht für ein Array aus drei ganzen Zahlen.
 
-`ᚤ ... ᚻᛟ ᛩᛟ` steht für ein Array aus beliebig vielen Namensreferenzen.
+`ᚤ ᚻᛟ ᛩᛟ` steht für ein Array aus beliebig vielen Namensreferenzen.
 
 `ᚤᛟ ᚻred ᚻgreen ᚻblue ᛩ` steht für einen Aufzählungstyp/Set: Eingesetzt werden dürfen nur die im Array aufgelistete Werte.
-
-#### Zusammengesetzte Typen
 
 ### N- stellige Methoden und Funktionen
 
