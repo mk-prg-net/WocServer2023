@@ -13,6 +13,7 @@ Alle für den Parser unterscheidbaren Strukturen erhalten ein Präfix in Form ei
 Die *Runen* werden in keiner heute mehr existierenden Sprache gennutzt. Damit sind die Präfixe, durch die Sparachstrukturen kenntlich werden, eindeutig von Textdaten unterscheidbar. 
 
 ### Kommentare ᛭
+
 `᛭` schließt den Rest vom Parsen aus. Damit können nach `᛭` beliebige Kommentare notiert werden.
 
 ### Präfixe für Zahlenwerte
@@ -20,6 +21,8 @@ Die *Runen* werden in keiner heute mehr existierenden Sprache gennutzt. Damit si
 Eine Gleitpunktzahl wie **3.14** ist eine kulturspezifische Notation (**en-US**). 
 
 Um Zahlenwert von einer textuellen und kulturspezifischen Präsentation in einer Sprache zu unterscheiden, werden diese in **LLP** stets durch ein spezielles Präfix explizit gekennzeichnet.
+
+🚨 Zahlen  können wie z.B. `ᚱ _Zähler_ _Nenner_` eine listenartige Struktur darstellen, sind aber keine Listen. Die einzelnen Partikel wie im Beispiel `_Zähler_` und `_Nenner_` dürfen nur Konstanten sein, wie `ᚱ 1 2`, jedoch keine Ausdrücke!
 
 ### Kardinalzahlen ᛕ
 
@@ -131,17 +134,17 @@ Arrays werden stets mittels `ᚤ` eingeleitet, und mittels `ᛩ` beendet werden.
 
 Auf einzelne Elemente eines Arrays kann mittels Operator `ᛏᚤ _array_ _index_` zugegriffen werden.
 
-Dieser hat als Parameter den **0** basierte Index, das *Array* aus dem der Wert zu entnehmen ist.
+Dieser hat als Parameter den **0** basierte Index und das *Array*, aus dem der Wert zu entnehmen ist.
 
-Soll im Falle eines Zugriffs auf ein nicht vorhandenes Element durch einen zu kleinen, o der zu großen Index keine Ausnahme, sondern eine benutzerdefinierte Fehlerbehandlung starten, dann ist der `ᛏᚤᛊ` Operator einzusetzen: `ᛏᚤᛊ _array_ _index_ _errIndexOutOfRangeHandler_`.
+Soll im Falle eines Zugriffs auf ein nicht vorhandenes Element durch einen zu kleinen, oder zu großen Index keine Ausnahme, sondern eine benutzerdefinierte Fehlerbehandlung starten, dann ist der `ᛏᚤᛊ` Operator einzusetzen: `ᛏᚤᛊ _array_ _index_ _errIndexOutOfRangeHandler_`.
 
 #### Benennen von Werten mittels ᛝ Operator
 
-Werte können an einen *Namen* mittels dem **Bind** Operator ᛝ gebunden Werden. Über diesen Namen kann der wert dann referenziert und abgerufen werden.
+Werte können an einen *Namen* mittels dem **Bind** Operator ᛝ gebunden Werden. Über diesen Namen kann der Wert dann referenziert und abgerufen werden.
 
-`ᛝ _NameAlsString_ _Wert_` bindet den Wert an einen Namen, der nur im Kontext der aktuellen 𝓛𝓛𝓟 Datei gültig ist bei Referenzen.
+`ᛝ _NameAlsString_ _Wert_` bindet den Wert an einen Namen, der nur im Kontext der aktuellen 𝓛𝓛𝓟 Datei eindeutig ist.
 
-`ᛝ _MonikerForNamingIdAsString_ ᚻ _NamingID_` bindet lokal in der 𝓛𝓛𝓟 Datei einen Namen (Moniker)  an eine *NamingId*. Die *Naming* ID ist dabei ein 64bit Wert, der für einen global gültigen Namen steht.
+`ᛝ _MonikerForNamingIdAsString_ ᚻ _NamingID_` bindet lokal in der 𝓛𝓛𝓟 Datei einen Namen (Moniker)  an eine *NamingId*. Die *Naming* ID ist dabei ein 64bit Wert, der für einen global gültigen Namen steht (Namenskontainer).
 
 ```
 ᛭ Konstante PI definieren
@@ -153,7 +156,6 @@ Werte können an einen *Namen* mittels dem **Bind** Operator ᛝ gebunden Werden
 ᛭ Liste der ersten fünf Primzahlen an einen Namen binden
 ᛝ ersteFünfPrimzahlen ᚤᛕ2 ᛕ3 ᛕ5 ᛕ7 ᛕ11 ᛩ
 ```
-
 Die Bindung eines Namens an einen Wert kann auch als **Attribut Wertepaar** betrachtet werden!
 
 #### Zugriff Auf den Wert, der an einen Namen gebunden ist mittels ᛏᚻ
@@ -177,8 +179,7 @@ Wurde an einen Namen ein Wert gebunden, dann kann überall, wo normalerweise der
 
 Eine Menge von *Bind* Operationen können in Listen zusammengefasst werden. Innerhalb einer solchen Liste darf ein bestimmter Name stets nur einmal an einen Wert gebunden werden.
 
-Diese Listen stellen damit auch Listen aus **Attribut- Werteppare** dar.
-
+Diese Listen stellen damit auch Listen aus **Attribut- Wertepaare** dar.
 ```
 ᛭ Richtig: innerhalb der Liste wird der Name genau einmal gebunden
 ᚹ
@@ -230,12 +231,11 @@ Für den Zugriff auf die Werte in der benannten Liste kann wieder mittels **Repl
 
 ᛭ Zugriff auf Y aus Komponente a
 ᛏᚻ ᚠ Vek a Y ᛩ
-
 ```
 
 ### Typ- Definitionen
 
-Um Parameterlisten von Funktionen oder Eigenschaftslisten von Instanzen abstrakt definieren zu können, werden Typdefinitionen benötigt. Typen stehen für endliche Mengen von Werten. 
+Um Parameterlisten von Funktionen und Methoden abstrakt definieren zu können, werden Typdefinitionen benötigt. Typen stehen für endliche Mengen von Werten. 
 
 `ᛟ` schaltet die Evaluierung einer Liste in die Evaluierung einer Typdeklaration um.
 
@@ -247,7 +247,7 @@ Um Parameterlisten von Funktionen oder Eigenschaftslisten von Instanzen abstrakt
 
 `ᚤᛟ ᛕᛟ ᛕ3 ᛩ` steht für ein Array aus drei ganzen Zahlen.
 
-`ᚤ ᚻᛟ ᛩᛟ` steht für ein Array aus beliebig vielen Namensreferenzen.
+`ᚤ ᚻᛟ ᛩ` steht für ein Array aus beliebig vielen Namensreferenzen.
 
 `ᚤᛟ ᚻred ᚻgreen ᚻblue ᛩ` steht für einen Aufzählungstyp/Set: Eingesetzt werden dürfen nur die im Array aufgelistete Werte.
 
