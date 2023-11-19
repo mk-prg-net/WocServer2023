@@ -326,11 +326,12 @@ Das Ergebnis einer Abfrage wird im Result- Output ausgegeben.
 
 Die Laufzeitumgebung hat bereits eine Reihe von Methoden vordefiniert und Implementiert. Diese stammen aus folgenden Bereichen:
 
-1. Grundrechenarten
-2. Basisfunktionen wie Potenzen, Wurzeln, 
-3. grundlegende wissenschaftliche Funktionen wie Trigonometrische Fkt.
-4. Zeichenketten- Funktionen wie Concatentation, String- Interpolation, Split, Trim, SubString
-5. Elementares Fehlerlog `ᛰlog ᛟtxt ᛒ hier die logmeldungᛩ ᛩ`
+1. Elementare Ausgabe ᛰprint ᛟtxt ᛒ hier den auszugebenden Textᛩ
+2. Elementares Fehlerlog `ᛰlog ᛟtxt ᛒ hier die logmeldungᛩ ᛩ`
+3. Grundrechenarten wie `ᚢadd ᛟa  ᛟb ᛋ   
+4. Basisfunktionen wie Potenzen, Wurzeln, 
+5. grundlegende wissenschaftliche Funktionen wie Trigonometrische Fkt.
+6. Zeichenketten- Funktionen wie Concatentation, String- Interpolation, Split, Trim, SubString
 
 #### Methoden definieren
 
