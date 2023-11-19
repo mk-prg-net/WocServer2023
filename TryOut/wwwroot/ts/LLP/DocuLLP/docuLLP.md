@@ -13,20 +13,23 @@ Alle für den Parser unterscheidbaren Strukturen erhalten ein Präfix in Form ei
 Die *Runen* werden in keiner heute mehr existierenden Sprache gennutzt. Damit sind die Präfixe, durch die Sparachstrukturen kenntlich werden, eindeutig von Textdaten unterscheidbar. 
 
 ### Kommentare ᛭
+**᛭** schließt den Rest vom Parsen aus. Damit können nach **᛭** beliebige Kommentare notiert werden.
 
-`᛭` schließt den Rest vom Parsen aus. Damit können nach `᛭` beliebige Kommentare notiert werden.
-
-### Präfixe für Zahlenwerte
-
+### Präfixe für die Notation von Zahlenwerten
 Eine Gleitpunktzahl wie **3.14** ist eine kulturspezifische Notation (**en-US**). 
 
-Um Zahlenwert von einer textuellen und kulturspezifischen Präsentation in einer Sprache zu unterscheiden, werden diese in **LLP** stets durch ein spezielles Präfix explizit gekennzeichnet.
+Um die Notation von Zahlenwert von einer textuellen und kulturspezifischen Präsentation in einer Sprache zu unterscheiden, werden diese in **LLP** stets durch ein spezielles *Präfix* explizit gekennzeichnet.
 
 🚨 Zahlen  können wie z.B. `ᚱ _Zähler_ _Nenner_` eine listenartige Struktur darstellen, sind aber keine Listen. Die einzelnen Partikel wie im Beispiel `_Zähler_` und `_Nenner_` dürfen nur Konstanten sein, wie `ᚱ 1 2`, jedoch keine Ausdrücke!
 
+#### Nummerische Datentypen
+Die Notationsformen für Zahlenwerte haben Beschränkungen bezüglich der Genauigkeit. Deshalb korrespondieren die Notationsformen auch mit Teilmengen von **ℚ**. Diese Teilmengen Werden *Nummerische Datentypen* genannt. 
+
+Die nummerischen Datentypen werden durch Kombination des speziellen Präfixes für eine Notation (z.B. **ᛕ**) mit dem allgemeinen Datentyp- Schalter **ᛠ** verbunden zum Datentyp Symbol **ᛕᛠ**.
+
 ### Kardinalzahlen ᛕ
 
-`ᛕ` ist das Präfix für ganze Zahlen:
+**ᛕ** ist das Präfix für ganze Zahlen:
 ```
 ᛕ 1         ⟺ 1
 ᛕ -123      ⟺ -123
@@ -38,7 +41,7 @@ Um Zahlenwert von einer textuellen und kulturspezifischen Präsentation in einer
 
 ### Gebrochen Rationale Zahlen ᚱ
 
-`ᚱ` ist das Präfix für gebrochen rationale Zahlen. Diese bestehen aus einem *Nenner* und einem *Zähler*, getrennt durch ein Leerzeichen: 
+**ᚱ** ist das Präfix für gebrochen rationale Zahlen. Diese bestehen aus einem *Nenner* und einem *Zähler*, getrennt durch ein Leerzeichen: 
 
 1. `ᚱ _Zähler_` hier ist der Nenner stets 1
 2. `ᚱ _Zähler_ _Nenner_`
@@ -55,18 +58,18 @@ Die rationalen Zahlen können z.B. als Zoll- Maße genutzt werden
 
 ### Gleitpunktzahlen ᚪ
 
-`ᚪ` ist das Präfix für rationale Zahlen in der Gleitpunkt- Darstellung. Vor- und Nachkomma- Stellen bilden die beiden Elemente einer Liste. Kulturspezikfische Spearatoren wie `,` oder `.` sind damit überwunden.
+**ᚩ** ist das Präfix für rationale Zahlen in der Gleitpunkt- Darstellung. Vor- und Nachkomma- Stellen bilden die beiden Elemente einer Liste. Kulturspezikfische Spearatoren wie **,** oder **.** sind damit überwunden.
 
 ```
-ᚪ 3       ⟺  3.0
-ᚪ 3 14    ⟺  3.14
-ᚪ -2 72   ⟺ -2.72
-ᚪ -2 72 3 ⟺ -2.72e3 = -2720 
+ᚩ 3       ⟺  3.0
+ᚩ 3 14    ⟺  3.14
+ᚩ -2 72   ⟺ -2.72
+ᚩ -2 72 3 ⟺ -2.72e3 = -2720 
 ```
 
 ### Boolsche Werte ᛔ
 
-`ᛔ` ist das Präfix für boolsche Werte. Die beiden möglichen boolschen Werte werden durch die Namen **true** und **false** ausgedrückt:
+**ᛔ** ist das Präfix für boolsche Werte. Die beiden möglichen boolschen Werte werden durch die Namen **true** und **false** ausgedrückt:
 
 ```
 ᛔ true  ⟺ True
@@ -75,7 +78,7 @@ Die rationalen Zahlen können z.B. als Zoll- Maße genutzt werden
 
 ### Namensreferenzen ᚻ
 
-`ᚻ` ist das Präfix für eine *NamingID*. Eine *NamingID* ist ein eindeutiger Schlüssel zu Identifizierung eines Namenscontainers.
+**ᚻ** ist das Präfix für eine *NamingID*. Eine *NamingID* ist ein eindeutiger Schlüssel zu Identifizierung eines Namenscontainers.
 
 Beispiele:
 
@@ -102,7 +105,6 @@ Hallo
 ᛭ geschlossener Strings, die einzelne Hierarchieebenen benennen
 ᚠ All Galaxieen Andromeda ᛩ 
 ```
-
 Enthalten *Strings* Leerzeichen, dann müssen sie in eine **B-Liste**: `ᛒ ... ᛩ`   gesetzt werden. 
 ```
 ᛭ String aus mehreren Wörtern
@@ -138,118 +140,210 @@ Dieser hat als Parameter den **0** basierte Index und das *Array*, aus dem der W
 
 Soll im Falle eines Zugriffs auf ein nicht vorhandenes Element durch einen zu kleinen, oder zu großen Index keine Ausnahme, sondern eine benutzerdefinierte Fehlerbehandlung starten, dann ist der `ᛏᚤᛊ` Operator einzusetzen: `ᛏᚤᛊ _array_ _index_ _errIndexOutOfRangeHandler_`.
 
-#### Benennen von Werten mittels ᛝ Operator
+### Benennen von Werten mittels ᛟ Operator
 
-Werte können an einen *Namen* mittels dem **Bind** Operator ᛝ gebunden Werden. Über diesen Namen kann der Wert dann referenziert und abgerufen werden.
+Werte können an einen *Namen* mittels dem **Bind** Operator **ᛟ** gebunden werden. Über diesen Namen wird der Wert dann referenziert und abgerufen.
 
-`ᛝ _NameAlsString_ _Wert_` bindet den Wert an einen Namen, der nur im Kontext der aktuellen 𝓛𝓛𝓟 Datei eindeutig ist.
+`ᛟ _NameAlsString_ _Wert_` bindet den Wert an einen Namen, der nur im Kontext der aktuellen 𝓛𝓛𝓟 Datei eindeutig ist.
 
-`ᛝ _MonikerForNamingIdAsString_ ᚻ _NamingID_` bindet lokal in der 𝓛𝓛𝓟 Datei einen Namen (Moniker)  an eine *NamingId*. Die *Naming* ID ist dabei ein 64bit Wert, der für einen global gültigen Namen steht (Namenskontainer).
+`ᛟ _MonikerForNamingIdAsString_ ᚻ _NamingID_` bindet lokal in der 𝓛𝓛𝓟 Datei einen Namen (Moniker)  an eine *NamingId*. Die *Naming* ID ist dabei ein 64bit Wert, der für einen global gültigen Namen steht (Namenskontainer).
 
 ```
 ᛭ Konstante PI definieren
-ᛝ PI ᚪ 3 14 
+ᛟ PI ᚩ 3 14 
 
 ᛭ Den lokal gültigen Namen PI an eine global gültige Naming ID binden.
-ᛝ PI ᚻ ᛕ 16 7ABC123
+ᛟ PI ᚻ ᛕ 16 7ABC123
 
 ᛭ Liste der ersten fünf Primzahlen an einen Namen binden
-ᛝ ersteFünfPrimzahlen ᚤᛕ2 ᛕ3 ᛕ5 ᛕ7 ᛕ11 ᛩ
+ᛟ ersteFünfPrimzahlen ᚤᛕ2 ᛕ3 ᛕ5 ᛕ7 ᛕ11 ᛩ
 ```
 Die Bindung eines Namens an einen Wert kann auch als **Attribut Wertepaar** betrachtet werden!
 
-#### Zugriff Auf den Wert, der an einen Namen gebunden ist mittels ᛏᚻ
+### Zugriff Auf den Werte, die an Namen gebunden sind mittels ᛟᛡ
 
-Wurde an einen Namen ein Wert gebunden, dann kann überall, wo normalerweise der Wert eingesetzt wird, der Name eingesetzt werden, dem aber der **Replace by** Operator `ᛏᚻ` vorangesetzt werden muss:
+Wurde an einen Namen ein Wert gebunden, dann kann überall, wo normalerweise der Wert eingesetzt wird, der Name eingesetzt werden, dem aber der **Replace Name by Value** Operator `ᛟᛡ` vorangesetzt werden muss:
 
 ```
 ᛭ Konstante PI definieren
-ᛝ PI ᚪ 3 14 
+ᛟ PI ᚪ 3 14 
 
 ᛭ Den Wert von **PI** an den synonymen Namen **pie** binden
-ᛝ pie ᛏᚻ PI
+ᛟ pie ᛟᛡ PI
 
 ᛭ Den Wert der globalen mit Naming ID definierten Konstante **PI** an den synonymen Namen **piee** binden
 
-ᛝ pie ᛏᚻ ᚻ ᛕ 16 7ABC123I
+ᛟ pie ᛟᛡ ᚻ ᛕ 16 7ABC123I
 
 ```
 
-### Attributlisten ᚹ ... ᛩ
+### Namensraum- Listen ᚹ ... ᛩ
 
 Eine Menge von *Bind* Operationen können in Listen zusammengefasst werden. Innerhalb einer solchen Liste darf ein bestimmter Name stets nur einmal an einen Wert gebunden werden.
 
-Diese Listen stellen damit auch Listen aus **Attribut- Wertepaare** dar.
-```
-᛭ Richtig: innerhalb der Liste wird der Name genau einmal gebunden
-ᚹ
-    ᛝ X ᚪ3 14
-    ᛝ Y ᚪ2 72
-ᛩ
+Die Liste selber wird dann ebenfalls mittels Bind an einen Namen gebunden. So entsteht ein *Namensraum*, der eine Untermenge benannter Werte darstellt.
 
-᛭ Falsch: innerhalb der Liste wird der Name genau mehr als einmal gebunden
+```
+᛭ Namensraum mathematischer Konstanten
+ᛟ MathConst
 ᚹ
-    ᛝ Value ᚪ3 14
-    ᛝ Value ᚪ2 72
+    ᛟ PI ᚪ3 14
+    ᛟ e  ᚪ2 72
 ᛩ
 ```
 
-### Benannte Attributlisten
-
-Attributlisten sind komplexe Werte, die ebenfalls mit `ᛝ` an einen Namen gebunden werden können:
-
-```
-᛭ Richtig: innerhalb der Liste wird der Name genau einmal gebunden
-ᛝ Punkt1
-ᚹ
-    ᛝ X ᚪ3 14
-    ᛝ Y ᚪ2 72
-ᛩ
-```
-
-Für den Zugriff auf die Werte in der benannten Liste kann wieder mittels **Replace by** Operator `ᛏᚻ` benutzt werden. In diesem Fall sind die Namen jedoch als Hierarchie anzugeben: `ᛏᚻ ᚠ _NameListe_ _NameAttribut_ ᛩ`
+Für den Zugriff auf die Werte in der benannten Liste kann wieder mittels **Replace by** Operator **ᛟᛡ** benutzt werden. In diesem Fall sind die Namen jedoch als Hierarchie anzugeben: `ᛟᛡ ᚠ _NameListe_ _NameAttribut_ ᛩ`
 
 ```
 ᛭ Modelierung eines Vektors mit den Komponenten a und b als verschachtelte Attributliste
-ᛝ Vek
+ᛟ Math
 ᚹ
-    ᛝ a
+    ᛟ Const
     ᚹ
-        ᛝ X ᚪ3 14
-        ᛝ Y ᚪ2 72
+        ᛟ PI ᚪ3 14
+        ᛟ e  ᚪ2 72
     ᛩ
 
-    ᛝ b
+    ᛟ BasicFunctions
     ᚹ
-        ᛝ X ᚪ12
-        ᛝ Y ᚪ6 1
+        ᛭ Naming- IDs der math. Grundrechenarten werden an lokale Namen gebunden
+        ᛟ add ᛟᛡ ᚻ ᛕ 16 ADDADD
+        ᛟ sub ᛟᛡ ᚻ ᛕ 16 DE2323
     ᛩ
 ᛩ
 
-᛭ Zugriff auf Komponente a
-ᛏᚻ ᚠ Vek a ᛩ
+᛭ Zugriff auf PI
+ᛟᛡ ᚠ Math Const PI ᛩ
 
-᛭ Zugriff auf Y aus Komponente a
-ᛏᚻ ᚠ Vek a Y ᛩ
 ```
 
 ### Typ- Definitionen
 
 Um Parameterlisten von Funktionen und Methoden abstrakt definieren zu können, werden Typdefinitionen benötigt. Typen stehen für endliche Mengen von Werten. 
 
-`ᛟ` schaltet die Evaluierung einer Liste in die Evaluierung einer Typdeklaration um.
+**ᛠ** schaltet die Evaluierung einer Liste in die Evaluierung einer Typdeklaration um.
 
-`ᛕᛟ` steht für eine Zahl aus der Menge der ganzen Zahlen.
+**ᛕᛠ** steht für eine Zahl aus der Menge der ganzen Zahlen.
 
-`ᛔᛟ` steht für einen boolschen Wert.
+**ᛔᛠ** steht für einen boolschen Wert.
 
-`ᚤᛟ ᛕᛟ ᛩ` steht für ein Array aus beliebig vielen ganzen Zahlen.
+**ᚤᛠ ᛕᛠ ᛩ** steht für ein Array aus beliebig vielen ganzen Zahlen.
 
-`ᚤᛟ ᛕᛟ ᛕ3 ᛩ` steht für ein Array aus drei ganzen Zahlen.
+**ᚤᛠ ᛕᛠ ᛕ3 ᛩ** steht für ein Array aus drei ganzen Zahlen.
 
-`ᚤ ᚻᛟ ᛩ` steht für ein Array aus beliebig vielen Namensreferenzen.
+**ᚤᛠ ᚻᛠ ᛩ** steht für ein Array aus beliebig vielen Namensreferenzen.
 
-`ᚤᛟ ᚻred ᚻgreen ᚻblue ᛩ` steht für einen Aufzählungstyp/Set: Eingesetzt werden dürfen nur die im Array aufgelistete Werte.
+**ᚤᛠ ᚻred ᚻgreen ᚻblue ᛩ** steht für einen Aufzählungstyp/Set: Eingesetzt werden dürfen nur die im Array aufgelistete Werte.
+
+### Methoden ᛖ: Kommandos und Abfragen
+
+Methoden sind ein Oberbegriff für den Zustand des Systems verändernde *Kommandos*, und *Abfragen* auf dem Systemzustand selbst:
+
+```
+                   Methoden ᛖ
+                      |
+       +--------------+-------------------+
+       |              |                   | 
+   Kommandos ᛈ   finale Kommandos ᛰ    Abfragen ᚢ
+``` 
+Kommandos und Abfragen werden mittels Parameter vor der Ausführung parametriert. Nach der Ausführung gibt es zwei mögliche Zustände:
+
+1. Die Methode konnte erfolgreich ausgeführt werden. 
+2. Beim Ausführen der Methode kam es zu einem Problem
+
+Dies führt zu folgendem allgemeinen Datenfluss- Graphen:
+
+```
+  Parameter
+  ↓  
+  ᛖ Methode ᛊ⟶ Error Output  
+  ᛋ 
+  ↓
+  Succeeded/Result Output
+```
+
+Die beiden Ausgänge der Methode können auf die Eingänge nachfolgender Methoden geschaltet werden, so daß ein Netz entsteht, durch das die Daten .fließen:
+```
+  i1
+  ↓  
+  ᚢ1 ᛊ ⟶ ᚢ2 ᛊ ⟶ ᛰ3 
+  ᛋ       ᛋ
+  |       ↓  
+  |       ᛰ4
+  ↓
+  ᚢ5 ᛊ ⟶ ᛰ6 
+  ᛋ
+  ↓
+  ᛈ7 ᛊ ⟶ ᛰ8
+```
+
+#### Finales Kommando ᛰ
+
+Ein **finales Kommando** ist eine Parametrierbare Methode, die weder eine Fehlermeldung, noch ein Ergebnis zurückliefert. Es findet lediglich eine Änderung des Systemzustamdes auf Basis der übergebenen Parameter statt.
+
+Finale Kommandos haben das Präfix **ᛰ**
+
+Beispiele für *finale Kommandos* sind z.B. das reguläre Programmende und  der vorzeitige Programmabbruch.
+
+```
+Parameter
+↓  
+ᛰ Finales Kommando
+
+᛭ Finales Kommando in LLP aufrufen
+ᛏᛰ namensReferenz ᛟparam1 wert1 ... ᛟparamN wertN  ᛩ
+```
+#### Kommandos ᛈ
+
+*Kommandos* haben das Präfix **ᛈ**, und verändern den Systemzustand (z.B. Insert- Operation in einer DB- Tabelle). Ein Ergebnis liefern sie nicht, können aber scheitern, und haben folglich einen Fehler- Handler **ᛊ**.
+
+```
+Parameter
+↓  
+ᛈ Command ᛊ⟶ Error Output  
+
+᛭ Kommando in LLP aufrufen
+ᛏᛈ namensReferenz ᛟparam1 wert1 ... ᛟparamN wertN  
+ᛊ _Referenz_auf_Funktion_mit_Fehlerbehandlung_
+ᛩ
+```
+
+#### Abfragen ᚢ
+*Abfragen* haben das Präfix **ᚢ**. Sie liefern Informationen über den aktuellen Systemzustand. Verändert wird der Systemzustand durch eine Abfrage explizit nicht.
+
+Das Ergebnis einer Abfrage wird im Result- Output ausgegeben.
+
+```
+  Parameter
+  ↓  
+  ᚢ Query ᛊ⟶ Error Output  
+  ᛋ 
+  ↓
+  Succeeded/Query Result Output
+```
+
+#### Von der Laufzeitumgebung bereitgestellte Methoden
+
+Die Laufzeitumgebung hat bereits eine Reihe von Methoden vordefiniert und Implementiert. Diese stammen aus folgenden Bereichen:
+
+1. Grundrechenarten
+2. Basisfunktionen wie Potenzen, Wurzeln, 
+3. grundlegende wissenschaftliche Funktionen wie Trigonometrische Fkt.
+4. Zeichenketten- Funktionen wie Concatentation, String- Interpolation, Split, Trim, SubString
+5. Elementares Fehlerlog `ᛰlog ᛟtxt ᛒ hier die logmeldungᛩ ᛩ`
+
+#### Methoden definieren
+
+
+
+Bevor eine Methode eingesetzt werden kann, muss sie definiert werden. Das kann 
+
+
+#### Parameterlisten definieren
+
+
+
+
 
 ### N- stellige Methoden und Funktionen
 
