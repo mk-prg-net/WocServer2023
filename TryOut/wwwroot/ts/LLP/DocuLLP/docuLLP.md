@@ -2,8 +2,6 @@
 
 **LLP** soll eine minimalistische formale Sprache zur semantischen Auszeichung von Texten, zur funktionalen Formulierung von Algorithmen und zur generatorischen Beschreibung von Diagrammen, Bildern und Fräskopfbahnen werden.
 
-Eine wesentliche Rolle spielen dabei **Namenscontainer** mit semantischen Beziehungen
-
 ## Grundlagen
 
 ### Runen als Präfix
@@ -15,6 +13,8 @@ Die *Runen* werden in keiner heute mehr existierenden Sprache gennutzt. Damit si
 ### Kommentare ᛭
 **᛭** schließt den Rest vom Parsen aus. Damit können nach **᛭** beliebige Kommentare notiert werden.
 
+## Literale elementarer Datentypen
+
 ### Präfixe für die Notation von Zahlenwerten
 Eine Gleitpunktzahl wie **3.14** ist eine kulturspezifische Notation (**en-US**). 
 
@@ -22,12 +22,12 @@ Um die Notation von Zahlenwert von einer textuellen und kulturspezifischen Präs
 
 🚨 Zahlen  können wie z.B. `ᚱ _Zähler_ _Nenner_` eine listenartige Struktur darstellen, sind aber keine Listen. Die einzelnen Partikel wie im Beispiel `_Zähler_` und `_Nenner_` dürfen nur Konstanten sein, wie `ᚱ 1 2`, jedoch keine Ausdrücke!
 
-#### Nummerische Datentypen
+### Nummerische Datentpen
 Die Notationsformen für Zahlenwerte haben Beschränkungen bezüglich der Genauigkeit. Deshalb korrespondieren die Notationsformen auch mit Teilmengen von **ℚ**. Diese Teilmengen Werden *Nummerische Datentypen* genannt. 
 
 Die nummerischen Datentypen werden durch Kombination des speziellen Präfixes für eine Notation (z.B. **ᛕ**) mit dem allgemeinen Datentyp- Schalter **ᛠ** verbunden zum Datentyp Symbol **ᛕᛠ**.
 
-### Kardinalzahlen ᛕ
+#### Kardinalzahlen ᛕ
 
 **ᛕ** ist das Präfix für ganze Zahlen:
 ```
@@ -39,7 +39,7 @@ Die nummerischen Datentypen werden durch Kombination des speziellen Präfixes f�
 ᛕ -ᛞ        ⟺ - Unendlich
 ```
 
-### Gebrochen Rationale Zahlen ᚱ
+#### Gebrochen Rationale Zahlen ᚱ
 
 **ᚱ** ist das Präfix für gebrochen rationale Zahlen. Diese bestehen aus einem *Nenner* und einem *Zähler*, getrennt durch ein Leerzeichen: 
 
@@ -56,7 +56,7 @@ Beispiele:
 ```
 Die rationalen Zahlen können z.B. als Zoll- Maße genutzt werden
 
-### Gleitpunktzahlen ᚪ
+#### Gleitpunktzahlen ᚪ
 
 **ᚩ** ist das Präfix für rationale Zahlen in der Gleitpunkt- Darstellung. Vor- und Nachkomma- Stellen bilden die beiden Elemente einer Liste. Kulturspezikfische Spearatoren wie **,** oder **.** sind damit überwunden.
 
@@ -84,7 +84,7 @@ Beispiele:
 
 `ᚻ milProgramm` ⟺ Referenz auf den Namenscontainer, der für Fräsenprogramme steht.
 
-### Hierarchieen ᚠ
+### Hierarchien ᚠ
 
 `ᚠ`ist das Präfix eines Pfades in einer Hierarchie. Der Pfad muß durch ein Listenendsymbol `ᛩ` abgeschlossen werden.
 
@@ -92,55 +92,7 @@ Beispiele:
 
 `ᚠ ᚻ millingMachine ᚻ circelMilling ᚻ millDisc ᛩ` ⟺ Pfad in einem Namensraum
 
-### Strings ᛒ
-
-*Strings* sind Listen aus beliebigen Zeichen. Sie können auch Leerzeichen enthalten.
-
-*Strings*, die keine Leerzeichen enthalten, können direkt notiert werden.
-
-```
-᛭ geschlossener String, enthält keine Leerzeichen
-Hallo
-
-᛭ geschlossener Strings, die einzelne Hierarchieebenen benennen
-ᚠ All Galaxieen Andromeda ᛩ 
-```
-Enthalten *Strings* Leerzeichen, dann müssen sie in eine **B-Liste**: `ᛒ ... ᛩ`   gesetzt werden. 
-```
-᛭ String aus mehreren Wörtern
-ᛒ Hallo Weltᛩ
-
-᛭ Komplexe Texte als String
-ᛒ 
-    Mit *B- Liste* Strings können auch **MarkDown** formatierte Texte geschrieben werden.
-
-    So wird *Text* und *Logik* vollständig vermischt.     
-ᛩ
-```
-
-### Arrays ᚤ
-
-*Arrays* sind Listen von Werten gleichen elementaren Typs. Sie stellen komplexe, zusammengesetzte Werte dar wie z.B. Real- und Imaginärteil einer komplexen Zahl, oder die Komponenten eines Vektors.
-
-Arrays werden stets mittels `ᚤ` eingeleitet, und mittels `ᛩ` beendet werden. Der erste Element von links legt dabei den Datentyp für alle anderen Elemente des Array verbindlich fest. Diese Regel unterscheidet das *Array* im wesentlichen vom *String* (neben den unterschiedlichen Präfixen).
-
-``` 
-᛭ Array mit den ersten fünf Primzahlen
-ᚤ ᛕ2 ᛕ3 ᛕ5 ᛕ7 ᛕ11 ᛩ
-
-᛭ Fehlerhaft aufgebautes Array: Alle Elemente müssen vom gleichen Typ sein
-ᚤ ᛕ2 ᚪ3 ᛕ5 ᛕ7 ᛕ11 ᛩ ⟹ ERROR!
-```
-
-#### Zugriff auf Array Elemente
-
-Auf einzelne Elemente eines Arrays kann mittels Operator `ᛏᚤ _array_ _index_` zugegriffen werden.
-
-Dieser hat als Parameter den **0** basierte Index und das *Array*, aus dem der Wert zu entnehmen ist.
-
-Soll im Falle eines Zugriffs auf ein nicht vorhandenes Element durch einen zu kleinen, oder zu großen Index keine Ausnahme, sondern eine benutzerdefinierte Fehlerbehandlung starten, dann ist der `ᛏᚤᛊ` Operator einzusetzen: `ᛏᚤᛊ _array_ _index_ _errIndexOutOfRangeHandler_`.
-
-### Benennen von Werten mittels ᛟ Operator
+## Abstraktion durch benennen von Werten mittels ᛟ Operator
 
 Werte können an einen *Namen* mittels dem **Bind** Operator **ᛟ** gebunden werden. Über diesen Namen wird der Wert dann referenziert und abgerufen.
 
@@ -176,8 +128,7 @@ Wurde an einen Namen ein Wert gebunden, dann kann überall, wo normalerweise der
 ᛟ pie ᛟᛡ ᚻ ᛕ 16 7ABC123I
 
 ```
-
-### Namensraum- Listen ᚹ ... ᛩ
+### Namensraum- Listen ᛟ ... ᚹ ... ᛩ
 
 Eine Menge von *Bind* Operationen können in Listen zusammengefasst werden. Innerhalb einer solchen Liste darf ein bestimmter Name stets nur einmal an einen Wert gebunden werden.
 
@@ -195,7 +146,7 @@ Die Liste selber wird dann ebenfalls mittels Bind an einen Namen gebunden. So en
 Für den Zugriff auf die Werte in der benannten Liste kann wieder mittels **Replace by** Operator **ᛟᛡ** benutzt werden. In diesem Fall sind die Namen jedoch als Hierarchie anzugeben: `ᛟᛡ ᚠ _NameListe_ _NameAttribut_ ᛩ`
 
 ```
-᛭ Modelierung eines Vektors mit den Komponenten a und b als verschachtelte Attributliste
+᛭ Organisation einer Mathematischen Bibliothek
 ᛟ Math
 ᚹ
     ᛟ Const
@@ -217,6 +168,66 @@ Für den Zugriff auf die Werte in der benannten Liste kann wieder mittels **Repl
 
 ```
 
+### Strings ᛒ
+
+*Strings* sind Listen aus beliebigen Zeichen. Sie können auch Leerzeichen enthalten.
+
+*Strings*, die keine Leerzeichen enthalten, können direkt notiert werden.
+
+```
+᛭ geschlossener String, enthält keine Leerzeichen
+Hallo
+
+᛭ geschlossener Strings, die einzelne Hierarchieebenen benennen
+ᚠ All Galaxieen Andromeda ᛩ 
+```
+Enthalten *Strings* Leerzeichen, dann müssen sie in eine **B-Liste**: `ᛒ ... ᛩ`   gesetzt werden. 
+```
+᛭ String aus mehreren Wörtern
+ᛒ Hallo Weltᛩ
+
+᛭ Komplexe Texte als String
+ᛒ 
+    Mit *B- Liste* Strings können auch **MarkDown** formatierte Texte geschrieben werden.
+
+    So wird *Text* und *Logik* vollständig vermischt.     
+ᛩ
+```
+
+#### Stringinterpolation
+
+Werden in einem String Namensreferenzen eingesetzt, die beim Abruf des Strings evaluiert werden, dann liegt eine Stringinterpolation vor.
+
+Sei **ᛟ attrib schön** eine Namensbindung. Dann kann eine Stringinterpolation wie folgt definiert werden:
+
+**ᛒ Hallo *ᛟᛡ attrib* Welt ᛩ** 
+
+Diese wird dann evaluiert zu:
+
+**ᛒ Hallo schöne Welt ᛩ** 
+
+### Arrays ᚤ
+
+*Arrays* sind Listen von Werten gleichen elementaren Typs. Sie stellen komplexe, zusammengesetzte Werte dar wie z.B. Real- und Imaginärteil einer komplexen Zahl, oder die Komponenten eines Vektors.
+
+Arrays werden stets mittels `ᚤ` eingeleitet, und mittels `ᛩ` beendet werden. Das erste Element von links legt dabei den Datentyp für alle anderen Elemente des Array verbindlich fest. Diese Regel unterscheidet das *Array* im wesentlichen vom *String* (neben den unterschiedlichen Präfixen).
+
+``` 
+᛭ Array mit den ersten fünf Primzahlen
+ᚤ ᛕ2 ᛕ3 ᛕ5 ᛕ7 ᛕ11 ᛩ
+
+᛭ Fehlerhaft aufgebautes Array: Alle Elemente müssen vom gleichen Typ sein
+ᚤ ᛕ2 ᚪ3 ᛕ5 ᛕ7 ᛕ11 ᛩ ⟹ ERROR!
+```
+
+#### Zugriff auf Array Elemente
+
+Auf einzelne Elemente eines Arrays kann mittels Operator `ᛏᚤ _array_ _index_` zugegriffen werden.
+
+Dieser hat als Parameter den **0** basierte Index und das *Array*, aus dem der Wert zu entnehmen ist.
+
+Soll im Falle eines Zugriffs auf ein nicht vorhandenes Element durch einen zu kleinen, oder zu großen Index keine Ausnahme, sondern eine benutzerdefinierte Fehlerbehandlung starten, dann ist der `ᛏᚤᛊ` Operator einzusetzen: `ᛏᚤᛊ _array_ _index_ _errIndexOutOfRangeHandler_`.
+
 ### Typ- Definitionen
 
 Um Parameterlisten von Funktionen und Methoden abstrakt definieren zu können, werden Typdefinitionen benötigt. Typen stehen für endliche Mengen von Werten. 
@@ -235,7 +246,9 @@ Um Parameterlisten von Funktionen und Methoden abstrakt definieren zu können, w
 
 **ᚤᛠ ᚻred ᚻgreen ᚻblue ᛩ** steht für einen Aufzählungstyp/Set: Eingesetzt werden dürfen nur die im Array aufgelistete Werte.
 
-### Methoden ᛖ: Kommandos und Abfragen
+
+
+## Methoden ᛖ: Kommandos und Abfragen
 
 Methoden sind ein Oberbegriff für den Zustand des Systems verändernde *Kommandos*, und *Abfragen* auf dem Systemzustand selbst:
 
@@ -246,7 +259,10 @@ Methoden sind ein Oberbegriff für den Zustand des Systems verändernde *Kommand
        |              |                   | 
    Kommandos ᛈ   finale Kommandos ᛰ    Abfragen ᚢ
 ``` 
-Kommandos und Abfragen werden mittels Parameter vor der Ausführung parametriert. Nach der Ausführung gibt es zwei mögliche Zustände:
+
+### Datenflussgraphen
+
+Kommandos und Abfragen werden mittels *Parameter* vor der Ausführung parametriert. Nach der Ausführung gibt es zwei mögliche Zustände:
 
 1. Die Methode konnte erfolgreich ausgeführt werden. 
 2. Beim Ausführen der Methode kam es zu einem Problem
@@ -256,30 +272,83 @@ Dies führt zu folgendem allgemeinen Datenfluss- Graphen:
 ```
   Parameter
   ↓  
-  ᛖ Methode ᛊ⟶ Error Output  
-  ᛋ 
+  ᛖ Methode ᛊ⟶ Fehler Ausgang  
+  ᛋ              
   ↓
-  Succeeded/Result Output
+  Succeeded/Result Ausgang
 ```
+**ᛊ** und **ᛋ** werden *Ausgänge* genannt.
 
-Die beiden Ausgänge der Methode können auf die Eingänge nachfolgender Methoden geschaltet werden, so daß ein Netz entsteht, durch das die Daten .fließen:
+Methoden müssen nicht alle Ausgänge implementieren.
+
+Implementiert eine Methode den Ausgang **ᛋ**, dann ist sie eine **Abfrage ᚢ**. 
+
+Implementiert eine Methode den Ausgang **ᛋ** nicht, dann ist sie eine **Kommandos ᛈ**. 
+
+Wird weder **ᛊ** noch **ᛋ** implementiert, dann ist es ein finales **Kommando ᛰ**.
+
+Die beiden Ausgänge einer Methode können auf die Eingänge (Parameterlisten) nachfolgender Methoden geschaltet werden, so daß ein Netz entsteht, durch das die Daten .fließen:
 ```
-  i1
+  i1                   ᛭ Eingangsdaten
   ↓  
-  ᚢ1 ᛊ ⟶ ᚢ2 ᛊ ⟶ ᛰ3 
+  ᚢ1 ᛊ ⟶ ᚢ2 ᛊ ⟶ ᛰ3   ᛭ Finales Kommando ᛰ3 beendet Datenfluss
   ᛋ       ᛋ
   |       ↓  
-  |       ᛰ4
+  |       ᛰ4    	   ᛭ Finales Kommando ᛰ4 beendet Datenfluss 
   ↓
-  ᚢ5 ᛊ ⟶ ᛰ6 
-  ᛋ
+  ᚢ5 ᛊ ⟶ ᛰ6           ᛭ Finales Kommando ᛰ6 beendet Datenfluss  
+  ᛋ                    ᛭ Ausgang mit Ergebnis von ᚢ5 ist Eingang von ᛈ7
   ↓
-  ᛈ7 ᛊ ⟶ ᛰ8
+  ᛈ7 ᛊ ⟶ ᛰ8           ᛭ Finales Kommando ᛰ3 beendet Datenfluss
 ```
 
-#### Finales Kommando ᛰ
+#### Präfixe für Methodenoperatoren
 
-Ein **finales Kommando** ist eine Parametrierbare Methode, die weder eine Fehlermeldung, noch ein Ergebnis zurückliefert. Es findet lediglich eine Änderung des Systemzustamdes auf Basis der übergebenen Parameter statt.
+Operator      | Bedeutung
+--------------|----------------------------
+**ᛖ _name_**  | Präfix, Definition einer benannten Methode
+**ᛖ᛫**         | Präfix, Definition einer anonymen Methode
+**ᛖᛠ**        | Präfix einer Methodentypen- Signatur
+**ᛖᛡ _name_** | Präfix einer Methodenreferenz
+**ᛖᛏ _name_** | Präfix eines Aufrufes einer benannten Methode
+**ᛖᛏ _name_** | Präfix eines Aufrufes einer benannten Methode
+**ᛖᛏ᛫**        | Präfix eines Aufrufes einer anonymen Methode
+
+### Parameterlisten von Methoden
+
+Die Mengen der möglichen Eingangsdaten/Parameter einer Methode werden durch die Parameterlisten definiert.
+
+
+### Methodentypen ᛖᛠ
+
+Wie bei den elementaren Datentypen können auch Methoden klassifiziert werden. Dabei ist der Aufbau der Parameterliste entscheidend. 
+
+**ᛖᛠ** ist das Präfix für einen Methodentyp. Diesem folgt eine Liste von Methodenparameter- Typdeklarationen:
+
+**ᛖᛠ ᛟ _paramName1_ _TypName1_ ... ᛟ _paramNameN_ _TypNameN_ ᛩ**
+
+### Definition von Methoden
+
+Eine Methodendefintion startet mit dem Präfix **ᛖ**, dem folgende Strukturen folgen:
+
+1. Methodenname
+2. Parameterliste
+3. Ausgänge mit Methodentypen der einsetzbaren Folge- Methoden
+4. Implementierende Sequenz von Operartionen
+
+```
+ᛖ _name_ ᛟ _paramName1_ _TypName1_ ... ᛟ _paramNameN_ _TypNameN_ ᛩ
+ᛊᛠ ᛟ _paramName1_ _TypName1_ ... ᛟ _paramNameM_ _TypNameM_ ᛩ 
+ᛋᛠ ᛟ _paramName1_ _TypName1_ ... ᛟ _paramNameM_ _TypNameP_ ᛩ 
+ᛜ _Methodenaufruf_etc_ ᛭ 1. Schritt in der Sequenz
+...
+ᛜ _Methodenaufruf_etc_ ᛭ N. Schritt in der Sequenz
+ᛜᛜ ᛭ Sequenzende
+```
+
+### Finales Kommando ᛰ
+
+Ein **finales Kommando** ist eine parametrierbare Methode, die weder eine Fehlermeldung, noch ein Ergebnis zurückliefert. Es findet lediglich eine Änderung des Systemzustandes auf Basis der übergebenen Parameter statt.
 
 Finale Kommandos haben das Präfix **ᛰ**
 
@@ -292,8 +361,12 @@ Parameter
 
 ᛭ Finales Kommando in LLP aufrufen
 ᛏᛰ namensReferenz ᛟparam1 wert1 ... ᛟparamN wertN  ᛩ
+
+᛭ Konkretes Beispiel: Text auf der Log- Konsole ausgeben
+ᛏᛰ logConsole ᛟtxt ᛒ Es wurden ᛟᛡ count Datensätze gelesenᛩ ᛩ
+
 ```
-#### Kommandos ᛈ
+### Kommandos ᛈ
 
 *Kommandos* haben das Präfix **ᛈ**, und verändern den Systemzustand (z.B. Insert- Operation in einer DB- Tabelle). Ein Ergebnis liefern sie nicht, können aber scheitern, und haben folglich einen Fehler- Handler **ᛊ**.
 
@@ -308,7 +381,7 @@ Parameter
 ᛩ
 ```
 
-#### Abfragen ᚢ
+### Abfragen ᚢ
 *Abfragen* haben das Präfix **ᚢ**. Sie liefern Informationen über den aktuellen Systemzustand. Verändert wird der Systemzustand durch eine Abfrage explizit nicht.
 
 Das Ergebnis einer Abfrage wird im Result- Output ausgegeben.
@@ -322,16 +395,38 @@ Das Ergebnis einer Abfrage wird im Result- Output ausgegeben.
   Succeeded/Query Result Output
 ```
 
-#### Von der Laufzeitumgebung bereitgestellte Methoden
+
+
+
+
+
+
+
+### Von der Laufzeitumgebung bereitgestellte Methoden
 
 Die Laufzeitumgebung hat bereits eine Reihe von Methoden vordefiniert und Implementiert. Diese stammen aus folgenden Bereichen:
 
-1. Elementare Ausgabe ᛰprint ᛟtxt ᛒ hier den auszugebenden Textᛩ
-2. Elementares Fehlerlog `ᛰlog ᛟtxt ᛒ hier die logmeldungᛩ ᛩ`
-3. Grundrechenarten wie `ᚢadd ᛟa  ᛟb ᛋ   
-4. Basisfunktionen wie Potenzen, Wurzeln, 
-5. grundlegende wissenschaftliche Funktionen wie Trigonometrische Fkt.
-6. Zeichenketten- Funktionen wie Concatentation, String- Interpolation, Split, Trim, SubString
+#### Datenstrom- orientierte Ausgabe
+
+Wie in jeder Programmiersprache gibt es auch in LLP eine elementare Funktion zur Ausgabe von Daten in Datenströme: 
+
+`ᛰout ᛟoStream _name output_Stream_  ᛟtxt ᛒ hier den auszugebenden Textᛩ` 
+
+
+
+##### Logs, Fehlerlogs
+
+
+
+1. 
+2. Fehlerlog `ᛰlogErr ᛟtxt ᛒ hier die logmeldungᛩ ᛩ`
+3. Allgmeiner Log `ᛰlog ᛟtxt ᛒ hier die logmeldungᛩ ᛩ`
+4. Grundrechenarten wie `ᚢadd ᛟa  ᛟb ᛋ _Hier_Methode_die_Ergebnis_weiterverarbeitet_`   
+5. Basisfunktionen wie Potenzen, Wurzeln, 
+6. grundlegende wissenschaftliche Funktionen wie Trigonometrische Fkt.
+7. Zeichenketten- Funktionen wie Concatentation, String- Interpolation, Split, Trim, SubString
+
+
 
 #### Methoden definieren
 
