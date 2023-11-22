@@ -27,7 +27,9 @@ Die Notationsformen für Zahlenwerte haben Beschränkungen bezüglich der Genaui
 
 Die nummerischen Datentypen werden durch Kombination des speziellen Präfixes für eine Notation (z.B. **ᛕ**) mit dem allgemeinen Datentyp- Schalter **ᛠ** verbunden zum Datentyp Symbol **ᛕᛠ**.
 
-#### Kardinalzahlen ᛕ
+**ᛠ** schaltet allgemein die Evaluierung einer Liste in die Evaluierung einer Typdeklaration um.
+
+### Kardinalzahlen ᛕ
 
 **ᛕ** ist das Präfix für ganze Zahlen:
 ```
@@ -38,8 +40,9 @@ Die nummerischen Datentypen werden durch Kombination des speziellen Präfixes f�
 ᛕ ᛞ         ⟺ + Unendlich
 ᛕ -ᛞ        ⟺ - Unendlich
 ```
+**ᛕᛠ** ist der Datentyp für Kardinalzahlen.
 
-#### Gebrochen Rationale Zahlen ᚱ
+### Gebrochen Rationale Zahlen ᚱ
 
 **ᚱ** ist das Präfix für gebrochen rationale Zahlen. Diese bestehen aus einem *Nenner* und einem *Zähler*, getrennt durch ein Leerzeichen: 
 
@@ -56,7 +59,9 @@ Beispiele:
 ```
 Die rationalen Zahlen können z.B. als Zoll- Maße genutzt werden
 
-#### Gleitpunktzahlen ᚪ
+**ᚱᛠ** ist der Datentyp für gebrochen rationale Zahlen.
+
+### Gleitpunktzahlen ᚪ
 
 **ᚩ** ist das Präfix für rationale Zahlen in der Gleitpunkt- Darstellung. Vor- und Nachkomma- Stellen bilden die beiden Elemente einer Liste. Kulturspezikfische Spearatoren wie **,** oder **.** sind damit überwunden.
 
@@ -67,6 +72,8 @@ Die rationalen Zahlen können z.B. als Zoll- Maße genutzt werden
 ᚩ -2 72 3 ⟺ -2.72e3 = -2720 
 ```
 
+**ᚩᛠ** ist der Datentyp für Gleitpunkt- Zahlen.
+
 ### Boolsche Werte ᛔ
 
 **ᛔ** ist das Präfix für boolsche Werte. Die beiden möglichen boolschen Werte werden durch die Namen **true** und **false** ausgedrückt:
@@ -76,6 +83,8 @@ Die rationalen Zahlen können z.B. als Zoll- Maße genutzt werden
 ᛔ false ⟺ False
 ```
 
+**ᛔᛠ** ist der Datentyp für boolsche Werte.
+
 ### Namensreferenzen ᚻ
 
 **ᚻ** ist das Präfix für eine *NamingID*. Eine *NamingID* ist ein eindeutiger Schlüssel zu Identifizierung eines Namenscontainers.
@@ -84,13 +93,87 @@ Beispiele:
 
 `ᚻ milProgramm` ⟺ Referenz auf den Namenscontainer, der für Fräsenprogramme steht.
 
-### Hierarchien ᚠ
+**ᚻᛠ** ist der Datentyp für Namensreferenzen.
+
+### Hierarchieen ᚠ
 
 `ᚠ`ist das Präfix eines Pfades in einer Hierarchie. Der Pfad muß durch ein Listenendsymbol `ᛩ` abgeschlossen werden.
 
 `ᚠ ᛕ23 ᛕ10 ᛕ15 ᛩ` ⟺ Kann z.B. eine Versionsnummer mit den drei Hierarchieebnen *Hauptversion*, *Nebenversion*, *Buildnummer* darstellen. Oder die Uhrzeit **23:10:15**. Oder das Datum **15.10.2023**.
 
 `ᚠ ᚻ millingMachine ᚻ circelMilling ᚻ millDisc ᛩ` ⟺ Pfad in einem Namensraum
+
+**ᚠᛠ** ist der Datentyp für Hierarchieen.
+
+
+### Strings ᛒ
+
+*Strings* sind Listen aus beliebigen Zeichen. Sie können auch Leerzeichen enthalten.
+
+*Strings*, die keine Leerzeichen enthalten, können direkt notiert werden.
+
+```
+᛭ geschlossener String, enthält keine Leerzeichen
+Hallo
+
+᛭ geschlossener Strings, die einzelne Hierarchieebenen benennen
+ᚠ All Galaxieen Andromeda ᛩ 
+```
+Enthalten *Strings* Leerzeichen, dann müssen sie in eine **B-Liste**: `ᛒ ... ᛩ`   gesetzt werden. 
+```
+᛭ String aus mehreren Wörtern
+ᛒ Hallo Weltᛩ
+
+᛭ Komplexe Texte als String
+ᛒ 
+    Mit *B- Liste* Strings können auch **MarkDown** formatierte Texte geschrieben werden.
+
+    So wird *Text* und *Logik* vollständig vermischt.     
+ᛩ
+```
+**ᛒᛠ** ist der Datentyp für Strings.
+
+#### Stringinterpolation
+
+Werden in einem String Namensreferenzen eingesetzt, die beim Abruf des Strings evaluiert werden, dann liegt eine Stringinterpolation vor.
+
+Sei **ᛟ attrib schöne** eine Namensbindung. Dann kann eine Stringinterpolation wie folgt definiert werden:
+
+**ᛒ Hallo *ᛟᛡ attrib* Welt ᛩ** 
+
+Diese wird dann evaluiert zu:
+
+**ᛒ Hallo schöne Welt ᛩ** 
+
+### Arrays ᚤ
+
+*Arrays* sind Listen von Werten gleichen elementaren Typs. Sie stellen komplexe, zusammengesetzte Werte dar wie z.B. Real- und Imaginärteil einer komplexen Zahl, oder die Komponenten eines Vektors.
+
+Arrays werden stets mittels `ᚤ` eingeleitet, und mittels `ᛩ` beendet werden. Das erste Element von links legt dabei den Datentyp für alle anderen Elemente des Array verbindlich fest. Diese Regel unterscheidet das *Array* im wesentlichen vom *String* (neben den unterschiedlichen Präfixen).
+
+``` 
+᛭ Array mit den ersten fünf Primzahlen
+ᚤ ᛕ2 ᛕ3 ᛕ5 ᛕ7 ᛕ11 ᛩ
+
+᛭ Fehlerhaft aufgebautes Array: Alle Elemente müssen vom gleichen Typ sein
+ᚤ ᛕ2 ᚪ3 ᛕ5 ᛕ7 ᛕ11 ᛩ ⟹ ERROR!
+```
+
+**ᚤᛠ ᛕᛠ ᛩ** steht für ein Array aus beliebig vielen ganzen Zahlen.
+
+**ᚤᛠ ᛕᛠ ᛕ3 ᛩ** steht für ein Array aus drei ganzen Zahlen.
+
+**ᚤᛠ ᚻᛠ ᛩ** steht für ein Array aus beliebig vielen Namensreferenzen.
+
+**ᚤᛠ ᚻred ᚻgreen ᚻblue ᛩ** steht für einen Aufzählungstyp/Set: Eingesetzt werden dürfen nur die im Array aufgelistete Werte.
+
+#### Zugriff auf Array Elemente
+
+Auf einzelne Elemente eines Arrays kann mittels Operator `ᛏᚤ _array_ _index_` zugegriffen werden.
+
+Dieser hat als Parameter den **0** basierte Index und das *Array*, aus dem der Wert zu entnehmen ist.
+
+Soll im Falle eines Zugriffs auf ein nicht vorhandenes Element durch einen zu kleinen, oder zu großen Index keine Ausnahme, sondern eine benutzerdefinierte Fehlerbehandlung starten, dann ist der `ᛏᚤᛊ` Operator einzusetzen: `ᛏᚤᛊ _array_ _index_ _errIndexOutOfRangeHandler_`.
 
 ## Abstraktion durch benennen von Werten mittels ᛟ Operator
 
@@ -136,10 +219,10 @@ Die Liste selber wird dann ebenfalls mittels Bind an einen Namen gebunden. So en
 
 ```
 ᛭ Namensraum mathematischer Konstanten
-ᛟ MathConst
+ᛟMathConst
 ᚹ
-    ᛟ PI ᚪ3 14
-    ᛟ e  ᚪ2 72
+    ᛟPI ᚪ3 14
+    ᛟe  ᚪ2 72
 ᛩ
 ```
 
@@ -147,19 +230,19 @@ Für den Zugriff auf die Werte in der benannten Liste kann wieder mittels **Repl
 
 ```
 ᛭ Organisation einer Mathematischen Bibliothek
-ᛟ Math
+ᛟMath
 ᚹ
-    ᛟ Const
+    ᛟConst
     ᚹ
-        ᛟ PI ᚪ3 14
-        ᛟ e  ᚪ2 72
+        ᛟPI ᚪ3 14
+        ᛟe  ᚪ2 72
     ᛩ
 
-    ᛟ BasicFunctions
+    ᛟBasicFunctions
     ᚹ
         ᛭ Naming- IDs der math. Grundrechenarten werden an lokale Namen gebunden
-        ᛟ add ᛟᛡ ᚻ ᛕ 16 ADDADD
-        ᛟ sub ᛟᛡ ᚻ ᛕ 16 DE2323
+        ᛟadd ᛟᛡ ᚻ ᛕ 16 ADDADD
+        ᛟsub ᛟᛡ ᚻ ᛕ 16 DE2323
     ᛩ
 ᛩ
 
@@ -168,83 +251,78 @@ Für den Zugriff auf die Werte in der benannten Liste kann wieder mittels **Repl
 
 ```
 
-### Strings ᛒ
+### Semantische Referenzen zwischen Namensraum- Listen
 
-*Strings* sind Listen aus beliebigen Zeichen. Sie können auch Leerzeichen enthalten.
-
-*Strings*, die keine Leerzeichen enthalten, können direkt notiert werden.
+Sei **milDiscCircularCenterOfDiskX** ein Namenscontainer, der die X- Koordinaten des Mittelpunktes einer auszufräsenden Kreisscheibe beschreibt. Dieser stehe mit anderen Namenscontainern in folgenden semantischen Beziehungen:
 
 ```
-᛭ geschlossener String, enthält keine Leerzeichen
-Hallo
-
-᛭ geschlossener Strings, die einzelne Hierarchieebenen benennen
-ᚠ All Galaxieen Andromeda ᛩ 
-```
-Enthalten *Strings* Leerzeichen, dann müssen sie in eine **B-Liste**: `ᛒ ... ᛩ`   gesetzt werden. 
-```
-᛭ String aus mehreren Wörtern
-ᛒ Hallo Weltᛩ
-
-᛭ Komplexe Texte als String
-ᛒ 
-    Mit *B- Liste* Strings können auch **MarkDown** formatierte Texte geschrieben werden.
-
-    So wird *Text* und *Logik* vollständig vermischt.     
-ᛩ
+                                                            **circleGeoParameter**
+                                                                        A
+                                                                        | 
+                                                                     isPartOf
+                                                                        |
+ **milProgramm**                                                **centerOfCircle**
+     A                                                                  A
+     |                                                                  |
+  isInstanceOf                                                       isPartOf
+     |                                                                  | 
+**milDiskCircular**                                             **centerXOfCircle**
+     A                                                                  A
+     |                                                                  |
+     +---isPartOf-- **milDiscCircularCenterOfDiskX** --- isSubTermOf ---+ 
 ```
 
-#### Stringinterpolation
+Die semantischen Beziehungen können z.B. durch Funktionsausdrücke dargestellt werden:
 
-Werden in einem String Namensreferenzen eingesetzt, die beim Abruf des Strings evaluiert werden, dann liegt eine Stringinterpolation vor.
-
-Sei **ᛟ attrib schön** eine Namensbindung. Dann kann eine Stringinterpolation wie folgt definiert werden:
-
-**ᛒ Hallo *ᛟᛡ attrib* Welt ᛩ** 
-
-Diese wird dann evaluiert zu:
-
-**ᛒ Hallo schöne Welt ᛩ** 
-
-### Arrays ᚤ
-
-*Arrays* sind Listen von Werten gleichen elementaren Typs. Sie stellen komplexe, zusammengesetzte Werte dar wie z.B. Real- und Imaginärteil einer komplexen Zahl, oder die Komponenten eines Vektors.
-
-Arrays werden stets mittels `ᚤ` eingeleitet, und mittels `ᛩ` beendet werden. Das erste Element von links legt dabei den Datentyp für alle anderen Elemente des Array verbindlich fest. Diese Regel unterscheidet das *Array* im wesentlichen vom *String* (neben den unterschiedlichen Präfixen).
-
-``` 
-᛭ Array mit den ersten fünf Primzahlen
-ᚤ ᛕ2 ᛕ3 ᛕ5 ᛕ7 ᛕ11 ᛩ
-
-᛭ Fehlerhaft aufgebautes Array: Alle Elemente müssen vom gleichen Typ sein
-ᚤ ᛕ2 ᚪ3 ᛕ5 ᛕ7 ᛕ11 ᛩ ⟹ ERROR!
+```
+ᚪ ᚻ isInstanceOf
+    ᛜ ᚻsemRefReferring ᚻ milDiscCircular
+    ᛏ ᚻ milProgram
 ```
 
-#### Zugriff auf Array Elemente
+Eine Kurzform für diese Definition semantischer Referenzen ist sinnvoll. Sei ᛯ ein neues Präfix für semantische Referenzen. Dann kann eine semantische Referenz definiert werden durch:
 
-Auf einzelne Elemente eines Arrays kann mittels Operator `ᛏᚤ _array_ _index_` zugegriffen werden.
+`ᛯ _NID_Referring_ _NID_SemRefName_ _NID_Related_` 
 
-Dieser hat als Parameter den **0** basierte Index und das *Array*, aus dem der Wert zu entnehmen ist.
+Das ist die Kurzform für 
 
-Soll im Falle eines Zugriffs auf ein nicht vorhandenes Element durch einen zu kleinen, oder zu großen Index keine Ausnahme, sondern eine benutzerdefinierte Fehlerbehandlung starten, dann ist der `ᛏᚤᛊ` Operator einzusetzen: `ᛏᚤᛊ _array_ _index_ _errIndexOutOfRangeHandler_`.
+```
+ᚪ _NID _SemRefName_
+    ᛜ ᚻsemRefReferring _NID_Referring_
+    ᛏ _NID_Related_
+```
+Damit kann das obige Beispiel vereinfacht werden zu:
 
-### Typ- Definitionen
+```
+ᛯ ᚻ milDiscCircular ᚻ isInstanceOf ᚻ milProgram
 
-Um Parameterlisten von Funktionen und Methoden abstrakt definieren zu können, werden Typdefinitionen benötigt. Typen stehen für endliche Mengen von Werten. 
+```
 
-**ᛠ** schaltet die Evaluierung einer Liste in die Evaluierung einer Typdeklaration um.
+#### Abfragen der semantisch referenzierten Instanz
 
-**ᛕᛠ** steht für eine Zahl aus der Menge der ganzen Zahlen.
+```
+ᛯ ᛏ ᚻ _NID_Referring_ ᚻ _NID_SemRefName_ 
 
-**ᛔᛠ** steht für einen boolschen Wert.
+```
 
-**ᚤᛠ ᛕᛠ ᛩ** steht für ein Array aus beliebig vielen ganzen Zahlen.
+Beispiel: Bestimmen, mit wem alles **milDiscCircular** in der semantischen Beziehung **isInstanceOf** steht:
 
-**ᚤᛠ ᛕᛠ ᛕ3 ᛩ** steht für ein Array aus drei ganzen Zahlen.
+```
+ᛯ ᛏ ᚻ milDiscCircular ᚻ isInstanceOf 
+```
 
-**ᚤᛠ ᚻᛠ ᛩ** steht für ein Array aus beliebig vielen Namensreferenzen.
+#### Abfragen der semantisch referenzierenden Instanzen
 
-**ᚤᛠ ᚻred ᚻgreen ᚻblue ᛩ** steht für einen Aufzählungstyp/Set: Eingesetzt werden dürfen nur die im Array aufgelistete Werte.
+```
+ᛯ ᛏ ᚻ _NID_SemRefName_ ᚻ _NID_Related_
+
+```
+
+Beispiel: Bestimmen der Instanzen von **milProgram**:
+
+```
+ᛯ ᛏ ᚻ isInstanceOf ᚻ milProgram
+```
 
 
 
@@ -311,7 +389,6 @@ Operator      | Bedeutung
 **ᛖᛠ**        | Präfix einer Methodentypen- Signatur
 **ᛖᛡ _name_** | Präfix einer Methodenreferenz
 **ᛖᛏ _name_** | Präfix eines Aufrufes einer benannten Methode
-**ᛖᛏ _name_** | Präfix eines Aufrufes einer benannten Methode
 **ᛖᛏ᛫**        | Präfix eines Aufrufes einer anonymen Methode
 
 ### Parameterlisten von Methoden
@@ -363,7 +440,7 @@ Parameter
 ᛏᛰ namensReferenz ᛟparam1 wert1 ... ᛟparamN wertN  ᛩ
 
 ᛭ Konkretes Beispiel: Text auf der Log- Konsole ausgeben
-ᛏᛰ logConsole ᛟtxt ᛒ Es wurden ᛟᛡ count Datensätze gelesenᛩ ᛩ
+ᛰᛏlogConsole ᛟtxt ᛒ Es wurden ᛟᛡcount Datensätze gelesenᛩ ᛩ
 
 ```
 ### Kommandos ᛈ
