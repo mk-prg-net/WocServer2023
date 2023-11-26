@@ -350,8 +350,8 @@ Wird weder **ᛊ** noch **ᛋ** implementiert, dann ist es ein finales **Kommand
 
 Die beiden Ausgänge einer Methode können auf die Eingänge (Parameterlisten) nachfolgender Methoden geschaltet werden, so daß ein Netz entsteht, durch das die Daten .fließen:
 ```
-  i1                   ᛭ Eingangsdaten
-  ↓  
+  i1      i2           ᛭ Eingangsdaten
+  ↓       ↓
   ᚢ1 ᛊ ⟶ ᚢ2 ᛊ ⟶ ᛰ3   ᛭ Finales Kommando ᛰ3 beendet Datenfluss
   ᛋ       ᛋ
   |       ↓  
@@ -474,10 +474,31 @@ Wie in jeder Programmiersprache gibt es auch in LLP eine elementare Funktion zur
 6. Zeichenketten- Funktionen wie Concatentation, String- Interpolation, Split, Trim, SubString
 
 ```
+᛭᛭ a2 + b2
 
+ᚢsqu ᛟx ᛕ99 ᛩ 
+ᛋ ᛟxx
+
+ᚢsqu ᛟx ᛕ77 ᛩ 
+ᛋ ᛟyy
+
+ᚢadd ᛟx ᛟᛡxx ᛟy ᛟᛡyy  ᛩ 
+ᛋ ᛟsquSum
+
+ᛰout ᛟconsole ᛒ Die Quadratsumme aus ᛕ99 und ᛕ77 ist ᛟᛡsquSum ᛩ
 
 ```
 
+
+```
+ᚢᛡsqu ᛟx ᛕ99 ᛩ 
+ᛋ ᛖ᛫ ᛟxx ᛕᛠᛩ  
+  ᛜ ᚢᛡsqu ᛟx ᛕ77 ᛩ 
+    ᛋ ᛟyy
+  ᛋ ᚢᛡadd ᛟx ᛟᛡxx ᛟy ᛟᛡyy  ᛩ 
+    ᛋ ᛟsquSum
+
+```
 
 
 #### Parameter
