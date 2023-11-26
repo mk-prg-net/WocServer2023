@@ -272,58 +272,41 @@ Sei **milDiscCircularCenterOfDiskX** ein Namenscontainer, der die X- Koordinaten
      +---isPartOf-- **milDiscCircularCenterOfDiskX** --- isSubTermOf ---+ 
 ```
 
-Die semantischen Beziehungen können z.B. durch Funktionsausdrücke dargestellt werden:
-
-```
-ᚪ ᚻ isInstanceOf
-    ᛜ ᚻsemRefReferring ᚻ milDiscCircular
-    ᛏ ᚻ milProgram
-```
-
-Eine Kurzform für diese Definition semantischer Referenzen ist sinnvoll. Sei ᛯ ein neues Präfix für semantische Referenzen. Dann kann eine semantische Referenz definiert werden durch:
+Die semantischen Beziehungen werden durch den ternären Operator **ᛯ** dargestellt:
 
 `ᛯ _NID_Referring_ _NID_SemRefName_ _NID_Related_` 
 
-Das ist die Kurzform für 
-
 ```
-ᚪ _NID _SemRefName_
-    ᛜ ᚻsemRefReferring _NID_Referring_
-    ᛏ _NID_Related_
-```
-Damit kann das obige Beispiel vereinfacht werden zu:
-
-```
-ᛯ ᚻ milDiscCircular ᚻ isInstanceOf ᚻ milProgram
+ᛯ milDiscCircular isInstanceOf milProgram
+       |               |          |
+    referring       sem Rel     referred
 
 ```
 
 #### Abfragen der semantisch referenzierten Instanz
 
 ```
-ᛯ ᛏ ᚻ _NID_Referring_ ᚻ _NID_SemRefName_ 
+ᛯᛏ _NID_Referring_ _NID_SemRefName_ 
 
 ```
 
 Beispiel: Bestimmen, mit wem alles **milDiscCircular** in der semantischen Beziehung **isInstanceOf** steht:
 
 ```
-ᛯ ᛏ ᚻ milDiscCircular ᚻ isInstanceOf 
+ᛯᛏ ᚻ milDiscCircular ᚻ isInstanceOf 
 ```
 
 #### Abfragen der semantisch referenzierenden Instanzen
 
 ```
-ᛯ ᛏ ᚻ _NID_SemRefName_ ᚻ _NID_Related_
-
+ᛯᛏ _NID_SemRefName_ _NID_Related_
 ```
 
 Beispiel: Bestimmen der Instanzen von **milProgram**:
 
 ```
-ᛯ ᛏ ᚻ isInstanceOf ᚻ milProgram
+ᛯᛏ isInstanceOf milProgram
 ```
-
 
 
 ## Methoden ᛖ: Kommandos und Abfragen
@@ -394,7 +377,6 @@ Operator      | Bedeutung
 ### Parameterlisten von Methoden
 
 Die Mengen der möglichen Eingangsdaten/Parameter einer Methode werden durch die Parameterlisten definiert.
-
 
 ### Methodentypen ᛖᛠ
 
@@ -472,13 +454,6 @@ Das Ergebnis einer Abfrage wird im Result- Output ausgegeben.
   Succeeded/Query Result Output
 ```
 
-
-
-
-
-
-
-
 ### Von der Laufzeitumgebung bereitgestellte Methoden
 
 Die Laufzeitumgebung hat bereits eine Reihe von Methoden vordefiniert und Implementiert. Diese stammen aus folgenden Bereichen:
@@ -487,48 +462,23 @@ Die Laufzeitumgebung hat bereits eine Reihe von Methoden vordefiniert und Implem
 
 Wie in jeder Programmiersprache gibt es auch in LLP eine elementare Funktion zur Ausgabe von Daten in Datenströme: 
 
-`ᛰout ᛟoStream _name output_Stream_  ᛟtxt ᛒ hier den auszugebenden Textᛩ` 
-
-
+`ᛰout ᛟoStream _name output_Stream_  ᛟtxt ᛒ hier den auszugebenden Textᛩ ᛩ` 
 
 ##### Logs, Fehlerlogs
 
+1. Fehlerlog `ᛰlogErr ᛟtxt ᛒ hier die logmeldungᛩ ᛩ`
+2. Allgmeiner Log `ᛰlog ᛟtxt ᛒ hier die logmeldungᛩ ᛩ`
+3. Grundrechenarten wie `ᚢadd ᛟa ᛕ1   ᛟb ᛕ2 ᛋ _Hier_Methode_referenzieren_die_das_Ergebnis_weiterverarbeitet_ ᛩ`
+4. Basisfunktionen wie Potenzen, Wurzeln, 
+5. grundlegende wissenschaftliche Funktionen wie Trigonometrische Fkt.
+6. Zeichenketten- Funktionen wie Concatentation, String- Interpolation, Split, Trim, SubString
 
-
-1. 
-2. Fehlerlog `ᛰlogErr ᛟtxt ᛒ hier die logmeldungᛩ ᛩ`
-3. Allgmeiner Log `ᛰlog ᛟtxt ᛒ hier die logmeldungᛩ ᛩ`
-4. Grundrechenarten wie `ᚢadd ᛟa  ᛟb ᛋ _Hier_Methode_die_Ergebnis_weiterverarbeitet_`   
-5. Basisfunktionen wie Potenzen, Wurzeln, 
-6. grundlegende wissenschaftliche Funktionen wie Trigonometrische Fkt.
-7. Zeichenketten- Funktionen wie Concatentation, String- Interpolation, Split, Trim, SubString
-
-
-
-#### Methoden definieren
-
-
-
-Bevor eine Methode eingesetzt werden kann, muss sie definiert werden. Das kann 
-
-
-#### Parameterlisten definieren
-
-
-
-
-
-### N- stellige Methoden und Funktionen
-
-`ᛖ` ist das Prefix für eine Funktion/Methode. Diesem muss ein Name der Funktion, eine Liste von Parametern und eventuell ein Rückgabewert folgen. Diese Liste wird mit `ᛩ` abgeschlossen. So definierte Funktione werden allgemein als N- Stellig bezeichnet.
-
-Beispiel: Addition der beiden Gleitpunktzahlen ᚪ3.14 und ᚪ2.72 
 ```
-ᛖ ᚻadd 
-    ᛜ A ᚪ3 14 
-    ᛜ B ᚪ2 72
-ᛩ
+
+
 ```
+
+
 
 #### Parameter
 
