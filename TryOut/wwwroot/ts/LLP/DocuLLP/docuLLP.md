@@ -29,6 +29,8 @@ Die nummerischen Datentypen werden durch Kombination des speziellen Präfixes f�
 
 **ᛠ** schaltet allgemein die Evaluierung einer Liste in die Evaluierung einer Typdeklaration um.
 
+**ᛠ** alleine steht für jeden beliebigen Datentyp.
+
 ### Kardinalzahlen ᛕ
 
 **ᛕ** ist das Präfix für ganze Zahlen:
@@ -74,16 +76,16 @@ Die rationalen Zahlen können z.B. als Zoll- Maße genutzt werden
 
 **ᚩᛠ** ist der Datentyp für Gleitpunkt- Zahlen.
 
-### Boolsche Werte ᛔ
+Die Datentypen **ᚱᛠ** und **ᚩᛠ** sind kompatibel bzw. austauschbar: Ein **ᚱᛠ** kann an ein **ᚩᛠ** zugewiesen werden und umgekehrt.
 
-**ᛔ** ist das Präfix für boolsche Werte. Die beiden möglichen boolschen Werte werden durch die Namen **true** und **false** ausgedrückt:
+### Boolsche Werte ᛒ
 
+**ᛒ** ist das Präfix für boolsche Werte. Die beiden möglichen boolschen Werte werden durch die Namen **true** und **false** ausgedrückt:
 ```
-ᛔ true  ⟺ True
-ᛔ false ⟺ False
+ᛒ true  ⟺ True
+ᛒ false ⟺ False
 ```
-
-**ᛔᛠ** ist der Datentyp für boolsche Werte.
+**ᛒᛠ** ist der Datentyp für boolsche Werte.
 
 ### Namensreferenzen ᚻ
 
@@ -104,76 +106,6 @@ Beispiele:
 `ᚠ ᚻ millingMachine ᚻ circelMilling ᚻ millDisc ᛩ` ⟺ Pfad in einem Namensraum
 
 **ᚠᛠ** ist der Datentyp für Hierarchieen.
-
-
-### Strings ᛒ
-
-*Strings* sind Listen aus beliebigen Zeichen. Sie können auch Leerzeichen enthalten.
-
-*Strings*, die keine Leerzeichen enthalten, können direkt notiert werden.
-
-```
-᛭ geschlossener String, enthält keine Leerzeichen
-Hallo
-
-᛭ geschlossener Strings, die einzelne Hierarchieebenen benennen
-ᚠ All Galaxieen Andromeda ᛩ 
-```
-Enthalten *Strings* Leerzeichen, dann müssen sie in eine **B-Liste**: `ᛒ ... ᛩ`   gesetzt werden. 
-```
-᛭ String aus mehreren Wörtern
-ᛒ Hallo Weltᛩ
-
-᛭ Komplexe Texte als String
-ᛒ 
-    Mit *B- Liste* Strings können auch **MarkDown** formatierte Texte geschrieben werden.
-
-    So wird *Text* und *Logik* vollständig vermischt.     
-ᛩ
-```
-**ᛒᛠ** ist der Datentyp für Strings.
-
-#### Stringinterpolation
-
-Werden in einem String Namensreferenzen eingesetzt, die beim Abruf des Strings evaluiert werden, dann liegt eine Stringinterpolation vor.
-
-Sei **ᛟ attrib schöne** eine Namensbindung. Dann kann eine Stringinterpolation wie folgt definiert werden:
-
-**ᛒ Hallo *ᛟᛡ attrib* Welt ᛩ** 
-
-Diese wird dann evaluiert zu:
-
-**ᛒ Hallo schöne Welt ᛩ** 
-
-### Arrays ᚤ
-
-*Arrays* sind Listen von Werten gleichen elementaren Typs. Sie stellen komplexe, zusammengesetzte Werte dar wie z.B. Real- und Imaginärteil einer komplexen Zahl, oder die Komponenten eines Vektors.
-
-Arrays werden stets mittels `ᚤ` eingeleitet, und mittels `ᛩ` beendet werden. Das erste Element von links legt dabei den Datentyp für alle anderen Elemente des Array verbindlich fest. Diese Regel unterscheidet das *Array* im wesentlichen vom *String* (neben den unterschiedlichen Präfixen).
-
-``` 
-᛭ Array mit den ersten fünf Primzahlen
-ᚤ ᛕ2 ᛕ3 ᛕ5 ᛕ7 ᛕ11 ᛩ
-
-᛭ Fehlerhaft aufgebautes Array: Alle Elemente müssen vom gleichen Typ sein
-ᚤ ᛕ2 ᚪ3 ᛕ5 ᛕ7 ᛕ11 ᛩ ⟹ ERROR!
-```
-
-**ᚤᛠ ᛕᛠ ᛩ** steht für ein Array aus beliebig vielen ganzen Zahlen.
-
-**ᚤᛠ ᛕᛠ ᛕ3 ᛩ** steht für ein Array aus drei ganzen Zahlen.
-
-**ᚤᛠ ᚻᛠ ᛩ** steht für ein Array aus beliebig vielen Namensreferenzen.
-
-**ᚤᛠ ᚻred ᚻgreen ᚻblue ᛩ** steht für einen Aufzählungstyp/Set: Eingesetzt werden dürfen nur die im Array aufgelistete Werte.
-
-#### Zugriff auf Array Elemente
-
-Auf einzelne Elemente eines Arrays kann mittels Operator `ᛏᚤ _array_ _index_` zugegriffen werden.
-
-Dieser hat als Parameter den **0** basierte Index und das *Array*, aus dem der Wert zu entnehmen ist.
-
-Soll im Falle eines Zugriffs auf ein nicht vorhandenes Element durch einen zu kleinen, oder zu großen Index keine Ausnahme, sondern eine benutzerdefinierte Fehlerbehandlung starten, dann ist der `ᛏᚤᛊ` Operator einzusetzen: `ᛏᚤᛊ _array_ _index_ _errIndexOutOfRangeHandler_`.
 
 ## Abstraktion durch benennen von Werten mittels ᛟ Operator
 
@@ -248,9 +180,7 @@ Für den Zugriff auf die Werte in der benannten Liste kann wieder mittels **Repl
 
 ᛭ Zugriff auf PI
 ᛟᛡ ᚠ Math Const PI ᛩ
-
 ```
-
 ### Semantische Referenzen zwischen Namensraum- Listen
 
 Sei **milDiscCircularCenterOfDiskX** ein Namenscontainer, der die X- Koordinaten des Mittelpunktes einer auszufräsenden Kreisscheibe beschreibt. Dieser stehe mit anderen Namenscontainern in folgenden semantischen Beziehungen:
@@ -307,7 +237,80 @@ Beispiel: Bestimmen der Instanzen von **milProgram**:
 ```
 ᛯᛏ isInstanceOf milProgram
 ```
+### Strings ᛇ
 
+*Strings* sind Listen aus beliebigen Zeichen. Sie können auch Leerzeichen enthalten.
+
+*Strings*, die keine Leerzeichen enthalten, können direkt notiert werden.
+
+```
+᛭ geschlossener String, enthält keine Leerzeichen
+Hallo
+
+᛭ geschlossener Strings, die einzelne Hierarchieebenen benennen
+ᚠ All Galaxieen Andromeda ᛩ 
+```
+Enthalten *Strings* Leerzeichen, dann müssen sie in ein **S-Array**: `ᛇ ... ᛩ`   gesetzt werden. **ᛇ** ist das Präfix für String- Listen.
+
+Die Leerzeichen sind innerhalb eines String- Array geschützt.  
+
+Sehr Lange Strings können mittels **ᛢ** auf mehrere Zeilen umgebrochen werden.
+```
+᛭ String aus mehreren Wörtern. Die Leerzeichen sind geschützt
+ᛇHallo    Weltᛩ
+
+᛭ Komplexe Texte als String, umgebrochen auf mehrere Zeilen mittels ᛢ
+ᛇ Mit *B- Liste* Strings können auch **MarkDown** formatierte Texte geschrieben werden.ᛢ
+So wird *Text* und *Logik* vollständig vermischt.ᛩ
+```
+**ᛇᛠ** ist der Datentyp für Strings.
+
+#### Zugriff auf Teilstrings
+
+Auf Teile einer Zeichenkette kann mittels 
+
+
+#### Stringinterpolation
+
+Werden in einem String Namensreferenzen eingesetzt, die beim Abruf des Strings evaluiert werden, dann liegt eine Stringinterpolation vor.
+
+Sei **ᛟ attrib schöne** eine Namensbindung. Dann kann eine Stringinterpolation wie folgt definiert werden:
+
+**ᛇ Hallo *ᛟᛡ attrib* Welt ᛩ** 
+
+Diese wird dann evaluiert zu:
+
+**ᛇ Hallo schöne Welt ᛩ** 
+
+### Arrays ᚤ
+
+*Arrays* sind Listen von Werten gleichen elementaren Typs. Sie stellen komplexe, zusammengesetzte Werte dar wie z.B. Real- und Imaginärteil einer komplexen Zahl, oder die Komponenten eines Vektors.
+
+Arrays werden stets mittels `ᚤ` eingeleitet, und mittels `ᛩ` beendet werden. Das erste Element von links legt dabei den Datentyp für alle anderen Elemente des Array verbindlich fest. Diese Regel unterscheidet das *Array* im wesentlichen vom *String* (neben den unterschiedlichen Präfixen).
+
+``` 
+᛭ Array mit den ersten fünf Primzahlen
+ᚤ ᛕ2 ᛕ3 ᛕ5 ᛕ7 ᛕ11 ᛩ
+
+᛭ Fehlerhaft aufgebautes Array: Alle Elemente müssen vom gleichen Typ sein
+ᚤ ᛕ2 ᚪ3 ᛕ5 ᛕ7 ᛕ11 ᛩ ⟹ ERROR!
+```
+
+**ᚤᛠ ᛕᛠ ᛩ** steht für ein Array aus beliebig vielen ganzen Zahlen.
+
+**ᚤᛠ ᛕᛠ ᛕ3 ᛩ** steht für ein Array aus drei ganzen Zahlen.
+
+**ᚤᛠ ᚻᛠ ᛩ** steht für ein Array aus beliebig vielen Namensreferenzen.
+
+**ᚤᛠ ᚻred ᚻgreen ᚻblue ᛩ** steht für einen Aufzählungstyp/Set: Eingesetzt werden dürfen nur die im Array aufgelistete Werte.
+
+#### Zugriff auf Array Elemente
+
+Auf einzelne Elemente eines Arrays kann mittels Operator `ᚤᛏ _array_ _index_` zugegriffen werden.
+
+Dieser hat als Parameter den **0** basierte Index und das *Array*, aus dem der Wert zu entnehmen ist.
+
+Soll im Falle eines Zugriffs auf ein nicht vorhandenes Element durch einen zu kleinen, oder zu großen Index keine Ausnahme, sondern eine benutzerdefinierte Fehlerbehandlung starten, dann ist der `ᚤᛏᛊ` Operator einzusetzen: `ᚤᛏ _array_ _index_ ᛊ _errIndexOutOfRangeHandler_`.
 
 ## Methoden ᛖ: Kommandos und Abfragen
 
@@ -321,34 +324,47 @@ Methoden sind ein Oberbegriff für den Zustand des Systems verändernde *Kommand
    Kommandos ᛈ   finale Kommandos ᛰ    Abfragen ᚢ
 ``` 
 
+Die Kommandos können über eine Parameterliste parametriert werden. 
+
 ### Datenflussgraphen
 
-Kommandos und Abfragen werden mittels *Parameter* vor der Ausführung parametriert. Nach der Ausführung gibt es zwei mögliche Zustände:
+Kommandos und Abfragen werden mittels *Parameterliste* vor der Ausführung parametriert. Die Parameterliste ist ein *Array*.
 
-1. Die Methode konnte erfolgreich ausgeführt werden. 
-2. Beim Ausführen der Methode kam es zu einem Problem
+Nach der Ausführung gibt es zwei mögliche Zustände:
+
+1. Die Methode konnte erfolgreich ausgeführt werden: **ᛋ Zweig**
+2. Beim Ausführen der Methode kam es zu einem Problem: **ᛊ Zweig**
+
+An jeden Zweig wird die ursprüngliche Parameterliste, erweitert um Ergebnisse gesendet. 
 
 Dies führt zu folgendem allgemeinen Datenfluss- Graphen:
 
 ```
-  Parameter
+  ᚤ p1 … pn ᛩ ᛭ Parameter Array
   ↓  
-  ᛖ Methode ᛊ⟶ Fehler Ausgang  
-  ᛋ              
-  ↓
-  Succeeded/Result Ausgang
+  ᛖ Methode ⟶ ᚤ p1 … pn e1 … em ᛩ ──────⟶ ᛊ Zweig  
+  ↓                                         ↓
+  ᚤ p1 … pn s1 … sp ᛩ                       ᚤ p1 … pn e1 … em f1 … fx ᛩ
+  ↓                                         ↓    
+  ᛋ Zweig⟶  ᚤ p1 … pn s1 … sp r1 … ry ᛩ ⟶ ᚥ Ausgang
 ```
 **ᛊ** und **ᛋ** werden *Ausgänge* genannt.
 
-Methoden müssen nicht alle Ausgänge implementieren.
+Methoden müssen nicht alle Zweige implementieren.
 
-Implementiert eine Methode den Ausgang **ᛋ**, dann ist sie eine **Abfrage ᚢ**. 
+Implementiert eine Methode den Zweig **ᛋ**, dann ist sie eine **Abfrage ᚢ**. 
 
-Implementiert eine Methode den Ausgang **ᛋ** nicht, dann ist sie eine **Kommandos ᛈ**. 
+Implementiert eine Methode den Zweig **ᛋ** nicht, dann ist sie eine **Kommandos ᛈ**. 
 
 Wird weder **ᛊ** noch **ᛋ** implementiert, dann ist es ein finales **Kommando ᛰ**.
 
-Die beiden Ausgänge einer Methode können auf die Eingänge (Parameterlisten) nachfolgender Methoden geschaltet werden, so daß ein Netz entsteht, durch das die Daten .fließen:
+Jede Methode hat einen Ausgang **ᚥ**. Diese wird stets durchlaufen. Dadurch wird folgendes Grundprinzip der *strukturierten Programmierung* realisiert:
+
+    Ein Block wird oben während des Programmflusses betreten, und unten verlassen.
+
+In den Zweigen **ᛋ** und **ᛊ** können beliebige Methoden aufgerufen werden. Im Ausgang **ᚥ** dürfen hingegen nur Kommandos aufgerufen werden.
+
+
 ```
   i1      i2           ᛭ Eingangsdaten
   ↓       ↓
