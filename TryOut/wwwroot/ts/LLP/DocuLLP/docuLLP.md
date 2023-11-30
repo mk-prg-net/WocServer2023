@@ -143,11 +143,16 @@ Wurde an einen Namen ein Wert gebunden, dann kann überall, wo normalerweise der
 ᛟ pie ᛟᛡ ᚻ ᛕ 16 7ABC123I
 
 ```
+
 ### Namensraum- Listen ᛟ ... ᚹ ... ᛩ
 
 Eine Menge von *Bind* Operationen können in Listen zusammengefasst werden. Innerhalb einer solchen Liste darf ein bestimmter Name stets nur einmal an einen Wert gebunden werden.
 
-Die Liste selber wird dann ebenfalls mittels Bind an einen Namen gebunden. So entsteht ein *Namensraum*, der eine Untermenge benannter Werte darstellt.
+```
+᛭ Beschreibung einer Punktkoordinate durch eine Liste aus Namensbindungen
+ᚹ ᛟx ᚪ2 72 ᛟy ᚪ3 14 ᛩ 
+```
+Die Liste kann selber mittels Bind an einen Namen gebunden. So entsteht ein *Namensraum* oder eine Benannte Struktur:
 
 ```
 ᛭ Namensraum mathematischer Konstanten
@@ -156,6 +161,13 @@ Die Liste selber wird dann ebenfalls mittels Bind an einen Namen gebunden. So en
     ᛟPI ᚪ3 14
     ᛟe  ᚪ2 72
 ᛩ
+
+᛭ Benannte Datenstruktur, die einen Punkt darstellt
+ᛟPunkt1 
+ᚹ 
+    ᛟx ᚪ2 72 
+    ᛟy ᚪ3 14 
+ᛩ 
 ```
 
 Für den Zugriff auf die Werte in der benannten Liste kann wieder mittels **Replace by** Operator **ᛟᛡ** benutzt werden. In diesem Fall sind die Namen jedoch als Hierarchie anzugeben: `ᛟᛡ ᚠ _NameListe_ _NameAttribut_ ᛩ`
@@ -284,23 +296,27 @@ Diese wird dann evaluiert zu:
 
 ### Arrays ᚤ
 
-*Arrays* sind Listen von Werten gleichen elementaren Typs. Sie stellen komplexe, zusammengesetzte Werte dar wie z.B. Real- und Imaginärteil einer komplexen Zahl, oder die Komponenten eines Vektors.
+*Arrays* sind Listen von Werten. Die Werte können primitiv oder komplex sein.
 
-Arrays werden stets mittels `ᚤ` eingeleitet, und mittels `ᛩ` beendet werden. Das erste Element von links legt dabei den Datentyp für alle anderen Elemente des Array verbindlich fest. Diese Regel unterscheidet das *Array* im wesentlichen vom *String* (neben den unterschiedlichen Präfixen).
+**ᚤ** ist das Präfix, welches die Liste eines Arrays eröffnet. **ᛩ** beendet die Liste. 
 
 ``` 
 ᛭ Array mit den ersten fünf Primzahlen
 ᚤ ᛕ2 ᛕ3 ᛕ5 ᛕ7 ᛕ11 ᛩ
 
-᛭ Fehlerhaft aufgebautes Array: Alle Elemente müssen vom gleichen Typ sein
-ᚤ ᛕ2 ᚪ3 ᛕ5 ᛕ7 ᛕ11 ᛩ ⟹ ERROR!
+᛭ Array mit zwei Koordinaten
+ᚤ 
+   ᚹ ᛟx ᚪ2 72 ᛟy ᚪ3 14 ᛩ 
+   ᚹ ᛟx ᚪ5 3  ᛟy ᚪ1 7ᛩ ᛩ
+ᛩ
+
+᛭ Array aus Daten verschiedener Typen
+ᚤ    
+   ᚹ ᛟx ᛕ2 ᛟy ᛕ3 ᛩ 
+   ᛕ13
+   ᛇ Summe aus a² und b² ᛩ
+ᛩ
 ```
-
-**ᚤᛠ ᛕᛠ ᛩ** steht für ein Array aus beliebig vielen ganzen Zahlen.
-
-**ᚤᛠ ᛕᛠ ᛕ3 ᛩ** steht für ein Array aus drei ganzen Zahlen.
-
-**ᚤᛠ ᚻᛠ ᛩ** steht für ein Array aus beliebig vielen Namensreferenzen.
 
 **ᚤᛠ ᚻred ᚻgreen ᚻblue ᛩ** steht für einen Aufzählungstyp/Set: Eingesetzt werden dürfen nur die im Array aufgelistete Werte.
 
@@ -311,6 +327,45 @@ Auf einzelne Elemente eines Arrays kann mittels Operator `ᚤᛏ _array_ _index_
 Dieser hat als Parameter den **0** basierte Index und das *Array*, aus dem der Wert zu entnehmen ist.
 
 Soll im Falle eines Zugriffs auf ein nicht vorhandenes Element durch einen zu kleinen, oder zu großen Index keine Ausnahme, sondern eine benutzerdefinierte Fehlerbehandlung starten, dann ist der `ᚤᛏᛊ` Operator einzusetzen: `ᚤᛏ _array_ _index_ ᛊ _errIndexOutOfRangeHandler_`.
+
+#### Einbetten von Array in Array mittels Expand ᚷ Operator
+
+Ein Array kann selber wieder ein Array enthalten:
+
+```
+᛭ Array mit Elemente, die selber Arrays sind
+ᛟa1
+ᚤ    
+   ᚤ ᛕ1 ᛕ2 ᛩ 
+   ᚤ ᛕ3 ᛕ4 ᛩ 
+ᛩ
+
+᛭ Hier gilt: ᛟe1 == ᚤ ᛕ1 ᛕ2 ᛩ
+ᚤᛏ ᛟa1 1 ᛋ ᛟe1
+
+᛭ Hier gilt: ᛟe2 == ᚤ ᛕ3 ᛕ4 ᛩ
+ᚤᛏ ᛟa1 2 ᛋ ᛟe2
+```
+
+Mittels des Expand- Operator **ᚷ** kann der Inhalt eines Array in ein anderes eingebettet werden
+
+```
+᛭ Array mit Elemente, die selber Arrays sind
+ᛟa2
+ᚤ    
+   ᛕ1
+   ᚷᚤ ᛕ2 ᛕ3 ᛩ 
+   ᛕ4 
+ᛩ
+
+᛭ Hier gilt: ᛟe1 == ᛕ1
+ᚤᛏ ᛟa2 1 ᛋ ᛟe1
+
+᛭ Hier gilt: ᛟe2 == ᛕ2
+ᚤᛏ ᛟa1 2 ᛋ ᛟe2
+```
+
+
 
 ## Methoden ᛖ: Kommandos und Abfragen
 
@@ -346,9 +401,11 @@ Dies führt zu folgendem allgemeinen Datenfluss- Graphen:
   ↓                                         ↓
   ᚤ p1 … pn s1 … sp ᛩ                       ᚤ p1 … pn e1 … em f1 … fx ᛩ
   ↓                                         ↓    
-  ᛋ Zweig⟶  ᚤ p1 … pn s1 … sp r1 … ry ᛩ ⟶ ᚥ Ausgang
+  ᛋ Zweig⟶  ᚤ p1 … pn s1 … sp r1 … ry ᛩ ⟶ ᛗ Ausgang
 ```
-**ᛊ** und **ᛋ** werden *Ausgänge* genannt.
+**ᛊ** und **ᛋ** werden *Zweige* genannt.
+
+In jedem Zweig wird das **Kontext- Array** **ᚥ** bereitgestellt, welches die Aufrufparameter der Methode + der Ergebnisse enthält.
 
 Methoden müssen nicht alle Zweige implementieren.
 
@@ -358,11 +415,31 @@ Implementiert eine Methode den Zweig **ᛋ** nicht, dann ist sie eine **Kommando
 
 Wird weder **ᛊ** noch **ᛋ** implementiert, dann ist es ein finales **Kommando ᛰ**.
 
-Jede Methode hat einen Ausgang **ᚥ**. Diese wird stets durchlaufen. Dadurch wird folgendes Grundprinzip der *strukturierten Programmierung* realisiert:
+Jede Methode hat einen Ausgang **ᛗ**. Diese wird stets durchlaufen. Dadurch wird folgendes Grundprinzip der *strukturierten Programmierung* realisiert:
 
     Ein Block wird oben während des Programmflusses betreten, und unten verlassen.
 
-In den Zweigen **ᛋ** und **ᛊ** können beliebige Methoden aufgerufen werden. Im Ausgang **ᚥ** dürfen hingegen nur Kommandos aufgerufen werden.
+In den Zweigen **ᛋ** und **ᛊ** können beliebige Methoden aufgerufen werden. Im Ausgang **ᛗ** dürfen hingegen nur Kommandos aufgerufen werden.
+
+#### Datenfluss Parameter- Array
+Im Normalfall entnimmt eine Methode von links Werte aus einem Array und stellt rechts die Ergebnisse ein.
+Beispiel:
+
+```
+Startwerte      (a, b)             
+                  ↓                ᛭ In 𝓛𝓛𝓟  
+1. Berechnung    [x²]              ᛖsqu ᚤ ᛕ2 ᛕ3 ᛩ 
+                  ↓                ᛋ ᛖsqu ᚥ
+                (b, a²)              ᛋ ᛖadd ᚥ                
+                  ↓                    ᛋ ᛟaabb                                    
+2. Berechnung    [x²]                  ᛗ ᛖlog ᚥ      ᛭ loggt (a²+b²)
+                  ↓                  ᛗ ᛖlog ᚥ        ᛭ loggt (a²+b²)
+                (a², b²)           ᛗ ᛖlog ᚥ          ᛭ loggt (a²+b²)
+                  ↓
+3. Berechnung    [+]         
+                  ↓
+                (a²+b²)                  
+```
 
 
 ```
