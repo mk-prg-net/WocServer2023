@@ -376,6 +376,7 @@ Im folgenden werden Operationen auf Array beschreiben, die häufig in **LLP** ei
 ᛟar1 ᚤ a b ᛩ
 
 ᛖᛏpop ᛟᛡar1 ᛩ
+ᛋ ᛟres             ᛭ ᛟᛡres == a
 ᛗ ᛖᛏlog ᚥ          ᛭ loggt ᚤ b ᛩ
 
 ᛖᛏpus ᛟᛡar1 ᛩ 
@@ -398,6 +399,23 @@ Methoden sind ein Oberbegriff für den Zustand des Systems verändernde *Kommand
 ``` 
 Die Kommandos können über eine Parameterliste parametriert werden. 
 
+### Paramter
+
+Jede Methode kann parameteiert werden. Zur Parametrierung wird der *Stapelspeicher* des *Laufzeitsystems* explizit angesprochen wie ein Array über das Symbol **ᚥ**.
+
+Der Methode kann eine Liste von Parametern folgen. Dise werden von rechts nach links auf den Stapelspeicher gelegt.
+```
+             --+---+--+
+ᛖm a b c ᛩ   a | b | c|
+             --+---+--+
+             ------------+
+ᛋ             m(a, b, c) |
+             ------------+
+```
+
+### Methoden als reine Stapelspeichermethoden
+Die Methoden sind so implementiert, dass sie ihre parameter stets vom Stapelspeicher lesen, und ihre Ergebnisse wieder auf den Stapel schreiben.
+
 ### Datenflussgraphen
 Kommandos und Abfragen werden mittels *Parameterliste* vor der Ausführung parametriert. Die Parameterliste ist ein *Array*.
 
@@ -413,15 +431,15 @@ Dies führt zu folgendem allgemeinen Datenfluss- Graphen:
 ```
   ᚤ p1 … pn ᛩ ᛭ Parameter Array
   ↓  
-  ᛖ Methode ⟶ ᚤ e1 … em p1 … pn ᛩ ──────⟶ ᛊ Zweig  
-  ↓                                         ↓
-  ᚤ s1 … sp p1 … pn ᛩ                       ᚤ f1 … fx e1 … em p1 … pn ᛩ
-  ↓                                         ↓    
-  ᛋ Zweig⟶  ᚤ r1 … ry s1 … sp p1 … pn ᛩ ⟶ ᛗ Ausgang
+  ᛖ Methode ⟶ ᚤ e(p1 … pn) ᛩ ⟶ ᛊ Zweig  
+  ↓                               ↓
+  ᚤ m(p1 … pn) ᛩ                  ᚤ f(e(p1 … pn)) ᛩ
+  ↓                               ↓    
+  ᛋ Zweig⟶  ᚤ s(m(p1 … pn)) ᛩ ⟶ ᛗ Ausgang
 ```
 **ᛊ** und **ᛋ** werden *Zweige* genannt.
 
-In jedem Zweig wird das **Kontext- Array** **ᚥ** bereitgestellt, welches die Aufrufparameter der Methode + der Ergebnisse enthält.
+In jedem Zweig wird das **Kontext- Array** **ᚥ** bereitgestellt, welches die Aufrufparameter der Methode + der Ergebnisse enthält. Das Kontextarray ist Vergleichbar mit dem Aufrufstapel.
 
 Methoden müssen nicht alle Zweige implementieren.
 
