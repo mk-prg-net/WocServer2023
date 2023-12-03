@@ -152,7 +152,7 @@ Eine Menge von *Bind* Operationen können in Listen zusammengefasst werden. Inne
 ᛭ Beschreibung einer Punktkoordinate durch eine Liste aus Namensbindungen
 ᚹ ᛟx ᚪ2 72 ᛟy ᚪ3 14 ᛩ 
 ```
-Die Liste kann selber mittels Bind an einen Namen gebunden. So entsteht ein *Namensraum* oder eine Benannte Struktur:
+Die Liste kann selber mittels Bind an einen Namen gebunden. So entsteht ein *Namensraum* oder eine benannte Struktur:
 
 ```
 ᛭ Namensraum mathematischer Konstanten
@@ -272,7 +272,7 @@ Sehr Lange Strings können mittels **ᛢ** auf mehrere Zeilen umgebrochen werden
 ᛇHallo    Weltᛩ
 
 ᛭ Komplexe Texte als String, umgebrochen auf mehrere Zeilen mittels ᛢ
-ᛇ Mit *B- Liste* Strings können auch **MarkDown** formatierte Texte geschrieben werden.ᛢ
+ᛇ Mit Strings können auch **MarkDown** formatierte Texte geschrieben werden.ᛢ
 So wird *Text* und *Logik* vollständig vermischt.ᛩ
 ```
 **ᛇᛠ** ist der Datentyp für Strings.
@@ -322,15 +322,13 @@ Diese wird dann evaluiert zu:
 
 #### Zugriff auf Array Elemente
 
-Auf einzelne Elemente eines Arrays kann mittels Operator `ᚤᛏ _array_ _index_` zugegriffen werden.
+Auf einzelne Elemente eines Arrays kann mittels Operator `ᚤᛏ _array_ _index_ ᛋ _Ergebnis_` zugegriffen werden.
 
 Dieser hat als Parameter den **0** basierte Index und das *Array*, aus dem der Wert zu entnehmen ist.
 
-Soll im Falle eines Zugriffs auf ein nicht vorhandenes Element durch einen zu kleinen, oder zu großen Index keine Ausnahme, sondern eine benutzerdefinierte Fehlerbehandlung starten, dann ist der `ᚤᛏᛊ` Operator einzusetzen: `ᚤᛏ _array_ _index_ ᛊ _errIndexOutOfRangeHandler_`.
+Soll im Falle eines Zugriffs auf ein nicht vorhandenes Element durch einen zu kleinen, oder zu großen Index keine Ausnahme, sondern eine benutzerdefinierte Fehlerbehandlung starten, dann ist  `ᚤᛏ _array_ _index_ ᛊ _errIndexOutOfRangeHandler_ ᛋ _Ergebnis_` einzusetzen.
 
-#### Einbetten von Array in Array mittels Expand ᚷ Operator
-
-Ein Array kann selber wieder ein Array enthalten:
+Beispiele (hier enhalten Array selber wieder Arrays)
 
 ```
 ᛭ Array mit Elemente, die selber Arrays sind
@@ -346,6 +344,8 @@ Ein Array kann selber wieder ein Array enthalten:
 ᛭ Hier gilt: ᛟe2 == ᚤ ᛕ3 ᛕ4 ᛩ
 ᚤᛏ ᛟa1 2 ᛋ ᛟe2
 ```
+
+#### Einbetten von Array in Array mittels Expand ᚷ Operator
 
 Mittels des Expand- Operator **ᚷ** kann der Inhalt eines Array in ein anderes eingebettet werden
 
@@ -365,6 +365,24 @@ Mittels des Expand- Operator **ᚷ** kann der Inhalt eines Array in ein anderes 
 ᚤᛏ ᛟa1 2 ᛋ ᛟe2
 ```
 
+#### Häufig benutzte Array- Operationen
+Im folgenden werden Operationen auf Array beschreiben, die häufig in **LLP** einzusetzen sind.
+
+##### Pop
+
+`ᛖpop ᚤ a b ... ᛩ` entnimmt das erste Element von Links aus dem Array.
+
+```
+ᛟar1 ᚤ a b ᛩ
+
+ᛖᛏpop ᛟᛡar1 ᛩ
+ᛗ ᛖᛏlog ᚥ          ᛭ loggt ᚤ b ᛩ
+
+ᛖᛏpus ᛟᛡar1 ᛩ 
+ᛗ ᛖᛏlog ᚥ          ᛭ loggt ᚤ b ᛩ
+
+
+```
 
 
 ## Methoden ᛖ: Kommandos und Abfragen
@@ -378,11 +396,9 @@ Methoden sind ein Oberbegriff für den Zustand des Systems verändernde *Kommand
        |              |                   | 
    Kommandos ᛈ   finale Kommandos ᛰ    Abfragen ᚢ
 ``` 
-
 Die Kommandos können über eine Parameterliste parametriert werden. 
 
 ### Datenflussgraphen
-
 Kommandos und Abfragen werden mittels *Parameterliste* vor der Ausführung parametriert. Die Parameterliste ist ein *Array*.
 
 Nach der Ausführung gibt es zwei mögliche Zustände:
@@ -390,18 +406,18 @@ Nach der Ausführung gibt es zwei mögliche Zustände:
 1. Die Methode konnte erfolgreich ausgeführt werden: **ᛋ Zweig**
 2. Beim Ausführen der Methode kam es zu einem Problem: **ᛊ Zweig**
 
-An jeden Zweig wird die ursprüngliche Parameterliste, erweitert um Ergebnisse gesendet. 
+An jeden Zweig wird die ursprüngliche Parameterliste, erweitert um die Ergebnisse gesendet. 
 
 Dies führt zu folgendem allgemeinen Datenfluss- Graphen:
 
 ```
   ᚤ p1 … pn ᛩ ᛭ Parameter Array
   ↓  
-  ᛖ Methode ⟶ ᚤ p1 … pn e1 … em ᛩ ──────⟶ ᛊ Zweig  
+  ᛖ Methode ⟶ ᚤ e1 … em p1 … pn ᛩ ──────⟶ ᛊ Zweig  
   ↓                                         ↓
-  ᚤ p1 … pn s1 … sp ᛩ                       ᚤ p1 … pn e1 … em f1 … fx ᛩ
+  ᚤ s1 … sp p1 … pn ᛩ                       ᚤ f1 … fx e1 … em p1 … pn ᛩ
   ↓                                         ↓    
-  ᛋ Zweig⟶  ᚤ p1 … pn s1 … sp r1 … ry ᛩ ⟶ ᛗ Ausgang
+  ᛋ Zweig⟶  ᚤ r1 … ry s1 … sp p1 … pn ᛩ ⟶ ᛗ Ausgang
 ```
 **ᛊ** und **ᛋ** werden *Zweige* genannt.
 
@@ -417,7 +433,7 @@ Wird weder **ᛊ** noch **ᛋ** implementiert, dann ist es ein finales **Kommand
 
 Jede Methode hat einen Ausgang **ᛗ**. Diese wird stets durchlaufen. Dadurch wird folgendes Grundprinzip der *strukturierten Programmierung* realisiert:
 
-    Ein Block wird oben während des Programmflusses betreten, und unten verlassen.
+    Ein Block wird oben während des Programmflusses betreten und unten verlassen.
 
 In den Zweigen **ᛋ** und **ᛊ** können beliebige Methoden aufgerufen werden. Im Ausgang **ᛗ** dürfen hingegen nur Kommandos aufgerufen werden.
 
@@ -430,7 +446,7 @@ Startwerte      (a, b)
                   ↓                ᛭ In 𝓛𝓛𝓟  
 1. Berechnung    [x²]              ᛖsqu ᚤ ᛕ2 ᛕ3 ᛩ 
                   ↓                ᛋ ᛖsqu ᚥ
-                (b, a²)              ᛋ ᛖadd ᚥ                
+                (a², b)              ᛋ ᛖadd ᚥ                
                   ↓                    ᛋ ᛟaabb                                    
 2. Berechnung    [x²]                  ᛗ ᛖlog ᚥ      ᛭ loggt (a²+b²)
                   ↓                  ᛗ ᛖlog ᚥ        ᛭ loggt (a²+b²)
