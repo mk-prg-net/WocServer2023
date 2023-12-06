@@ -412,32 +412,66 @@ Der Methode kann eine Liste von Parametern folgen. Dise werden von rechts nach l
 ᛋ             m(a, b, c) |
              ------------+
 ```
+### Zweige
+Eine Methode verarbeitet die übergebenen Parameter. Danach gibt es drei Möglichkeiten der Programmfortsetzung:
 
-### Methoden als reine Stapelspeichermethoden
-Die Methoden sind so implementiert, dass sie ihre parameter stets vom Stapelspeicher lesen, und ihre Ergebnisse wieder auf den Stapel schreiben.
+1. Es wird im **ᛋ Zweig** fortgesetzt
+2. Es wird im **ᛊ Zweig** fortgesetzt
+3. Es wird sofort zum Methodenausgang **ᛗ** gesprungen und damit die Methode formal beendet
+
+In den Fällen 1 und 2 wird nach Durchlauf der Zweige ebenfalls der Methodenoaufruf am Ausgang **ᛗ** abgeschlossen.
+
+Beispiele:
+
+```
+᛭ Wurzel aus einer Zahl a ziehen
+ᛖ SQRT a
+ᛋ _op_auf_√a_           ᛭ Hier wird die √ von a bereitgestellt
+ᛊ _Fehlerbehandlung_    ᛭ 
+ᛗ _Abschlussfunktion_
+```
+
+### Bereitstellung der Ergebnisse
+
+```
+             --+---+--+
+ᛖ m a b c ᛩ  a | b | c| -----+----+
+             --+---+--+      |    |
+             ------------+   |    |
+ +---  ᛋ      m(a, b, c) | <-+    | 
+ |           ------------+        |
+ |           ------------+        |
+ | +-- ᛊ      m(a, b, c) | <------+
+ | |         ------------+             
+ | |  
+ | |         ----------------------------------+
+ +-+-> ᛗ      s(m(a, b, c)) oder e(m(a, b, c)) |
+             ----------------------------------+   
+```
+
+### Weiterverarbeitung der Ergebnisse
+
+#### Abrufen des Ergebnis- Stapelspeichers als Array ᚥ 
+
+Der gesamte Stapelspeicher kann in einem  **ᛋ**, **ᛊ** und **ᛗ** Zweige als das spezielle Array **ᚥ** abgegriffen werden. Mittels **ᚥᛏ** Zugriffsoperator können einzelne Elemente herausgegriffen und gezielt weiterbearbeitet werden.
+**ᚥᛏ** hat folgende Signatur:
+
+```
+ᚥᛏ _Index1_ [_index2 [ ... [index n]]]
+ᛋ _meth_für_Zweig1_   ᛭ Methode, die auf den Wert mit Index 1 aus ᚥ angewendet wird
+ᛋ _meth_für_Zweig2_   ᛭ Methode, die auf den Wert mit Index 2 aus ᚥ angewendet wird
+:
+ᛋ _meth_für_ZweigN_   ᛭ Methode, die auf den Wert mit Index N aus ᚥ angewendet wird
+ᛊ _meth_für_einen_outOfRange_Fehler_
+```
+
+Damit kann eine Liste von Werten bereitstellen (z.B. einen Vektor)
+
+
+### Weiterleiten der Ergebnisse auf dem Stapelspeicher an eine Folgemethode
+
 
 ### Datenflussgraphen
-Kommandos und Abfragen werden mittels *Parameterliste* vor der Ausführung parametriert. Die Parameterliste ist ein *Array*.
-
-Nach der Ausführung gibt es zwei mögliche Zustände:
-
-1. Die Methode konnte erfolgreich ausgeführt werden: **ᛋ Zweig**
-2. Beim Ausführen der Methode kam es zu einem Problem: **ᛊ Zweig**
-
-An jeden Zweig wird die ursprüngliche Parameterliste, erweitert um die Ergebnisse gesendet. 
-
-Dies führt zu folgendem allgemeinen Datenfluss- Graphen:
-
-```
-  ᚤ p1 … pn ᛩ ᛭ Parameter Array
-  ↓  
-  ᛖ Methode ⟶ ᚤ e(p1 … pn) ᛩ ⟶ ᛊ Zweig  
-  ↓                               ↓
-  ᚤ m(p1 … pn) ᛩ                  ᚤ f(e(p1 … pn)) ᛩ
-  ↓                               ↓    
-  ᛋ Zweig⟶  ᚤ s(m(p1 … pn)) ᛩ ⟶ ᛗ Ausgang
-```
-**ᛊ** und **ᛋ** werden *Zweige* genannt.
 
 In jedem Zweig wird das **Kontext- Array** **ᚥ** bereitgestellt, welches die Aufrufparameter der Methode + der Ergebnisse enthält. Das Kontextarray ist Vergleichbar mit dem Aufrufstapel.
 
