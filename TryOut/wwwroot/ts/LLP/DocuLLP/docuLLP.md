@@ -401,9 +401,11 @@ Die Kommandos können über eine Parameterliste parametriert werden.
 
 ### Paramter
 
-Jede Methode kann parameteiert werden. Zur Parametrierung wird der *Stapelspeicher* des *Laufzeitsystems* explizit angesprochen wie ein Array über das Symbol **ᚥ**.
+Jede Methode kann parametriert werden. Die Parameter werden in eine Liste nach dem Methodennamen bereitgestellt. Diese Liste muss mit **ᛩ** abgeschlossen werden.
+Die Parameter werden von rechts nach links auf dem Stapelspeicher des Laufzeitsystems abgelegt.
 
-Der Methode kann eine Liste von Parametern folgen. Dise werden von rechts nach links auf den Stapelspeicher gelegt.
+Der Stapelspeicher kann als Sonderarray **ᚥ** jederzeit abgegriffen werden.
+
 ```
              --+---+--+
 ᛖm a b c ᛩ   a | b | c|
@@ -425,27 +427,27 @@ Beispiele:
 
 ```
 ᛭ Wurzel aus einer Zahl a ziehen
-ᛖ SQRT a
+ᛖ SQRT a  ᛩ
 ᛋ _op_auf_√a_           ᛭ Hier wird die √ von a bereitgestellt
-ᛊ _Fehlerbehandlung_    ᛭ 
-ᛗ _Abschlussfunktion_
+ᛊ _Fehlerbehandlung_    ᛭ z.B. im Fall a < 0
+ᛗ _Abschlussfunktion_  ᛭ Hier wird der Stapelspeicher Nach Ausführung von ᛋ oder ᛊ bereitgestellt
 ```
 
 ### Bereitstellung der Ergebnisse
 
 ```
              --+---+--+
-ᛖ m a b c ᛩ  a | b | c| -----+----+
+ᛖ m a b c ᛩ  a | b | c| -----+----+     ᛭ Ablage der Parameter auf dem Stapelspeicher
              --+---+--+      |    |
              ------------+   |    |
- +---  ᛋ      m(a, b, c) | <-+    | 
+ +---  ᛋ s    m(a, b, c) | <-+    |     ᛭ Ergebnis der Methode s im ᛋ Zweig bereitstellen
  |           ------------+        |
  |           ------------+        |
- | +-- ᛊ      m(a, b, c) | <------+
+ | +-- ᛊ e    m(a, b, c) | <------+     ᛭ Ergebnis der Methode e im ᛊ Zweig bereitstellen
  | |         ------------+             
  | |  
  | |         ----------------------------------+
- +-+-> ᛗ      s(m(a, b, c)) oder e(m(a, b, c)) |
+ +-+-> ᛗ      s(m(a, b, c)) oder e(m(a, b, c)) |  ᛭ Ergebnis vom ᛋ oder ᛊ Zweig bereitstellen
              ----------------------------------+   
 ```
 
@@ -463,32 +465,63 @@ Der gesamte Stapelspeicher kann in einem  **ᛋ**, **ᛊ** und **ᛗ** Zweige al
 :
 ᛋ _meth_für_ZweigN_   ᛭ Methode, die auf den Wert mit Index N aus ᚥ angewendet wird
 ᛊ _meth_für_einen_outOfRange_Fehler_
+ᛗ _Folgefunktion_
+```
+Der Wert zu jedem Index wird an einen korrespondierenden ᛋ Zweig geleitet, und kann dort mit einer Folge- Methode weiterbearbeitet werden.
+
+Sollte ein Eindex außerhalb des Stapelspeicher- Array **ᚥ** liegen, dann wird kein ᛋ Zweig betreten, sondern nur der ᛊ Zweig. In diesem kann eine Fehlerbehandlung stattfinden.
+
+**ᛗ** wird in jedem Fall am Ende durchlaufen. Hier kann eine Folgefunktion gestartet werden.
+
+#### Benennen des Ergebnisses
+
+Alternativ zum Abruf und Weiterverarbeitung der Ergebnisse mit **ᚥᛏ** können die Einträge am Methoden ausgang auch aus dem Stapelspeicher gelesen und benannt werden mit **ᛟ**:
+
+```
+             --+---+--+
+ᛖ m a b c ᛩ  a | b | c| -----+----+     ᛭ Ablage der Parameter auf dem Stapelspeicher
+             --+---+--+      |    |
+             ------------+   |    |
+ +--- ᛋ s     m(a, b, c) | <-+    |     ᛭ Ergebnis der Methode im ᛋ Zweig bereitstellen
+ |           ------------+        |
+ |           ------------+        |
+ | +-- ᛊ e    m(a, b, c) | <------+     ᛭ Ergebnis der Methode im ᛊ Zweig bereitstellen
+ | |         ------------+             
+ | |  
+ | |          ----------------------------------+
+ +-+-> ᛗ ᛟres  s(m(a, b, c)) oder e(m(a, b, c)) |  ᛭ Ergebnis aus ᛋ oder ᛊ an Namen res binden 
+              ----------------------------------+   
 ```
 
-Damit kann eine Liste von Werten bereitstellen (z.B. einen Vektor)
+Das benannte Ergebnis kann dann im folgenden weiterverwendet werden:
 
+ᛟᛡ
+```
+ᛟa ᛕ2
+ᛟb ᛕ3
 
-### Weiterleiten der Ergebnisse auf dem Stapelspeicher an eine Folgemethode
+ᛖsqu ᛟᛡa ᛩ 
+ᛗ ᛟaa
 
+ᛖsqu ᛟᛡb ᛩ 
+ᛗ ᛟbb
+
+ᛖadd ᛟᛡaa ᛟᛡbb ᛩ 
+ᛗ print ᛇ ᛟᛡa² + ᛟᛡb² = ᛩ
+
+```
 
 ### Datenflussgraphen
 
 In jedem Zweig wird das **Kontext- Array** **ᚥ** bereitgestellt, welches die Aufrufparameter der Methode + der Ergebnisse enthält. Das Kontextarray ist Vergleichbar mit dem Aufrufstapel.
 
-Methoden müssen nicht alle Zweige implementieren.
-
-Implementiert eine Methode den Zweig **ᛋ**, dann ist sie eine **Abfrage ᚢ**. 
-
-Implementiert eine Methode den Zweig **ᛋ** nicht, dann ist sie eine **Kommandos ᛈ**. 
-
-Wird weder **ᛊ** noch **ᛋ** implementiert, dann ist es ein finales **Kommando ᛰ**.
+Methoden müssen nicht zwingend alle Zweige implementieren.
 
 Jede Methode hat einen Ausgang **ᛗ**. Diese wird stets durchlaufen. Dadurch wird folgendes Grundprinzip der *strukturierten Programmierung* realisiert:
 
     Ein Block wird oben während des Programmflusses betreten und unten verlassen.
 
-In den Zweigen **ᛋ** und **ᛊ** können beliebige Methoden aufgerufen werden. Im Ausgang **ᛗ** dürfen hingegen nur Kommandos aufgerufen werden.
-
+In den Zweigen **ᛋ** und **ᛊ** dürfen nur Methoden aufgerufen werden, die die auf dem Staplespeicher liegenden Parameter verarbeiten können.
 #### Datenfluss Parameter- Array
 Im Normalfall entnimmt eine Methode von links Werte aus einem Array und stellt rechts die Ergebnisse ein.
 Beispiel:
