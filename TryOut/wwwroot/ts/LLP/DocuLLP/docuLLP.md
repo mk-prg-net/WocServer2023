@@ -495,7 +495,6 @@ Alternativ zum Abruf und Weiterverarbeitung der Ergebnisse mit **ᚥᛏ** könne
 
 Das benannte Ergebnis kann dann im folgenden weiterverwendet werden:
 
-ᛟᛡ
 ```
 ᛟa ᛕ2
 ᛟb ᛕ3
