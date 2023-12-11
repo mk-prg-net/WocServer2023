@@ -375,7 +375,7 @@ Im folgenden werden Operationen auf Array beschreiben, die häufig in **LLP** ei
 ```
 ᛟar1 ᚤ a b ᛩ
 
-ᛖᛏpop ᛟᛡar1 ᛩ
+ᛖᛏpop ᛟᛡar1
 ᛋ ᛟres             ᛭ ᛟᛡres == a
 ᛗ ᛖᛏlog ᚥ          ᛭ loggt ᚤ b ᛩ
 
@@ -385,59 +385,91 @@ Im folgenden werden Operationen auf Array beschreiben, die häufig in **LLP** ei
 
 ```
 
+## EVA: Eingabe, Datenverarbeitung, Ausgabe
 
-## Methoden ᛖ: Kommandos und Abfragen
-
-Methoden sind ein Oberbegriff für den Zustand des Systems verändernde *Kommandos*, und *Abfragen* auf dem Systemzustand selbst:
 
 ```
-                   Methoden ᛖ
-                      |
-       +--------------+-------------------+
-       |              |                   | 
-   Kommandos ᛈ   finale Kommandos ᛰ    Abfragen ᚢ
-``` 
-Die Kommandos können über eine Parameterliste parametriert werden. 
+          +---------------+
+    E1 -->|               |
+     :    | Verarbeitung  |--> Ausgabe
+    En -->|               |
+          +---------------+
+```
 
-### Paramter
+Dieses uralte Prinzip der elektronischen Datenverarbeitung wird wieder in den Fokus gestellt. 
+Die Verarbeitung von Daten erfolgt durch einzelne, benannte *Verarbeitungsstufen* (kurz *Stufe*). Jede Verarbeitungsstufe wird mit der Rune *CALC* **ᛣ** eingeleitet, ihr folgt der Name der Verarbeitungsstufe, die Eingangsparameter, die Verarbeitungszweige und schließlich der Ausgang, der mit der Rune  *EOLHX* **ᛉ** gekennzeichnet wird.
 
-Jede Methode kann parametriert werden. Die Parameter werden in eine Liste nach dem Methodennamen bereitgestellt. Diese Liste muss mit **ᛩ** abgeschlossen werden.
+```
+᛭ Syntaktischer Aufbau einer Verarbeitungsstufe
+ᛣ _NameVStufe_ _E1_ ... _En_ 
+ᛋ _Verarbeitungsfunktion_im_SIGEL_Zweig_
+ᛊ _Verarbeitungsfunktion_im_SOWILO_Zweig_
+ᛉ _Abschluss_oder_Folge_Funktion_am_Ausgang_
+```
+
+In LLP kann die Verarbeitung in einer Stufe stets in zwei alternative Pfade erfolgen. Damit wird das grundlegende Prinzip der Verzweigung eingeführt. 
+
+- **ᛋ**: SIEGEL Zweig
+- **ᛊ**: SOWILO Zweig
+
+Am Ende müssen aber beide Pfade wieder am Ausgang zu einem Pfad zusammengeführt werden. Damit können komplexe, jedoch strukturierte Datenflussgraphen konstruiert werden:
+
+```
+        +-----------------------+
+ E1 --> |           +------+    |
+  :     |     ᛋ --> | V1.1 | -->| 
+  :     |           +------+    |
+  :     | ᛣ V1                  |--> ᛉ Ausgang
+  :     |           +------+    |
+  :     |     ᛊ --> | V1.2 | -->|
+ En --> |           +------+    |
+        +-----------------------+
+```
+
+### Eingangswerte/Paramter
+
+Jede Stufe kann parametriert werden. Die Parameter (oder Eingangswerte) werden in eine Liste nach dem Stufennamen bereitgestellt. 
 Die Parameter werden von rechts nach links auf dem Stapelspeicher des Laufzeitsystems abgelegt.
 
 Der Stapelspeicher kann als Sonderarray **ᚥ** jederzeit abgegriffen werden.
 
+Eine einfache Verarbeitungsstufe, die dieses Prinzip direkt auzsnutzt, ist die **push** Stufe. Sie legt alle Eingangsparameter unverändert auf dem Stapel des Laufzeisystems ab:
+
 ```
-             --+---+--+
-ᛖm a b c ᛩ   a | b | c|
-             --+---+--+
-             ------------+
-ᛋ             m(a, b, c) |
-             ------------+
+                Inhalt Stapelspeicher
+                   --+---+--+
+ᛣ push  a ... z    a | b | c|
+                   --+---+--+
+             ⇠ ᛋ   ↵   
+             ⇠ ᛊ   ↵
+             ↳ ᛉ
 ```
+
+
 ### Zweige
 Eine Methode verarbeitet die übergebenen Parameter. Danach gibt es drei Möglichkeiten der Programmfortsetzung:
 
 1. Es wird im **ᛋ Zweig** fortgesetzt
 2. Es wird im **ᛊ Zweig** fortgesetzt
-3. Es wird sofort zum Methodenausgang **ᛗ** gesprungen und damit die Methode formal beendet
+3. Es wird sofort zum Stufenausgang **ᛉ** gesprungen und diese damit formal beendet
 
-In den Fällen 1 und 2 wird nach Durchlauf der Zweige ebenfalls der Methodenoaufruf am Ausgang **ᛗ** abgeschlossen.
+In den Fällen 1 und 2 wird nach Durchlauf der Zweige ebenfalls am Ausgang **ᛉ** abgeschlossen.
 
 Beispiele:
 
 ```
 ᛭ Wurzel aus einer Zahl a ziehen
-ᛖ SQRT a  ᛩ
+ᛣ SQRT a  ᛩ
 ᛋ _op_auf_√a_           ᛭ Hier wird die √ von a bereitgestellt
 ᛊ _Fehlerbehandlung_    ᛭ z.B. im Fall a < 0
-ᛗ _Abschlussfunktion_  ᛭ Hier wird der Stapelspeicher Nach Ausführung von ᛋ oder ᛊ bereitgestellt
+ᛉ _Abschlussfunktion_  ᛭ Hier wird der Stapelspeicher Nach Ausführung von ᛋ oder ᛊ bereitgestellt
 ```
 
 ### Bereitstellung der Ergebnisse
 
 ```
              --+---+--+
-ᛖ m a b c ᛩ  a | b | c| -----+----+     ᛭ Ablage der Parameter auf dem Stapelspeicher
+ᛣ m a b c    a | b | c| -----+----+     ᛭ Ablage der Parameter auf dem Stapelspeicher
              --+---+--+      |    |
              ------------+   |    |
  +---  ᛋ s    m(a, b, c) | <-+    |     ᛭ Ergebnis der Methode s im ᛋ Zweig bereitstellen
@@ -447,8 +479,31 @@ Beispiele:
  | |         ------------+             
  | |  
  | |         ----------------------------------+
- +-+-> ᛗ      s(m(a, b, c)) oder e(m(a, b, c)) |  ᛭ Ergebnis vom ᛋ oder ᛊ Zweig bereitstellen
+ +-+-> ᛉ      s(m(a, b, c)) oder e(m(a, b, c)) |  ᛭ Ergebnis vom ᛋ oder ᛊ Zweig bereitstellen
              ----------------------------------+   
+```
+
+Beispiel: Berechnen der Quadratwurzel
+
+```
+ᛣ input ᛇ a² = ᛩ
+ᛋ ᛟaa
+᛭ Ende von Input
+ᛉ print ᛇ Es wird nun die Wurzel aus ᛟᛡaa gezogen ᛩ
+
+᛭ Start Wurzel ziehen
+ᛣ sqrt ᛟᛡaa
+
+᛭ Weiterleiten des Ergebnisses an die Print- Methode. Achtung: Im AusgabeString findet
+᛭ String- Interpolation statt.
+ᛋ print ᛇ √ ᛟᛡaa= ᛩ
+
+᛭ Weiterleiten im Fehlerfall an die Print- Methode. Achtung: Im AusgabeString findet
+᛭ String- Interpolation statt.
+ᛊ print ᛇ √ ᛟᛡaa ist konnte nicht ermittelt werden. Ursache: ᛩ
+
+᛭ Hier wirden die Ausführungspfade wieder zusammengeführt
+ᛉ print ᛇ Programm √ beendet ᛩ
 ```
 
 ### Weiterverarbeitung der Ergebnisse
@@ -465,7 +520,7 @@ Der gesamte Stapelspeicher kann in einem  **ᛋ**, **ᛊ** und **ᛗ** Zweige al
 :
 ᛋ _meth_für_ZweigN_   ᛭ Methode, die auf den Wert mit Index N aus ᚥ angewendet wird
 ᛊ _meth_für_einen_outOfRange_Fehler_
-ᛗ _Folgefunktion_
+ᛉ _Folgefunktion_
 ```
 Der Wert zu jedem Index wird an einen korrespondierenden ᛋ Zweig geleitet, und kann dort mit einer Folge- Methode weiterbearbeitet werden.
 
@@ -479,7 +534,7 @@ Alternativ zum Abruf und Weiterverarbeitung der Ergebnisse mit **ᚥᛏ** könne
 
 ```
              --+---+--+
-ᛖ m a b c ᛩ  a | b | c| -----+----+     ᛭ Ablage der Parameter auf dem Stapelspeicher
+ᛣ m a b c    a | b | c| -----+----+     ᛭ Ablage der Parameter auf dem Stapelspeicher
              --+---+--+      |    |
              ------------+   |    |
  +--- ᛋ s     m(a, b, c) | <-+    |     ᛭ Ergebnis der Methode im ᛋ Zweig bereitstellen
@@ -489,173 +544,95 @@ Alternativ zum Abruf und Weiterverarbeitung der Ergebnisse mit **ᚥᛏ** könne
  | |         ------------+             
  | |  
  | |          ----------------------------------+
- +-+-> ᛗ ᛟres  s(m(a, b, c)) oder e(m(a, b, c)) |  ᛭ Ergebnis aus ᛋ oder ᛊ an Namen res binden 
+ +-+-> ᛉ ᛟres  s(m(a, b, c)) oder e(m(a, b, c)) |  ᛭ Ergebnis aus ᛋ oder ᛊ an Namen res binden 
               ----------------------------------+   
 ```
 
-Das benannte Ergebnis kann dann im folgenden weiterverwendet werden:
+Das benannte Ergebnis kann dann im Folgenden weiterverwendet werden:
 
 ```
 ᛟa ᛕ2
 ᛟb ᛕ3
 
-ᛖsqu ᛟᛡa ᛩ 
-ᛗ ᛟaa
+ᛣsqu ᛟᛡa  
+ᛉ ᛟaa
 
-ᛖsqu ᛟᛡb ᛩ 
-ᛗ ᛟbb
+ᛣsqu ᛟᛡb  
+ᛉ ᛟbb
 
-ᛖadd ᛟᛡaa ᛟᛡbb ᛩ 
-ᛗ print ᛇ ᛟᛡa² + ᛟᛡb² = ᛩ
-
+ᛣadd ᛟᛡaa ᛟᛡbb  
+᛭ Weiterleiten des Ergebnisses an die Print- Methode. Achtung: Im AusgabeString findet
+᛭ String- Interpolation statt.
+ᛉ print ᛇ ᛟᛡa² + ᛟᛡb² = ᛩ
 ```
 
-### Datenflussgraphen
+## Von der Laufzeitumgebung bereitgestellte Stufen
 
-In jedem Zweig wird das **Kontext- Array** **ᚥ** bereitgestellt, welches die Aufrufparameter der Methode + der Ergebnisse enthält. Das Kontextarray ist Vergleichbar mit dem Aufrufstapel.
+Die Laufzeitumgebung hat bereits eine Reihe von Stufen vordefiniert und implementiert. 
 
-Methoden müssen nicht zwingend alle Zweige implementieren.
+### Programende
 
-Jede Methode hat einen Ausgang **ᛗ**. Diese wird stets durchlaufen. Dadurch wird folgendes Grundprinzip der *strukturierten Programmierung* realisiert:
-
-    Ein Block wird oben während des Programmflusses betreten und unten verlassen.
-
-In den Zweigen **ᛋ** und **ᛊ** dürfen nur Methoden aufgerufen werden, die die auf dem Staplespeicher liegenden Parameter verarbeiten können.
-#### Datenfluss Parameter- Array
-Im Normalfall entnimmt eine Methode von links Werte aus einem Array und stellt rechts die Ergebnisse ein.
-Beispiel:
+Diese Stufe beendet in jedem Fall das Programm.
 
 ```
-Startwerte      (a, b)             
-                  ↓                ᛭ In 𝓛𝓛𝓟  
-1. Berechnung    [x²]              ᛖsqu ᚤ ᛕ2 ᛕ3 ᛩ 
-                  ↓                ᛋ ᛖsqu ᚥ
-                (a², b)              ᛋ ᛖadd ᚥ                
-                  ↓                    ᛋ ᛟaabb                                    
-2. Berechnung    [x²]                  ᛗ ᛖlog ᚥ      ᛭ loggt (a²+b²)
-                  ↓                  ᛗ ᛖlog ᚥ        ᛭ loggt (a²+b²)
-                (a², b²)           ᛗ ᛖlog ᚥ          ᛭ loggt (a²+b²)
-                  ↓
-3. Berechnung    [+]         
-                  ↓
-                (a²+b²)                  
+ᛣfinᛉ
+```
+
+### Fehlerlog
+
+Diese Stufe gibt die als Eingang E1 vorliegende Meldung und den aktuellen Stapelspeicherinhalt in einem Fehlerlog aus.
+Nach Ausführung dieser Stufe ist der Stapelspeicher in genau dem gleichen Zustand wie vor der Stufe.
+
+```
+ᛣlogErr ᛇ FEHLERMELDUNG ᛩᛉ
+```
+
+### Infolog
+
+Diese Stufe gibt die als Eingang E1 vorliegende Meldung und den aktuellen Stapelspeicherinhalt in einem Info- Log aus.
+Nach Ausführung dieser Stufe ist der Stapelspeicher in genau dem gleichen Zustand wie vor der Stufe.
+
+```
+ᛣlogInf ᛇ FEHLERMELDUNG ᛩᛉ
+```
+
+### Stapelspeicher mit Werten füllen
+
+Mit dieser Stufe kann eine Liste von Werten auf den Stapelspeicher gelegt werden. Eine weitere Bearbeitung der Werte auf dem Stapelspeicher findet nicht statt.
+
+Nachfolgende Stufen können die unveränderten Werte auf dem Stapelspeicher dann weiterverarbeiten. 
+
+```
+                Inhalt Stapelspeicher
+                   --+---+--+
+ᛣ push  a ... z    a |...| z|
+                   --+---+--+
+             ⇠ ᛋ   ↵   
+             ⇠ ᛊ   ↵
+             ↳ ᛉ
+```
+
+### Alternative Verarbeitung ifElse
+
+Diese Stufe nutzt die Stuktur der alternativen Ausführungspfade ᛋ und ᛊ aus, um eine elementare Verzweigung in Abhängigkeit eines boolschen Wertes zu implementieren.
+
+Der Eingangsparameter von **ifElse** muss ein boolscher Wert sein. Ist er True, dann wird der **ᛋ** Zweig, sonst der **ᛊ** ausgeführt. Am Ende wird wieder im **ᛉ** Zweig zusammengeführt.
+
+```
+ᛣifElse _boolscherEingang_
+ᛋ _Folgestufe_if_TRUE_   
+ᛊ _Folgestufe_if_FALSE_  
+ᛉ _FolgeStufe_von_ifElse_
 ```
 
 
+### Datenstrom- orientierte Ausgabe
+
+Es können Ausgaben in Dateien erfolgen. Dazu sind diese in einer Stufe zuerst als Datenströme zu öffnen, und dann können Teile des Stapelspeichers in diese ausgegeben werden.
 ```
-  i1      i2           ᛭ Eingangsdaten
-  ↓       ↓
-  ᚢ1 ᛊ ⟶ ᚢ2 ᛊ ⟶ ᛰ3   ᛭ Finales Kommando ᛰ3 beendet Datenfluss
-  ᛋ       ᛋ
-  |       ↓  
-  |       ᛰ4    	   ᛭ Finales Kommando ᛰ4 beendet Datenfluss 
-  ↓
-  ᚢ5 ᛊ ⟶ ᛰ6           ᛭ Finales Kommando ᛰ6 beendet Datenfluss  
-  ᛋ                    ᛭ Ausgang mit Ergebnis von ᚢ5 ist Eingang von ᛈ7
-  ↓
-  ᛈ7 ᛊ ⟶ ᛰ8           ᛭ Finales Kommando ᛰ3 beendet Datenfluss
-```
-
-#### Präfixe für Methodenoperatoren
-
-Operator      | Bedeutung
---------------|----------------------------
-**ᛖ _name_**  | Präfix, Definition einer benannten Methode
-**ᛖ᛫**         | Präfix, Definition einer anonymen Methode
-**ᛖᛠ**        | Präfix einer Methodentypen- Signatur
-**ᛖᛡ _name_** | Präfix einer Methodenreferenz
-**ᛖᛏ _name_** | Präfix eines Aufrufes einer benannten Methode
-**ᛖᛏ᛫**        | Präfix eines Aufrufes einer anonymen Methode
-
-### Parameterlisten von Methoden
-
-Die Mengen der möglichen Eingangsdaten/Parameter einer Methode werden durch die Parameterlisten definiert.
-
-### Methodentypen ᛖᛠ
-
-Wie bei den elementaren Datentypen können auch Methoden klassifiziert werden. Dabei ist der Aufbau der Parameterliste entscheidend. 
-
-**ᛖᛠ** ist das Präfix für einen Methodentyp. Diesem folgt eine Liste von Methodenparameter- Typdeklarationen:
-
-**ᛖᛠ ᛟ _paramName1_ _TypName1_ ... ᛟ _paramNameN_ _TypNameN_ ᛩ**
-
-### Definition von Methoden
-
-Eine Methodendefintion startet mit dem Präfix **ᛖ**, dem folgende Strukturen folgen:
-
-1. Methodenname
-2. Parameterliste
-3. Ausgänge mit Methodentypen der einsetzbaren Folge- Methoden
-4. Implementierende Sequenz von Operartionen
-
-```
-ᛖ _name_ ᛟ _paramName1_ _TypName1_ ... ᛟ _paramNameN_ _TypNameN_ ᛩ
-ᛊᛠ ᛟ _paramName1_ _TypName1_ ... ᛟ _paramNameM_ _TypNameM_ ᛩ 
-ᛋᛠ ᛟ _paramName1_ _TypName1_ ... ᛟ _paramNameM_ _TypNameP_ ᛩ 
-ᛜ _Methodenaufruf_etc_ ᛭ 1. Schritt in der Sequenz
-...
-ᛜ _Methodenaufruf_etc_ ᛭ N. Schritt in der Sequenz
-ᛜᛜ ᛭ Sequenzende
-```
-
-### Finales Kommando ᛰ
-
-Ein **finales Kommando** ist eine parametrierbare Methode, die weder eine Fehlermeldung, noch ein Ergebnis zurückliefert. Es findet lediglich eine Änderung des Systemzustandes auf Basis der übergebenen Parameter statt.
-
-Finale Kommandos haben das Präfix **ᛰ**
-
-Beispiele für *finale Kommandos* sind z.B. das reguläre Programmende und  der vorzeitige Programmabbruch.
-
-```
-Parameter
-↓  
-ᛰ Finales Kommando
-
-᛭ Finales Kommando in LLP aufrufen
-ᛏᛰ namensReferenz ᛟparam1 wert1 ... ᛟparamN wertN  ᛩ
-
-᛭ Konkretes Beispiel: Text auf der Log- Konsole ausgeben
-ᛰᛏlogConsole ᛟtxt ᛒ Es wurden ᛟᛡcount Datensätze gelesenᛩ ᛩ
-
-```
-### Kommandos ᛈ
-
-*Kommandos* haben das Präfix **ᛈ**, und verändern den Systemzustand (z.B. Insert- Operation in einer DB- Tabelle). Ein Ergebnis liefern sie nicht, können aber scheitern, und haben folglich einen Fehler- Handler **ᛊ**.
-
-```
-Parameter
-↓  
-ᛈ Command ᛊ⟶ Error Output  
-
-᛭ Kommando in LLP aufrufen
-ᛏᛈ namensReferenz ᛟparam1 wert1 ... ᛟparamN wertN  
-ᛊ _Referenz_auf_Funktion_mit_Fehlerbehandlung_
-ᛩ
-```
-
-### Abfragen ᚢ
-*Abfragen* haben das Präfix **ᚢ**. Sie liefern Informationen über den aktuellen Systemzustand. Verändert wird der Systemzustand durch eine Abfrage explizit nicht.
-
-Das Ergebnis einer Abfrage wird im Result- Output ausgegeben.
-
-```
-  Parameter
-  ↓  
-  ᚢ Query ᛊ⟶ Error Output  
-  ᛋ 
-  ↓
-  Succeeded/Query Result Output
-```
-
-### Von der Laufzeitumgebung bereitgestellte Methoden
-
-Die Laufzeitumgebung hat bereits eine Reihe von Methoden vordefiniert und Implementiert. Diese stammen aus folgenden Bereichen:
-
-#### Datenstrom- orientierte Ausgabe
-
-Wie in jeder Programmiersprache gibt es auch in LLP eine elementare Funktion zur Ausgabe von Daten in Datenströme: 
-
-`ᛰout ᛟoStream _name output_Stream_  ᛟtxt ᛒ hier den auszugebenden Textᛩ ᛩ` 
+ᛣout _name_output_Stream_  _E1_ ... _En_
+ᛊ _Verarbeitungsstufe_falls_Ausgabe_scheitert_
+ᛉ 
 
 ##### Logs, Fehlerlogs
 
