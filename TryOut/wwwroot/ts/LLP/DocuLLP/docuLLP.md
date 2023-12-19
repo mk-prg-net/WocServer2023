@@ -99,7 +99,7 @@ Beispiele:
 
 ### Hierarchieen ᚠ
 
-`ᚠ`ist das Präfix eines Pfades in einer Hierarchie. Der Pfad muß durch ein Listenendsymbol `ᛩ` abgeschlossen werden.
+**ᚠ** (runic Fehu) ist das Präfix eines Pfades in einer Hierarchie. Der Pfad muß durch ein Listenendsymbol **ᛩ** (runic Q) abgeschlossen werden.
 
 `ᚠ ᛕ23 ᛕ10 ᛕ15 ᛩ` ⟺ Kann z.B. eine Versionsnummer mit den drei Hierarchieebnen *Hauptversion*, *Nebenversion*, *Buildnummer* darstellen. Oder die Uhrzeit **23:10:15**. Oder das Datum **15.10.2023**.
 
@@ -109,7 +109,7 @@ Beispiele:
 
 ## Abstraktion durch benennen von Werten mittels ᛟ Operator
 
-Werte können an einen *Namen* mittels dem **Bind** Operator **ᛟ** gebunden werden. Über diesen Namen wird der Wert dann referenziert und abgerufen.
+Werte können an einen *Namen* mittels dem **Bind** Operator **ᛟ** (runic Othalan) gebunden werden. Über diesen Namen wird der Wert dann referenziert und abgerufen.
 
 `ᛟ _NameAlsString_ _Wert_` bindet den Wert an einen Namen, der nur im Kontext der aktuellen 𝓛𝓛𝓟 Datei eindeutig ist.
 
@@ -117,30 +117,30 @@ Werte können an einen *Namen* mittels dem **Bind** Operator **ᛟ** gebunden we
 
 ```
 ᛭ Konstante PI definieren
-ᛟ PI ᚩ 3 14 
+ᛟPI ᚩ 3 14 
 
 ᛭ Den lokal gültigen Namen PI an eine global gültige Naming ID binden.
-ᛟ PI ᚻ ᛕ 16 7ABC123
+ᛟPI ᚻ ᛕ16 7ABC123
 
 ᛭ Liste der ersten fünf Primzahlen an einen Namen binden
-ᛟ ersteFünfPrimzahlen ᚤᛕ2 ᛕ3 ᛕ5 ᛕ7 ᛕ11 ᛩ
+ᛟersteFünfPrimzahlen ᚤᛕ2 ᛕ3 ᛕ5 ᛕ7 ᛕ11 ᛩ
 ```
 Die Bindung eines Namens an einen Wert kann auch als **Attribut Wertepaar** betrachtet werden!
 
-### Zugriff Auf den Werte, die an Namen gebunden sind mittels ᛟᛡ
+### Zugriff Auf den Werte, die an Namen gebunden sind mittels ᛡ
 
-Wurde an einen Namen ein Wert gebunden, dann kann überall, wo normalerweise der Wert eingesetzt wird, der Name eingesetzt werden, dem aber der **Replace Name by Value** Operator `ᛟᛡ` vorangesetzt werden muss:
+Wurde an einen Namen ein Wert gebunden, dann kann überall, wo normalerweise der Wert eingesetzt wird, der Name eingesetzt werden. Dazu ist dem Namen das runic Ior **ᛡ** voranzusetzen:
 
 ```
 ᛭ Konstante PI definieren
-ᛟ PI ᚪ 3 14 
+ᛟPI ᚪ3 14 
 
 ᛭ Den Wert von **PI** an den synonymen Namen **pie** binden
-ᛟ pie ᛟᛡ PI
+ᛟpie ᛡPI
 
 ᛭ Den Wert der globalen mit Naming ID definierten Konstante **PI** an den synonymen Namen **piee** binden
 
-ᛟ pie ᛟᛡ ᚻ ᛕ 16 7ABC123I
+ᛟpie ᛡ ᚻ ᛕ16 7ABC123I
 
 ```
 
@@ -170,7 +170,7 @@ Die Liste kann selber mittels Bind an einen Namen gebunden. So entsteht ein *Nam
 ᛩ 
 ```
 
-Für den Zugriff auf die Werte in der benannten Liste kann wieder mittels **Replace by** Operator **ᛟᛡ** benutzt werden. In diesem Fall sind die Namen jedoch als Hierarchie anzugeben: `ᛟᛡ ᚠ _NameListe_ _NameAttribut_ ᛩ`
+Für den Zugriff auf die Werte in der benannten Liste kann wieder mittels runic Ior Operator **ᛡ** benutzt werden. In diesem Fall sind die Namen jedoch als Hierarchie anzugeben: `ᛡᚠ _NameListe_ _NameAttribut_ ᛩ`
 
 ```
 ᛭ Organisation einer Mathematischen Bibliothek
@@ -191,8 +191,9 @@ Für den Zugriff auf die Werte in der benannten Liste kann wieder mittels **Repl
 ᛩ
 
 ᛭ Zugriff auf PI
-ᛟᛡ ᚠ Math Const PI ᛩ
+ᛟPiAusMath ᛡᚠ Math Const PI ᛩ
 ```
+
 ### Semantische Referenzen zwischen Namensraum- Listen
 
 Sei **milDiscCircularCenterOfDiskX** ein Namenscontainer, der die X- Koordinaten des Mittelpunktes einer auszufräsenden Kreisscheibe beschreibt. Dieser stehe mit anderen Namenscontainern in folgenden semantischen Beziehungen:
@@ -286,9 +287,9 @@ Auf Teile einer Zeichenkette kann mittels
 
 Werden in einem String Namensreferenzen eingesetzt, die beim Abruf des Strings evaluiert werden, dann liegt eine Stringinterpolation vor.
 
-Sei **ᛟ attrib schöne** eine Namensbindung. Dann kann eine Stringinterpolation wie folgt definiert werden:
+Sei **ᛟattrib schöne** eine Namensbindung. Dann kann eine Stringinterpolation wie folgt definiert werden:
 
-**ᛇ Hallo *ᛟᛡ attrib* Welt ᛩ** 
+**ᛇ Hallo *ᛡattrib* Welt ᛩ** 
 
 Diese wird dann evaluiert zu:
 
@@ -298,7 +299,7 @@ Diese wird dann evaluiert zu:
 
 *Arrays* sind Listen von Werten. Die Werte können primitiv oder komplex sein.
 
-**ᚤ** ist das Präfix, welches die Liste eines Arrays eröffnet. **ᛩ** beendet die Liste. 
+**ᚤ** (runic Y) ist das Präfix, welches die Liste eines Arrays eröffnet. **ᛩ** beendet die Liste. 
 
 ``` 
 ᛭ Array mit den ersten fünf Primzahlen
@@ -338,10 +339,10 @@ Beispiele (hier enhalten Array selber wieder Arrays)
    ᚤ ᛕ3 ᛕ4 ᛩ 
 ᛩ
 
-᛭ Hier gilt: ᛟe1 == ᚤ ᛕ1 ᛕ2 ᛩ
+᛭ Hier gilt: ᛡe1 == ᚤ ᛕ1 ᛕ2 ᛩ
 ᚤᛏ ᛟa1 1 ᛋ ᛟe1
 
-᛭ Hier gilt: ᛟe2 == ᚤ ᛕ3 ᛕ4 ᛩ
+᛭ Hier gilt: ᛡe2 == ᚤ ᛕ3 ᛕ4 ᛩ
 ᚤᛏ ᛟa1 2 ᛋ ᛟe2
 ```
 
@@ -358,10 +359,10 @@ Mittels des Expand- Operator **ᚷ** kann der Inhalt eines Array in ein anderes 
    ᛕ4 
 ᛩ
 
-᛭ Hier gilt: ᛟe1 == ᛕ1
+᛭ Hier gilt: ᛡe1 == ᛕ1
 ᚤᛏ ᛟa2 1 ᛋ ᛟe1
 
-᛭ Hier gilt: ᛟe2 == ᛕ2
+᛭ Hier gilt: ᛡe2 == ᛕ2
 ᚤᛏ ᛟa1 2 ᛋ ᛟe2
 ```
 
