@@ -776,6 +776,89 @@ namespace MKPRG.Naming
 
         }
 
+        /// <summary>
+        /// ᚾᚤᛏ = Nyt (die nützliche) Flussname im Lied der Grímnismál (Edda): https://de.wikipedia.org/wiki/Liste_der_Fl%C3%BCsse_im_Lied_Gr%C3%ADmnism%C3%A1l
+        /// 
+        /// Martin Korneffel, 20.12.2023
+        /// Schlüsselwörter der formalen Sprache zur Beschreibung von Datenflussgraphen, NYT
+        /// 
+        /// </summary>
+        public static class NYT
+        {
+            // ᛭
+            public static string Comment => "&#x16ED;";
+
+            // ᚥ W Stack Array Ref
+            public static string StackArrayRef => "&#x16A5;";
+
+            // ᚤ Y Array Beginn
+            public static string YArrayBegin => "&#x16A4;";
+
+            // ᛟ OTHALAN Define
+            public static string OthalanDefine = "&#x16DF;";
+
+            // ᛡ IOR Dereference
+            public static string IorDereference = "&#x16E1;";
+
+            // ᛚ L unary Function Prefix
+            public static string UnaryFunction => "&#x16DA;";
+
+            // ᛣ CALC Data Flow Stage begin
+            public static string CalcBeginStage => "&#x16E3;";
+
+            // ᛉ EOLHX Data Flow Stage end
+            public static string EolhxEndStage => "&#x16C9;";
+
+            // ᛋ SIEGEL Branch
+            public static string SiegelBranch => "&#x16CB;";
+
+            // ᛊ SOWILO Branch
+            public static string SowiloBranch => "&#x16CA;";
+
+            // ᛏ TYR
+            public static string Return => "&#x16CF;";
+
+            // ᛇ IWAZ StringBegin
+            public static string IwazStringBegin => "&#x16C7;";
+
+            // ᛢ CWEORTH StringCat
+            public static string CweorthStringCat => "&#x16E2;";
+
+
+            // ᚹ WYNN List Begin
+            public static string WynnListBegin => "&#x16B9;";
+
+            // ᛒ BJARKAN Bool
+            public static string BjarkanBool => "&#x16D2;";
+
+            // ᛩ Q List End
+            public static string QListEnd => "&#x16E9;";
+
+
+            // ᛠ
+            public static string Time => "&#x16E0;";
+
+            // ᚠ FEHU Hierarchical List
+            public static string FehuHirachy => "&#x16A0;";
+
+            // ᛕ P Cardinal Number
+            public static string PIntPrefix => "&#x16D5;";
+
+            // ᚱ RAD rational Number: is a pair of nominator and denominator
+            public static string RadNomDenom => "&#x16B1;";
+
+            // ᚪ Ac Floating Point Number
+            public static string AcFloatingPointNum => "&#x16AA;";
+
+            // ᚻ  Haegl Naming ID
+            public static string HaeglNID => "&#x16BB;";
+
+            // ᛯ TVIMADUR Semantic Reference between Naming Containers
+            public static string TvimadurSemanticRef => "&#x16EF;";
+
+        }
+
+
         public static class Edit
         {
             public static string DelRight => "&#x2326;";
