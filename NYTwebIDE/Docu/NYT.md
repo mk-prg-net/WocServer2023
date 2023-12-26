@@ -411,7 +411,7 @@ Die Verarbeitung von Daten erfolgt durch einzelne, benannte *Verarbeitungsstufen
 ᛉ _Abschluss_oder_Folge_Funktion_am_Ausgang_
 ```
 
-In LLP kann die Verarbeitung in einer Stufe stets in zwei alternative Pfade erfolgen. Damit wird das grundlegende Prinzip der Verzweigung eingeführt. 
+In **NYT** kann die Verarbeitung in einer Stufe stets in zwei alternative Pfade erfolgen. Damit wird das grundlegende Prinzip der Verzweigung eingeführt. 
 
 - **ᛋ**: SIEGEL Zweig
 - **ᛊ**: SOWILO Zweig
@@ -420,22 +420,18 @@ Am Ende müssen aber beide Pfade wieder am Ausgang zu einem Pfad zusammengeführ
 
 ```
         +-----------------------+
- E1 --> |           +------+    |
-  :     |     ᛋ --> | V1.1 | -->| 
+ E1 ⟶  |           +------+    |
+  :     |     ᛋ ⟶  | V1.1 | ⟶ | 
   :     |           +------+    |
-  :     | ᛣ V1                  |--> ᛉ Ausgang
+  :     | ᛣ V1                  |⟶ ᛉ Ausgang
   :     |           +------+    |
-  :     |     ᛊ --> | V1.2 | -->|
- En --> |           +------+    |
+  :     |     ᛊ ⟶  | V1.2 | ⟶ |
+ En ⟶  |           +------+    |
         +-----------------------+
 ```
-
 ### Eingangswerte/Paramter
 
-Jede Stufe kann parametriert werden. Die Parameter (oder Eingangswerte) werden in eine Liste nach dem Stufennamen bereitgestellt. 
-Die Parameter werden von rechts nach links auf dem Stapelspeicher des Laufzeitsystems abgelegt.
-
-Der Stapelspeicher kann als Sonderarray **ᚥ** jederzeit abgegriffen werden.
+Jede Stufe kann parametriert werden. Die Parameter (oder Eingangswerte) werden auf dem Stapelspeicher bereitgestellt. Der Stapelspeicher kann unmittelbar nach dem Stufennamen mit den benötigten Parametern befüllt werden durch eine Parameterliste: `ᛣstufenNamen _p1_ … _pn_`. Die Parameter werden dabei von rechts nach links auf dem Stapelspeicher des Laufzeitsystems abgelegt.
 
 Eine einfache Verarbeitungsstufe, die dieses Prinzip direkt auzsnutzt, ist die **push** Stufe. Sie legt alle Eingangsparameter unverändert auf dem Stapel des Laufzeisystems ab:
 
@@ -449,13 +445,47 @@ Eine einfache Verarbeitungsstufe, die dieses Prinzip direkt auzsnutzt, ist die *
              ↳ ᛉ
 ```
 
+#### Annahmen zum Stapelspeicher definieren
+
+Da jede Stufe ihre Parameter vom Stapel liest, muss sichergestellt werden, dass auch alle benötigten Parameter auf dem Stapel für die Stufe bereitstehen. Die Prüfung des Stapelspeichers erfolgt durch die Stufe zur Laufzeit. NYT stellt zudem eine generische Implementierung für solche Prüfuungen bereit durch **Musterbelegungen**:
+
+𝑫𝒆𝒇 **Musterbelegung**: ist eine Liste von Typnamen nach der INGWAZ Rune: `ᛜ ᛠ1 … ᛠn`. Der erste Typname `ᛠ1` bezeichnet dabei den Datentyp des ersten Wertes auf dem Stapelspeicher, der zweite `ᛠ2` den des zweiten Wertes auf dem Stapelspeicher usw.. 
+
+Die **Musterbelegung** kann an die Parameterliste einer Stufe angehangen werden, und definiert eine Annahme über die Belegung des Stapelspeichers vor dem Einkellern der Parameter einer Stufe:
+
+```
+
+ᛣstufenName p1  …  pn ᛜ ᛠ1  …  ᛠm ᛉ
+            \---+---/   \---+---/
+                |           |
+         Einzukellernde  Annahme über die bereits auf     
+         Parameter       dem Stapel liegenden Parameter
+```
+
+Wenn eine **Musterbelegung** nicht zutrifft, dann wird eine Fehlermeldung erzeug und auf dem Stapel abgelegt. Anschließend wird im **ᛊ (Sowilo)** Zweig der Stufe fortgesetzt.
+
+🚨 Achtung: Die Musterbelegung scheint einer formalen Parameterliste einer Prozedur in einer Programmiersprache wie **C#** zu entsprechen. Jedoch handelt es sich hier um ein automatisiertes Prüfverfahren für die Stapelspeicherbelegung zur Laufzeit (keine Prüfung zur Entwurfszeit via Compiler!), die beim konkreten Start der Stufe stattfindet. Es kann deshalb für verschiedene Stufenstarts auch verschiedene Musterbelegungen geben:
+
+```
+ᛣpush ᛕ77ᛉ
+
+᛭ Hier wird eine Musterbelegung von einer Kardinalzahl auf dem Stapelspeicher angenommen.
+ᛣadd ᛕ88 ᛜ ᛕᛠ
+ᛊ ᛣprintᛉ
+ᛉ
+
+᛭ Hier wird eine Musterbelegung von zwei Kardinalzahlen auf dem Stapelspeicher angenommen.
+ᛣadd ᛜ ᛕᛠ ᛕᛠ
+ᛊ ᛣprintᛉ
+ᛉ
+```
 
 ### Zweige
 Eine Methode verarbeitet die übergebenen Parameter. Danach gibt es drei Möglichkeiten der Programmfortsetzung:
 
-1. Es wird im **ᛋ Zweig** fortgesetzt
-2. Es wird im **ᛊ Zweig** fortgesetzt
-3. Es wird sofort zum Stufenausgang **ᛉ** gesprungen und diese damit formal beendet
+1. Es wird im **ᛋ (Siegel) Zweig** fortgesetzt
+2. Es wird im **ᛊ (Sowilo) Zweig** fortgesetzt
+3. Es wird sofort zum Stufenausgang **ᛉ (Eolhx)** gesprungen und diese damit formal beendet 
 
 In den Fällen 1 und 2 wird nach Durchlauf der Zweige ebenfalls am Ausgang **ᛉ** abgeschlossen.
 
@@ -469,7 +499,7 @@ Beispiele:
 ᛉ _Abschlussfunktion_  ᛭ Hier wird der Stapelspeicher Nach Ausführung von ᛋ oder ᛊ bereitgestellt
 ```
 
-### Bereitstellung der Ergebnisse
+#### Bereitstellung der Ergebnisse in den Zweigen
 
 ```
              --+---+--+
@@ -493,32 +523,101 @@ Beispiel: Berechnen der Quadratwurzel
 ᛣ input ᛇ a² = ᛩ
 ᛋ ᛟaa
 ᛭ Ende von Input
-ᛉ print ᛇ Es wird nun die Wurzel aus ᛟᛡaa gezogen ᛩ
+ᛉ
 
-᛭ Start Wurzel ziehen
+ᛣprint ᛇ Es wird nun die Wurzel aus ᛟᛡaa gezogen ᛩ
+
+᛭ Start Wurzel ziehen (Inhalt von ᛟaa wird auf den Stapel gelegt)
 ᛣ sqrt ᛟᛡaa
 
 ᛭ Weiterleiten des Ergebnisses an die Print- Methode. Achtung: Im AusgabeString findet
 ᛭ String- Interpolation statt.
-ᛋ print ᛇ √ ᛟᛡaa= ᛩ
+ᛋ print ᛕ1 ᛇ √ ᛟᛡaa= ᛩ
 
 ᛭ Weiterleiten im Fehlerfall an die Print- Methode. Achtung: Im AusgabeString findet
 ᛭ String- Interpolation statt.
-ᛊ print ᛇ √ ᛟᛡaa ist konnte nicht ermittelt werden. Ursache: ᛩ
+ᛊ print ᛕ1 ᛇ √ ᛟᛡaa ist konnte nicht ermittelt werden. Ursache: ᛩ
 
-᛭ Hier wirden die Ausführungspfade wieder zusammengeführt
-ᛉ print ᛇ Programm √ beendet ᛩ
+᛭ Hier werden die Ausführungspfade wieder zusammengeführt
+ᛉ print ᛕ1 ᛇ Programm √ beendet ᛩ
 ```
 
-### Weiterverarbeitung der Ergebnisse
+### Hintereinanderschalten von Stufen in Sequenzen
 
-#### Abrufen des Ergebnis- Stapelspeichers als Array ᚥ 
-
-Der gesamte Stapelspeicher kann in einem  **ᛋ**, **ᛊ** und **ᛗ** Zweige als das spezielle Array **ᚥ** abgegriffen werden. Mittels **ᚥᛏ** Zugriffsoperator können einzelne Elemente herausgegriffen und gezielt weiterbearbeitet werden.
-**ᚥᛏ** hat folgende Signatur:
+Verarbeitungsstufen können direkt hintereinander ausgeführt werden: `ᛣV1ᛉᛣV2ᛉ…ᛣVnᛉ`. Die Ausgaben der ersten landen dabei auf dem Stack, von dem sie die zweite Verarbeitungsstufe einlesen und weiterverarbeiten kann usw.
 
 ```
-ᚥᛏ _Index1_ [_index2 [ ... [index n]]]
+᛭ Input liest einen Wert von der Tastatur ein und legt ihn auf den Stack
+ᛣinput ᛇ gib eine ganze Zahl z ein. Der absolute Betrag |z| wird ermittelt ! ᛩ ᛉ
+
+᛭ Vergleichsoperator 0 > eingabe
+ᛣa_gt_b ᛕ0 ᛜ ᛕᛠᛉ
+
+᛭ Auf dem Stack liegt das Ergebnis von 0 > eingabe
+ᛣifElse ᛜ ᛒᛠ ᛋ ᛣmul ᛕ-1 ᛜ ᛕᛠ ᛉ ᛭ Wenn eingabe < 0 ist, dann mit -1 multiplizieren
+
+᛭ Print liest die nächsten beiden Werte vom Stack, und gibt sie aus.
+ᛣprint ᛕ2 ᛇ Der absolute Betrag |z| = ᛩ ᛜ ᛕᛠ ᛉ
+```
+### Verschachtelung von Stufen
+
+In den ᛋ, ᛊ und ᛉ Zweig kann der bereitgestellte Inhalt des Stapelspeichers jeweils durch weitere Verarbeitungsstufen verarbeitet werden:
+
+```
+        +--------------------------------------------------------------+
+ E1 ⟶  |           +----------------------------------------------+   |
+  :     |           |       +---------------+                      |   |
+        |     ᛋ ⟶  | i1⟶  |        ᛋ -->… |                      |   | 
+        |           |  :    | ᛣ V1.1        | ⟶  ᛉ V.1.1 Ausgang… |⟶ |
+        |           | im⟶  |        ᛊ -->… |                      |   | 
+        |           |       +---------------+                      |   |
+        |           +----------------------------------------------+   |
+        | ᛣ V1                                                         |⟶ ᛉ Ausgang
+        |           +----------------------------------------------+   |
+        |           |       +---------------+                      |   |
+        |     ᛊ ⟶  | w1⟶  |        ᛋ -->… |                      |   |  
+        |           |  :    | ᛣ V1.2        | ⟶  ᛉ V.1.2 Ausgang… |⟶ |
+        |           | wm⟶  |        ᛊ -->… |                      |   | 
+  :     |           |       +-------------- +                      |   |
+ E1 ⟶  |           +----------------------------------------------+   |
+        +--------------------------------------------------------------+
+```
+Durch Fortsetzen dieses Prinzips können tief verschachtelte Strukturen enstehen.
+
+```
+᛭ Input liest einen Wert von der Tastatur ein und legt ihn auf den Stack
+ᛣinput ᛇ gib eine ganze Zahl z ein. Der absolute Betrag |z| wird ermittelt ! ᛩ
+
+᛭ Falls keine Eingabe erfolgte (Abbruch), weiter im Sowilo Zweig
+ᛊ  ᛣprint ᛕ1 ᛇ Die Eingabe wurde abgebrochen ᛩ ᛉ    
+
+᛭ Eine Eingabe wurde erfolgreich durchgeführt: weiter im Siegel Zweig
+ᛋ  ᛣa_gt_b ᛕ0             ᛭ Vergleichsoperator 0 > eingabe
+   ᛊ print ᛇ Fehler: Der Wert auf dem Stack ist keine Zahl und kann nicht verglichen werden !ᛩ ᛉ
+   ᛋ ᛭ Auf dem Stack liegt das Ergebnis von 0 > eingabe
+     ᛣifElse    
+
+     ᛭ Wenn eingabe < 0 ist, dann mit -1 multiplizieren          
+     ᛋ ᛣmul ᛕ-1ᛉ          
+
+     ᛭ Wenn eingabe >= 0 ist, dann mit 1 multiplizieren
+     ᛊ ᛣmul ᛕ1ᛉ           
+     ᛉ   
+   ᛉ
+ᛉ ᛭ Hier kann nun der absolute Betrag auf dem Stapel
+
+ᛣprint ᛕ2 ᛇ Der absolute Betrag |z| = ᛩ
+ᛊ print ᛕ1 ᛇ Der Stapel ist leer ᛩ
+ᛉ
+
+```
+### Abrufen des Ergebnis- Stapelspeichers als Array ᚥ 
+
+Der gesamte Stapelspeicher kann in einem  **ᛋ**, **ᛊ** und **ᛉ** Zweige als das spezielle Array **ᚥ** abgegriffen werden. Mittels **ᛥᚥ** Parallel- Zugriffsoperator können einzelne Elemente herausgegriffen und gezielt weiterbearbeitet werden. Zur Laufzeit wird jedes herausgegriffenen Element in einem eigenen *Laufzeittask* bearbeitet- der **ᛥᚥ** ist damit das primäre Instrument zur Parallel- Programmierung.
+**ᛥᚥ** hat folgende Signatur:
+
+```
+ᛥᚥ _Index1_ [_index2 [ ... [index n]]]
 ᛋ _meth_für_Zweig1_   ᛭ Methode, die auf den Wert mit Index 1 aus ᚥ angewendet wird
 ᛋ _meth_für_Zweig2_   ᛭ Methode, die auf den Wert mit Index 2 aus ᚥ angewendet wird
 :
@@ -528,13 +627,13 @@ Der gesamte Stapelspeicher kann in einem  **ᛋ**, **ᛊ** und **ᛗ** Zweige al
 ```
 Der Wert zu jedem Index wird an einen korrespondierenden ᛋ Zweig geleitet, und kann dort mit einer Folge- Methode weiterbearbeitet werden.
 
-Sollte ein Eindex außerhalb des Stapelspeicher- Array **ᚥ** liegen, dann wird kein ᛋ Zweig betreten, sondern nur der ᛊ Zweig. In diesem kann eine Fehlerbehandlung stattfinden.
+Sollte ein Index außerhalb des Stapelspeicher- Array **ᚥ** liegen, dann wird kein ᛋ Zweig betreten, sondern nur der ᛊ Zweig. In diesem kann eine Fehlerbehandlung stattfinden.
 
-**ᛗ** wird in jedem Fall am Ende durchlaufen. Hier kann eine Folgefunktion gestartet werden.
+**ᛉ** wird in jedem Fall am Ende durchlaufen. Hier kann eine Folgefunktion gestartet werden. Im Kontext der parallelen *Laufzeittasks* stellt hier **ᛉ** einen *Join* dar.
 
-#### Benennen des Ergebnisses
+### Benennen von Ergebnissen einer Stufe
 
-Alternativ zum Abruf und Weiterverarbeitung der Ergebnisse mit **ᚥᛏ** können die Einträge am Methoden ausgang auch aus dem Stapelspeicher gelesen und benannt werden mit **ᛟ**:
+Alternativ zum Abruf und Weiterverarbeitung der Ergebnisse mit **ᚥᛏ** können die Einträge am Stufenausgang auch aus dem Stapelspeicher gelesen und benannt werden mit **ᛟ**:
 
 ```
              --+---+--+
@@ -569,6 +668,55 @@ Das benannte Ergebnis kann dann im Folgenden weiterverwendet werden:
 ᛭ String- Interpolation statt.
 ᛉ print ᛇ ᛡa² + ᛡb² = ᛩ
 ```
+
+#### Benennungen innerhalb von ᛋ und ᛊ Zweig
+
+Eine Benennung inner halb eines ᛋ und ᛊ Zweiges ist nur lokal innerhalb dieses sichtbar. 
+```
+ᛟaa ᛕ2
+
+ᛣsquRoot ᛡaa  
+᛭ ᛟa_lok ist nur innerhalb des Siegel - Zweiges sichtbar
+ᛋ ᛟa_lok ᛣprint ᛇ ᛡa_lok ist die Wurzel aus ᛡaa ᛩ
+ᛊ ᛣprint ᛇ ᛡaa ist  keine reele Quadratzahl! ᛩ ᛉ
+  ᛣpush ᛕ0 ᛉ
+᛭ ᛟa_glob ist für den gesamten Kontext sichtbar, innerhalb dessen squRoot aufgerufen wurde
+ᛉ ᛟa_glob
+
+```
+
+## Benennen von Datenflussgraphen: Module ᛖ ... ᛗ
+
+Komplett ausprogrammierte Datenflussgraphen können zwecks Wiederverwendung in Modul- Deklarationen eingeschlossen werden. 
+
+Eine Moduldeklaration ist ein Block, der zwichen **ᛖ** und **ᛗ** eingeschlossen wird. Dem **ᛖ** folgt der Name des Moduls: 
+
+```
+ᛖ modulName
+ ᛭ Hier wird der Wiederzuverwendende Datenflussgraph definiert. 
+ᛗ
+```
+Das Modul kann dann später wie eine elementare Datenverarbeitungsstufe mit den Zweigen **ᛋ** und **ᛊ** verwendet werden. Wann **ᛋ** und wann **ᛊ** aufgerufen werden, kann innerhalb des Moduls mit **ᛋᛏ** und **ᛊᛏ** definiert werden:
+
+```
+ᛖ divKardinal
+ ᛭ Hier wird der Wiederzuverwendende Datenflussgraph definiert. 
+ ᛣpop ᛜ ᛕᛠ ᛕᛠ 
+ ᛊ ᛣpush ᛇ Err divKardinal ᛩ
+  ᛊᛏ
+ ᛉ ᛟNom ᛟDenom
+
+ ᛣifElse ᛜ ᛕᛠ 
+
+ ᛉ
+
+ᛗ
+```
+
+
+
+
+
 
 ## Von der Laufzeitumgebung bereitgestellte Stufen
 

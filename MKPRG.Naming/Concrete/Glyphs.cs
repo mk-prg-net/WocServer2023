@@ -785,73 +785,128 @@ namespace MKPRG.Naming
         /// </summary>
         public static class NYT
         {
+            // ᚾᚤᛏ = NYT, nützliche Datenflüsse
+            public static string NYTLogo => "ᚾᚤᛏ";
+            public static string NYTLogoHtm => "&#x16BE;&#x16A4;&#x16CF;";
+
             // ᛭
-            public static string Comment => "&#x16ED;";
+            public static string Comment => "᛭";
+            public static string CommentHtm => "&#x16ED;";
 
             // ᚥ W Stack Array Ref
-            public static string StackArrayRef => "&#x16A5;";
+            public static string StackArrayRef => "ᚥ";
+            public static string StackArrayRefHtm => "&#x16A5;";
 
             // ᚤ Y Array Beginn
-            public static string YArrayBegin => "&#x16A4;";
+            public static string YArrayBegin => "ᚤ";
+            public static string YArrayBeginHtm => "&#x16A4;";
 
             // ᛟ OTHALAN Define
-            public static string OthalanDefine = "&#x16DF;";
+            public static string OthalanDefine = "ᛟ";
+            public static string OthalanDefineHtm = "&#x16DF;";
 
             // ᛡ IOR Dereference
-            public static string IorDereference = "&#x16E1;";
-
-            // ᛚ L unary Function Prefix
-            public static string UnaryFunction => "&#x16DA;";
+            public static string IorDereference = "ᛡ";
+            public static string IorDereferenceHtm = "&#x16E1;";
 
             // ᛣ CALC Data Flow Stage begin
-            public static string CalcBeginStage => "&#x16E3;";
+            public static string CalcBeginStage => "ᛣ";
+            public static string CalcBeginStageHtm => "&#x16E3;";
+
+            // ᛜ INGWAZ ModelStackAssignment
+            public static string IngwazModelStacAssigment => "ᛜ";
+            public static string IngwazModelStacAssigmentHtm => "&#x16DC;";
 
             // ᛉ EOLHX Data Flow Stage end
-            public static string EolhxEndStage => "&#x16C9;";
+            public static string EolhxEndStage => "ᛉ";
+            public static string EolhxEndStageHtm => "&#x16C9;";
+
+
+            // ᛗ M Module Begin
+            public static string MModuleBegin => "ᛗ";
+            public static string MModuleBeginHtm => "&#x16D7;";
+
+            // ᛖ Ehwaz Mokdule End
+            public static string EhwazMooduleEnd => "ᛖ";
+            public static string EhwazMooduleEndHtm => "&#x16D6;";
 
             // ᛋ SIEGEL Branch
-            public static string SiegelBranch => "&#x16CB;";
+            public static string SiegelBranch => "ᛋ";
+            public static string SiegelBranchHtm => "&#x16CB;";
 
             // ᛊ SOWILO Branch
-            public static string SowiloBranch => "&#x16CA;";
+            public static string SowiloBranch => "ᛊ";
+            public static string SowiloBranchHtm => "&#x16CA;";
 
-            // ᛏ TYR
-            public static string Return => "&#x16CF;";
+            // ᛋᛏ Switch to Siegel Branch
+            public static string SwitchToSiegelBranch => "ᛋᛏ";
+            public static string SwitchToSiegelBranchHtm => "&#x16CB;&#x16CF;";
+
+            // ᛊᛏ Switch to Soowilo Branch
+            public static string SwitchToSowiloBranch => "ᛊᛏ";
+            public static string SwitchToSowiloBranchHtm => "&#x16CA;&#x16CF;";
+
 
             // ᛇ IWAZ StringBegin
-            public static string IwazStringBegin => "&#x16C7;";
+            public static string IwazStringBegin => "ᛇ";
+            public static string IwazStringBeginHtm => "&#x16C7;";
 
             // ᛢ CWEORTH StringCat
-            public static string CweorthStringCat => "&#x16E2;";
-
+            public static string CweorthStringCat => "ᛢ";
+            public static string CweorthStringCatHtm => "&#x16E2;";
 
             // ᚹ WYNN List Begin
-            public static string WynnListBegin => "&#x16B9;";
-
-            // ᛒ BJARKAN Bool
-            public static string BjarkanBool => "&#x16D2;";
+            public static string WynnListBegin => "ᚹ";
+            public static string WynnListBeginHtm => "&#x16B9;";
+            
 
             // ᛩ Q List End
-            public static string QListEnd => "&#x16E9;";
-
-
-            // ᛠ
-            public static string Time => "&#x16E0;";
+            public static string QListEnd => "ᛩ";
+            public static string QListEndHtm => "&#x16E9;";
 
             // ᚠ FEHU Hierarchical List
-            public static string FehuHirachy => "&#x16A0;";
+            public static string FehuHirachy => "ᚠ";
+            public static string FehuHirachyHtm => "&#x16A0;";
 
-            // ᛕ P Cardinal Number
-            public static string PIntPrefix => "&#x16D5;";
+            // ᛒ BJARKAN Bool
+            public static string BjarkanBool => "ᛒ";
+            public static string BjarkanBoolHtm => "&#x16D2;";
+
+            // ᛒᛠ BJARKAN Bool Type
+            public static string BjarkanBoolType => "ᛒᛠ";
+            public static string BjarkanBoolTypeHtm => "&#x16D2;&#x16E0;";
+
+            // ᛕ P Int Number
+            public static string PInt => "ᛕ";
+            public static string PIntHtm => "&#x16D5;";
+
+            // ᛕᛠ P Int Number Type
+            public static string PIntType => "ᛕᛠ";
+            public static string PIntHtmType => "&#x16D5;&#x16E0;";
 
             // ᚱ RAD rational Number: is a pair of nominator and denominator
-            public static string RadNomDenom => "&#x16B1;";
+            public static string RadNomDenom => "ᚱ";
+            public static string RadNomDenomHtm => "&#x16B1;";
+
+            // ᚱᛠ RAD rational Number: is a pair of nominator and denominator
+            public static string RadNomDenomType => "ᚱᛠ";
+            public static string RadNomDenomHtmType => "&#x16B1;&#x16E0;";
 
             // ᚪ Ac Floating Point Number
-            public static string AcFloatingPointNum => "&#x16AA;";
+            public static string AcFloatingPointNum => "ᚪ";
+            public static string AcFloatingPointNumHtm => "&#x16AA;";
+
+            // ᚪᛠ Ac Floating Point Number Type
+            public static string AcFloatingPointNumType => "ᚪᛠ";
+            public static string AcFloatingPointNumHtmType => "&#x16AA;&#x16E0;";
 
             // ᚻ  Haegl Naming ID
-            public static string HaeglNID => "&#x16BB;";
+            public static string HaeglNID => "ᚻ";
+            public static string HaeglNIDHtm => "&#x16BB;";
+
+            // ᚻᛠ  Haegl Naming ID Type
+            public static string HaeglNIDType => "ᚻᛠ";
+            public static string HaeglNIDHtmType => "&#x16BB;&#x16E0;";
 
             // ᛯ TVIMADUR Semantic Reference between Naming Containers
             public static string TvimadurSemanticRef => "&#x16EF;";

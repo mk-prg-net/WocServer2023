@@ -1,9 +1,19 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
+  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <TypeScriptTarget>ES2020</TypeScriptTarget>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <TypeScriptTarget>ES2020</TypeScriptTarget>
+  </PropertyGroup>
+
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <TypeScriptJSXEmit>react</TypeScriptJSXEmit>
+    <TypeScriptModuleKind>amd</TypeScriptModuleKind>
   </PropertyGroup>
 
   <ItemGroup>
@@ -15,9 +25,42 @@
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
+    <Content Include="wwwroot\node_modules\%40types\jquery\package.json" />
+    <Content Include="wwwroot\node_modules\%40types\prop-types\package.json" />
+    <Content Include="wwwroot\node_modules\%40types\qunit\package.json" />
+    <Content Include="wwwroot\node_modules\%40types\react-dom\package.json" />
+    <Content Include="wwwroot\node_modules\%40types\react\package.json" />
+    <Content Include="wwwroot\node_modules\%40types\requirejs\package.json" />
+    <Content Include="wwwroot\node_modules\%40types\scheduler\package.json" />
+    <Content Include="wwwroot\node_modules\%40types\sizzle\package.json" />
+    <Content Include="wwwroot\node_modules\.package-lock.json" />
+    <Content Include="wwwroot\node_modules\commander\package-support.json" />
+    <Content Include="wwwroot\node_modules\commander\package.json" />
+    <Content Include="wwwroot\node_modules\csstype\package.json" />
+    <Content Include="wwwroot\node_modules\globalyzer\package.json" />
+    <Content Include="wwwroot\node_modules\globrex\package.json" />
+    <Content Include="wwwroot\node_modules\jquery\AUTHORS.txt" />
+    <Content Include="wwwroot\node_modules\jquery\bower.json" />
+    <Content Include="wwwroot\node_modules\jquery\LICENSE.txt" />
+    <Content Include="wwwroot\node_modules\jquery\package.json" />
+    <Content Include="wwwroot\node_modules\js-tokens\package.json" />
+    <Content Include="wwwroot\node_modules\loose-envify\package.json" />
+    <Content Include="wwwroot\node_modules\node-watch\package.json" />
+    <Content Include="wwwroot\node_modules\qunit\LICENSE.txt" />
+    <Content Include="wwwroot\node_modules\qunit\package.json" />
+    <Content Include="wwwroot\node_modules\qunit\qunit\qunit.css" />
+    <Content Include="wwwroot\node_modules\react-dom\package.json" />
+    <Content Include="wwwroot\node_modules\react\package.json" />
+    <Content Include="wwwroot\node_modules\requirejs\package.json" />
+    <Content Include="wwwroot\node_modules\scheduler\package.json" />
+    <Content Include="wwwroot\node_modules\tiny-glob\package.json" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.TypeScript.MSBuild" Version="5.3.3">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
   </ItemGroup>
 
@@ -28,9 +71,309 @@
 
   <ItemGroup>
     <Folder Include="Middelware\" />
-    <Folder Include="wwwroot\css\" />
     <Folder Include="wwwroot\js\" />
-    <Folder Include="wwwroot\ts\nyt\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\node_modules\%40types\jquery\LICENSE" />
+    <None Include="wwwroot\node_modules\%40types\jquery\README.md" />
+    <None Include="wwwroot\node_modules\%40types\prop-types\LICENSE" />
+    <None Include="wwwroot\node_modules\%40types\prop-types\README.md" />
+    <None Include="wwwroot\node_modules\%40types\qunit\LICENSE" />
+    <None Include="wwwroot\node_modules\%40types\qunit\README.md" />
+    <None Include="wwwroot\node_modules\%40types\react-dom\LICENSE" />
+    <None Include="wwwroot\node_modules\%40types\react-dom\README.md" />
+    <None Include="wwwroot\node_modules\%40types\react\LICENSE" />
+    <None Include="wwwroot\node_modules\%40types\react\README.md" />
+    <None Include="wwwroot\node_modules\%40types\requirejs\LICENSE" />
+    <None Include="wwwroot\node_modules\%40types\requirejs\README.md" />
+    <None Include="wwwroot\node_modules\%40types\scheduler\LICENSE" />
+    <None Include="wwwroot\node_modules\%40types\scheduler\README.md" />
+    <None Include="wwwroot\node_modules\%40types\sizzle\LICENSE" />
+    <None Include="wwwroot\node_modules\%40types\sizzle\README.md" />
+    <None Include="wwwroot\node_modules\.bin\loose-envify" />
+    <None Include="wwwroot\node_modules\.bin\loose-envify.cmd" />
+    <None Include="wwwroot\node_modules\.bin\loose-envify.ps1" />
+    <None Include="wwwroot\node_modules\.bin\qunit" />
+    <None Include="wwwroot\node_modules\.bin\qunit.cmd" />
+    <None Include="wwwroot\node_modules\.bin\qunit.ps1" />
+    <None Include="wwwroot\node_modules\.bin\r.js" />
+    <None Include="wwwroot\node_modules\.bin\r.js.cmd" />
+    <None Include="wwwroot\node_modules\.bin\r.js.ps1" />
+    <None Include="wwwroot\node_modules\.bin\r_js" />
+    <None Include="wwwroot\node_modules\.bin\r_js.cmd" />
+    <None Include="wwwroot\node_modules\.bin\r_js.ps1" />
+    <None Include="wwwroot\node_modules\commander\CHANGELOG.md" />
+    <None Include="wwwroot\node_modules\commander\esm.mjs" />
+    <None Include="wwwroot\node_modules\commander\index.js" />
+    <None Include="wwwroot\node_modules\commander\LICENSE" />
+    <None Include="wwwroot\node_modules\commander\Readme.md" />
+    <None Include="wwwroot\node_modules\csstype\index.js.flow" />
+    <None Include="wwwroot\node_modules\csstype\LICENSE" />
+    <None Include="wwwroot\node_modules\csstype\README.md" />
+    <None Include="wwwroot\node_modules\globalyzer\license" />
+    <None Include="wwwroot\node_modules\globalyzer\readme.md" />
+    <None Include="wwwroot\node_modules\globalyzer\src\.DS_Store" />
+    <None Include="wwwroot\node_modules\globalyzer\src\index.js" />
+    <None Include="wwwroot\node_modules\globrex\index.js" />
+    <None Include="wwwroot\node_modules\globrex\license" />
+    <None Include="wwwroot\node_modules\globrex\readme.md" />
+    <None Include="wwwroot\node_modules\jquery\dist\jquery.js" />
+    <None Include="wwwroot\node_modules\jquery\dist\jquery.min.js" />
+    <None Include="wwwroot\node_modules\jquery\dist\jquery.min.map" />
+    <None Include="wwwroot\node_modules\jquery\dist\jquery.slim.js" />
+    <None Include="wwwroot\node_modules\jquery\dist\jquery.slim.min.js" />
+    <None Include="wwwroot\node_modules\jquery\dist\jquery.slim.min.map" />
+    <None Include="wwwroot\node_modules\jquery\README.md" />
+    <None Include="wwwroot\node_modules\jquery\src\ajax.js" />
+    <None Include="wwwroot\node_modules\jquery\src\ajax\jsonp.js" />
+    <None Include="wwwroot\node_modules\jquery\src\ajax\load.js" />
+    <None Include="wwwroot\node_modules\jquery\src\ajax\script.js" />
+    <None Include="wwwroot\node_modules\jquery\src\ajax\var\location.js" />
+    <None Include="wwwroot\node_modules\jquery\src\ajax\var\nonce.js" />
+    <None Include="wwwroot\node_modules\jquery\src\ajax\var\rquery.js" />
+    <None Include="wwwroot\node_modules\jquery\src\ajax\xhr.js" />
+    <None Include="wwwroot\node_modules\jquery\src\attributes.js" />
+    <None Include="wwwroot\node_modules\jquery\src\attributes\attr.js" />
+    <None Include="wwwroot\node_modules\jquery\src\attributes\classes.js" />
+    <None Include="wwwroot\node_modules\jquery\src\attributes\prop.js" />
+    <None Include="wwwroot\node_modules\jquery\src\attributes\support.js" />
+    <None Include="wwwroot\node_modules\jquery\src\attributes\val.js" />
+    <None Include="wwwroot\node_modules\jquery\src\callbacks.js" />
+    <None Include="wwwroot\node_modules\jquery\src\core.js" />
+    <None Include="wwwroot\node_modules\jquery\src\core\access.js" />
+    <None Include="wwwroot\node_modules\jquery\src\core\camelCase.js" />
+    <None Include="wwwroot\node_modules\jquery\src\core\DOMEval.js" />
+    <None Include="wwwroot\node_modules\jquery\src\core\init.js" />
+    <None Include="wwwroot\node_modules\jquery\src\core\isAttached.js" />
+    <None Include="wwwroot\node_modules\jquery\src\core\nodeName.js" />
+    <None Include="wwwroot\node_modules\jquery\src\core\parseHTML.js" />
+    <None Include="wwwroot\node_modules\jquery\src\core\parseXML.js" />
+    <None Include="wwwroot\node_modules\jquery\src\core\ready-no-deferred.js" />
+    <None Include="wwwroot\node_modules\jquery\src\core\ready.js" />
+    <None Include="wwwroot\node_modules\jquery\src\core\readyException.js" />
+    <None Include="wwwroot\node_modules\jquery\src\core\stripAndCollapse.js" />
+    <None Include="wwwroot\node_modules\jquery\src\core\support.js" />
+    <None Include="wwwroot\node_modules\jquery\src\core\toType.js" />
+    <None Include="wwwroot\node_modules\jquery\src\core\var\rhtml.js" />
+    <None Include="wwwroot\node_modules\jquery\src\core\var\rsingleTag.js" />
+    <None Include="wwwroot\node_modules\jquery\src\css.js" />
+    <None Include="wwwroot\node_modules\jquery\src\css\addGetHookIf.js" />
+    <None Include="wwwroot\node_modules\jquery\src\css\adjustCSS.js" />
+    <None Include="wwwroot\node_modules\jquery\src\css\curCSS.js" />
+    <None Include="wwwroot\node_modules\jquery\src\css\finalPropName.js" />
+    <None Include="wwwroot\node_modules\jquery\src\css\hiddenVisibleSelectors.js" />
+    <None Include="wwwroot\node_modules\jquery\src\css\showHide.js" />
+    <None Include="wwwroot\node_modules\jquery\src\css\support.js" />
+    <None Include="wwwroot\node_modules\jquery\src\css\var\cssExpand.js" />
+    <None Include="wwwroot\node_modules\jquery\src\css\var\getStyles.js" />
+    <None Include="wwwroot\node_modules\jquery\src\css\var\isHiddenWithinTree.js" />
+    <None Include="wwwroot\node_modules\jquery\src\css\var\rboxStyle.js" />
+    <None Include="wwwroot\node_modules\jquery\src\css\var\rcustomProp.js" />
+    <None Include="wwwroot\node_modules\jquery\src\css\var\rnumnonpx.js" />
+    <None Include="wwwroot\node_modules\jquery\src\css\var\swap.js" />
+    <None Include="wwwroot\node_modules\jquery\src\data.js" />
+    <None Include="wwwroot\node_modules\jquery\src\data\Data.js" />
+    <None Include="wwwroot\node_modules\jquery\src\data\var\acceptData.js" />
+    <None Include="wwwroot\node_modules\jquery\src\data\var\dataPriv.js" />
+    <None Include="wwwroot\node_modules\jquery\src\data\var\dataUser.js" />
+    <None Include="wwwroot\node_modules\jquery\src\deferred.js" />
+    <None Include="wwwroot\node_modules\jquery\src\deferred\exceptionHook.js" />
+    <None Include="wwwroot\node_modules\jquery\src\deprecated.js" />
+    <None Include="wwwroot\node_modules\jquery\src\deprecated\ajax-event-alias.js" />
+    <None Include="wwwroot\node_modules\jquery\src\deprecated\event.js" />
+    <None Include="wwwroot\node_modules\jquery\src\dimensions.js" />
+    <None Include="wwwroot\node_modules\jquery\src\effects.js" />
+    <None Include="wwwroot\node_modules\jquery\src\effects\animatedSelector.js" />
+    <None Include="wwwroot\node_modules\jquery\src\effects\Tween.js" />
+    <None Include="wwwroot\node_modules\jquery\src\event.js" />
+    <None Include="wwwroot\node_modules\jquery\src\event\trigger.js" />
+    <None Include="wwwroot\node_modules\jquery\src\exports\amd.js" />
+    <None Include="wwwroot\node_modules\jquery\src\exports\global.js" />
+    <None Include="wwwroot\node_modules\jquery\src\jquery.js" />
+    <None Include="wwwroot\node_modules\jquery\src\manipulation.js" />
+    <None Include="wwwroot\node_modules\jquery\src\manipulation\buildFragment.js" />
+    <None Include="wwwroot\node_modules\jquery\src\manipulation\getAll.js" />
+    <None Include="wwwroot\node_modules\jquery\src\manipulation\setGlobalEval.js" />
+    <None Include="wwwroot\node_modules\jquery\src\manipulation\support.js" />
+    <None Include="wwwroot\node_modules\jquery\src\manipulation\var\rscriptType.js" />
+    <None Include="wwwroot\node_modules\jquery\src\manipulation\var\rtagName.js" />
+    <None Include="wwwroot\node_modules\jquery\src\manipulation\wrapMap.js" />
+    <None Include="wwwroot\node_modules\jquery\src\manipulation\_evalUrl.js" />
+    <None Include="wwwroot\node_modules\jquery\src\offset.js" />
+    <None Include="wwwroot\node_modules\jquery\src\queue.js" />
+    <None Include="wwwroot\node_modules\jquery\src\queue\delay.js" />
+    <None Include="wwwroot\node_modules\jquery\src\selector-native.js" />
+    <None Include="wwwroot\node_modules\jquery\src\selector.js" />
+    <None Include="wwwroot\node_modules\jquery\src\selector\contains.js" />
+    <None Include="wwwroot\node_modules\jquery\src\selector\escapeSelector.js" />
+    <None Include="wwwroot\node_modules\jquery\src\serialize.js" />
+    <None Include="wwwroot\node_modules\jquery\src\traversing.js" />
+    <None Include="wwwroot\node_modules\jquery\src\traversing\findFilter.js" />
+    <None Include="wwwroot\node_modules\jquery\src\traversing\var\dir.js" />
+    <None Include="wwwroot\node_modules\jquery\src\traversing\var\rneedsContext.js" />
+    <None Include="wwwroot\node_modules\jquery\src\traversing\var\siblings.js" />
+    <None Include="wwwroot\node_modules\jquery\src\var\arr.js" />
+    <None Include="wwwroot\node_modules\jquery\src\var\class2type.js" />
+    <None Include="wwwroot\node_modules\jquery\src\var\document.js" />
+    <None Include="wwwroot\node_modules\jquery\src\var\documentElement.js" />
+    <None Include="wwwroot\node_modules\jquery\src\var\flat.js" />
+    <None Include="wwwroot\node_modules\jquery\src\var\fnToString.js" />
+    <None Include="wwwroot\node_modules\jquery\src\var\getProto.js" />
+    <None Include="wwwroot\node_modules\jquery\src\var\hasOwn.js" />
+    <None Include="wwwroot\node_modules\jquery\src\var\indexOf.js" />
+    <None Include="wwwroot\node_modules\jquery\src\var\isFunction.js" />
+    <None Include="wwwroot\node_modules\jquery\src\var\isWindow.js" />
+    <None Include="wwwroot\node_modules\jquery\src\var\ObjectFunctionString.js" />
+    <None Include="wwwroot\node_modules\jquery\src\var\pnum.js" />
+    <None Include="wwwroot\node_modules\jquery\src\var\pop.js" />
+    <None Include="wwwroot\node_modules\jquery\src\var\push.js" />
+    <None Include="wwwroot\node_modules\jquery\src\var\rcheckableType.js" />
+    <None Include="wwwroot\node_modules\jquery\src\var\rcssNum.js" />
+    <None Include="wwwroot\node_modules\jquery\src\var\rnothtmlwhite.js" />
+    <None Include="wwwroot\node_modules\jquery\src\var\rtrimCSS.js" />
+    <None Include="wwwroot\node_modules\jquery\src\var\slice.js" />
+    <None Include="wwwroot\node_modules\jquery\src\var\sort.js" />
+    <None Include="wwwroot\node_modules\jquery\src\var\splice.js" />
+    <None Include="wwwroot\node_modules\jquery\src\var\support.js" />
+    <None Include="wwwroot\node_modules\jquery\src\var\toString.js" />
+    <None Include="wwwroot\node_modules\jquery\src\var\whitespace.js" />
+    <None Include="wwwroot\node_modules\jquery\src\wrap.js" />
+    <None Include="wwwroot\node_modules\js-tokens\CHANGELOG.md" />
+    <None Include="wwwroot\node_modules\js-tokens\index.js" />
+    <None Include="wwwroot\node_modules\js-tokens\LICENSE" />
+    <None Include="wwwroot\node_modules\js-tokens\README.md" />
+    <None Include="wwwroot\node_modules\loose-envify\cli.js" />
+    <None Include="wwwroot\node_modules\loose-envify\custom.js" />
+    <None Include="wwwroot\node_modules\loose-envify\index.js" />
+    <None Include="wwwroot\node_modules\loose-envify\LICENSE" />
+    <None Include="wwwroot\node_modules\loose-envify\loose-envify.js" />
+    <None Include="wwwroot\node_modules\loose-envify\README.md" />
+    <None Include="wwwroot\node_modules\loose-envify\replace.js" />
+    <None Include="wwwroot\node_modules\node-watch\lib\has-native-recursive.js" />
+    <None Include="wwwroot\node_modules\node-watch\lib\is.js" />
+    <None Include="wwwroot\node_modules\node-watch\lib\watch.js" />
+    <None Include="wwwroot\node_modules\node-watch\LICENSE" />
+    <None Include="wwwroot\node_modules\node-watch\README.md" />
+    <None Include="wwwroot\node_modules\qunit\bin\qunit.js" />
+    <None Include="wwwroot\node_modules\qunit\qunit\qunit.js" />
+    <None Include="wwwroot\node_modules\qunit\README.md" />
+    <None Include="wwwroot\node_modules\qunit\src\cli\find-reporter.js" />
+    <None Include="wwwroot\node_modules\qunit\src\cli\require-from-cwd.js" />
+    <None Include="wwwroot\node_modules\qunit\src\cli\require-qunit.js" />
+    <None Include="wwwroot\node_modules\qunit\src\cli\run.js" />
+    <None Include="wwwroot\node_modules\qunit\src\cli\utils.js" />
+    <None Include="wwwroot\node_modules\react-dom\cjs\react-dom-server-legacy.browser.development.js" />
+    <None Include="wwwroot\node_modules\react-dom\cjs\react-dom-server-legacy.browser.production.min.js" />
+    <None Include="wwwroot\node_modules\react-dom\cjs\react-dom-server-legacy.node.development.js" />
+    <None Include="wwwroot\node_modules\react-dom\cjs\react-dom-server-legacy.node.production.min.js" />
+    <None Include="wwwroot\node_modules\react-dom\cjs\react-dom-server.browser.development.js" />
+    <None Include="wwwroot\node_modules\react-dom\cjs\react-dom-server.browser.production.min.js" />
+    <None Include="wwwroot\node_modules\react-dom\cjs\react-dom-server.node.development.js" />
+    <None Include="wwwroot\node_modules\react-dom\cjs\react-dom-server.node.production.min.js" />
+    <None Include="wwwroot\node_modules\react-dom\cjs\react-dom-test-utils.development.js" />
+    <None Include="wwwroot\node_modules\react-dom\cjs\react-dom-test-utils.production.min.js" />
+    <None Include="wwwroot\node_modules\react-dom\cjs\react-dom.development.js" />
+    <None Include="wwwroot\node_modules\react-dom\cjs\react-dom.production.min.js" />
+    <None Include="wwwroot\node_modules\react-dom\cjs\react-dom.profiling.min.js" />
+    <None Include="wwwroot\node_modules\react-dom\client.js" />
+    <None Include="wwwroot\node_modules\react-dom\index.js" />
+    <None Include="wwwroot\node_modules\react-dom\LICENSE" />
+    <None Include="wwwroot\node_modules\react-dom\profiling.js" />
+    <None Include="wwwroot\node_modules\react-dom\README.md" />
+    <None Include="wwwroot\node_modules\react-dom\server.browser.js" />
+    <None Include="wwwroot\node_modules\react-dom\server.js" />
+    <None Include="wwwroot\node_modules\react-dom\server.node.js" />
+    <None Include="wwwroot\node_modules\react-dom\test-utils.js" />
+    <None Include="wwwroot\node_modules\react-dom\umd\react-dom-server-legacy.browser.development.js" />
+    <None Include="wwwroot\node_modules\react-dom\umd\react-dom-server-legacy.browser.production.min.js" />
+    <None Include="wwwroot\node_modules\react-dom\umd\react-dom-server.browser.development.js" />
+    <None Include="wwwroot\node_modules\react-dom\umd\react-dom-server.browser.production.min.js" />
+    <None Include="wwwroot\node_modules\react-dom\umd\react-dom-test-utils.development.js" />
+    <None Include="wwwroot\node_modules\react-dom\umd\react-dom-test-utils.production.min.js" />
+    <None Include="wwwroot\node_modules\react-dom\umd\react-dom.development.js" />
+    <None Include="wwwroot\node_modules\react-dom\umd\react-dom.production.min.js" />
+    <None Include="wwwroot\node_modules\react-dom\umd\react-dom.profiling.min.js" />
+    <None Include="wwwroot\node_modules\react\cjs\react-jsx-dev-runtime.development.js" />
+    <None Include="wwwroot\node_modules\react\cjs\react-jsx-dev-runtime.production.min.js" />
+    <None Include="wwwroot\node_modules\react\cjs\react-jsx-dev-runtime.profiling.min.js" />
+    <None Include="wwwroot\node_modules\react\cjs\react-jsx-runtime.development.js" />
+    <None Include="wwwroot\node_modules\react\cjs\react-jsx-runtime.production.min.js" />
+    <None Include="wwwroot\node_modules\react\cjs\react-jsx-runtime.profiling.min.js" />
+    <None Include="wwwroot\node_modules\react\cjs\react.development.js" />
+    <None Include="wwwroot\node_modules\react\cjs\react.production.min.js" />
+    <None Include="wwwroot\node_modules\react\cjs\react.shared-subset.development.js" />
+    <None Include="wwwroot\node_modules\react\cjs\react.shared-subset.production.min.js" />
+    <None Include="wwwroot\node_modules\react\index.js" />
+    <None Include="wwwroot\node_modules\react\jsx-dev-runtime.js" />
+    <None Include="wwwroot\node_modules\react\jsx-runtime.js" />
+    <None Include="wwwroot\node_modules\react\LICENSE" />
+    <None Include="wwwroot\node_modules\react\react.shared-subset.js" />
+    <None Include="wwwroot\node_modules\react\README.md" />
+    <None Include="wwwroot\node_modules\react\umd\react.development.js" />
+    <None Include="wwwroot\node_modules\react\umd\react.production.min.js" />
+    <None Include="wwwroot\node_modules\react\umd\react.profiling.min.js" />
+    <None Include="wwwroot\node_modules\requirejs\bin\r.js" />
+    <None Include="wwwroot\node_modules\requirejs\README.md" />
+    <None Include="wwwroot\node_modules\requirejs\require.js" />
+    <None Include="wwwroot\node_modules\scheduler\cjs\scheduler-unstable_mock.development.js" />
+    <None Include="wwwroot\node_modules\scheduler\cjs\scheduler-unstable_mock.production.min.js" />
+    <None Include="wwwroot\node_modules\scheduler\cjs\scheduler-unstable_post_task.development.js" />
+    <None Include="wwwroot\node_modules\scheduler\cjs\scheduler-unstable_post_task.production.min.js" />
+    <None Include="wwwroot\node_modules\scheduler\cjs\scheduler.development.js" />
+    <None Include="wwwroot\node_modules\scheduler\cjs\scheduler.production.min.js" />
+    <None Include="wwwroot\node_modules\scheduler\index.js" />
+    <None Include="wwwroot\node_modules\scheduler\LICENSE" />
+    <None Include="wwwroot\node_modules\scheduler\README.md" />
+    <None Include="wwwroot\node_modules\scheduler\umd\scheduler-unstable_mock.development.js" />
+    <None Include="wwwroot\node_modules\scheduler\umd\scheduler-unstable_mock.production.min.js" />
+    <None Include="wwwroot\node_modules\scheduler\umd\scheduler.development.js" />
+    <None Include="wwwroot\node_modules\scheduler\umd\scheduler.production.min.js" />
+    <None Include="wwwroot\node_modules\scheduler\umd\scheduler.profiling.min.js" />
+    <None Include="wwwroot\node_modules\scheduler\unstable_mock.js" />
+    <None Include="wwwroot\node_modules\scheduler\unstable_post_task.js" />
+    <None Include="wwwroot\node_modules\tiny-glob\index.js" />
+    <None Include="wwwroot\node_modules\tiny-glob\license" />
+    <None Include="wwwroot\node_modules\tiny-glob\readme.md" />
+    <None Include="wwwroot\node_modules\tiny-glob\sync.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="wwwroot\node_modules\%40types\jquery\dist\jquery.slim.d.ts" />
+    <TypeScriptCompile Include="wwwroot\node_modules\%40types\jquery\index.d.ts" />
+    <TypeScriptCompile Include="wwwroot\node_modules\%40types\jquery\JQuery.d.ts" />
+    <TypeScriptCompile Include="wwwroot\node_modules\%40types\jquery\JQueryStatic.d.ts" />
+    <TypeScriptCompile Include="wwwroot\node_modules\%40types\jquery\legacy.d.ts" />
+    <TypeScriptCompile Include="wwwroot\node_modules\%40types\jquery\misc.d.ts" />
+    <TypeScriptCompile Include="wwwroot\node_modules\%40types\prop-types\index.d.ts" />
+    <TypeScriptCompile Include="wwwroot\node_modules\%40types\qunit\index.d.ts" />
+    <TypeScriptCompile Include="wwwroot\node_modules\%40types\react-dom\canary.d.ts" />
+    <TypeScriptCompile Include="wwwroot\node_modules\%40types\react-dom\client.d.ts" />
+    <TypeScriptCompile Include="wwwroot\node_modules\%40types\react-dom\experimental.d.ts" />
+    <TypeScriptCompile Include="wwwroot\node_modules\%40types\react-dom\index.d.ts" />
+    <TypeScriptCompile Include="wwwroot\node_modules\%40types\react-dom\server.d.ts" />
+    <TypeScriptCompile Include="wwwroot\node_modules\%40types\react-dom\test-utils\index.d.ts" />
+    <TypeScriptCompile Include="wwwroot\node_modules\%40types\react\canary.d.ts" />
+    <TypeScriptCompile Include="wwwroot\node_modules\%40types\react\experimental.d.ts" />
+    <TypeScriptCompile Include="wwwroot\node_modules\%40types\react\global.d.ts" />
+    <TypeScriptCompile Include="wwwroot\node_modules\%40types\react\index.d.ts" />
+    <TypeScriptCompile Include="wwwroot\node_modules\%40types\react\jsx-dev-runtime.d.ts" />
+    <TypeScriptCompile Include="wwwroot\node_modules\%40types\react\jsx-runtime.d.ts" />
+    <TypeScriptCompile Include="wwwroot\node_modules\%40types\react\ts5.0\canary.d.ts" />
+    <TypeScriptCompile Include="wwwroot\node_modules\%40types\react\ts5.0\experimental.d.ts" />
+    <TypeScriptCompile Include="wwwroot\node_modules\%40types\react\ts5.0\global.d.ts" />
+    <TypeScriptCompile Include="wwwroot\node_modules\%40types\react\ts5.0\index.d.ts" />
+    <TypeScriptCompile Include="wwwroot\node_modules\%40types\react\ts5.0\jsx-dev-runtime.d.ts" />
+    <TypeScriptCompile Include="wwwroot\node_modules\%40types\react\ts5.0\jsx-runtime.d.ts" />
+    <TypeScriptCompile Include="wwwroot\node_modules\%40types\requirejs\index.d.ts" />
+    <TypeScriptCompile Include="wwwroot\node_modules\%40types\scheduler\index.d.ts" />
+    <TypeScriptCompile Include="wwwroot\node_modules\%40types\scheduler\tracing.d.ts" />
+    <TypeScriptCompile Include="wwwroot\node_modules\%40types\sizzle\index.d.ts" />
+    <TypeScriptCompile Include="wwwroot\node_modules\commander\typings\index.d.ts" />
+    <TypeScriptCompile Include="wwwroot\node_modules\csstype\index.d.ts" />
+    <TypeScriptCompile Include="wwwroot\node_modules\node-watch\lib\watch.d.ts" />
+    <TypeScriptCompile Include="wwwroot\node_modules\tiny-glob\index.d.ts" />
+    <TypeScriptCompile Include="wwwroot\node_modules\tiny-glob\sync.d.ts" />
   </ItemGroup>
 
 </Project>

@@ -1,5 +1,8 @@
 // mko, 20.12.2023
 
+using Microsoft.AspNetCore.Builder;
+using MKPRG.Naming.TechTerms.Operators.Relations;
+
 var builder = WebApplication.CreateBuilder(
     new WebApplicationOptions
     {
@@ -58,6 +61,19 @@ app.MapGet("/NamingContainers", (HttpRequest request, MyNamingContainers myNamin
     {
         return Results.Problem("QueryString is incorrect! NC=ABCDEF123,987654321,...,FFBBEEDD expected");
     }
+});
+
+app.MapGet("/NYTedit", (HttpRequest req, MyNamingContainers myNamingContainers) =>
+{
+    // get Origin (Path) of statical content
+    var wwwroot = GetWwwRootOrigin(req);
+
+    // old school templating :-)
+    // Create html- content for Browser. Replace all placeholders for in server Urls etc. with valid Host adresses 
+    var content = string.Join('\n', System.IO.File.ReadAllLines(@".\wwwroot\apps\nyt\MainView.html")).Replace("{*}", wwwroot);
+
+
+
 });
 
 
