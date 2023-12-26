@@ -71,7 +71,7 @@ namespace MKPRG.Naming
         /// <summary>
         /// Name/ Meldung in Deutsch
         /// </summary>
-        public abstract string DE { get; }
+        public virtual string DE { get => EN; }
 
         /// <summary>
         /// Name/Meldung in Englisch
@@ -81,12 +81,15 @@ namespace MKPRG.Naming
         /// <summary>
         /// Name/Meldung in Spanisch
         /// </summary>
-        public abstract string ES { get; }
+        public virtual string ES { get => EN; }
 
         /// <summary>
         /// Name/ Meldung in Chinesisch
         /// </summary>
-        public abstract string CN { get; }
+        public virtual string CN
+        {
+            get => EN;
+        }
 
         /// <summary>
         /// mko, 26.1.2021
