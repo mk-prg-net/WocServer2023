@@ -16,8 +16,8 @@ requirejs.config({
     }
 });
 
-requirejs(['jquery', "react", "react-dom", 'mod/NewWoc/NewWoc', 'mod/WocHeaderReactCtrl/WocHeaderReactCtrl', 'mod/LLP/OpSyms/RauteOpSyms', 'mod/LLP/StackOps', 'mod/LLP/StackElemStructs'],
-    function ($, React, ReacDOM, NewWoc, WocHeaderReactCtrl, OpSyms, StackOps, StackElemStructs) {        
+requirejs(['jquery', "react", "react-dom", "mod/nyt/LoadConfig"],
+    function ($, React, ReacDOM, LoadConfig) {        
 
         // Caching in ajax abschalten
         $.ajax({
@@ -26,18 +26,6 @@ requirejs(['jquery', "react", "react-dom", 'mod/NewWoc/NewWoc', 'mod/WocHeaderRe
 
         let urlOrigin = $('#urlOrigin').val();
 
-        // LLP initialisieren
-        let opSyms = new OpSyms.default();
-        let stackOps = new StackOps.default(opSyms);
-        let stackElemStructs = new StackElemStructs.default(opSyms);
-
-        //WocHeaderCtrlSetUp.default($, "ts/", stackOps, stackElemStructs);
-        //var llpStack = stackOps.NewStack();
-        //$('#woc-descriptor').WocHeaderCtrl({ llpStack: llpStack });
-
-        WocHeaderReactCtrl.default("react_greeting");
-
-
+        let loadConfig = LoadConfig.default($);
         
-        .default ("woc-descriptor", urlOrigin);
     });
