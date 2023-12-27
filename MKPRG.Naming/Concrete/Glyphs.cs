@@ -814,8 +814,8 @@ namespace MKPRG.Naming
             public static string CalcBeginStageHtm => "&#x16E3;";
 
             // ᛜ INGWAZ ModelStackAssignment
-            public static string IngwazModelStacAssigment => "ᛜ";
-            public static string IngwazModelStacAssigmentHtm => "&#x16DC;";
+            public static string IngwazModelStackAssigment => "ᛜ";
+            public static string IngwazModelStackAssigmentHtm => "&#x16DC;";
 
             // ᛉ EOLHX Data Flow Stage end
             public static string EolhxEndStage => "ᛉ";
@@ -885,12 +885,12 @@ namespace MKPRG.Naming
             public static string PIntHtmType => "&#x16D5;&#x16E0;";
 
             // ᚱ RAD rational Number: is a pair of nominator and denominator
-            public static string RadNomDenom => "ᚱ";
-            public static string RadNomDenomHtm => "&#x16B1;";
+            public static string RadFraction => "ᚱ";
+            public static string RadFractionHtm => "&#x16B1;";
 
             // ᚱᛠ RAD rational Number: is a pair of nominator and denominator
-            public static string RadNomDenomType => "ᚱᛠ";
-            public static string RadNomDenomHtmType => "&#x16B1;&#x16E0;";
+            public static string RadFractionType => "ᚱᛠ";
+            public static string RadFractionHtmType => "&#x16B1;&#x16E0;";
 
             // ᚪ Ac Floating Point Number
             public static string AcFloatingPointNum => "ᚪ";
@@ -909,7 +909,8 @@ namespace MKPRG.Naming
             public static string HaeglNIDHtmType => "&#x16BB;&#x16E0;";
 
             // ᛯ TVIMADUR Semantic Reference between Naming Containers
-            public static string TvimadurSemanticRef => "&#x16EF;";
+            public static string TvimadurSemanticRef => "ᛯ";
+            public static string TvimadurSemanticRefHtm => "&#x16EF;";
 
         }
 

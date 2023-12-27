@@ -5,6 +5,7 @@
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
   <ItemGroup>
+    <ProjectReference Include="..\MKPRG.Edit\MKPRG.Edit.csproj" />
     <ProjectReference Include="..\MKPRG.Woc\MKPRG.Woc.csproj" />
   </ItemGroup>
   <ItemGroup>
