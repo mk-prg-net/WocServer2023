@@ -42,15 +42,20 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-// Löst eine Liste von NamingId's im Hex- Format (z.B. NC=0xABCDEF123,0x987654321,...,0xFFBBEEDD)
-// in eine Liste von Namenscontainern auf.
+// Liefer eine Liste von Naming- Containern. 
+// Die Liste kann auf zwei Arten festgelegt werden:
+// 1. Naming- Container werden durch eine Liste von NamingId's im Hex- Format (z.B. NC=0xABCDEF123,0x987654321,...,0xFFBBEEDD)
+//    definiert.
+// 2. Naming- Container werden durch einen Namensraum definiert.
 app.MapGet("/NamingContainers", (HttpRequest request, MyNamingContainers myNamingContainers) =>
 {
     if (request.Query.ContainsKey("NC") && request.Query["NC"].Any())
     {
         var nidString = request.Query["NC"].First() ?? "";
 
-        var ncList = NamingContainerWebApiHlp.FetchNamingContainers(nidString, myNamingContainers);
+        var ncHlp = new NamingContainerWebApiHlp(myNamingContainers);
+
+        var ncList = ncHlp.FetchNamingContainersWithNamingIds(nidString);
 
         return Results.Json(ncList, new System.Text.Json.JsonSerializerOptions()
         {

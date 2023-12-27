@@ -24,7 +24,7 @@ namespace MKPRG.Naming.NYT.Keywords
         public string GlyphUniCode => Glyphs.NYT.Comment;
         public override string Glyph => Glyphs.NYT.CommentHtm;
 
-        public string EditShortCut => "#c";        
+        public string EditShortCut => "#k";        
     }
 
     public class ArrayBegin
@@ -46,12 +46,13 @@ namespace MKPRG.Naming.NYT.Keywords
         public string GlyphUniCode => Glyphs.NYT.YArrayBegin;
         public override string Glyph => Glyphs.NYT.YArrayBeginHtm;
 
-        public string EditShortCut => "#a";
+        public string EditShortCut => "#y";
     }
 
     public class Define
         : NamingBase,
-        IGlyphUniCode
+        IGlyphUniCode,
+        IEditShortCut
     {
         public const long UID = 0x6F8AAE7E191CEA0BL;
 
@@ -66,11 +67,15 @@ namespace MKPRG.Naming.NYT.Keywords
 
         public string GlyphUniCode => Glyphs.NYT.OthalanDefine;
         public override string Glyph => Glyphs.NYT.OthalanDefineHtm;
+
+        public string EditShortCut => "#o";
     }
 
     public class Deref
         : NamingBase,
-        IGlyphUniCode
+        IGlyphUniCode,
+        IEditShortCut
+
     {
         public const long UID = 0x761A0C28101A39C4L;
 
@@ -85,11 +90,14 @@ namespace MKPRG.Naming.NYT.Keywords
 
         public string GlyphUniCode => Glyphs.NYT.IorDereference;
         public override string Glyph => Glyphs.NYT.IorDereferenceHtm;
+
+        public string EditShortCut => "#i";
     }
 
     public class BeginStage
         : NamingBase,
-        IGlyphUniCode
+        IGlyphUniCode,
+        IEditShortCut
     {
         public const long UID = 0x6F0142034855C7B4L;
 
@@ -104,11 +112,14 @@ namespace MKPRG.Naming.NYT.Keywords
 
         public string GlyphUniCode => Glyphs.NYT.CalcBeginStage;
         public override string Glyph => Glyphs.NYT.CalcBeginStageHtm;
+
+        public string EditShortCut => "#c";
     }
 
     public class StackAssignment
         : NamingBase,
-        IGlyphUniCode
+        IGlyphUniCode,
+        IEditShortCut
     {
         public const long UID = 0x1DC2633CA0B19454L;
 
@@ -123,11 +134,14 @@ namespace MKPRG.Naming.NYT.Keywords
 
         public string GlyphUniCode => Glyphs.NYT.IngwazModelStackAssigment;
         public override string Glyph => Glyphs.NYT.IngwazModelStackAssigmentHtm;
+
+        public string EditShortCut => "#n";
     }
 
     public class EndStage
         : NamingBase,
-        IGlyphUniCode
+        IGlyphUniCode,
+        IEditShortCut
     {
         public const long UID = 0x183EF800FCDECBDL;
 
@@ -141,12 +155,15 @@ namespace MKPRG.Naming.NYT.Keywords
         public override string EN => "End of Processing Stage";
 
         public string GlyphUniCode => Glyphs.NYT.EolhxEndStage;
-        public override string Glyph => Glyphs.NYT.EolhxEndStageHtm;  
+        public override string Glyph => Glyphs.NYT.EolhxEndStageHtm;
+
+        public string EditShortCut => "#x";
     }
 
     public class ModulBegin
         : NamingBase,
-        IGlyphUniCode
+        IGlyphUniCode,
+        IEditShortCut
     {
         public const long UID = 0x13588A67EC20448DL;
 
@@ -161,11 +178,14 @@ namespace MKPRG.Naming.NYT.Keywords
 
         public string GlyphUniCode => Glyphs.NYT.MModuleBegin;
         public override string Glyph => Glyphs.NYT.MModuleBeginHtm;
+
+        public string EditShortCut => "#m";
     }
 
     public class ModulEnd
         : NamingBase,
-        IGlyphUniCode
+        IGlyphUniCode,
+        IEditShortCut
     {
         public const long UID = 0x28A658AB389D2743L;
 
@@ -180,11 +200,14 @@ namespace MKPRG.Naming.NYT.Keywords
 
         public string GlyphUniCode => Glyphs.NYT.EhwazMooduleEnd;
         public override string Glyph => Glyphs.NYT.EhwazMooduleEnd;
+
+        public string EditShortCut => "#e";
     }
 
     public class SiegelBranch
         : NamingBase,
-        IGlyphUniCode
+        IGlyphUniCode,
+        IEditShortCut
     {
         public const long UID = 0x69C8B7B4FA7977F7L;
 
@@ -199,11 +222,14 @@ namespace MKPRG.Naming.NYT.Keywords
 
         public string GlyphUniCode => Glyphs.NYT.SiegelBranch;
         public override string Glyph => Glyphs.NYT.SiegelBranchHtm;
+
+        public string EditShortCut => "#s";
     }
 
     public class SowiloBranch
         : NamingBase,
-        IGlyphUniCode
+        IGlyphUniCode,
+        IEditShortCut
     {
         public const long UID = 0x17188BF74A99EC0BL;
 
@@ -218,11 +244,14 @@ namespace MKPRG.Naming.NYT.Keywords
 
         public string GlyphUniCode => Glyphs.NYT.SowiloBranch;
         public override string Glyph => Glyphs.NYT.SowiloBranchHtm;
+
+        public string EditShortCut => "#l";
     }
 
     public class SwitchToSiegelBranch
         : NamingBase,
-        IGlyphUniCode
+        IGlyphUniCode,
+        IEditShortCut
     {
         public const long UID = 0x70CCAA3FC76F9359L;
 
@@ -237,11 +266,14 @@ namespace MKPRG.Naming.NYT.Keywords
 
         public string GlyphUniCode => Glyphs.NYT.SwitchToSiegelBranch;
         public override string Glyph => Glyphs.NYT.SwitchToSiegelBranchHtm;
+
+        public string EditShortCut => "#gs";
     }
 
     public class SwitchToSowiloBranch
         : NamingBase,
-        IGlyphUniCode
+        IGlyphUniCode,
+        IEditShortCut
     {
         public const long UID = 0x3B23D49F17CB2BB5L;
 
@@ -256,11 +288,14 @@ namespace MKPRG.Naming.NYT.Keywords
 
         public string GlyphUniCode => Glyphs.NYT.SwitchToSowiloBranch;
         public override string Glyph => Glyphs.NYT.SwitchToSowiloBranchHtm;
+
+        public string EditShortCut => "#gl";
     }
 
     public class StringBegin
         : NamingBase,
-        IGlyphUniCode
+        IGlyphUniCode, 
+        IEditShortCut
     {
         public const long UID = 0x10B4F165BD72A143L;
 
@@ -275,11 +310,14 @@ namespace MKPRG.Naming.NYT.Keywords
 
         public string GlyphUniCode => Glyphs.NYT.IwazStringBegin;
         public override string Glyph => Glyphs.NYT.IwazStringBeginHtm;
+
+        public string EditShortCut => "#z";
     }
 
     public class StringCat
         : NamingBase,
-        IGlyphUniCode
+        IGlyphUniCode,
+        IEditShortCut
     {
         public const long UID = 0x3CFEC5C4301DD722L;
 
@@ -294,11 +332,14 @@ namespace MKPRG.Naming.NYT.Keywords
 
         public string GlyphUniCode => Glyphs.NYT.CweorthStringCat;
         public override string Glyph => Glyphs.NYT.CweorthStringCatHtm;
+
+        public string EditShortCut => "#v";
     }
 
     public class ListBegin
         : NamingBase,
-        IGlyphUniCode
+        IGlyphUniCode,
+        IEditShortCut
     {
         public const long UID = 0x32C882437685EE5FL;
 
@@ -313,11 +354,14 @@ namespace MKPRG.Naming.NYT.Keywords
 
         public string GlyphUniCode => Glyphs.NYT.WynnListBegin;
         public override string Glyph => Glyphs.NYT.WynnListBeginHtm;
+
+        public string EditShortCut => "#w";
     }
 
     public class ListEnd
         : NamingBase,
-        IGlyphUniCode
+        IGlyphUniCode,
+        IEditShortCut
     {
         public const long UID = 0x4B8111BA0FA659AFL;
 
@@ -332,11 +376,14 @@ namespace MKPRG.Naming.NYT.Keywords
 
         public string GlyphUniCode => Glyphs.NYT.QListEnd;
         public override string Glyph => Glyphs.NYT.QListEndHtm;
+
+        public string EditShortCut => "#q";
     }
 
     public class Hirarchy
         : NamingBase,
-        IGlyphUniCode
+        IGlyphUniCode,
+        IEditShortCut
     {
         public const long UID = 0x50B0120600626095L;
 
@@ -351,11 +398,14 @@ namespace MKPRG.Naming.NYT.Keywords
 
         public string GlyphUniCode => Glyphs.NYT.FehuHirachy;
         public override string Glyph => Glyphs.NYT.FehuHirachyHtm;
+
+        public string EditShortCut => "#f";
     }
 
     public class BoolValue
-    : NamingBase,
-    IGlyphUniCode
+        : NamingBase,
+        IGlyphUniCode,
+        IEditShortCut
     {
         public const long UID = 0x369ADE021FA69E6DL;
 
@@ -370,11 +420,14 @@ namespace MKPRG.Naming.NYT.Keywords
 
         public string GlyphUniCode => Glyphs.NYT.BjarkanBool;
         public override string Glyph => Glyphs.NYT.BjarkanBoolHtm;
+
+        public string EditShortCut => "#b";
     }
 
     public class BoolType
-    : NamingBase,
-    IGlyphUniCode
+        : NamingBase,
+        IGlyphUniCode,
+        IEditShortCut
     {
         public const long UID = 0x189B35AF7C22A624L;
 
@@ -389,11 +442,14 @@ namespace MKPRG.Naming.NYT.Keywords
 
         public string GlyphUniCode => Glyphs.NYT.BjarkanBoolType;
         public override string Glyph => Glyphs.NYT.BjarkanBoolTypeHtm;
+
+        public string EditShortCut => "#tb";
     }
 
     public class IntValue
         : NamingBase,
-        IGlyphUniCode
+        IGlyphUniCode,
+        IEditShortCut
     {
         public const long UID = 0x15B07A6E59F48A94L;
 
@@ -408,12 +464,15 @@ namespace MKPRG.Naming.NYT.Keywords
 
         public string GlyphUniCode => Glyphs.NYT.PInt;
         public override string Glyph => Glyphs.NYT.PIntHtm;
+
+        public string EditShortCut => "#p";
     }
 
 
     public class IntType
         : NamingBase,
-        IGlyphUniCode
+        IGlyphUniCode,
+        IEditShortCut
     {
         public const long UID = 0x51935CA74016A779L;
 
@@ -428,11 +487,14 @@ namespace MKPRG.Naming.NYT.Keywords
 
         public string GlyphUniCode => Glyphs.NYT.PIntType;
         public override string Glyph => Glyphs.NYT.PIntHtmType;
+
+        public string EditShortCut => "#tp";
     }
 
     public class Fraction
         : NamingBase,
-        IGlyphUniCode
+        IGlyphUniCode,
+        IEditShortCut
     {
         public const long UID = 0x2042A07A32E3B5BBL;
 
@@ -447,12 +509,15 @@ namespace MKPRG.Naming.NYT.Keywords
 
         public string GlyphUniCode => Glyphs.NYT.RadFraction;
         public override string Glyph => Glyphs.NYT.RadFractionHtm;
+
+        public string EditShortCut => "#r";
     }
 
 
     public class FractionType
-    : NamingBase,
-    IGlyphUniCode
+        : NamingBase,
+        IGlyphUniCode,
+        IEditShortCut
     {
         public const long UID = 0xE52697AEA1E3735L;
 
@@ -467,11 +532,14 @@ namespace MKPRG.Naming.NYT.Keywords
 
         public string GlyphUniCode => Glyphs.NYT.RadFractionType;
         public override string Glyph => Glyphs.NYT.RadFractionHtmType;
+
+        public string EditShortCut => "#tr";
     }
 
     public class FloatingPoint
         : NamingBase,
-        IGlyphUniCode
+        IGlyphUniCode,
+        IEditShortCut
     {
         public const long UID = 0x6D13E1AB7C474281L;
 
@@ -486,11 +554,14 @@ namespace MKPRG.Naming.NYT.Keywords
 
         public string GlyphUniCode => Glyphs.NYT.AcFloatingPointNum;
         public override string Glyph => Glyphs.NYT.AcFloatingPointNumHtm;
+
+        public string EditShortCut => "#a";
     }
 
     public class FloatingPointType
-    : NamingBase,
-    IGlyphUniCode
+        : NamingBase,
+        IGlyphUniCode,
+        IEditShortCut
     {
         public const long UID = 0x36895688E57B50B4L;
 
@@ -505,11 +576,14 @@ namespace MKPRG.Naming.NYT.Keywords
 
         public string GlyphUniCode => Glyphs.NYT.AcFloatingPointNumType;
         public override string Glyph => Glyphs.NYT.AcFloatingPointNumHtmType;
+
+        public string EditShortCut => "#ta";
     }
 
     public class NamingId
         : NamingBase,
-        IGlyphUniCode
+        IGlyphUniCode,
+        IEditShortCut
     {
         public const long UID = 0x172C6ABFB28B47BFL;
 
@@ -524,11 +598,14 @@ namespace MKPRG.Naming.NYT.Keywords
 
         public string GlyphUniCode => Glyphs.NYT.HaeglNID;
         public override string Glyph => Glyphs.NYT.HaeglNIDHtm;
+
+        public string EditShortCut => "#h";
     }
 
     public class NamingIDType
-    : NamingBase,
-    IGlyphUniCode
+        : NamingBase,
+        IGlyphUniCode,
+        IEditShortCut
     {
         public const long UID = 0x69DD59EC5C1EC8FCL;
 
@@ -543,11 +620,14 @@ namespace MKPRG.Naming.NYT.Keywords
 
         public string GlyphUniCode => Glyphs.NYT.HaeglNIDType;
         public override string Glyph => Glyphs.NYT.HaeglNIDHtmType;
+
+        public string EditShortCut => "#th";
     }
 
     public class SemanticRef
         : NamingBase,
-        IGlyphUniCode
+        IGlyphUniCode,
+        IEditShortCut
     {
         public const long UID = 0x6A92F35E6C10880L;
 
@@ -562,6 +642,8 @@ namespace MKPRG.Naming.NYT.Keywords
 
         public string GlyphUniCode => Glyphs.NYT.TvimadurSemanticRef;
         public override string Glyph => Glyphs.NYT.TvimadurSemanticRefHtm;
+
+        public string EditShortCut => "#t";
     }
 
 
