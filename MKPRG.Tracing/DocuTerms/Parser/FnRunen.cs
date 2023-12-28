@@ -78,7 +78,7 @@ namespace MKPRG.Tracing.DocuTerms.Parser
         public string Method => NM.Glyphs.toStr(NM.Glyphs.DocuTerms.Method);
 
 
-        public string Function => NM.Glyphs.toStr(NM.Glyphs.DocuTerms.Function);
+        public string Function => NM.Glyphs.toStr(NM.Glyphs.DocuTerms.Method);
 
 
         /// <summary>

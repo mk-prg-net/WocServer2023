@@ -1,3 +1,7 @@
+using MKPRG.Tracing.DocuTerms;
+using System.Text.Encodings.Web;
+using System.Text.Unicode;
+
 var builder = WebApplication.CreateBuilder(
     new WebApplicationOptions
     {
@@ -44,20 +48,38 @@ app.MapGet("/NamingContainers", (HttpRequest request, MyNamingContainers myNamin
 {
     if (request.Query.ContainsKey("NC") && request.Query["NC"].Any())
     {
-        var nidString = request.Query["NC"].First() ?? "";
+        var ncSetDefinition = request.Query["NC"].First() ?? "";
 
         var ncHlp = new NamingContainerWebApiHlp(myNamingContainers);
 
-        var ncList = ncHlp.FetchNamingContainersWithNamingIds(nidString);
+        NamingContainerSimple[] ncList = Array.Empty<NamingContainerSimple>();
 
+        if (ncHlp.IsNIDList(ncSetDefinition))
+        {
+            // Naming Container sind durch eine Liste von NIDS definiert
+            ncList = ncHlp.FetchNamingContainersWithNamingIds(ncSetDefinition);
+        }
+        else if (ncHlp.IsNameSpace(ncSetDefinition))
+        {
+            // Naming Container sind durch einen Namensraum definiert
+            ncList = ncHlp.FetchNamingContainersOfNamespace(ncSetDefinition);
+        }
+        else
+        {
+            ncList = ncHlp.CreateNamingContainerListWithUndefNC();
+        }
+               
+        // Serialize to JSON
         return Results.Json(ncList, new System.Text.Json.JsonSerializerOptions()
         {
-            PropertyNamingPolicy = null
+            PropertyNamingPolicy = null,
+            // This prevents ecscaping unicode Runes in JSON output.
+            Encoder = JavaScriptEncoder.Create(UnicodeRanges.BasicLatin, UnicodeRanges.Runic)
         });
     }
     else
     {
-        return Results.Problem("QueryString is incorrect! NC=ABCDEF123,987654321,...,FFBBEEDD expected");
+        return Results.Problem("QueryString is incorrect! NC=ABCDEF123,987654321,...,FFBBEEDD or NC=MKPRG.Naming.NYT.Keywords expected");
     }
 });
 
@@ -69,7 +91,6 @@ app.MapGet("/Main", (HttpRequest req, MyNamingContainers myNamingContainers) =>
     // old school templating :-)
     // Create html- content for Browser. Replace all placeholders for in server Urls etc. with valid Host adresses 
     var content = string.Join('\n', System.IO.File.ReadAllLines(@".\wwwroot\apps\nyt\MainView.html")).Replace("{*}", wwwroot);
-
 
 });
 

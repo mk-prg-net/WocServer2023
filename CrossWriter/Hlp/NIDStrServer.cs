@@ -1,5 +1,6 @@
 ﻿// mko, 20.12.2023
 using MKPRG.Edit.Abstract;
+using System.Text.RegularExpressions;
 
 namespace CrossWriter.Hlp
 {
@@ -9,9 +10,56 @@ namespace CrossWriter.Hlp
         public NamingContainerWebApiHlp(MyNamingContainers myNamingContainers)
         {
             this.myNamingContainers = myNamingContainers;
+
+            var undefNc = myNamingContainers.NC[MKPRG.Naming.DocuTerms.Types.UndefinedDocuTerm.UID];
+            undefNcSimple = new NamingContainerSimple()
+            {
+                NIDstr = undefNc.NID.ToString("X"),
+                CNT = undefNc.CNT,
+                DE = undefNc.DE,
+                EN = undefNc.EN,
+            };
+
         }
 
+        const string NameSpacePattern = @"^[a-zA-Z_][a-zA-Z0-9_\.]*$";
+        const string NIDListPattern = @"(^0x[0-9a-fA-F]+,)+$";
+
+
         MyNamingContainers myNamingContainers;
+        NamingContainerSimple undefNcSimple;
+
+
+
+        /// <summary>
+        /// mko, 28.12.2023
+        /// Returns true, if queryString matches Reqular Expression of a Namespace
+        /// </summary>
+        /// <param name="queryString"></param>
+        /// <returns></returns>
+        public bool IsNameSpace(string queryString)
+            => Regex.IsMatch(queryString, NameSpacePattern);
+
+        /// <summary>
+        /// mko, 28.12.2023
+        /// Returns true, if queryString matches a regular Expression of a Naming ID List
+        /// </summary>
+        /// <param name="queryString"></param>
+        /// <returns></returns>
+        public bool IsNIDList(string queryString)
+            => Regex.IsMatch(queryString, NIDListPattern);
+
+
+        /// <summary>
+        /// mko, 28.12.2023
+        /// Helper
+        /// </summary>
+        /// <returns></returns>
+        public NamingContainerSimple[] CreateNamingContainerListWithUndefNC()
+        {
+            var ncList = new NamingContainerSimple[] { undefNcSimple };
+            return ncList;
+        }
 
         /// <summary>
         /// mko, 24.5.2023
@@ -25,16 +73,7 @@ namespace CrossWriter.Hlp
         /// <returns></returns>
         public NamingContainerSimple[] FetchNamingContainersWithNamingIds(string nidStringList)
         {
-            var undefNc = myNamingContainers.NC[MKPRG.Naming.DocuTerms.Types.UndefinedDocuTerm.UID];
-            var undef = new NamingContainerSimple()
-            {
-                NIDstr = undefNc.NID.ToString("X"),                
-                CNT = undefNc.CNT,
-                DE = undefNc.DE,
-                EN = undefNc.EN,                
-            };
-
-            var ncList = new NamingContainerSimple[] { undef };
+            var ncList = CreateNamingContainerListWithUndefNC();
 
             var nids = nidStringList.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
 
@@ -55,54 +94,79 @@ namespace CrossWriter.Hlp
                         if (myNamingContainers.NC.ContainsKey(nid))
                         {
                             var nc = myNamingContainers.NC[nid];
-                            var ncs = new NamingContainerSimple()
-                            {
-                                NIDstr = nc.NID.ToString("X"),                                
-                                CNT = nc.CNT,
-                                DE = nc.DE,
-                                EN = nc.EN,                                
-                            };
-
-                            if (nc is IGlyph g)
-                            {
-                                ncs.Glyph = g.Glyph;
-                            }
-                            else
-                            {
-                                ncs.Glyph = " ";
-                            }
-
-                            if (nc is IGlyphUniCode gu)
-                            {
-                                ncs.GlyphUniCode = gu.GlyphUniCode;
-                            }
-                            else
-                            {
-                                ncs.GlyphUniCode = "&nbsp;";
-                            }
-
-                            if (nc is IEditShortCut sc)
-                            {
-                                ncs.EditShortCut = sc.EditShortCut;
-                            }
-                            else
-                            {
-                                ncs.EditShortCut = ncs.NIDstr;
-                            }
-
+                            NamingContainerSimple ncs = CreateNCSimple(nc);
                             return ncs;
-
                         }
                         else
                         {
-                            return undef;
+                            return undefNcSimple;
                         }
                     }
                     else
                     {
-                        return undef;
+                        return undefNcSimple;
                     }
                 }).ToArray();
+            }
+
+            return ncList;
+        }
+
+        private static NamingContainerSimple CreateNCSimple(INaming nc)
+        {
+            var ncs = new NamingContainerSimple()
+            {
+                NIDstr = nc.NID.ToString("X"),
+                CNT = nc.CNT,
+                DE = nc.DE,
+                EN = nc.EN,
+            };
+
+            if (nc is IGlyph g)
+            {
+                ncs.Glyph = g.Glyph;
+            }
+            else
+            {
+                ncs.Glyph = " ";
+            }
+
+            if (nc is IGlyphUniCode gu)
+            {
+                ncs.GlyphUniCode = gu.GlyphUniCode;
+            }
+            else
+            {
+                ncs.GlyphUniCode = "&nbsp;";
+            }
+
+            if (nc is IEditShortCut sc)
+            {
+                ncs.EditShortCut = sc.EditShortCut;
+            }
+            else
+            {
+                ncs.EditShortCut = ncs.NIDstr;
+            }
+
+            return ncs;
+        }
+
+        /// <summary>
+        /// mko, 28.12.2023
+        /// Gets all Naming Containers, defined inside a given namespace.
+        /// </summary>
+        /// <param name="NCnamespace"></param>
+        /// <returns></returns>
+        public NamingContainerSimple[] FetchNamingContainersOfNamespace(string NCnamespace)
+        {
+            var ncList = CreateNamingContainerListWithUndefNC();
+
+            var ncInNamespace = myNamingContainers.NC.Values.Where(r => r is IGetNameSpaceOfNamingContainer getNC && getNC.MyNamespace.Equals(NCnamespace));
+
+            if (ncInNamespace.Any())
+            {
+                ncList = ncInNamespace.Select(r => CreateNCSimple(r)).ToArray();
             }
 
             return ncList;

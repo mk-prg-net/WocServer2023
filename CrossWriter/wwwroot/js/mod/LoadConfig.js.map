@@ -1,1 +1,1 @@
-{"version":3,"file":"LoadConfig.js","sourceRoot":"","sources":["../../ts/nyt/LoadConfig.ts"],"names":[],"mappings":"AAAA,kBAAkB;AAClB,4CAA4C;;;;IAI5C,MAAqB,UAAU;QAE3B,YAAY,MAAc;YACtB,IAAI,CAAC,MAAM,GAAG,MAAM,CAAC;QACzB,CAAC;KAIJ;IARD,6BAQC"}
+{"version":3,"file":"LoadConfig.js","sourceRoot":"","sources":["../../ts/LoadConfig.ts"],"names":[],"mappings":"AAAA,kBAAkB;AAClB,4CAA4C;;;;IAI5C,MAAqB,UAAU;QAE3B,YAAY,MAAc;YACtB,IAAI,CAAC,MAAM,GAAG,MAAM,CAAC;QACzB,CAAC;KAIJ;IARD,6BAQC"}
