@@ -6,6 +6,7 @@ define(["require", "exports", "react", "jquery"], function (require, exports, re
     Object.defineProperty(exports, "__esModule", { value: true });
     react_1 = __importDefault(react_1);
     jquery_1 = __importDefault(jquery_1);
+    // Default- Namingcontainer
     var UnkownNC = {
         CNT: "unknown",
         DE: "unbekannt",
@@ -15,6 +16,10 @@ define(["require", "exports", "react", "jquery"], function (require, exports, re
         GlyphUniCode: " ",
         NIDstr: "unknown"
     };
+    // List of all NYT Keywords. Must be loaded from Server
+    var nytKeywords = [UnkownNC];
+    // Mapping Key Board Shortcuts to Nyt Naming- Container.
+    var editShortCuts = { "none": UnkownNC };
     function CrossWriter(properties) {
         // Define initial State
         let [state, setState] = react_1.default.useState({
@@ -27,8 +32,6 @@ define(["require", "exports", "react", "jquery"], function (require, exports, re
                 documentName: properties.DocumentName,
                 LineCount: 0
             },
-            nytKeywords: [UnkownNC],
-            editShortCuts: { "none": UnkownNC },
             statusText: "start"
         });
         function LoadResourcesFromServer() {
@@ -36,12 +39,16 @@ define(["require", "exports", "react", "jquery"], function (require, exports, re
                 jquery_1.default.ajax(`${properties.ServerOrigin}/NamingContainers?NC=${properties.NameSpaceNytNamingContainers}`, { method: "GET" })
                     .done((data, textStatus, jqXhr) => {
                     let _ncList = data;
+                    nytKeywords = _ncList;
+                    // Dictionary mit den Short Cuts aufbauen
+                    for (var i = 0, _ncListCount = _ncList.length; i < _ncListCount; i++) {
+                        var nc = nytKeywords[i];
+                        editShortCuts[nc.EditShortCut] = nc;
+                    }
                     // Zustand der React- Komponente neu setzten und rendern
                     setState({
                         init: false,
                         document: state.document,
-                        nytKeywords: _ncList,
-                        editShortCuts: state.editShortCuts,
                         statusText: "Resources loaded successful from Server"
                     });
                 })
@@ -51,8 +58,6 @@ define(["require", "exports", "react", "jquery"], function (require, exports, re
                     setState({
                         init: false,
                         document: state.document,
-                        nytKeywords: state.nytKeywords,
-                        editShortCuts: state.editShortCuts,
                         statusText: errTxt
                     });
                 });

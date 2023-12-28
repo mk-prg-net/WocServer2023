@@ -17,12 +17,6 @@ interface ICrossWriterProps {
 interface ICrossWriterState {
     init: boolean,
 
-    // List of all NYT Keywords. Must be loaded from Server
-    nytKeywords: INamingContainer[],
-
-    // Mapping Key Board Shortcuts to Nyt Naming- Container.
-    editShortCuts: Record<string, INamingContainer>,
-
     // the document, that will be edited by this control
     document: IDocument,
 
@@ -31,7 +25,9 @@ interface ICrossWriterState {
 
 }
 
-var UnkownNC = {
+
+// Default- Namingcontainer
+var UnkownNC : INamingContainer = {
     CNT: "unknown",
     DE: "unbekannt",
     EditShortCut: "unknown",
@@ -41,6 +37,11 @@ var UnkownNC = {
     NIDstr: "unknown"
 };
 
+// List of all NYT Keywords. Must be loaded from Server
+var nytKeywords: INamingContainer[] = [UnkownNC];
+
+// Mapping Key Board Shortcuts to Nyt Naming- Container.
+var editShortCuts: Record<string, INamingContainer> = { "none": UnkownNC };
 
 export default function CrossWriter(properties: ICrossWriterProps) {
     // Define initial State
@@ -54,8 +55,6 @@ export default function CrossWriter(properties: ICrossWriterProps) {
             documentName: properties.DocumentName,
             LineCount: 0
         },
-        nytKeywords: [UnkownNC],
-        editShortCuts: { "none": UnkownNC },
         statusText: "start"
     });
 
@@ -65,12 +64,18 @@ export default function CrossWriter(properties: ICrossWriterProps) {
                 .done((data, textStatus, jqXhr) => {
                     let _ncList = data as Array<INamingContainer>;
 
+                    nytKeywords = _ncList;
+
+                    // Dictionary mit den Short Cuts aufbauen
+                    for (var i = 0, _ncListCount = _ncList.length; i < _ncListCount; i++) {
+                        var nc = nytKeywords[i];
+                        editShortCuts[nc.EditShortCut] = nc;
+                    }
+
                     // Zustand der React- Komponente neu setzten und rendern
                     setState({
                         init: false,
                         document: state.document,
-                        nytKeywords: _ncList,
-                        editShortCuts: state.editShortCuts,
                         statusText: "Resources loaded successful from Server"
                     });
                 })
@@ -81,9 +86,7 @@ export default function CrossWriter(properties: ICrossWriterProps) {
                     // Zustand der React- Komponente neu setzten und rendern
                     setState({
                         init: false,
-                        document: state.document,
-                        nytKeywords: state.nytKeywords,
-                        editShortCuts: state.editShortCuts,
+                        document: state.document,                        
                         statusText: errTxt
                     });
                 });
@@ -139,8 +142,7 @@ export default function CrossWriter(properties: ICrossWriterProps) {
 
             </header>
 
-        </div>
-        $("#pre").height()
+        </div>        
     );
 
 }
