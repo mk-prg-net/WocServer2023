@@ -1,8 +1,8 @@
 // mko, 27.4.2023
-// React- Komponente Ausw�hlen eines Namenscontainers
+// React- Komponente Auswählen eines Namenscontainers
 // Achtung: in der tsjson.config muss unter Compileroptions festgelegt sein: "jsx": "react"
 //
-// Das Ergebnis ist die NID des ausgew�hlten Naming- Containers.
+// Das Ergebnis ist die NID des ausgewählten Naming- Containers.
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -44,26 +44,26 @@ define(["require", "exports", "react", "react-dom", "jquery", "./NamingIds", "./
                 // Noch kein Text eingegeben
             }
             else if (userText.endsWith("#0")) {
-                // Der Title ist ohne Autocomplete zu �bernehmen.            
+                // Der Title ist ohne Autocomplete zu übernehmen.            
             }
             else if (userText.endsWith("#1")) {
-                // Der erste Vorschlag ist an den Titel anzuh�ngen            
+                // Der erste Vorschlag ist an den Titel anzuhängen            
                 setNcAutocompleteState(setProposalAsTitle(0, ncAutocompleteState));
             }
             else if (userText.endsWith("#2")) {
-                // Der zweite Vorschlag ist an den Titel anzuh�ngen
+                // Der zweite Vorschlag ist an den Titel anzuhängen
                 setNcAutocompleteState(setProposalAsTitle(1, ncAutocompleteState));
             }
             else if (userText.endsWith("#3")) {
-                // Der dritten Vorschlag ist an den Titel anzuh�ngen
+                // Der dritten Vorschlag ist an den Titel anzuhängen
                 setNcAutocompleteState(setProposalAsTitle(2, ncAutocompleteState));
             }
             else if (userText.endsWith("#4")) {
-                // Der vierte Vorschlag ist an den Titel anzuh�ngen
+                // Der vierte Vorschlag ist an den Titel anzuhängen
                 setNcAutocompleteState(setProposalAsTitle(3, ncAutocompleteState));
             }
             else {
-                // Vorschl�ge vom Server laden
+                // Vorschläge vom Server laden
                 if (userText.endsWith("#")) {
                     userText = userText.substring(0, userText.length - 1);
                 }

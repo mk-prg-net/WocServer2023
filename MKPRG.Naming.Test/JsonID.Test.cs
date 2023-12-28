@@ -9,7 +9,7 @@ namespace MKPRG.Naming.Test
 #if ZOTAC
         const string outPath = @"C:\Users\Marti\source\repos\WocServer2021\MKPRG.Naming.Test\JsonIds.json";
 #else 
-        const string outPath = @"C:\Users\marti_000\source\repos\WocServer2021\MKPRG.Naming.Test\JsonIds.json";
+        const string outPath = @"C:\Users\marti_000\source\repos\WocServer2023\WocServer2023\MKPRG.Naming.Test\JsonIds.json";
 #endif
 
         [TestMethod]

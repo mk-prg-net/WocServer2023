@@ -17,7 +17,7 @@ interface INidStrProps {
 }
 
 interface INIDStrState {
-    FirstRun: boolean
+    FirstRun: boolean,
     Lng: string,
     NC: INamingContainer
 }

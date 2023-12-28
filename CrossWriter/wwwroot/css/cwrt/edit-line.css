@@ -3,7 +3,7 @@
     Gestaltung der Eingabezeile
 */
 
-.LLP-EditorLine {
+.EditLine {
     border-bottom-style: solid;
     border-bottom-color: brown;
     font-family: Consolas, Courier New, Courier, monospace;
