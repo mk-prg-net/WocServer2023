@@ -1,8 +1,3 @@
-// mko, 20.12.2023
-
-using Microsoft.AspNetCore.Builder;
-using MKPRG.Naming.TechTerms.Operators.Relations;
-
 var builder = WebApplication.CreateBuilder(
     new WebApplicationOptions
     {
@@ -19,26 +14,25 @@ var builder = WebApplication.CreateBuilder(
 // Add services to the container.
 builder.Services.AddSingleton<MyNamingContainers>();
 
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
 var app = builder.Build();
+
+// Configure the HTTP request pipeline.
+if (!app.Environment.IsDevelopment())
+{
+    app.UseExceptionHandler("/Error");
+}
 
 // Schaltet wwwroot und unterverzeichnisse frei
 app.UseStaticFiles();
+
+app.UseRouting();
+
+//app.UseAuthorization();
 
 // Ermittelt die Origin der wwwroot
 string GetWwwRootOrigin(HttpRequest req)
 {
     return $"{req.Scheme}://{req.Host}";
-}
-
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
 }
 
 // Liefer eine Liste von Naming- Containern. 
@@ -67,7 +61,7 @@ app.MapGet("/NamingContainers", (HttpRequest request, MyNamingContainers myNamin
     }
 });
 
-app.MapGet("/NYTedit", (HttpRequest req, MyNamingContainers myNamingContainers) =>
+app.MapGet("/Main", (HttpRequest req, MyNamingContainers myNamingContainers) =>
 {
     // get Origin (Path) of statical content
     var wwwroot = GetWwwRootOrigin(req);
@@ -77,11 +71,6 @@ app.MapGet("/NYTedit", (HttpRequest req, MyNamingContainers myNamingContainers) 
     var content = string.Join('\n', System.IO.File.ReadAllLines(@".\wwwroot\apps\nyt\MainView.html")).Replace("{*}", wwwroot);
 
 
-
 });
-
-
-
-
 
 app.Run();

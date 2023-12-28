@@ -1,0 +1,25 @@
+{
+  "dependencies": {
+    "@types/jquery": "^3.5.29",
+    "@types/qunit": "^2.19.9",
+    "@types/react": "^18.2.45",
+    "@types/react-dom": "^18.2.18",
+    "@types/requirejs": "^2.1.37",
+    "jquery": "^3.7.1",
+    "qunit": "^2.20.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "requirejs": "^2.3.6"
+  },
+  "devDependencies": {
+    "eslint": "^8.56.0"
+  },
+  "name": "wwwroot",
+  "version": "1.0.0",  
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "mko",
+  "license": "ISC",
+  "description": "a general purpose type writer"
+}
