@@ -177,6 +177,6 @@ export default class BasicTokenizer implements ITokenizer {
         return ret;
     }
 }
-}
+
 
 

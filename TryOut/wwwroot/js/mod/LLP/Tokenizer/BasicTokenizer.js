@@ -34,8 +34,11 @@ define(["require", "exports", "../../rpnParser/StringHlp", "../RC/RCwithValue"],
                 // strToken Klassifizieren und in Elemente der entsprechenden Tokenklassen umwandeln + Ablage im Stack
                 for (let pos = 0; pos < strTokens.length; pos++) {
                     let currentStrTok = strTokens[pos];
-                    // Boolean Parsen in der Zeile, z.B. `true #b`
-                    if (currentStrTok === this.opSym.rpnBoolType) {
+                    // Prüfen, ob ein NID vorliegt
+                    if (currentStrTok == this.opSym.rpnNidPrefix) {
+                    }
+                    else if (currentStrTok === this.opSym.rpnBoolType) {
+                        // Boolean Parsen in der Zeile, z.B. `true #b`
                         let retPeek = this.stackOps.Peek(tokenStack);
                         if (retPeek.Success && retPeek.ReturnValue.tokOpSym == this.opSym.rpnStrType) {
                             let lastStrTok = retPeek.ReturnValue;
@@ -105,33 +108,31 @@ define(["require", "exports", "../../rpnParser/StringHlp", "../RC/RCwithValue"],
                             ret = new RCwithValue_1.default(false, `pos ${pos}: dbl token without value`, []);
                         }
                     }
-                    // Listenende- Markierung einlesen 
-                    else if (currentStrTok == this.opSym.rpnListEnd) {
-                        this.stackOps.Push(tokenStack, this.stackElemStructs.CreateListEndToken(pos));
-                    }
                     // allg. Listenanfang Markierung einlesen
                     else if (currentStrTok == this.opSym.rpnListStart) {
                         this.stackOps.Push(tokenStack, this.stackElemStructs.CreateListStartToken(pos));
                     }
+                    // Listenende- Markierung einlesen 
+                    else if (currentStrTok == this.opSym.rpnListEnd) {
+                        this.stackOps.Push(tokenStack, this.stackElemStructs.CreateListEndToken(pos));
+                    }
+                    // Prüfen, ob nicht ein Funktionsname vorliegt
+                    else if (currentStrTok.startsWith(this.opSym.rpnFuncPrefix)) {
+                        // Funktion liegt vor
+                        this.stackOps.Push(tokenStack, this.stackElemStructs.CreateFunctionHeadToken(currentStrTok, pos));
+                    }
                     else {
-                        // Prüfen, ob nicht ein Funktionsname vorliegt
-                        if (currentStrTok.startsWith(this.opSym.rpnFuncPrefix)) {
-                            // Funktion liegt vor
-                            this.stackOps.Push(tokenStack, this.stackElemStructs.CreateFunctionHeadToken(currentStrTok, pos));
-                        }
-                        else {
-                            // Ablage aller bis dato npicht klassifizierter strToken als Strings
-                            this.stackOps.Push(tokenStack, this.stackElemStructs.CreateStrToken(currentStrTok));
-                        }
+                        // Ablage aller bis dato npicht klassifizierter strToken als Strings
+                        this.stackOps.Push(tokenStack, this.stackElemStructs.CreateStrToken(currentStrTok));
                     }
                 }
-                if (ret.Success) {
-                    //  Wenn die Eingabezeile erfolgreich in Token aufgelöst werden konnte, dann wird die Liste der Token (tokenStack)
-                    //  dem Rückgabewert hinzugefügt.
-                    ret = new RCwithValue_1.default(true, ret.ErrorMsgIfNotSuccesful, tokenStack);
-                }
-                return ret;
             }
+            if (ret.Success) {
+                //  Wenn die Eingabezeile erfolgreich in Token aufgelöst werden konnte, dann wird die Liste der Token (tokenStack)
+                //  dem Rückgabewert hinzugefügt.
+                ret = new RCwithValue_1.default(true, ret.ErrorMsgIfNotSuccesful, tokenStack);
+            }
+            return ret;
         }
     }
     exports.default = BasicTokenizer;
