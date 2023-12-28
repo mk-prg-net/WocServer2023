@@ -1,0 +1,79 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Cross᛭Writer- combine text and programs in one document</title>
+
+    <!-- allgemeine Stylesheets laden -->
+    <link rel="stylesheet" href="{*}/css/mk-prg-net/mk-prg-net.body.css" />
+    <link rel="stylesheet" href="{*}/css/mk-prg-net/mk-prg-net.buttons.css" />
+    <link rel="stylesheet" href="{*}/css/mk-prg-net/mk-prg-net.form-control.css" />
+    <link rel="stylesheet" href="{*}/css/mk-prg-net/mk-prg-net.glyphs.css" />
+    <link rel="stylesheet" href="{*}/css/mk-prg-net/mk-prg-net.header.css" />
+    <link rel="stylesheet" href="{*}/css/mk-prg-net/mk-prg-net.links.css" />
+    <link rel="stylesheet" href="{*}/css/mk-prg-net/mk-prg-net.lists.css" />
+    <link rel="stylesheet" href="{*}/css/mk-prg-net/mk-prg-net.nav.tiles.css" />
+    <link rel="stylesheet" href="{*}/css/mk-prg-net/mk-prg-net.table.css" />
+    <link rel="stylesheet" href="{*}/css/mk-prg-net/mk-prg-net.toc.css" />
+    <link rel="stylesheet" href="{*}/css/mk-prg-net/mk-prg-net.typografy.css" />
+
+    <!-- LLP Stylesheets laden -->
+    <link rel="stylesheet" href="{*}/css/LLP/edit-line.css" />
+
+    <!-- Script- laden -->
+    <script src="{*}/js/lib/require.js" data-main="{*}/apps/main/StartUp.js"></script>
+
+</head>
+<body>
+
+    <!-- Hier wird die Origin der Seite bereitgestellt-->
+    <input type="hidden" id="urlOrigin" value="{*}" />
+
+    <header>        
+        <nav id="main_nav">
+            <!-- Allgemeines Navigationsfenster-->
+            <button id="btnNewFile" class="btn btn-normal">🗋 New</button>
+            <button id="btnOpenFile" class="btn btn-normal">🖺 Open</button>
+            <button id="btnSave" class="btn btn-normal">🖫 Save</button>
+            <button id="help" class="btn btn-normal">🕮 Help</button>            
+        </nav>
+    </header>
+
+    <section id="react_greeting"></section>
+
+    <section id="woc-descriptor">
+    </section>
+
+    <section id="main_desktop">
+
+        <p>
+            <b>ᚾᚤᛏ = NYT</b> soll eine minimalistische formale Sprache zur semantischen Auszeichung von Texten, 
+            zur funktionalen Formulierung von Algorithmen und zur generatorischen Beschreibung von Diagrammen, 
+            Bildern und Fräskopfbahnen werden.
+        </p>
+
+        <form>
+        </form>
+
+        <div class="row">
+            <div id="pre_text" class="col col-8">
+
+            </div>
+
+            <div class="col col-8">
+                <div id="edit_text" contenteditable="true" class="LLP-EditorLine">
+
+                </div>
+            </div>
+
+            <div id="post_text" class="col col-8">
+
+            </div>
+        </div>
+    </section>
+    <footer id="main_status">
+        <!-- Statusmeldungen und technische Details werden hier präsentiert -->
+    </footer>
+
+</body>
+</html>
