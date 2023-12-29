@@ -1,3 +1,5 @@
+// mko, 28.12.2023
+// Main react Component of CrossWriter
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -16,6 +18,10 @@ define(["require", "exports", "react", "jquery"], function (require, exports, re
         GlyphUniCode: " ",
         NIDstr: "unknown"
     };
+    var nonOverlay = {
+        LineBegin: -1,
+        LineEnd: -1
+    };
     // List of all NYT Keywords. Must be loaded from Server
     var nytKeywords = [UnkownNC];
     // Mapping Key Board Shortcuts to Nyt Naming- Container.
@@ -30,7 +36,9 @@ define(["require", "exports", "react", "jquery"], function (require, exports, re
                 currentColNo: 0,
                 currentLineNo: 0,
                 documentName: properties.DocumentName,
-                LineCount: 0
+                LineCount: 0,
+                text: "",
+                textLines: [nonOverlay]
             },
             statusText: "start"
         });

@@ -1,9 +1,18 @@
-﻿import React, { useEffect } from "react";
+﻿// mko, 28.12.2023
+// Main react Component of CrossWriter
+
+import React, { useEffect } from "react";
 import ReacDom from "react-dom"
 import $ from "jquery"
+
+import { ErrorClasses, SiegelSuccessFunc, SowiloErrFunc, ArgumentValidationFailedDescriptor } from "./SiegelAndSowilo";
+
 import NamingIds from "./NamingIds";
-import INamingContainer from "./INamingContainer"
+import INamingContainer from "./INamingContainer";
+
 import IDocument from "./IDocument";
+import CrossWriterLine from "./CrossWriterLine";
+import ITextLineOverlay from "./ITextLineOverlay";
 
 interface ICrossWriterProps {
     ServerOrigin: string,
@@ -22,7 +31,6 @@ interface ICrossWriterState {
 
     // A short text, describing current status of edit control
     statusText: string
-
 }
 
 
@@ -36,6 +44,11 @@ var UnkownNC : INamingContainer = {
     GlyphUniCode: " ",
     NIDstr: "unknown"
 };
+
+var nonOverlay: ITextLineOverlay = {
+    LineBegin: -1,
+    LineEnd: -1
+}
 
 // List of all NYT Keywords. Must be loaded from Server
 var nytKeywords: INamingContainer[] = [UnkownNC];
@@ -53,7 +66,9 @@ export default function CrossWriter(properties: ICrossWriterProps) {
             currentColNo: 0,
             currentLineNo: 0,
             documentName: properties.DocumentName,
-            LineCount: 0
+            LineCount: 0,
+            text: "",
+            textLines: [nonOverlay]
         },
         statusText: "start"
     });
