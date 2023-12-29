@@ -447,7 +447,7 @@ Eine einfache Verarbeitungsstufe, die dieses Prinzip direkt auzsnutzt, ist die *
 
 #### Annahmen zum Stapelspeicher definieren
 
-Da jede Stufe ihre Parameter vom Stapel liest, muss sichergestellt werden, dass auch alle benötigten Parameter auf dem Stapel für die Stufe bereitstehen. Die Prüfung des Stapelspeichers erfolgt durch die Stufe zur Laufzeit. NYT stellt zudem eine generische Implementierung für solche Prüfuungen bereit durch **Musterbelegungen**:
+Da jede Stufe ihre Parameter vom Stapel liest, muss sichergestellt werden, dass auch alle benötigten Parameter auf dem Stapel für die Stufe bereitstehen. Die Prüfung des Stapelspeichers erfolgt durch die Stufe zur Laufzeit. NYT stellt zudem eine generische Implementierung für solche Prüfungen bereit durch **Musterbelegungen**:
 
 𝑫𝒆𝒇 **Musterbelegung**: ist eine Liste von Typnamen nach der INGWAZ Rune: `ᛜ ᛠ1 … ᛠn`. Der erste Typname `ᛠ1` bezeichnet dabei den Datentyp des ersten Wertes auf dem Stapelspeicher, der zweite `ᛠ2` den des zweiten Wertes auf dem Stapelspeicher usw.. 
 
@@ -525,18 +525,18 @@ Beispiel: Berechnen der Quadratwurzel
 ᛭ Ende von Input
 ᛉ
 
-ᛣprint ᛇ Es wird nun die Wurzel aus ᛟᛡaa gezogen ᛩ
+ᛣprint ᛇ Es wird nun die Wurzel aus ᛡaa gezogen ᛩ
 
 ᛭ Start Wurzel ziehen (Inhalt von ᛟaa wird auf den Stapel gelegt)
-ᛣ sqrt ᛟᛡaa
+ᛣ sqrt ᛡaa
 
 ᛭ Weiterleiten des Ergebnisses an die Print- Methode. Achtung: Im AusgabeString findet
 ᛭ String- Interpolation statt.
-ᛋ print ᛕ1 ᛇ √ ᛟᛡaa= ᛩ
+ᛋ print ᛕ2 ᛇ √ ᛟᛡaa= ᛩ ᛜ ᛕᛠ
 
 ᛭ Weiterleiten im Fehlerfall an die Print- Methode. Achtung: Im AusgabeString findet
 ᛭ String- Interpolation statt.
-ᛊ print ᛕ1 ᛇ √ ᛟᛡaa ist konnte nicht ermittelt werden. Ursache: ᛩ
+ᛊ print ᛕ2 ᛇ √ ᛟᛡaa ist konnte nicht ermittelt werden. Ursache: ᛩ ᛜ ᛇᛠ
 
 ᛭ Hier werden die Ausführungspfade wieder zusammengeführt
 ᛉ print ᛕ1 ᛇ Programm √ beendet ᛩ
