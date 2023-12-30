@@ -7,7 +7,6 @@ import {ErrorClasses, SiegelSuccessFunc, SowiloErrFunc, ArgumentValidationFailed
 
 import INamingContainer from "./INamingContainer"
 import IDocument from "./IDocument";
-import ITextLineOverlay from "./ITextLineOverlay"
 
 interface ICrossWriterLineProps {    
     cssClassLineNo: string,
@@ -48,51 +47,32 @@ export default function CrossWriterLine(properties: ICrossWriterLineProps) {
     });
 
 
-    function getLineText(state: ICrossWriterLineState, succF: SiegelSuccessFunc<ICrossWriterLineState>, errF: SowiloErrFunc<ICrossWriterLineState>): any
+    function getTextLine(state: ICrossWriterLineState, succF: SiegelSuccessFunc<ICrossWriterLineState>, errF: SowiloErrFunc<ICrossWriterLineState>): any
     {
-        let line = "";
         let lineNo = state.lineNo;
         let textLines = state.document.textLines;
-        let succeeded = false;
-        let lenTxt = state.document.text.length;
-
         let res = <div>Error</div>;
 
         const fname = "getLineText";
 
-        if (lineNo >= textLines.length) {
+        // Check Line No
+        if (lineNo >= textLines.length) {            
             res = errF.apply(null, ArgumentValidationFailedDescriptor(state, fname, "lineNo", lineNo, `lineNo is greater than textLines.length=${textLines.length}`));
         }
-        else if (textLines[lineNo].LineBegin < 0) {
-            res = errF.apply(null, ArgumentValidationFailedDescriptor(state, fname, `textLines[${lineNo}].LineBegin`, textLines[lineNo].LineBegin, `textLines[${lineNo}].LineBegin < 0`));
-        }
-        else if (textLines[lineNo].LineBegin >= textLines.length) {
-            res = errF.apply(null, ArgumentValidationFailedDescriptor(state, fname, `textLines[${lineNo}].LineBegin`, textLines[lineNo].LineBegin, `textLines[${lineNo}].LineBegin >= ${textLines.length}`));
-        }
-        else if (textLines[lineNo].LineEnd < 0) {
-            res = errF.apply(null, ArgumentValidationFailedDescriptor(state, fname, `textLines[${lineNo}].LineEnd`, textLines[lineNo].LineEnd, `textLines[${lineNo}].LineEnd < 0`));
-        }
-        else if (textLines[lineNo].LineEnd >= textLines.length) {
-            res = errF.apply(null, ArgumentValidationFailedDescriptor(state, fname, `textLines[${lineNo}].LineEnd`, textLines[lineNo].LineEnd, `textLines[${lineNo}].LineEnd >= ${textLines.length}`));
-        }
-        else if (textLines[lineNo].LineEnd < 0) {
-            res = errF.apply(null, ArgumentValidationFailedDescriptor(state, fname, `textLines[${lineNo}].LineEnd`, textLines[lineNo].LineEnd, `textLines[${lineNo}].LineEnd < 0`));
-        }
-        else if (textLines[lineNo].LineBegin >= textLines[lineNo].LineEnd) {
-            res = errF.apply(null, ArgumentValidationFailedDescriptor(state, fname, `textLines[${lineNo}].LineBegin`, textLines[lineNo].LineBegin, `textLines[${lineNo}].LineBegin >= textLines[${lineNo}].LineEnd= ${textLines[lineNo].LineEnd}`));
+        else if (lineNo < 0) {
+            res = errF.apply(null, ArgumentValidationFailedDescriptor(state, fname, "lineNo", lineNo, `lineNo is lower than 0`));
         }
         else {
             
             let textLine = state.document.textLines[lineNo];
-            line = state.document.text.substring(textLine.LineBegin, textLine.LineEnd);
-            res = succF(state, line);            
+            res = succF(state, textLine);            
         }
         return res;
     }
 
     return (
         
-        getLineText(
+        getTextLine(
             // State of Component
             state,          
             // SiegelSuccessFunc: if access to line was successful, it will be renderd here

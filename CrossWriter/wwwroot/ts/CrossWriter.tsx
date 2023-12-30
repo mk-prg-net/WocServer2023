@@ -45,10 +45,6 @@ var UnkownNC : INamingContainer = {
     NIDstr: "unknown"
 };
 
-var nonOverlay: ITextLineOverlay = {
-    LineBegin: -1,
-    LineEnd: -1
-}
 
 // List of all NYT Keywords. Must be loaded from Server
 var nytKeywords: INamingContainer[] = [UnkownNC];
@@ -67,8 +63,7 @@ export default function CrossWriter(properties: ICrossWriterProps) {
             currentLineNo: 0,
             documentName: properties.DocumentName,
             LineCount: 0,
-            text: "",
-            textLines: [nonOverlay]
+            textLines: [""]
         },
         statusText: "start"
     });

@@ -20,43 +20,25 @@ define(["require", "exports", "react", "./SiegelAndSowilo"], function (require, 
             lineNo: properties.lineNo,
             init: true
         });
-        function getLineText(state, succF, errF) {
-            let line = "";
+        function getTextLine(state, succF, errF) {
             let lineNo = state.lineNo;
             let textLines = state.document.textLines;
-            let succeeded = false;
-            let lenTxt = state.document.text.length;
             let res = react_1.default.createElement("div", null, "Error");
             const fname = "getLineText";
+            // Check Line No
             if (lineNo >= textLines.length) {
                 res = errF.apply(null, (0, SiegelAndSowilo_1.ArgumentValidationFailedDescriptor)(state, fname, "lineNo", lineNo, `lineNo is greater than textLines.length=${textLines.length}`));
             }
-            else if (textLines[lineNo].LineBegin < 0) {
-                res = errF.apply(null, (0, SiegelAndSowilo_1.ArgumentValidationFailedDescriptor)(state, fname, `textLines[${lineNo}].LineBegin`, textLines[lineNo].LineBegin, `textLines[${lineNo}].LineBegin < 0`));
-            }
-            else if (textLines[lineNo].LineBegin >= textLines.length) {
-                res = errF.apply(null, (0, SiegelAndSowilo_1.ArgumentValidationFailedDescriptor)(state, fname, `textLines[${lineNo}].LineBegin`, textLines[lineNo].LineBegin, `textLines[${lineNo}].LineBegin >= ${textLines.length}`));
-            }
-            else if (textLines[lineNo].LineEnd < 0) {
-                res = errF.apply(null, (0, SiegelAndSowilo_1.ArgumentValidationFailedDescriptor)(state, fname, `textLines[${lineNo}].LineEnd`, textLines[lineNo].LineEnd, `textLines[${lineNo}].LineEnd < 0`));
-            }
-            else if (textLines[lineNo].LineEnd >= textLines.length) {
-                res = errF.apply(null, (0, SiegelAndSowilo_1.ArgumentValidationFailedDescriptor)(state, fname, `textLines[${lineNo}].LineEnd`, textLines[lineNo].LineEnd, `textLines[${lineNo}].LineEnd >= ${textLines.length}`));
-            }
-            else if (textLines[lineNo].LineEnd < 0) {
-                res = errF.apply(null, (0, SiegelAndSowilo_1.ArgumentValidationFailedDescriptor)(state, fname, `textLines[${lineNo}].LineEnd`, textLines[lineNo].LineEnd, `textLines[${lineNo}].LineEnd < 0`));
-            }
-            else if (textLines[lineNo].LineBegin >= textLines[lineNo].LineEnd) {
-                res = errF.apply(null, (0, SiegelAndSowilo_1.ArgumentValidationFailedDescriptor)(state, fname, `textLines[${lineNo}].LineBegin`, textLines[lineNo].LineBegin, `textLines[${lineNo}].LineBegin >= textLines[${lineNo}].LineEnd= ${textLines[lineNo].LineEnd}`));
+            else if (lineNo < 0) {
+                res = errF.apply(null, (0, SiegelAndSowilo_1.ArgumentValidationFailedDescriptor)(state, fname, "lineNo", lineNo, `lineNo is lower than 0`));
             }
             else {
                 let textLine = state.document.textLines[lineNo];
-                line = state.document.text.substring(textLine.LineBegin, textLine.LineEnd);
-                res = succF(state, line);
+                res = succF(state, textLine);
             }
             return res;
         }
-        return (getLineText(
+        return (getTextLine(
         // State of Component
         state, 
         // SiegelSuccessFunc: if access to line was successful, it will be renderd here
