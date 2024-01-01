@@ -11,46 +11,37 @@ define(["require", "exports", "react", "./SiegelAndSowilo"], function (require, 
         // Die Liste der Schlüsselwörter wird einmalig in der Hauptkomponente CrossWriter
         // geladen. Hier wird nur eine referenz auf die Struktur abgelegt.
         nytKeywords = properties.nytKeywords;
-        // Define initial State
-        let [state, setState] = react_1.default.useState({
-            cssClassLine: properties.cssClassLine,
-            cssClassLineFunction: properties.cssClassLineFunction,
-            cssClassLineNo: properties.cssClassLineNo,
-            document: properties.document,
-            lineNo: properties.lineNo,
-            init: true
-        });
-        function getTextLine(state, succF, errF) {
-            let lineNo = state.lineNo;
-            let textLines = state.document.textLines;
+        function getTextLine(props, succF, errF) {
+            let lineNo = props.lineNo;
+            let textLines = props.document.textLines;
             let res = react_1.default.createElement("div", null, "Error");
             const fname = "getLineText";
             // Check Line No
             if (lineNo >= textLines.length) {
-                res = errF.apply(null, (0, SiegelAndSowilo_1.ArgumentValidationFailedDescriptor)(state, fname, "lineNo", lineNo, `lineNo is greater than textLines.length=${textLines.length}`));
+                res = errF.apply(null, (0, SiegelAndSowilo_1.ArgumentValidationFailedDescriptor)(props, fname, "lineNo", lineNo, `lineNo is greater than textLines.length=${textLines.length}`));
             }
             else if (lineNo < 0) {
-                res = errF.apply(null, (0, SiegelAndSowilo_1.ArgumentValidationFailedDescriptor)(state, fname, "lineNo", lineNo, `lineNo is lower than 0`));
+                res = errF.apply(null, (0, SiegelAndSowilo_1.ArgumentValidationFailedDescriptor)(props, fname, "lineNo", lineNo, `lineNo is lower than 0`));
             }
             else {
-                let textLine = state.document.textLines[lineNo];
-                res = succF(state, textLine);
+                let textLine = props.document.textLines[lineNo];
+                res = succF(props, textLine);
             }
             return res;
         }
         return (getTextLine(
         // State of Component
-        state, 
+        properties, 
         // SiegelSuccessFunc: if access to line was successful, it will be renderd here
         (state, line) => react_1.default.createElement("div", { className: "row" },
-            react_1.default.createElement("div", { className: state.cssClassLineNo }, state.lineNo),
-            react_1.default.createElement("div", { className: state.cssClassLine }, line),
-            react_1.default.createElement("div", { className: state.cssClassLineFunction }, "\u00A0")), 
+            react_1.default.createElement("div", { className: properties.cssClassLineNo }, state.lineNo),
+            react_1.default.createElement("div", { className: properties.cssClassLine }, line),
+            react_1.default.createElement("div", { className: properties.cssClassLineFunction }, "\u00A0")), 
         // SowiloErrFunc: if access to line was not ksuccessful, an error message will be rendered here
         (state, calledFName, errCls, ...args) => react_1.default.createElement("div", { className: "row" },
-            react_1.default.createElement("div", { className: state.cssClassLineNo }, state.lineNo),
-            react_1.default.createElement("div", { className: state.cssClassLine }, `${errCls}: called Function:${calledFName}, ${args.join()}`),
-            react_1.default.createElement("div", { className: state.cssClassLineFunction }, "\u00A0"))));
+            react_1.default.createElement("div", { className: properties.cssClassLineNo }, state.lineNo),
+            react_1.default.createElement("div", { className: properties.cssClassLine }, `${errCls}: called Function:${calledFName}, ${args.join()}`),
+            react_1.default.createElement("div", { className: properties.cssClassLineFunction }, "\u00A0"))));
     }
     exports.default = CrossWriterLine;
 });

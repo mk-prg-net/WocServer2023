@@ -27,6 +27,7 @@
 
   <ItemGroup>
     <Folder Include="Middelware\" />
+    <Folder Include="wwwroot\fileStore\" />
   </ItemGroup>
 
   <ItemGroup>

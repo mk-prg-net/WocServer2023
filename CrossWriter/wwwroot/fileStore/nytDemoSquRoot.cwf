@@ -1,0 +1,26 @@
+﻿# Demo von NYT
+
+Beispiel: Berechnen der Quadratwurzel
+
+```NYT
+ᛣ input ᛇ a² = ᛩ
+ᛋ ᛟaa
+᛭ Ende von Input
+ᛉ
+
+ᛣprint ᛇ Es wird nun die Wurzel aus ᛡaa gezogen ᛩ
+
+᛭ Start Wurzel ziehen (Inhalt von ᛟaa wird auf den Stapel gelegt)
+ᛣ sqrt ᛡaa
+
+᛭ Weiterleiten des Ergebnisses an die Print- Methode. Achtung: Im AusgabeString findet
+᛭ String- Interpolation statt.
+ᛋ print ᛕ2 ᛇ √ ᛟᛡaa= ᛩ ᛜ ᛕᛠ
+
+᛭ Weiterleiten im Fehlerfall an die Print- Methode. Achtung: Im AusgabeString findet
+᛭ String- Interpolation statt.
+ᛊ print ᛕ2 ᛇ √ ᛟᛡaa ist konnte nicht ermittelt werden. Ursache: ᛩ ᛜ ᛇᛠ
+
+᛭ Hier werden die Ausführungspfade wieder zusammengeführt
+ᛉ print ᛕ1 ᛇ Programm √ beendet ᛩ
+```

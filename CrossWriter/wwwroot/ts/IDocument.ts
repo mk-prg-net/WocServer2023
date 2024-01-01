@@ -1,7 +1,8 @@
 // mko, 28.12.2023
 // Allgemeine Dokumentstruktur
 
-import { SiegelSuccessFunc, SowiloErrFunc, ErrorClasses } from "./SiegelAndSowilo"
+import { fn } from "jquery";
+import { SiegelSuccessFunc, SowiloErrFunc, ErrorClasses, ArgumentValidationFailedDescriptor } from "./SiegelAndSowilo"
 
 export interface IDocumentHead {
 
@@ -32,22 +33,42 @@ export interface IDocument extends IDocumentHead {
 }
 
 // Class Factory for Documents
-export function CreateDocument(authorUserId: string, documentName: string, text: string | undefined, siegel: SiegelSuccessFunc<IDocument>, sowilo: SowiloErrFunc<  ) {
+export function CreateDocument(
+    authorUserId: string,
+    documentName: string,
+    text: string | undefined,
+    siegel: SiegelSuccessFunc<IDocument>,
+    sowilo: SowiloErrFunc<string>) {
 
-    if (text === undefined) {
+    const fname = "CreateDocument";
 
+    let doc: IDocument = {
+        documentName: documentName,
+        autorUserId: authorUserId,
+        textLines: [""],
+        LineCount: () => 0
+    };
+
+    let res: any = "";
+
+    if (documentName === undefined) {
+        res = sowilo.apply(null, ArgumentValidationFailedDescriptor(text, fname, "documentName", "undefined", "documentName must be defined"));
+    }
+    else if (!documentName.toLocaleLowerCase().endsWith(".cwf") && !documentName.toLocaleLowerCase().endsWith(".md")) {
+        res = sowilo.apply(null, ArgumentValidationFailedDescriptor(text, fname, "documentName", documentName, "documentName ends with '.cwf' or '.md'"));
+    }
+    else if (text === undefined) {
+        res = siegel(doc);
     }
     else {
 
         let lines = text.split(/\s*\\n+\s*/);
 
-        var doc: IDocument = {
-            documentName: documentName,
-            autorUserId: authorUserId,
-            textLines: lines,
-            LineCount: () => lines.length
-        };
+        doc.textLines = lines;
+        doc.LineCount = () => lines.length;       
+
+        res = siegel(doc);
     }
 
-    return doc;
+    return res;
 }

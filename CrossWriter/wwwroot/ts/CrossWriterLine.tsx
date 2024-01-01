@@ -6,7 +6,7 @@ import NamingIds from "./NamingIds";
 import {ErrorClasses, SiegelSuccessFunc, SowiloErrFunc, ArgumentValidationFailedDescriptor } from "./SiegelAndSowilo";
 
 import INamingContainer from "./INamingContainer"
-import IDocument from "./IDocument";
+import { IDocument } from "./IDocument";
 
 interface ICrossWriterLineProps {    
     cssClassLineNo: string,
@@ -18,15 +18,6 @@ interface ICrossWriterLineProps {
 }
 
 
-interface ICrossWriterLineState {
-    init: boolean,
-    cssClassLineNo: string,
-    cssClassLine: string,
-    cssClassLineFunction: string,
-    lineNo: number,
-    document: IDocument
-}
-
 // List of all NYT Keywords. Must be loaded from Server
 var nytKeywords: INamingContainer[];
 
@@ -36,36 +27,25 @@ export default function CrossWriterLine(properties: ICrossWriterLineProps) {
     // geladen. Hier wird nur eine referenz auf die Struktur abgelegt.
     nytKeywords = properties.nytKeywords;
 
-    // Define initial State
-    let [state, setState] = React.useState<ICrossWriterLineState>({
-        cssClassLine: properties.cssClassLine,
-        cssClassLineFunction: properties.cssClassLineFunction,
-        cssClassLineNo: properties.cssClassLineNo,
-        document: properties.document,
-        lineNo: properties.lineNo,
-        init: true
-    });
-
-
-    function getTextLine(state: ICrossWriterLineState, succF: SiegelSuccessFunc<ICrossWriterLineState>, errF: SowiloErrFunc<ICrossWriterLineState>): any
+    function getTextLine(props: ICrossWriterLineProps, succF: SiegelSuccessFunc<ICrossWriterLineProps>, errF: SowiloErrFunc<ICrossWriterLineProps>): any
     {
-        let lineNo = state.lineNo;
-        let textLines = state.document.textLines;
+        let lineNo = props.lineNo;
+        let textLines = props.document.textLines;
         let res = <div>Error</div>;
 
         const fname = "getLineText";
 
         // Check Line No
         if (lineNo >= textLines.length) {            
-            res = errF.apply(null, ArgumentValidationFailedDescriptor(state, fname, "lineNo", lineNo, `lineNo is greater than textLines.length=${textLines.length}`));
+            res = errF.apply(null, ArgumentValidationFailedDescriptor(props, fname, "lineNo", lineNo, `lineNo is greater than textLines.length=${textLines.length}`));
         }
         else if (lineNo < 0) {
-            res = errF.apply(null, ArgumentValidationFailedDescriptor(state, fname, "lineNo", lineNo, `lineNo is lower than 0`));
+            res = errF.apply(null, ArgumentValidationFailedDescriptor(props, fname, "lineNo", lineNo, `lineNo is lower than 0`));
         }
         else {
             
-            let textLine = state.document.textLines[lineNo];
-            res = succF(state, textLine);            
+            let textLine = props.document.textLines[lineNo];
+            res = succF(props, textLine);            
         }
         return res;
     }
@@ -74,23 +54,23 @@ export default function CrossWriterLine(properties: ICrossWriterLineProps) {
         
         getTextLine(
             // State of Component
-            state,          
+            properties,          
             // SiegelSuccessFunc: if access to line was successful, it will be renderd here
             (state, line) =>
                 <div className={"row"}>
-                    <div className={state.cssClassLineNo}>{state.lineNo}</div>
-                    <div className={state.cssClassLine}>
+                    <div className={properties.cssClassLineNo}>{state.lineNo}</div>
+                    <div className={properties.cssClassLine}>
                         {line}
                     </div>
-                    <div className={state.cssClassLineFunction}>&nbsp;</div>
+                    <div className={properties.cssClassLineFunction}>&nbsp;</div>
                 </div>,
             // SowiloErrFunc: if access to line was not ksuccessful, an error message will be rendered here
             (state, calledFName, errCls, ...args: any[]) =>
                 <div className={"row"}>
-                    <div className={state.cssClassLineNo}>{state.lineNo}</div>
-                    <div className={state.cssClassLine}>
+                    <div className={properties.cssClassLineNo}>{state.lineNo}</div>
+                    <div className={properties.cssClassLine}>
                         {`${errCls}: called Function:${calledFName}, ${args.join()}`}
                     </div>
-                    <div className={state.cssClassLineFunction}>&nbsp;</div>                    
+                    <div className={properties.cssClassLineFunction}>&nbsp;</div>                    
                 </div>));
 }
