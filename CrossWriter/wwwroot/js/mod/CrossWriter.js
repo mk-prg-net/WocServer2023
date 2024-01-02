@@ -3,11 +3,12 @@
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-define(["require", "exports", "react", "jquery", "./IDocument"], function (require, exports, react_1, jquery_1, IDocument_1) {
+define(["require", "exports", "react", "jquery", "./IDocument", "./CrossWriterLine"], function (require, exports, react_1, jquery_1, IDocument_1, CrossWriterLine_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     react_1 = __importDefault(react_1);
     jquery_1 = __importDefault(jquery_1);
+    // This must be an uneven Number (count pre- Lines, edit- Line, count post- Lines)
     const CountVisibleLines = 31;
     // Default- Namingcontainer
     var UnkownNC = {
@@ -112,6 +113,66 @@ define(["require", "exports", "react", "jquery", "./IDocument"], function (requi
             }
         }
         react_1.default.useEffect(() => LoadResourcesFromServer(), []);
+        function VisibleLines() {
+            let vLines = [react_1.default.createElement("div", null)];
+            let lineCount = state.document.LineCount;
+            let currentCursorLine = state.cursor.currentLineNo;
+            // Fälle: Positionierung des Fensters [] mit sichbaren Edit- Zeilen. * ist die Eingabezeile
+            // [*++]++++++++++
+            // [+*++]+++++++++
+            // [++*++]++++++++
+            // +++[++*++]+++++
+            // ++++++++[++*++]
+            // +++++++++[++*+]
+            // ++++++++++[++*]
+            // [*++]
+            // [+*+]
+            // [++*]
+            let prePostLines = (CountVisibleLines - 1) / 2;
+            if (currentCursorLine < prePostLines && (lineCount() - prePostLines)) {
+                // Fälle
+                // [*++]
+                // [+*+]
+                // [++*]
+                AddPreLines(vLines, 0, currentCursorLine);
+                vLines.push(react_1.default.createElement(CrossWriterLine_1.CrossWriterLine, { document: state.document, lineNo: currentCursorLine, cssClassLineNo: "col-1 lineNo", cssClassLine: "col-10 EditLine", cssClassLineFunction: "col-1 lineFunc", nytKeywords: state.nytKeywords }));
+                AddPostLines(vLines, currentCursorLine, state.document.LineCount());
+            }
+            else if (currentCursorLine < prePostLines) {
+                // Fälle
+                // [*++]++++++++++
+                // [+*++]+++++++++
+                // [++*++]++++++++
+                AddPreLines(vLines, 0, currentCursorLine);
+                vLines.push(react_1.default.createElement(CrossWriterLine_1.CrossWriterLine, { document: state.document, lineNo: currentCursorLine, cssClassLineNo: "col-1 lineNo", cssClassLine: "col-10 EditLine", cssClassLineFunction: "col-1 lineFunc", nytKeywords: state.nytKeywords }));
+                AddPostLines(vLines, currentCursorLine, currentCursorLine + prePostLines + 1);
+            }
+            else if (currentCursorLine > (lineCount() - prePostLines)) {
+                // Fall +++[++*++]+++++
+                AddPreLines(vLines, currentCursorLine - prePostLines - 1, currentCursorLine);
+                vLines.push(react_1.default.createElement(CrossWriterLine_1.CrossWriterLine, { document: state.document, lineNo: currentCursorLine, cssClassLineNo: "col-1 lineNo", cssClassLine: "col-10 EditLine", cssClassLineFunction: "col-1 lineFunc", nytKeywords: state.nytKeywords }));
+                AddPostLines(vLines, currentCursorLine, state.document.LineCount());
+            }
+            else {
+                // ++++++++[++*++]
+                // +++++++++[++*+]
+                // ++++++++++[++*]
+                AddPreLines(vLines, currentCursorLine - prePostLines - 1, currentCursorLine);
+                vLines.push(react_1.default.createElement(CrossWriterLine_1.CrossWriterLine, { document: state.document, lineNo: currentCursorLine, cssClassLineNo: "col-1 lineNo", cssClassLine: "col-10 EditLine", cssClassLineFunction: "col-1 lineFunc", nytKeywords: state.nytKeywords }));
+                AddPostLines(vLines, currentCursorLine, currentCursorLine + prePostLines + 1);
+            }
+            return vLines;
+        }
+        function AddPreLines(vLines, start, currentCursorLine) {
+            for (var i = start; i < currentCursorLine; i++) {
+                vLines.push(react_1.default.createElement(CrossWriterLine_1.CrossWriterLine, { document: state.document, lineNo: i, cssClassLineNo: "col-1 lineNo", cssClassLine: "col-10 lineContent", cssClassLineFunction: "col-1 lineFunc", nytKeywords: state.nytKeywords }));
+            }
+        }
+        function AddPostLines(vLines, currentCursorLine, endLineNo) {
+            for (var i = currentCursorLine + 1, end = endLineNo; i < end; i++) {
+                vLines.push(react_1.default.createElement(CrossWriterLine_1.CrossWriterLine, { document: state.document, lineNo: i, cssClassLineNo: "col-1 lineNo", cssClassLine: "col-10 lineContent", cssClassLineFunction: "col-1 lineFunc", nytKeywords: state.nytKeywords }));
+            }
+        }
         return (react_1.default.createElement("div", { id: "CrossWriter", className: properties.cssClass },
             react_1.default.createElement("header", null,
                 react_1.default.createElement("nav", { id: "main_nav" },
@@ -120,9 +181,16 @@ define(["require", "exports", "react", "jquery", "./IDocument"], function (requi
                     react_1.default.createElement("button", { id: "btnSave", className: "btn btn-normal" }, "\uD83D\uDDAB Save"),
                     react_1.default.createElement("button", { id: "help", className: "btn btn-normal" }, "\uD83D\uDD6E Help"))),
             "\u2328",
-            react_1.default.createElement("div", { id: "visibleLines" }),
+            react_1.default.createElement("div", { id: "visibleLines" }, VisibleLines()),
             react_1.default.createElement("footer", null,
-                react_1.default.createElement("div", { id: "statusLine" }))));
+                react_1.default.createElement("div", { id: "statusLine" },
+                    "Line: ",
+                    state.cursor.currentLineNo,
+                    " Col: ",
+                    state.cursor.currentColNo,
+                    " #Lines: ",
+                    state.document.LineCount(),
+                    " "))));
     }
     exports.default = CrossWriter;
 });

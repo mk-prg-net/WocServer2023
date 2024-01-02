@@ -1,14 +1,16 @@
+// mko, 2.1.2024
+// Defines the only one editable Line in Crosswriter
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 define(["require", "exports", "react", "./SiegelAndSowilo"], function (require, exports, react_1, SiegelAndSowilo_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    exports.CrossWriterLine = void 0;
+    exports.CrossWriterEditLine = void 0;
     react_1 = __importDefault(react_1);
     // List of all NYT Keywords. Must be loaded from Server
     var nytKeywords;
-    function CrossWriterLine(properties) {
+    function CrossWriterEditLine(properties) {
         // Die Liste der Schlüsselwörter wird einmalig in der Hauptkomponente CrossWriter
         // geladen. Hier wird nur eine referenz auf die Struktur abgelegt.
         nytKeywords = properties.nytKeywords;
@@ -30,13 +32,19 @@ define(["require", "exports", "react", "./SiegelAndSowilo"], function (require, 
             }
             return res;
         }
+        function ProcessKeyDownEventForVisibleLines(keyCode, ctrlKey) {
+        }
+        function MoveLineUp() {
+        }
+        function MoveLineDown() {
+        }
         return (getTextLine(
         // State of Component
         properties, 
         // SiegelSuccessFunc: if access to line was successful, it will be renderd here
         (state, line) => react_1.default.createElement("div", { className: "row" },
             react_1.default.createElement("div", { className: properties.cssClassLineNo }, state.lineNo),
-            react_1.default.createElement("div", { className: properties.cssClassLine }, line),
+            react_1.default.createElement("div", { className: properties.cssClassLine, contentEditable: true, onKeyDown: e => ProcessKeyDownEventForVisibleLines(e.keyCode, e.ctrlKey) }, line),
             react_1.default.createElement("div", { className: properties.cssClassLineFunction }, "\u00A0")), 
         // SowiloErrFunc: if access to line was not ksuccessful, an error message will be rendered here
         (state, calledFName, errCls, ...args) => react_1.default.createElement("div", { className: "row" },
@@ -44,6 +52,6 @@ define(["require", "exports", "react", "./SiegelAndSowilo"], function (require, 
             react_1.default.createElement("div", { className: properties.cssClassLine }, `${errCls}: called Function:${calledFName}, ${args.join()}`),
             react_1.default.createElement("div", { className: properties.cssClassLineFunction }, "\u00A0"))));
     }
-    exports.CrossWriterLine = CrossWriterLine;
+    exports.CrossWriterEditLine = CrossWriterEditLine;
 });
-//# sourceMappingURL=CrossWriterLine.js.map
+//# sourceMappingURL=CrossWriterEditLine.js.map

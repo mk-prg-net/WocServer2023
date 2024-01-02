@@ -3,6 +3,24 @@
     Gestaltung der Eingabezeile
 */
 
+
+.lineNo {
+    font-family: Consolas, Courier New, Courier, monospace;
+    font-weight: bold;
+    color: whitesmoke;
+}
+
+.lineContent {
+    font-family: Consolas, Courier New, Courier, monospace;    
+    color: whitesmoke;
+}
+
+.lineFunc {
+    font-family: Consolas, Courier New, Courier, monospace;
+    font-weight: bold;
+    color: whitesmoke;
+}
+
 .EditLine {
     border-bottom-style: solid;
     border-bottom-color: brown;

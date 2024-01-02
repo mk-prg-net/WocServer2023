@@ -11,7 +11,7 @@ import NamingIds from "./NamingIds";
 import INamingContainer from "./INamingContainer";
 
 import { IDocument, IDocumentCursor, IDocumentHead, CreateDocument } from "./IDocument";
-import CrossWriterLine from "./CrossWriterLine";
+import { CrossWriterLine, ICrossWriterLineProps } from "./CrossWriterLine";
 
 interface ICrossWriterProps {
     ServerOrigin: string,
@@ -44,6 +44,7 @@ interface ICrossWriterState {
     statusText: string
 }
 
+// This must be an uneven Number (count pre- Lines, edit- Line, count post- Lines)
 const CountVisibleLines = 31;
 
 // Default- Namingcontainer
@@ -164,13 +165,144 @@ export default function CrossWriter(properties: ICrossWriterProps) {
 
     React.useEffect(() => LoadResourcesFromServer(), []);
 
+    // mko, 2.1.2024
+    // Erzeugt Visuelle ausgabe der Edit- Zeile und der unmittelbar vor und nach der Edit- Zeile befindlichen
+    // Zeilen des Dokumentes
+    function VisibleLines(): any[] {
 
-    function VisibleLines(): CrossWriterLine[] {
+        let vLines = [<div></div>];
+
+        let lineCount = state.document.LineCount;
+        let currentCursorLine = state.cursor.currentLineNo;
+
+        // Fälle: Positionierung des Fensters [] mit sichbaren Edit- Zeilen. * ist die Eingabezeile
+        // [*++]++++++++++
+        // [+*++]+++++++++
+        // [++*++]++++++++
+        // +++[++*++]+++++
+        // ++++++++[++*++]
+        // +++++++++[++*+]
+        // ++++++++++[++*]
+        // [*++]
+        // [+*+]
+        // [++*]
+        // []
+
+        let prePostLines = (CountVisibleLines - 1) / 2;
+
+        if (lineCount() === 0) {
+            // Fall: []
+            vLines.push(<CrossWriterLine
+                document={state.document}
+                lineNo={currentCursorLine}
+                cssClassLineNo="col-1 lineNo"
+                cssClassLine="col-10 EditLine"
+                cssClassLineFunction="col-1 lineFunc"
+                nytKeywords={state.nytKeywords}></CrossWriterLine>);
+
+        }
+        else if (currentCursorLine < prePostLines && (lineCount() - prePostLines)) {
+
+            // Fälle
+            // [*++]
+            // [+*+]
+            // [++*]
+
+            AddPreLines(vLines, 0, currentCursorLine);
+
+            vLines.push(<CrossWriterLine
+                document={state.document}
+                lineNo={currentCursorLine}
+                cssClassLineNo="col-1 lineNo"
+                cssClassLine="col-10 EditLine"
+                cssClassLineFunction="col-1 lineFunc"
+                nytKeywords={state.nytKeywords}></CrossWriterLine>);
+
+            AddPostLines(vLines, currentCursorLine, state.document.LineCount());
+
+        }
+        else if (currentCursorLine < prePostLines) {
+            // Fälle
+            // [*++]++++++++++
+            // [+*++]+++++++++
+            // [++*++]++++++++
+
+            AddPreLines(vLines, 0, currentCursorLine);
+
+            vLines.push(<CrossWriterLine
+                document={state.document}
+                lineNo={currentCursorLine}
+                cssClassLineNo="col-1 lineNo"
+                cssClassLine="col-10 EditLine"
+                cssClassLineFunction="col-1 lineFunc"
+                nytKeywords={state.nytKeywords}></CrossWriterLine>);
+
+            AddPostLines(vLines, currentCursorLine, currentCursorLine + prePostLines + 1);
+
+        }
+        else if (currentCursorLine > (lineCount() - prePostLines)) {
+
+            // Fall +++[++*++]+++++
+
+            AddPreLines(vLines, currentCursorLine - prePostLines - 1, currentCursorLine);
+
+            vLines.push(<CrossWriterLine
+                document={state.document}
+                lineNo={currentCursorLine}
+                cssClassLineNo="col-1 lineNo"
+                cssClassLine="col-10 EditLine"
+                cssClassLineFunction="col-1 lineFunc"
+                nytKeywords={state.nytKeywords}></CrossWriterLine>);
+
+            AddPostLines(vLines, currentCursorLine, state.document.LineCount());
 
 
+        }
+        else {
+
+            // ++++++++[++*++]
+            // +++++++++[++*+]
+            // ++++++++++[++*]
 
 
+            AddPreLines(vLines, currentCursorLine - prePostLines - 1, currentCursorLine);
 
+            vLines.push(<CrossWriterLine
+                document={state.document}
+                lineNo={currentCursorLine}
+                cssClassLineNo="col-1 lineNo"
+                cssClassLine="col-10 EditLine"
+                cssClassLineFunction="col-1 lineFunc"
+                nytKeywords={state.nytKeywords}></CrossWriterLine>);
+
+            AddPostLines(vLines, currentCursorLine, currentCursorLine + prePostLines + 1);
+        }
+
+        return vLines;
+    }
+
+    function AddPreLines(vLines: any[], start: number, currentCursorLine: number): void {
+        for (var i = start; i < currentCursorLine; i++) {
+            vLines.push(<CrossWriterLine
+                document={state.document}
+                lineNo={i}
+                cssClassLineNo="col-1 lineNo"
+                cssClassLine="col-10 lineContent"
+                cssClassLineFunction="col-1 lineFunc"
+                nytKeywords={state.nytKeywords}></CrossWriterLine>);
+        }
+    }
+
+    function AddPostLines(vLines: any[], currentCursorLine: number, endLineNo: number) {
+        for (var i = currentCursorLine + 1, end = endLineNo; i < end; i++) {
+            vLines.push(<CrossWriterLine
+                document={state.document}
+                lineNo={i}
+                cssClassLineNo="col-1 lineNo"
+                cssClassLine="col-10 lineContent"
+                cssClassLineFunction="col-1 lineFunc"
+                nytKeywords={state.nytKeywords} ></CrossWriterLine >);
+        }            
     }
 
     return (
@@ -184,11 +316,12 @@ export default function CrossWriter(properties: ICrossWriterProps) {
                 </nav>
             </header>
             ⌨
-            <div id="visibleLines">
+            <div id="visibleLines" onKeyDown={e => ProcessKeyDownEventForVisibleLines(e., e.ctrlKey )}>
+                {VisibleLines()}
             </div>
 
             <footer>
-                <div id="statusLine"></div>
+                <div id="statusLine">Line: {state.cursor.currentLineNo} Col: {state.cursor.currentColNo} #Lines: {state.document.LineCount()} </div>
             </footer>
         </div>
     );
