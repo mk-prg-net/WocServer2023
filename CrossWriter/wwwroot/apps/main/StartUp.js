@@ -16,16 +16,18 @@ requirejs.config({
     }
 });
 
-requirejs(['jquery', "react", "react-dom", "mod/nyt/LoadConfig"],
-    function ($, React, ReacDOM, LoadConfig) {        
+requirejs(['jquery', "mod/CrossWriter"],
+    function ($, React, ReacDOM, CrossWriter) {        
 
-        // Caching in ajax abschalten
+        // Disable AJAX Caching
         $.ajax({
             cache: false
         });        
 
+        // Get ServerOrigin
         let urlOrigin = $('#urlOrigin').val();
 
-        let loadConfig = LoadConfig.default($);
+        // Load CrossWriter
+        CrossWriter.default("crossWriter", urlOrigin, "CrossWriter", "nytDemoSquRoot.cwf");
         
     });

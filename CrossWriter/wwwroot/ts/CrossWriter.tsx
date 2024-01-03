@@ -2,7 +2,7 @@
 // Main react Component of CrossWriter
 
 import React, { useEffect } from "react";
-import ReacDom from "react-dom"
+import ReactDom from "react-dom"
 import $ from "jquery"
 
 import { ErrorClasses, SiegelSuccessFunc, SowiloErrFunc, ArgumentValidationFailedDescriptor } from "./SiegelAndSowilo";
@@ -60,7 +60,7 @@ var UnkownNC: INamingContainer = {
     NIDstr: "unknown"
 };
 
-export default function CrossWriter(properties: ICrossWriterProps) {
+function CrossWriter(properties: ICrossWriterProps) {
     // Define initial State
     let [state, setState] = React.useState<ICrossWriterState>({
         init: true,
@@ -469,7 +469,19 @@ export default function CrossWriter(properties: ICrossWriterProps) {
             </footer>
         </div>
     );
+}
+
+export default function CrossWriterSetUp(idRoot: string, ServerOrigin: string, cssClass: string, documentName: string) {
+
+    ReactDom.render(<CrossWriter
+        cssClass={cssClass}
+        ServerOrigin={ServerOrigin}
+        DocumentName={documentName}
+        NameSpaceNytNamingContainers="MKPRG.Naming.NYT.Keywords"
+        UserId="mko"        
+    />, $(`#${idRoot}`)[0]);
 
 }
+
 
 

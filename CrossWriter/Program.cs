@@ -83,6 +83,27 @@ app.MapGet("/NamingContainers", (HttpRequest request, MyNamingContainers myNamin
     }
 });
 
+app.MapGet("/fileStore", (HttpRequest request, MyNamingContainers myNamingContainers) =>
+{
+    var fileName = request.Query["fileName"].First() ?? "";
+
+    if (string.IsNullOrWhiteSpace(fileName))
+    {
+        return Results.Problem($"The Request for a File has an empty FileName");
+    }
+    else if(!System.IO.File.Exists(fileName))
+    {
+        return Results.Problem($"The requeste File {fileName} does not exists");
+    }
+    else
+    {
+        var fileContent = string.Join('\n', System.IO.File.ReadAllLines(@".\wwwroot\apps\main\MainView.html"));
+        return Results.Content(fileContent, "text/plain", System.Text.Encoding.UTF8);
+    }
+
+});
+
+
 app.MapGet("/Main", (HttpRequest req, MyNamingContainers myNamingContainers) =>
 {
     // get Origin (Path) of statical content
@@ -90,7 +111,9 @@ app.MapGet("/Main", (HttpRequest req, MyNamingContainers myNamingContainers) =>
 
     // old school templating :-)
     // Create html- content for Browser. Replace all placeholders for in server Urls etc. with valid Host adresses 
-    var content = string.Join('\n', System.IO.File.ReadAllLines(@".\wwwroot\apps\nyt\MainView.html")).Replace("{*}", wwwroot);
+    var content = string.Join('\n', System.IO.File.ReadAllLines(@".\wwwroot\apps\main\MainView.html")).Replace("{*}", wwwroot);
+
+    return Results.Content(content, "text/html", System.Text.Encoding.UTF8);
 
 });
 

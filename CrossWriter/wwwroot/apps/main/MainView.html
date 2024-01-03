@@ -18,10 +18,11 @@
     <link rel="stylesheet" href="{*}/css/mk-prg-net/mk-prg-net.typografy.css" />
 
     <!-- LLP Stylesheets laden -->
+    <link rel="stylesheet" href="{*}/css/cwrt/CrossWriter.css" />
     <link rel="stylesheet" href="{*}/css/cwrt/edit-line.css" />
 
     <!-- Script- laden -->
-    <script src="{*}/js/lib/require.js" data-main="{*}/apps/main/StartUp.js"></script>
+    <script src="{*}/node_modules/require/require.js" data-main="{*}/apps/main/StartUp.js"></script>
 
 </head>
 <body>
@@ -29,27 +30,7 @@
     <!-- Hier wird die Origin der Seite bereitgestellt-->
     <input type="hidden" id="urlOrigin" value="{*}" />
 
-
-    <section id="react_greeting"></section>
-
-    <section id="woc-descriptor">
-    </section>
-
-    <section id="main_desktop">
-
-        <p>
-            <b>ᚾᚤᛏ = NYT</b> soll eine minimalistische formale Sprache zur semantischen Auszeichung von Texten, 
-            zur funktionalen Formulierung von Algorithmen und zur generatorischen Beschreibung von Diagrammen, 
-            Bildern und Fräskopfbahnen werden.
-        </p>
-
-        <form>
-        </form>
-
-    </section>
-    <footer id="main_status">
-        <!-- Statusmeldungen und technische Details werden hier präsentiert -->
-    </footer>
+    <div id="crossWriter"></div>
 
 </body>
 </html>
