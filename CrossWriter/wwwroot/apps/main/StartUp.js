@@ -17,7 +17,7 @@ requirejs.config({
 });
 
 requirejs(['jquery', "mod/CrossWriter"],
-    function ($, React, ReacDOM, CrossWriter) {        
+    function ($, CrossWriter) {        
 
         // Disable AJAX Caching
         $.ajax({
