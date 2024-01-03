@@ -16,6 +16,7 @@ export interface ICrossWriterEditLineProps {
     cssClassLineFunction: string,
     lineNo: number,
     document: IDocument,
+    ProcessKeyDownEventForVisibleLines : (key: string, ctrlKey: boolean) => void,
     nytKeywords: INamingContainer[]
 }
 
@@ -51,18 +52,6 @@ export function CrossWriterEditLine(properties: ICrossWriterEditLineProps) {
         return res;
     }
 
-    function ProcessKeyDownEventForVisibleLines(keyCode: number, ctrlKey: boolean) {
-
-    }
-
-    function MoveLineUp() {
-
-    }
-
-    function MoveLineDown() {
-
-    }
-
 
     return (
 
@@ -73,7 +62,7 @@ export function CrossWriterEditLine(properties: ICrossWriterEditLineProps) {
             (state, line) =>
                 <div className={"row"}>
                     <div className={properties.cssClassLineNo}>{state.lineNo}</div>
-                    <div className={properties.cssClassLine} contentEditable onKeyDown={e => ProcessKeyDownEventForVisibleLines(e.keyCode, e.ctrlKey) }>
+                    <div className={properties.cssClassLine} contentEditable onKeyDown={e => properties.ProcessKeyDownEventForVisibleLines(e.key, e.ctrlKey) }>
                         {line}
                     </div>
                     <div className={properties.cssClassLineFunction}>&nbsp;</div>

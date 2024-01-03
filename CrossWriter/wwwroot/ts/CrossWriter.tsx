@@ -12,6 +12,8 @@ import INamingContainer from "./INamingContainer";
 
 import { IDocument, IDocumentCursor, IDocumentHead, CreateDocument } from "./IDocument";
 import { CrossWriterLine, ICrossWriterLineProps } from "./CrossWriterLine";
+import { CrossWriterEditLine, ICrossWriterEditLineProps } from "./CrossWriterEditLine";
+import { CrossWriterEmptyLine, ICrossWriterEmptyLineProps } from "./CrossWriterEmptyLine";
 
 interface ICrossWriterProps {
     ServerOrigin: string,
@@ -165,6 +167,9 @@ export default function CrossWriter(properties: ICrossWriterProps) {
 
     React.useEffect(() => LoadResourcesFromServer(), []);
 
+    // Berechnet die Anzahl der sichtbaren Zeilen vor und nach der Editor- Zeile
+    function CountPrePostLines() { return (CountVisibleLines - 1) / 2 };
+
     // mko, 2.1.2024
     // Erzeugt Visuelle ausgabe der Edit- Zeile und der unmittelbar vor und nach der Edit- Zeile befindlichen
     // Zeilen des Dokumentes
@@ -176,133 +181,272 @@ export default function CrossWriter(properties: ICrossWriterProps) {
         let currentCursorLine = state.cursor.currentLineNo;
 
         // Fälle: Positionierung des Fensters [] mit sichbaren Edit- Zeilen. * ist die Eingabezeile
-        // [*++]++++++++++
-        // [+*++]+++++++++
-        // [++*++]++++++++
-        // +++[++*++]+++++
-        // ++++++++[++*++]
-        // +++++++++[++*+]
-        // ++++++++++[++*]
-        // [*++]
-        // [+*+]
-        // [++*]
-        // []
+        // [00E00]      LineCount == 0 currentLineNo == 0
+        // [00*00]      LineCount == 1 currentLineNo == 0 LineCount <= prePostCount
+        // [00*+0]      LineCount == 2 currentLineNo == 0 LineCount <= prePostCount
+        // [0+*00]      LineCount == 2 currentLineNo == 1 LineCount <= prePostCount
+        // [00*++]      LineCount == 3 currentLineNo == 0 LineCount <= prePostCount
+        // [0+*+0]      LineCount == 3 currentLineNo == 1 LineCount <= prePostCount
+        // [++*00]      LineCount == 3 currentLineNo == 2 LineCount <= prePostCount
+        // [00*++]++++  LineCount == 7 currentLineNo == 0 LineCount > prePostCount
+        // [0+*++]+++   LineCount == 7 currentLineNo == 1 LineCount > prePostCount
+        // [++*++]++    LineCount == 7 currentLineNo == 2 LineCount > prePostCount
+        // +[++*++]+    LineCount == 7 currentLineNo == 3 LineCount > prePostCount
+        // ++[++*++]    LineCount == 7 currentLineNo == 4 LineCount > prePostCount
+        // +++[++*+0]   LineCount == 7 currentLineNo == 5 LineCount > prePostCount
+        // ++++[++*00]  LineCount == 7 currentLineNo == 6 LineCount > prePostCount
+        
 
-        let prePostLines = (CountVisibleLines - 1) / 2;
+        let prePostLines = CountPrePostLines();
 
         if (lineCount() === 0) {
-            // Fall: []
-            vLines.push(<CrossWriterLine
+            // Fall: [00E00] leeres Dokument
+
+            // Leerzeilen vor der Editor- zeile aufbauen
+            for (var i = 0; i < prePostLines; i++) {
+                vLines.push(<CrossWriterEmptyLine
+                    cssClassLineNo="col-1 lineNo"
+                    cssClassLine="col-10 lineContent"
+                    cssClassLineFunction="col-1 lineFunc"></CrossWriterEmptyLine>);
+            }
+
+            vLines.push(<CrossWriterEditLine
                 document={state.document}
                 lineNo={currentCursorLine}
                 cssClassLineNo="col-1 lineNo"
                 cssClassLine="col-10 EditLine"
                 cssClassLineFunction="col-1 lineFunc"
-                nytKeywords={state.nytKeywords}></CrossWriterLine>);
+                ProcessKeyDownEventForVisibleLines={ProcessKeyDownEventForVisibleLines}
+                nytKeywords={state.nytKeywords}></CrossWriterEditLine>);
 
+            // Leerzeilen nach der Editor- zeile aufbauen
+            for (var i = 0; i < prePostLines; i++) {
+                vLines.push(<CrossWriterEmptyLine
+                    cssClassLineNo="col-1 lineNo"
+                    cssClassLine="col-10 lineContent"
+                    cssClassLineFunction="col-1 lineFunc"></CrossWriterEmptyLine>);
+            }
         }
-        else if (currentCursorLine < prePostLines && (lineCount() - prePostLines)) {
+        else
+        {
+            AddPreLines(vLines, currentCursorLine);
 
-            // Fälle
-            // [*++]
-            // [+*+]
-            // [++*]
-
-            AddPreLines(vLines, 0, currentCursorLine);
-
-            vLines.push(<CrossWriterLine
+            vLines.push(<CrossWriterEditLine
                 document={state.document}
                 lineNo={currentCursorLine}
                 cssClassLineNo="col-1 lineNo"
                 cssClassLine="col-10 EditLine"
                 cssClassLineFunction="col-1 lineFunc"
-                nytKeywords={state.nytKeywords}></CrossWriterLine>);
+                ProcessKeyDownEventForVisibleLines={ProcessKeyDownEventForVisibleLines}
+                nytKeywords={state.nytKeywords}></CrossWriterEditLine>);
 
             AddPostLines(vLines, currentCursorLine, state.document.LineCount());
-
-        }
-        else if (currentCursorLine < prePostLines) {
-            // Fälle
-            // [*++]++++++++++
-            // [+*++]+++++++++
-            // [++*++]++++++++
-
-            AddPreLines(vLines, 0, currentCursorLine);
-
-            vLines.push(<CrossWriterLine
-                document={state.document}
-                lineNo={currentCursorLine}
-                cssClassLineNo="col-1 lineNo"
-                cssClassLine="col-10 EditLine"
-                cssClassLineFunction="col-1 lineFunc"
-                nytKeywords={state.nytKeywords}></CrossWriterLine>);
-
-            AddPostLines(vLines, currentCursorLine, currentCursorLine + prePostLines + 1);
-
-        }
-        else if (currentCursorLine > (lineCount() - prePostLines)) {
-
-            // Fall +++[++*++]+++++
-
-            AddPreLines(vLines, currentCursorLine - prePostLines - 1, currentCursorLine);
-
-            vLines.push(<CrossWriterLine
-                document={state.document}
-                lineNo={currentCursorLine}
-                cssClassLineNo="col-1 lineNo"
-                cssClassLine="col-10 EditLine"
-                cssClassLineFunction="col-1 lineFunc"
-                nytKeywords={state.nytKeywords}></CrossWriterLine>);
-
-            AddPostLines(vLines, currentCursorLine, state.document.LineCount());
-
-
-        }
-        else {
-
-            // ++++++++[++*++]
-            // +++++++++[++*+]
-            // ++++++++++[++*]
-
-
-            AddPreLines(vLines, currentCursorLine - prePostLines - 1, currentCursorLine);
-
-            vLines.push(<CrossWriterLine
-                document={state.document}
-                lineNo={currentCursorLine}
-                cssClassLineNo="col-1 lineNo"
-                cssClassLine="col-10 EditLine"
-                cssClassLineFunction="col-1 lineFunc"
-                nytKeywords={state.nytKeywords}></CrossWriterLine>);
-
-            AddPostLines(vLines, currentCursorLine, currentCursorLine + prePostLines + 1);
         }
 
         return vLines;
     }
 
-    function AddPreLines(vLines: any[], start: number, currentCursorLine: number): void {
-        for (var i = start; i < currentCursorLine; i++) {
-            vLines.push(<CrossWriterLine
-                document={state.document}
-                lineNo={i}
-                cssClassLineNo="col-1 lineNo"
-                cssClassLine="col-10 lineContent"
-                cssClassLineFunction="col-1 lineFunc"
-                nytKeywords={state.nytKeywords}></CrossWriterLine>);
+    // KeyCodes siehe https://www.freecodecamp.org/news/javascript-keycode-list-keypress-event-key-codes/
+    function ProcessKeyDownEventForVisibleLines(key: string, ctrlKey: boolean) {
+
+        if (key == "Enter") {
+            // Ctrl+Enter ⏎: Neuen Text übernehmen
+        }
+        else if (key == "ArrowUp") {
+            // Ctrl+Arrow Up ↑: Vorausgehenden Textabschnitt bearbeiten
+
+            if (state.document.LineCount() !== 0 && state.cursor.currentLineNo > 0) {
+                setState({
+                    cursor: {
+                        currentColNo: state.cursor.currentColNo,
+                        currentLineNo: state.cursor.currentLineNo - 1
+                    },
+                    document: state.document,
+                    editShortCuts: state.editShortCuts,
+                    init: state.init,
+                    nytKeywords: state.nytKeywords,
+                    statusText: state.statusText,
+                    visibleLines: CountVisibleLines
+
+                })
+            }
+        }
+        else if (key == "ArrowDown") {
+            // Ctrl+Arrow Down ↓: Vorausgehenden Textabschnitt bearbeiten
+
+            if (state.document.LineCount() !== 0 && state.cursor.currentLineNo < state.document.LineCount() - 1) {
+                setState({
+                    cursor: {
+                        currentColNo: state.cursor.currentColNo,
+                        currentLineNo: state.cursor.currentLineNo + 1
+                    },
+                    document: state.document,
+                    editShortCuts: state.editShortCuts,
+                    init: state.init,
+                    nytKeywords: state.nytKeywords,
+                    statusText: state.statusText,
+                    visibleLines: CountVisibleLines
+
+                })
+            }
+        }
+        else if (key == "ArrowLeft") {
+            // Arrow Left ←: Cursor nach links
+
+            if (state.document.textLines[state.cursor.currentLineNo].length > 0
+                && state.cursor.currentColNo > 0) {
+                setState({
+                    cursor: {
+                        currentColNo: state.cursor.currentColNo - 1,
+                        currentLineNo: state.cursor.currentLineNo
+                    },
+                    document: state.document,
+                    editShortCuts: state.editShortCuts,
+                    init: state.init,
+                    nytKeywords: state.nytKeywords,
+                    statusText: state.statusText,
+                    visibleLines: CountVisibleLines
+
+                })
+            }
+        }
+        else if (key == "ArrowRight") {
+            // Arrow Right →: Cursor nach rechts
+
+            if (state.document.textLines[state.cursor.currentLineNo].length > 0
+                && state.document.textLines[state.cursor.currentLineNo].length - 1 > state.cursor.currentColNo) {
+                setState({
+                    cursor: {
+                        currentColNo: state.cursor.currentColNo + 1,
+                        currentLineNo: state.cursor.currentLineNo
+                    },
+                    document: state.document,
+                    editShortCuts: state.editShortCuts,
+                    init: state.init,
+                    nytKeywords: state.nytKeywords,
+                    statusText: state.statusText,
+                    visibleLines: CountVisibleLines
+
+                })
+            }
+        }
+        else {
+
+            // Das Zeichen wird an der Cursorposition eingefügt
+
+            let currentCursor = state.cursor.currentColNo;
+            let currentLine = state.document.textLines[state.cursor.currentLineNo];
+
+            if (currentLine.length == 0) {
+                currentLine = key;
+            }
+            else if (currentLine.length - 1 == currentCursor) {
+                currentLine += key;
+            }
+            else {
+                let left = currentLine.substring(0, currentCursor);
+                let right = currentLine.substring(currentCursor);
+                currentLine = `${left}${key}${right}`;
+            }
+
+            // Die aktuelle Zeile wird mit der modifizierten überschrieben
+            state.document.textLines[state.cursor.currentLineNo] = currentLine;
+
+            setState({
+                cursor: {
+                    currentColNo: state.cursor.currentColNo + 1,
+                    currentLineNo: state.cursor.currentLineNo
+                },
+                document: state.document,
+                editShortCuts: state.editShortCuts,
+                init: state.init,
+                nytKeywords: state.nytKeywords,
+                statusText: state.statusText,
+                visibleLines: CountVisibleLines
+            })
+        }
+
+    }
+
+    function AddPreLines(vLines: any[], currentCursorLine: number) {
+
+        let prePostLines = CountPrePostLines();
+
+        if (prePostLines - currentCursorLine > 0) {
+            // Leerraumzeilen am Anfang einfügen, falls Dokumentzeilen sichtbare Fläche nicht vollständig
+            // ausfüllen.
+            for (var i = 0, countEmptyLines = prePostLines - currentCursorLine; i < countEmptyLines; i++) {
+                vLines.push(<CrossWriterEmptyLine
+                    cssClassLineNo="col-1 lineNo"
+                    cssClassLine="col-10 lineContent"
+                    cssClassLineFunction="col-1 lineFunc"></CrossWriterEmptyLine>);
+            }
+
+            // Der Editorzeile vorauseilende Zeilen des Dokumentes ausgeben
+            for (var i = 0; i < currentCursorLine; i++, j++) {
+                vLines.push(<CrossWriterLine
+                    document={state.document}
+                    lineNo={i}
+                    cssClassLineNo="col-1 lineNo"
+                    cssClassLine="col-10 lineContent"
+                    cssClassLineFunction="col-1 lineFunc"
+                    nytKeywords={state.nytKeywords}></CrossWriterLine>);
+            }
+
+        }
+        else {
+
+            // Der Editorzeile vorauseilende Zeilen des Dokumentes ausgeben
+            for (var i = 0, j = currentCursorLine - 1 - prePostLines; i < prePostLines; i++, j++) {
+                vLines.push(<CrossWriterLine
+                    document={state.document}
+                    lineNo={j}
+                    cssClassLineNo="col-1 lineNo"
+                    cssClassLine="col-10 lineContent"
+                    cssClassLineFunction="col-1 lineFunc"
+                    nytKeywords={state.nytKeywords}></CrossWriterLine>);
+            }
         }
     }
 
-    function AddPostLines(vLines: any[], currentCursorLine: number, endLineNo: number) {
-        for (var i = currentCursorLine + 1, end = endLineNo; i < end; i++) {
-            vLines.push(<CrossWriterLine
-                document={state.document}
-                lineNo={i}
-                cssClassLineNo="col-1 lineNo"
-                cssClassLine="col-10 lineContent"
-                cssClassLineFunction="col-1 lineFunc"
-                nytKeywords={state.nytKeywords} ></CrossWriterLine >);
-        }            
+    function AddPostLines(vLines: any[], currentCursorLine: number, LineCount: number) {
+
+        let prePostLines = CountPrePostLines();
+
+
+        if (LineCount - currentCursorLine < prePostLines) {
+            for (var i = currentCursorLine + 1; i < LineCount; i++) {
+                vLines.push(<CrossWriterLine
+                    document={state.document}
+                    lineNo={i}
+                    cssClassLineNo="col-1 lineNo"
+                    cssClassLine="col-10 lineContent"
+                    cssClassLineFunction="col-1 lineFunc"
+                    nytKeywords={state.nytKeywords} ></CrossWriterLine >);
+            }
+
+            // Rest mit Leerzeilen auffüllen
+            for (var i = 0, countEmptyLines = prePostLines - (LineCount - currentCursorLine); i < countEmptyLines; i++) {
+                vLines.push(<CrossWriterEmptyLine
+                    cssClassLineNo="col-1 lineNo"
+                    cssClassLine="col-10 lineContent"
+                    cssClassLineFunction="col-1 lineFunc"></CrossWriterEmptyLine>);
+            }
+        }
+        else {
+
+            // Alle sichtbaren Zeilen nach der Edit- Zeile mit Zeilen aus dem Dokument füllen
+
+            for (var i = 0, j = currentCursorLine + 1; i < prePostLines; i++, j++) {
+                vLines.push(<CrossWriterLine
+                    document={state.document}
+                    lineNo={j}
+                    cssClassLineNo="col-1 lineNo"
+                    cssClassLine="col-10 lineContent"
+                    cssClassLineFunction="col-1 lineFunc"
+                    nytKeywords={state.nytKeywords} ></CrossWriterLine >);
+            }
+        }        
     }
 
     return (

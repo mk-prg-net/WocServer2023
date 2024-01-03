@@ -32,19 +32,13 @@ define(["require", "exports", "react", "./SiegelAndSowilo"], function (require, 
             }
             return res;
         }
-        function ProcessKeyDownEventForVisibleLines(keyCode, ctrlKey) {
-        }
-        function MoveLineUp() {
-        }
-        function MoveLineDown() {
-        }
         return (getTextLine(
         // State of Component
         properties, 
         // SiegelSuccessFunc: if access to line was successful, it will be renderd here
         (state, line) => react_1.default.createElement("div", { className: "row" },
             react_1.default.createElement("div", { className: properties.cssClassLineNo }, state.lineNo),
-            react_1.default.createElement("div", { className: properties.cssClassLine, contentEditable: true, onKeyDown: e => ProcessKeyDownEventForVisibleLines(e.keyCode, e.ctrlKey) }, line),
+            react_1.default.createElement("div", { className: properties.cssClassLine, contentEditable: true, onKeyDown: e => properties.ProcessKeyDownEventForVisibleLines(e.key, e.ctrlKey) }, line),
             react_1.default.createElement("div", { className: properties.cssClassLineFunction }, "\u00A0")), 
         // SowiloErrFunc: if access to line was not ksuccessful, an error message will be rendered here
         (state, calledFName, errCls, ...args) => react_1.default.createElement("div", { className: "row" },

@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <TypeScriptCompile Remove="wwwroot\ts\CrossWriterEmptyLine.tsx" />
     <TypeScriptCompile Remove="wwwroot\ts\INamingContainer.ts" />
   </ItemGroup>
 
@@ -19,6 +20,7 @@
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
+    <Content Include="wwwroot\ts\CrossWriterEmptyLine.tsx" />
     <Content Include="wwwroot\ts\INamingContainer.ts">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
