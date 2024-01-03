@@ -11,7 +11,7 @@ define(["require", "exports", "react", "./SiegelAndSowilo"], function (require, 
     // List of all NYT Keywords. Must be loaded from Server
     var nytKeywords;
     function CrossWriterEditLine(properties) {
-        // Die Liste der Schlüsselwörter wird einmalig in der Hauptkomponente CrossWriter
+        // Die Liste der Schl�sselw�rter wird einmalig in der Hauptkomponente CrossWriter
         // geladen. Hier wird nur eine referenz auf die Struktur abgelegt.
         nytKeywords = properties.nytKeywords;
         function getTextLine(props, succF, errF) {

@@ -83,7 +83,7 @@ function CrossWriter(properties: ICrossWriterProps) {
                 .done((data, textStatus, jqXhr) => {
                     let _ncList = data as Array<INamingContainer>;
 
-                    let _editShortCuts: Record<string, INamingContainer>
+                    let _editShortCuts: Record<string, INamingContainer> = {};
 
                     // Dictionary mit den Short Cuts aufbauen
                     for (var i = 0, _ncListCount = _ncList.length; i < _ncListCount; i++) {
@@ -460,7 +460,7 @@ function CrossWriter(properties: ICrossWriterProps) {
                 </nav>
             </header>
             ⌨
-            <div id="visibleLines" onKeyDown={e => ProcessKeyDownEventForVisibleLines(e., e.ctrlKey )}>
+            <div id="visibleLines" onKeyDown={e => ProcessKeyDownEventForVisibleLines(e.key, e.ctrlKey )}>
                 {VisibleLines()}
             </div>
 
