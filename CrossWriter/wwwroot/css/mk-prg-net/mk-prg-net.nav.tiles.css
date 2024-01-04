@@ -10,7 +10,7 @@ nav {
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    margin: 8px;
+    margin: 0.25em;
 }
 
     nav article {
@@ -36,14 +36,11 @@ nav {
         column-count: 1;
         -webkit-column-count: 1;
         -moz-column-count: 1;
-        margin: 8px;
-        margin-left: 4px;
-        margin-right: 4px;
-        margin-bottom: 0px;
-        padding: 8px;
+        margin: 0px;        
+        margin-right: 0.5em;
+        margin-bottom: 0px;        
         background-color: gold;
-        color: #808080;
-        font-family
+        color: #808080;        
     }
 
 @media screen and (max-width:989px) {

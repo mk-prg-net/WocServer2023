@@ -303,15 +303,14 @@ define(["require", "exports", "react", "react-dom", "jquery", "./IDocument", "./
                 }
             }
         }
-        return (react_1.default.createElement("div", { id: "CrossWriterCtrl", className: properties.cssClass },
+        return (react_1.default.createElement("div", { id: "CrossWriterCtrl", className: "CrossWriter" },
             react_1.default.createElement("header", null,
                 react_1.default.createElement("nav", { id: "main_nav" },
                     react_1.default.createElement("button", { id: "btnNewFile", className: "btn btn-normal" }, "\uD83D\uDDCB New"),
                     react_1.default.createElement("button", { id: "btnOpenFile", className: "btn btn-normal" }, "\uD83D\uDDBA Open"),
                     react_1.default.createElement("button", { id: "btnSave", className: "btn btn-normal" }, "\uD83D\uDDAB Save"),
                     react_1.default.createElement("button", { id: "help", className: "btn btn-normal" }, "\uD83D\uDD6E Help"))),
-            "\u2328",
-            react_1.default.createElement("div", { id: "visibleLines", onKeyDown: e => ProcessKeyDownEventForVisibleLines(e.key, e.ctrlKey) }, VisibleLines()),
+            react_1.default.createElement("div", { id: "visibleLines", onKeyDown: e => ProcessKeyDownEventForVisibleLines(e.key, e.ctrlKey), className: "VisibleLines" }, VisibleLines()),
             react_1.default.createElement("footer", { className: "row" },
                 react_1.default.createElement("div", { id: "statusLine", className: "col col-10" },
                     "Line: ",
@@ -322,8 +321,8 @@ define(["require", "exports", "react", "react-dom", "jquery", "./IDocument", "./
                     state.document.LineCount(),
                     " "))));
     }
-    function CrossWriterSetUp(idRoot, ServerOrigin, cssClass, documentName) {
-        react_dom_1.default.render(react_1.default.createElement(CrossWriter, { cssClass: cssClass, ServerOrigin: ServerOrigin, DocumentName: documentName, NameSpaceNytNamingContainers: "MKPRG.Naming.NYT.Keywords", UserId: "mko" }), (0, jquery_1.default)(`#${idRoot}`)[0]);
+    function CrossWriterSetUp(idRoot, ServerOrigin, documentName) {
+        react_dom_1.default.render(react_1.default.createElement(CrossWriter, { ServerOrigin: ServerOrigin, DocumentName: documentName, NameSpaceNytNamingContainers: "MKPRG.Naming.NYT.Keywords", UserId: "mko" }), (0, jquery_1.default)(`#${idRoot}`)[0]);
     }
     exports.default = CrossWriterSetUp;
 });

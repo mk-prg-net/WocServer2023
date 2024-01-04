@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+﻿import React, { useEffect } from "react";
 import ReacDom from "react-dom"
 import $, { fn } from "jquery"
 
@@ -23,7 +23,7 @@ var nytKeywords: INamingContainer[];
 
 
 export function CrossWriterLine(properties: ICrossWriterLineProps) {
-    // Die Liste der Schl�sselw�rter wird einmalig in der Hauptkomponente CrossWriter
+    // Die Liste der Schlüsselwörter wird einmalig in der Hauptkomponente CrossWriter
     // geladen. Hier wird nur eine referenz auf die Struktur abgelegt.
     nytKeywords = properties.nytKeywords;
 
@@ -58,19 +58,19 @@ export function CrossWriterLine(properties: ICrossWriterLineProps) {
             // SiegelSuccessFunc: if access to line was successful, it will be renderd here
             (state, line) =>
                 <div className={"row"}>
-                    <div className={properties.cssClassLineNo}>{state.lineNo}</div>
+                    <div className={properties.cssClassLineNo}>{state.lineNo}:</div>
                     <div className={properties.cssClassLine}>
                         {line}
                     </div>
-                    <div className={properties.cssClassLineFunction}>&nbsp;</div>
+                    <div className={properties.cssClassLineFunction}>┃&nbsp;</div>
                 </div>,
             // SowiloErrFunc: if access to line was not ksuccessful, an error message will be rendered here
             (state, calledFName, errCls, ...args: any[]) =>
                 <div className={"row"}>
-                    <div className={properties.cssClassLineNo}>{state.lineNo}</div>
+                    <div className={properties.cssClassLineNo}>{state.lineNo}:</div>
                     <div className={properties.cssClassLine}>
                         {`${errCls}: called Function:${calledFName}, ${args.join()}`}
                     </div>
-                    <div className={properties.cssClassLineFunction}>&nbsp;</div>                    
+                    <div className={properties.cssClassLineFunction}>┃&nbsp;</div>                    
                 </div>));
 }

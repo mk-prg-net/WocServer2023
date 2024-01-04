@@ -5,9 +5,9 @@
 
 body {
     background-color: #404040; /* Schrift */
-    font-family: Arial;
+    font-family: 'Cascadia Code', Consolas, monospace;
     font-weight: normal;
-    font-size: 12pt;
+    font-size: 1.25em;
     color: #dfdfdf;
     margin: 0px;
 }

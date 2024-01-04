@@ -28,6 +28,6 @@ requirejs(['jquery', "mod/CrossWriter"],
         let urlOrigin = $('#urlOrigin').val();
 
         // Load CrossWriter
-        CrossWriter.default("crossWriter", urlOrigin, "CrossWriter", "nytDemoSquRoot.cwf");
+        CrossWriter.default("crossWriter", urlOrigin, "nytDemoSquRoot.cwf");
         
     });

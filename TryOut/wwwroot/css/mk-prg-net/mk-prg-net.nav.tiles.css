@@ -42,8 +42,8 @@ nav {
         margin-bottom: 0px;
         padding: 8px;
         background-color: gold;
-        color: #808080;
-        font-family
+        color: #808080;    
+        font-size: 0.5em;
     }
 
 @media screen and (max-width:989px) {

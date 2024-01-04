@@ -16,8 +16,7 @@ import { CrossWriterEditLine, ICrossWriterEditLineProps } from "./CrossWriterEdi
 import { CrossWriterEmptyLine, ICrossWriterEmptyLineProps } from "./CrossWriterEmptyLine";
 
 interface ICrossWriterProps {
-    ServerOrigin: string,
-    cssClass: string,
+    ServerOrigin: string,    
     UserId: string,
     NameSpaceNytNamingContainers: string,
     DocumentName: string
@@ -450,7 +449,7 @@ function CrossWriter(properties: ICrossWriterProps) {
     }
 
     return (
-        <div id="CrossWriterCtrl" className={properties.cssClass}>
+        <div id="CrossWriterCtrl" className="CrossWriter">
             <header>
                 <nav id="main_nav">
                     <button id="btnNewFile" className="btn btn-normal">🗋 New</button>
@@ -459,8 +458,8 @@ function CrossWriter(properties: ICrossWriterProps) {
                     <button id="help" className="btn btn-normal">🕮 Help</button>
                 </nav>
             </header>
-            ⌨
-            <div id="visibleLines" onKeyDown={e => ProcessKeyDownEventForVisibleLines(e.key, e.ctrlKey )}>
+            
+            <div id="visibleLines" onKeyDown={e => ProcessKeyDownEventForVisibleLines(e.key, e.ctrlKey )} className="VisibleLines">
                 {VisibleLines()}
             </div>
 
@@ -471,10 +470,9 @@ function CrossWriter(properties: ICrossWriterProps) {
     );
 }
 
-export default function CrossWriterSetUp(idRoot: string, ServerOrigin: string, cssClass: string, documentName: string) {
+export default function CrossWriterSetUp(idRoot: string, ServerOrigin: string, documentName: string) {
 
-    ReactDom.render(<CrossWriter
-        cssClass={cssClass}
+    ReactDom.render(<CrossWriter        
         ServerOrigin={ServerOrigin}
         DocumentName={documentName}
         NameSpaceNytNamingContainers="MKPRG.Naming.NYT.Keywords"
