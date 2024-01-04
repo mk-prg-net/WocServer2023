@@ -7,7 +7,7 @@
 .lineNo {
     font-family: Consolas, Courier New, Courier, monospace;
     font-weight: bold;
-    color: whitesmoke;
+    color: aqua;
     text-align:right;
 }
 
@@ -19,7 +19,7 @@
 .lineFunc {
     font-family: Consolas, Courier New, Courier, monospace;
     font-weight: bold;
-    color: whitesmoke;
+    color: aqua;
 }
 
 .EditLine {
