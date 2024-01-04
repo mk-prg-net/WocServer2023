@@ -24,7 +24,7 @@ define(["require", "exports", "./SiegelAndSowilo"], function (require, exports, 
             res = siegel(doc);
         }
         else {
-            let lines = text.split(/\s*\\n+\s*/);
+            let lines = text.split(/[\r\n]+/);
             doc.textLines = lines;
             doc.LineCount = () => lines.length;
             res = siegel(doc);

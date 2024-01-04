@@ -205,26 +205,26 @@ function CrossWriter(properties: ICrossWriterProps) {
             // Leerzeilen vor der Editor- zeile aufbauen
             for (var i = 0; i < prePostLines; i++) {
                 vLines.push(<CrossWriterEmptyLine
-                    cssClassLineNo="col-1 lineNo"
-                    cssClassLine="col-10 lineContent"
-                    cssClassLineFunction="col-1 lineFunc"></CrossWriterEmptyLine>);
+                    cssClassLineNo="col col-1 lineNo"
+                    cssClassLine="col col-8 lineContent"
+                    cssClassLineFunction="col col-1 lineFunc"></CrossWriterEmptyLine>);
             }
 
             vLines.push(<CrossWriterEditLine
                 document={state.document}
                 lineNo={currentCursorLine}
-                cssClassLineNo="col-1 lineNo"
-                cssClassLine="col-10 EditLine"
-                cssClassLineFunction="col-1 lineFunc"
+                cssClassLineNo="col col-1 lineNo"
+                cssClassLine="col col-8 EditLine"
+                cssClassLineFunction="col col-1 lineFunc"
                 ProcessKeyDownEventForVisibleLines={ProcessKeyDownEventForVisibleLines}
                 nytKeywords={state.nytKeywords}></CrossWriterEditLine>);
 
             // Leerzeilen nach der Editor- zeile aufbauen
             for (var i = 0; i < prePostLines; i++) {
                 vLines.push(<CrossWriterEmptyLine
-                    cssClassLineNo="col-1 lineNo"
-                    cssClassLine="col-10 lineContent"
-                    cssClassLineFunction="col-1 lineFunc"></CrossWriterEmptyLine>);
+                    cssClassLineNo="col col-1 lineNo"
+                    cssClassLine="col col-8 lineContent"
+                    cssClassLineFunction="col col-1 lineFunc"></CrossWriterEmptyLine>);
             }
         }
         else
@@ -234,9 +234,9 @@ function CrossWriter(properties: ICrossWriterProps) {
             vLines.push(<CrossWriterEditLine
                 document={state.document}
                 lineNo={currentCursorLine}
-                cssClassLineNo="col-1 lineNo"
-                cssClassLine="col-10 EditLine"
-                cssClassLineFunction="col-1 lineFunc"
+                cssClassLineNo="col col-1 lineNo"
+                cssClassLine="col col-8 EditLine"
+                cssClassLineFunction="col col-1 lineFunc"
                 ProcessKeyDownEventForVisibleLines={ProcessKeyDownEventForVisibleLines}
                 nytKeywords={state.nytKeywords}></CrossWriterEditLine>);
 
@@ -377,9 +377,9 @@ function CrossWriter(properties: ICrossWriterProps) {
             // ausfüllen.
             for (var i = 0, countEmptyLines = prePostLines - currentCursorLine; i < countEmptyLines; i++) {
                 vLines.push(<CrossWriterEmptyLine
-                    cssClassLineNo="col-1 lineNo"
-                    cssClassLine="col-10 lineContent"
-                    cssClassLineFunction="col-1 lineFunc"></CrossWriterEmptyLine>);
+                    cssClassLineNo="col col-1 lineNo"
+                    cssClassLine="col col-8 lineContent"
+                    cssClassLineFunction="col col-1 lineFunc"></CrossWriterEmptyLine>);
             }
 
             // Der Editorzeile vorauseilende Zeilen des Dokumentes ausgeben
@@ -387,9 +387,9 @@ function CrossWriter(properties: ICrossWriterProps) {
                 vLines.push(<CrossWriterLine
                     document={state.document}
                     lineNo={i}
-                    cssClassLineNo="col-1 lineNo"
-                    cssClassLine="col-10 lineContent"
-                    cssClassLineFunction="col-1 lineFunc"
+                    cssClassLineNo="col col-1 lineNo"
+                    cssClassLine="col col-8 lineContent"
+                    cssClassLineFunction="col col-1 lineFunc"
                     nytKeywords={state.nytKeywords}></CrossWriterLine>);
             }
 
@@ -401,9 +401,9 @@ function CrossWriter(properties: ICrossWriterProps) {
                 vLines.push(<CrossWriterLine
                     document={state.document}
                     lineNo={j}
-                    cssClassLineNo="col-1 lineNo"
-                    cssClassLine="col-10 lineContent"
-                    cssClassLineFunction="col-1 lineFunc"
+                    cssClassLineNo="col col-1 lineNo"
+                    cssClassLine="col col-8 lineContent"
+                    cssClassLineFunction="col col-1 lineFunc"
                     nytKeywords={state.nytKeywords}></CrossWriterLine>);
             }
         }
@@ -419,18 +419,18 @@ function CrossWriter(properties: ICrossWriterProps) {
                 vLines.push(<CrossWriterLine
                     document={state.document}
                     lineNo={i}
-                    cssClassLineNo="col-1 lineNo"
-                    cssClassLine="col-10 lineContent"
-                    cssClassLineFunction="col-1 lineFunc"
+                    cssClassLineNo="col col-1 lineNo"
+                    cssClassLine="col col-8 lineContent"
+                    cssClassLineFunction="col col-1 lineFunc"
                     nytKeywords={state.nytKeywords} ></CrossWriterLine >);
             }
 
             // Rest mit Leerzeilen auffüllen
             for (var i = 0, countEmptyLines = prePostLines - (LineCount - currentCursorLine); i < countEmptyLines; i++) {
                 vLines.push(<CrossWriterEmptyLine
-                    cssClassLineNo="col-1 lineNo"
-                    cssClassLine="col-10 lineContent"
-                    cssClassLineFunction="col-1 lineFunc"></CrossWriterEmptyLine>);
+                    cssClassLineNo="col col-1 lineNo"
+                    cssClassLine="col col-8 lineContent"
+                    cssClassLineFunction="col col-1 lineFunc"></CrossWriterEmptyLine>);
             }
         }
         else {
@@ -441,16 +441,16 @@ function CrossWriter(properties: ICrossWriterProps) {
                 vLines.push(<CrossWriterLine
                     document={state.document}
                     lineNo={j}
-                    cssClassLineNo="col-1 lineNo"
-                    cssClassLine="col-10 lineContent"
-                    cssClassLineFunction="col-1 lineFunc"
+                    cssClassLineNo="col col-1 lineNo"
+                    cssClassLine="col col-8 lineContent"
+                    cssClassLineFunction="col col-1 lineFunc"
                     nytKeywords={state.nytKeywords} ></CrossWriterLine >);
             }
         }        
     }
 
     return (
-        <div id="CrossWriter" className={properties.cssClass}>
+        <div id="CrossWriterCtrl" className={properties.cssClass}>
             <header>
                 <nav id="main_nav">
                     <button id="btnNewFile" className="btn btn-normal">🗋 New</button>
@@ -464,8 +464,8 @@ function CrossWriter(properties: ICrossWriterProps) {
                 {VisibleLines()}
             </div>
 
-            <footer>
-                <div id="statusLine">Line: {state.cursor.currentLineNo} Col: {state.cursor.currentColNo} #Lines: {state.document.LineCount()} </div>
+            <footer className="row">
+                <div id="statusLine" className="col col-10">Line: {state.cursor.currentLineNo} Col: {state.cursor.currentColNo} #Lines: {state.document.LineCount()} </div>
             </footer>
         </div>
     );

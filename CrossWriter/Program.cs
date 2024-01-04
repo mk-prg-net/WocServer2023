@@ -87,17 +87,19 @@ app.MapGet("/fileStore", (HttpRequest request, MyNamingContainers myNamingContai
 {
     var fileName = request.Query["fileName"].First() ?? "";
 
+    var fileNameFQ = $".\\wwwroot\\fileStore\\{fileName}";
+
     if (string.IsNullOrWhiteSpace(fileName))
     {
         return Results.Problem($"The Request for a File has an empty FileName");
     }
-    else if(!System.IO.File.Exists(fileName))
+    else if(!System.IO.File.Exists(fileNameFQ))
     {
-        return Results.Problem($"The requeste File {fileName} does not exists");
+        return Results.Problem($"The requeste File {fileNameFQ} does not exists");
     }
     else
     {
-        var fileContent = string.Join('\n', System.IO.File.ReadAllLines(@".\wwwroot\apps\main\MainView.html"));
+        var fileContent = string.Join('\n', System.IO.File.ReadAllLines(fileNameFQ));
         return Results.Content(fileContent, "text/plain", System.Text.Encoding.UTF8);
     }
 

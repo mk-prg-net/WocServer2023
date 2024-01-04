@@ -62,7 +62,7 @@ export function CreateDocument(
     }
     else {
 
-        let lines = text.split(/\s*\\n+\s*/);
+        let lines = text.split(/[\r\n]+/);
 
         doc.textLines = lines;
         doc.LineCount = () => lines.length;       

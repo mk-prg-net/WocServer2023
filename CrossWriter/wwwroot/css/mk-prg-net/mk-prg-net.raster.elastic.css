@@ -1,0 +1,77 @@
+﻿/*
+   (c) Martin Korneffel: IT- Beratung /  Softwareentwicklung
+*/
+
+
+.row {
+    content: ".";
+    display: flow;
+    clear: both;
+    height: 0;
+}
+
+
+.col {    
+    float: left;
+    display: inline;
+    margin: 0px;
+    margin-left: 0px;
+    margin-right: 0.2em;
+    margin-bottom: 0.2em;
+    padding: 0px;
+}
+
+.col-1 {
+    width: 8em;
+}
+
+
+.col-2 {
+    width: 16em;
+}
+
+.col-3 {
+    width: 24em;
+}
+
+.col-4 {
+    width: 32em;
+}
+
+.col-5 {
+    width: 40em;
+}
+
+.col-6 {
+    width: 48em;
+}
+
+.col-7 {
+    width: 56em;
+}
+
+.col-8 {
+    width: 64em;
+}
+
+.col-9 {
+    width: 72em;
+}
+
+.col-10 {
+    width: 80em;
+}
+
+.col-11 {
+    width: 88em;
+}
+
+.col-12 {
+    width: 96em;
+}
+
+.col-max-visible {
+    width: 48em;
+}
+
+
