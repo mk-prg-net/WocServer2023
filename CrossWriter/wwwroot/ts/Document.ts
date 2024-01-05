@@ -19,7 +19,10 @@ export interface IDocumentCursor {
     currentLineNo: number,
 
     // Current Cursor Position: Column
-    currentColNo: number
+    currentColNo: number,
+
+    // Symbol, used to express the Cursor
+    cursorSymbol: string
 }
 
 // Common Document structure

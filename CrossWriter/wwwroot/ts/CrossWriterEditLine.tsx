@@ -8,7 +8,7 @@ import NamingIds from "./NamingIds";
 import { ErrorClasses, SiegelSuccessFunc, SowiloErrFunc, ArgumentValidationFailedDescriptor } from "./SiegelAndSowilo";
 
 import INamingContainer from "./INamingContainer"
-import { IDocument } from "./IDocument";
+import { IDocument, IDocumentCursor } from "./Document";
 
 declare global {
     interface JQuery {
@@ -19,13 +19,12 @@ declare global {
 export interface ICrossWriterEditLineProps {
     cssClassLineNo: string,
     cssClassLine: string,
-    cssClassLineFunction: string,
-    lineNo: number,
+    cssClassLineFunction: string, 
+    cssClassCursor: string,
     document: IDocument,
-    //ProcessKeyDownEventForVisibleLines : (key: string, ctrlKey: boolean) => void,
+    cursor : IDocumentCursor,
     nytKeywords: INamingContainer[]
 }
-
 
 // List of all NYT Keywords. Must be loaded from Server
 var nytKeywords: INamingContainer[];
@@ -39,7 +38,7 @@ export function CrossWriterEditLine(properties: ICrossWriterEditLineProps) {
     let editLineRef = React.useRef();
 
     function getTextLine(props: ICrossWriterEditLineProps, succF: SiegelSuccessFunc<ICrossWriterEditLineProps>, errF: SowiloErrFunc<ICrossWriterEditLineProps>): any {
-        let lineNo = props.lineNo;
+        let lineNo = props.cursor.currentLineNo;
         let textLines = props.document.textLines;
         let res = <div>Error</div>;
 
@@ -55,7 +54,11 @@ export function CrossWriterEditLine(properties: ICrossWriterEditLineProps) {
         else {
 
             let textLine = props.document.textLines[lineNo];
-            res = succF(props, textLine);
+            let cursorPos = props.cursor.currentColNo;
+            let left = textLine.substring(0, cursorPos);
+            let right = textLine.substring(cursorPos + 1);
+
+            res = succF(props, left, right);
         }
         return res;
     }
@@ -71,18 +74,18 @@ export function CrossWriterEditLine(properties: ICrossWriterEditLineProps) {
             // State of Component
             properties,
             // SiegelSuccessFunc: if access to line was successful, it will be renderd here
-            (state, line) =>
+            (state, left, right) =>
                 <div className={"row"}>
-                    <div className={properties.cssClassLineNo}>{state.lineNo}:</div>
+                    <div className={properties.cssClassLineNo}>{state.cursor.currentLineNo}:</div>
                     <div id="editLine" className={properties.cssClassLine}>
-                        {line}
+                        {left}<span className={state.cssClassCursor} >{state.cursor.cursorSymbol}</span>{right}
                     </div>
                     <div className={properties.cssClassLineFunction}>┃&nbsp;</div>
                 </div>,
             // SowiloErrFunc: if access to line was not ksuccessful, an error message will be rendered here
             (state, calledFName, errCls, ...args: any[]) =>
                 <div className={"row"}>
-                    <div className={properties.cssClassLineNo}>{state.lineNo}:</div>
+                    <div className={properties.cssClassLineNo}>{state.cursor.currentLineNo}:</div>
                     <div className={properties.cssClassLine}>
                         {`${errCls}: called Function:${calledFName}, ${args.join()}`}
                     </div>

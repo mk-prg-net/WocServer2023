@@ -3,7 +3,7 @@
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-define(["require", "exports", "jquery", "react", "react-dom", "./CrossWriterEditLine", "./CrossWriterEmptyLine", "./CrossWriterLine", "./IDocument"], function (require, exports, jquery_1, react_1, react_dom_1, CrossWriterEditLine_1, CrossWriterEmptyLine_1, CrossWriterLine_1, IDocument_1) {
+define(["require", "exports", "jquery", "react", "react-dom", "./CrossWriterEditLine", "./CrossWriterEmptyLine", "./CrossWriterLine", "./Document"], function (require, exports, jquery_1, react_1, react_dom_1, CrossWriterEditLine_1, CrossWriterEmptyLine_1, CrossWriterLine_1, Document_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     jquery_1 = __importDefault(jquery_1);
@@ -15,6 +15,7 @@ define(["require", "exports", "jquery", "react", "react-dom", "./CrossWriterEdit
     }
     // This must be an uneven Number (count pre- Lines, edit- Line, count post- Lines)
     const CountViewLines = 31;
+    const CursorSymbol = "⧳";
     // Default- Namingcontainer
     var UnkownNC = {
         CNT: "unknown",
@@ -37,7 +38,7 @@ define(["require", "exports", "jquery", "react", "react-dom", "./CrossWriterEdit
                 textLines: [""],
                 LineCount: () => 0
             },
-            cursor: { currentLineNo: 0, currentColNo: 0 },
+            cursor: { currentLineNo: 0, currentColNo: 0, cursorSymbol: CursorSymbol },
             visibleLines: CountViewLines,
             statusText: "start",
             keyGen: CreateKeyGenerator()
@@ -61,7 +62,7 @@ define(["require", "exports", "jquery", "react", "react-dom", "./CrossWriterEdit
                             .done((data, textStatus, jqXhr) => {
                             let docContentAsString = data;
                             // 
-                            (0, IDocument_1.CreateDocument)(properties.UserId, properties.DocumentName, docContentAsString, 
+                            (0, Document_1.CreateDocument)(properties.UserId, properties.DocumentName, docContentAsString, 
                             // Siegel
                             (doc) => {
                                 setState({
@@ -69,7 +70,7 @@ define(["require", "exports", "jquery", "react", "react-dom", "./CrossWriterEdit
                                     nytKeywords: _ncList,
                                     editShortCuts: _editShortCuts,
                                     document: doc,
-                                    cursor: { currentColNo: doc.textLines[0].length, currentLineNo: 0 },
+                                    cursor: { currentColNo: doc.textLines[0].length, currentLineNo: 0, cursorSymbol: CursorSymbol },
                                     visibleLines: CountViewLines,
                                     statusText: `Resources and document ${properties.DocumentName} loaded successful from Server`,
                                     keyGen: keyGenerator
@@ -161,7 +162,7 @@ define(["require", "exports", "jquery", "react", "react-dom", "./CrossWriterEdit
                 for (var i = 0; i < prePostLines; i++) {
                     vLines.push(react_1.default.createElement(CrossWriterEmptyLine_1.CrossWriterEmptyLine, { key: state.keyGen(), cssClassLineNo: "col cw-3 lineNo", cssClassLine: "col cw-56 lineContent", cssClassLineFunction: "col cw-6 lineFunc" }));
                 }
-                vLines.push(react_1.default.createElement(CrossWriterEditLine_1.CrossWriterEditLine, { key: state.keyGen(), document: state.document, lineNo: currentCursorLine, cssClassLineNo: "col cw-3 lineNo", cssClassLine: "col cw-56 EditLine", cssClassLineFunction: "col cw-6 lineFunc", 
+                vLines.push(react_1.default.createElement(CrossWriterEditLine_1.CrossWriterEditLine, { key: state.keyGen(), document: state.document, cursor: state.cursor, cssClassCursor: "Cursor", cssClassLineNo: "col cw-3 lineNo", cssClassLine: "col cw-56 EditLine", cssClassLineFunction: "col cw-6 lineFunc", 
                     //ProcessKeyDownEventForVisibleLines={ProcessKeyDownEventForEditLine}
                     nytKeywords: state.nytKeywords }));
                 // Leerzeilen nach der Editor- zeile aufbauen
@@ -171,7 +172,7 @@ define(["require", "exports", "jquery", "react", "react-dom", "./CrossWriterEdit
             }
             else {
                 AddPreLines(vLines, currentCursorLine);
-                vLines.push(react_1.default.createElement(CrossWriterEditLine_1.CrossWriterEditLine, { key: state.keyGen(), document: state.document, lineNo: currentCursorLine, cssClassLineNo: "col cw-3 lineNo", cssClassLine: "col cw-56 EditLine", cssClassLineFunction: "col cw-6 lineFunc", 
+                vLines.push(react_1.default.createElement(CrossWriterEditLine_1.CrossWriterEditLine, { key: state.keyGen(), document: state.document, cursor: state.cursor, cssClassCursor: "Cursor", cssClassLineNo: "col cw-3 lineNo", cssClassLine: "col cw-56 EditLine", cssClassLineFunction: "col cw-6 lineFunc", 
                     //ProcessKeyDownEventForVisibleLines={ProcessKeyDownEventForEditLine}
                     nytKeywords: state.nytKeywords }));
                 AddPostLines(vLines, currentCursorLine, state.document.LineCount());
@@ -189,7 +190,8 @@ define(["require", "exports", "jquery", "react", "react-dom", "./CrossWriterEdit
                     setState({
                         cursor: {
                             currentColNo: state.cursor.currentColNo,
-                            currentLineNo: state.cursor.currentLineNo - 1
+                            currentLineNo: state.cursor.currentLineNo - 1,
+                            cursorSymbol: state.cursor.cursorSymbol
                         },
                         document: state.document,
                         editShortCuts: state.editShortCuts,
@@ -207,7 +209,8 @@ define(["require", "exports", "jquery", "react", "react-dom", "./CrossWriterEdit
                     setState({
                         cursor: {
                             currentColNo: state.cursor.currentColNo,
-                            currentLineNo: state.cursor.currentLineNo + 1
+                            currentLineNo: state.cursor.currentLineNo + 1,
+                            cursorSymbol: state.cursor.cursorSymbol
                         },
                         document: state.document,
                         editShortCuts: state.editShortCuts,
@@ -226,7 +229,8 @@ define(["require", "exports", "jquery", "react", "react-dom", "./CrossWriterEdit
                     setState({
                         cursor: {
                             currentColNo: state.cursor.currentColNo - 1,
-                            currentLineNo: state.cursor.currentLineNo
+                            currentLineNo: state.cursor.currentLineNo,
+                            cursorSymbol: state.cursor.cursorSymbol
                         },
                         document: state.document,
                         editShortCuts: state.editShortCuts,
@@ -245,7 +249,8 @@ define(["require", "exports", "jquery", "react", "react-dom", "./CrossWriterEdit
                     setState({
                         cursor: {
                             currentColNo: state.cursor.currentColNo + 1,
-                            currentLineNo: state.cursor.currentLineNo
+                            currentLineNo: state.cursor.currentLineNo,
+                            cursorSymbol: state.cursor.cursorSymbol
                         },
                         document: state.document,
                         editShortCuts: state.editShortCuts,
@@ -272,7 +277,8 @@ define(["require", "exports", "jquery", "react", "react-dom", "./CrossWriterEdit
                 setState({
                     cursor: {
                         currentColNo: currentCursor,
-                        currentLineNo: state.cursor.currentLineNo
+                        currentLineNo: state.cursor.currentLineNo,
+                        cursorSymbol: state.cursor.cursorSymbol
                     },
                     document: state.document,
                     editShortCuts: state.editShortCuts,
@@ -298,7 +304,8 @@ define(["require", "exports", "jquery", "react", "react-dom", "./CrossWriterEdit
                 setState({
                     cursor: {
                         currentColNo: currentCursor,
-                        currentLineNo: state.cursor.currentLineNo
+                        currentLineNo: state.cursor.currentLineNo,
+                        cursorSymbol: state.cursor.cursorSymbol
                     },
                     document: state.document,
                     editShortCuts: state.editShortCuts,
@@ -332,7 +339,8 @@ define(["require", "exports", "jquery", "react", "react-dom", "./CrossWriterEdit
                 setState({
                     cursor: {
                         currentColNo: state.cursor.currentColNo + 1,
-                        currentLineNo: state.cursor.currentLineNo
+                        currentLineNo: state.cursor.currentLineNo,
+                        cursorSymbol: state.cursor.cursorSymbol
                     },
                     document: state.document,
                     editShortCuts: state.editShortCuts,

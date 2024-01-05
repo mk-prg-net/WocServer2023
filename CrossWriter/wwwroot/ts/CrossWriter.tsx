@@ -11,7 +11,7 @@ import INamingContainer from "./INamingContainer";
 import { CrossWriterEditLine } from "./CrossWriterEditLine";
 import { CrossWriterEmptyLine } from "./CrossWriterEmptyLine";
 import { CrossWriterLine } from "./CrossWriterLine";
-import { CreateDocument, IDocument, IDocumentCursor } from "./IDocument";
+import { CreateDocument, IDocument, IDocumentCursor } from "./Document";
 
 interface ICrossWriterProps {
     ServerOrigin: string,    
@@ -55,6 +55,7 @@ function CreateKeyGenerator(): () => number
 
 // This must be an uneven Number (count pre- Lines, edit- Line, count post- Lines)
 const CountViewLines = 31;
+const CursorSymbol = "⧳";
 
 // Default- Namingcontainer
 var UnkownNC: INamingContainer = {
@@ -79,7 +80,7 @@ function CrossWriter(properties: ICrossWriterProps) {
             textLines: [""],
             LineCount: () => 0
         },
-        cursor: { currentLineNo: 0, currentColNo: 0 },
+        cursor: { currentLineNo: 0, currentColNo: 0, cursorSymbol: CursorSymbol },
         visibleLines: CountViewLines,
         statusText: "start",
         keyGen : CreateKeyGenerator()
@@ -122,7 +123,7 @@ function CrossWriter(properties: ICrossWriterProps) {
                                             nytKeywords: _ncList,
                                             editShortCuts: _editShortCuts,
                                             document: doc,
-                                            cursor: { currentColNo: doc.textLines[0].length, currentLineNo: 0 },
+                                            cursor: { currentColNo: doc.textLines[0].length, currentLineNo: 0, cursorSymbol: CursorSymbol },
                                             visibleLines: CountViewLines,
                                             statusText: `Resources and document ${properties.DocumentName} loaded successful from Server`,
                                             keyGen: keyGenerator
@@ -234,7 +235,8 @@ function CrossWriter(properties: ICrossWriterProps) {
             vLines.push(<CrossWriterEditLine
                 key={state.keyGen()}
                 document={state.document}
-                lineNo={currentCursorLine}
+                cursor={state.cursor}
+                cssClassCursor="Cursor"
                 cssClassLineNo="col cw-3 lineNo"
                 cssClassLine="col cw-56 EditLine"
                 cssClassLineFunction="col cw-6 lineFunc"
@@ -257,7 +259,8 @@ function CrossWriter(properties: ICrossWriterProps) {
             vLines.push(<CrossWriterEditLine
                 key={state.keyGen()}
                 document={state.document}
-                lineNo={currentCursorLine}
+                cursor={state.cursor}
+                cssClassCursor="Cursor"
                 cssClassLineNo="col cw-3 lineNo"
                 cssClassLine="col cw-56 EditLine"
                 cssClassLineFunction="col cw-6 lineFunc"
@@ -283,7 +286,8 @@ function CrossWriter(properties: ICrossWriterProps) {
                 setState({
                     cursor: {
                         currentColNo: state.cursor.currentColNo,
-                        currentLineNo: state.cursor.currentLineNo - 1
+                        currentLineNo: state.cursor.currentLineNo - 1,
+                        cursorSymbol: state.cursor.cursorSymbol
                     },
                     document: state.document,
                     editShortCuts: state.editShortCuts,
@@ -303,7 +307,8 @@ function CrossWriter(properties: ICrossWriterProps) {
                 setState({
                     cursor: {
                         currentColNo: state.cursor.currentColNo,
-                        currentLineNo: state.cursor.currentLineNo + 1
+                        currentLineNo: state.cursor.currentLineNo + 1,
+                        cursorSymbol: state.cursor.cursorSymbol
                     },
                     document: state.document,
                     editShortCuts: state.editShortCuts,
@@ -323,7 +328,8 @@ function CrossWriter(properties: ICrossWriterProps) {
                 setState({
                     cursor: {
                         currentColNo: state.cursor.currentColNo - 1,
-                        currentLineNo: state.cursor.currentLineNo
+                        currentLineNo: state.cursor.currentLineNo,
+                        cursorSymbol: state.cursor.cursorSymbol
                     },
                     document: state.document,
                     editShortCuts: state.editShortCuts,
@@ -343,7 +349,8 @@ function CrossWriter(properties: ICrossWriterProps) {
                 setState({
                     cursor: {
                         currentColNo: state.cursor.currentColNo + 1,
-                        currentLineNo: state.cursor.currentLineNo
+                        currentLineNo: state.cursor.currentLineNo,
+                        cursorSymbol: state.cursor.cursorSymbol
                     },
                     document: state.document,
                     editShortCuts: state.editShortCuts,
@@ -373,7 +380,8 @@ function CrossWriter(properties: ICrossWriterProps) {
             setState({
                 cursor: {
                     currentColNo: currentCursor,
-                    currentLineNo: state.cursor.currentLineNo
+                    currentLineNo: state.cursor.currentLineNo,
+                    cursorSymbol: state.cursor.cursorSymbol
                 },
                 document: state.document,
                 editShortCuts: state.editShortCuts,
@@ -402,7 +410,8 @@ function CrossWriter(properties: ICrossWriterProps) {
             setState({
                 cursor: {
                     currentColNo: currentCursor,
-                    currentLineNo: state.cursor.currentLineNo
+                    currentLineNo: state.cursor.currentLineNo,
+                    cursorSymbol: state.cursor.cursorSymbol
                 },
                 document: state.document,
                 editShortCuts: state.editShortCuts,
@@ -441,7 +450,8 @@ function CrossWriter(properties: ICrossWriterProps) {
             setState({
                 cursor: {
                     currentColNo: state.cursor.currentColNo + 1,
-                    currentLineNo: state.cursor.currentLineNo
+                    currentLineNo: state.cursor.currentLineNo,
+                    cursorSymbol: state.cursor.cursorSymbol
                 },
                 document: state.document,
                 editShortCuts: state.editShortCuts,

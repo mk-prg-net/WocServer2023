@@ -17,7 +17,7 @@ define(["require", "exports", "react", "jquery", "./SiegelAndSowilo"], function 
         nytKeywords = properties.nytKeywords;
         let editLineRef = react_1.default.useRef();
         function getTextLine(props, succF, errF) {
-            let lineNo = props.lineNo;
+            let lineNo = props.cursor.currentLineNo;
             let textLines = props.document.textLines;
             let res = react_1.default.createElement("div", null, "Error");
             const fname = "getLineText";
@@ -30,7 +30,10 @@ define(["require", "exports", "react", "jquery", "./SiegelAndSowilo"], function 
             }
             else {
                 let textLine = props.document.textLines[lineNo];
-                res = succF(props, textLine);
+                let cursorPos = props.cursor.currentColNo;
+                let left = textLine.substring(0, cursorPos);
+                let right = textLine.substring(cursorPos + 1);
+                res = succF(props, left, right);
             }
             return res;
         }
@@ -41,16 +44,19 @@ define(["require", "exports", "react", "jquery", "./SiegelAndSowilo"], function 
         // State of Component
         properties, 
         // SiegelSuccessFunc: if access to line was successful, it will be renderd here
-        (state, line) => react_1.default.createElement("div", { className: "row" },
+        (state, left, right) => react_1.default.createElement("div", { className: "row" },
             react_1.default.createElement("div", { className: properties.cssClassLineNo },
-                state.lineNo,
+                state.cursor.currentLineNo,
                 ":"),
-            react_1.default.createElement("div", { id: "editLine", className: properties.cssClassLine }, line),
+            react_1.default.createElement("div", { id: "editLine", className: properties.cssClassLine },
+                left,
+                react_1.default.createElement("span", { className: state.cssClassCursor }, state.cursor.cursorSymbol),
+                right),
             react_1.default.createElement("div", { className: properties.cssClassLineFunction }, "\u2503\u00A0")), 
         // SowiloErrFunc: if access to line was not ksuccessful, an error message will be rendered here
         (state, calledFName, errCls, ...args) => react_1.default.createElement("div", { className: "row" },
             react_1.default.createElement("div", { className: properties.cssClassLineNo },
-                state.lineNo,
+                state.cursor.currentLineNo,
                 ":"),
             react_1.default.createElement("div", { className: properties.cssClassLine }, `${errCls}: called Function:${calledFName}, ${args.join()}`),
             react_1.default.createElement("div", { className: properties.cssClassLineFunction }, "\u2503\u00A0"))));

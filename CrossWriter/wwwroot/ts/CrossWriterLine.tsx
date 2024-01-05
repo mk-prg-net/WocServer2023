@@ -6,7 +6,7 @@ import NamingIds from "./NamingIds";
 import {ErrorClasses, SiegelSuccessFunc, SowiloErrFunc, ArgumentValidationFailedDescriptor } from "./SiegelAndSowilo";
 
 import INamingContainer from "./INamingContainer"
-import { IDocument } from "./IDocument";
+import { IDocument } from "./Document";
 
 export interface ICrossWriterLineProps {    
     cssClassLineNo: string,
