@@ -14,7 +14,7 @@ define(["require", "exports", "jquery", "react", "react-dom", "./CrossWriterEdit
         return () => key++;
     }
     // This must be an uneven Number (count pre- Lines, edit- Line, count post- Lines)
-    const CountVisibleLines = 31;
+    const CountViewLines = 31;
     // Default- Namingcontainer
     var UnkownNC = {
         CNT: "unknown",
@@ -38,7 +38,7 @@ define(["require", "exports", "jquery", "react", "react-dom", "./CrossWriterEdit
                 LineCount: () => 0
             },
             cursor: { currentLineNo: 0, currentColNo: 0 },
-            visibleLines: CountVisibleLines,
+            visibleLines: CountViewLines,
             statusText: "start",
             keyGen: CreateKeyGenerator()
         });
@@ -69,8 +69,8 @@ define(["require", "exports", "jquery", "react", "react-dom", "./CrossWriterEdit
                                     nytKeywords: _ncList,
                                     editShortCuts: _editShortCuts,
                                     document: doc,
-                                    cursor: { currentColNo: 0, currentLineNo: 0 },
-                                    visibleLines: CountVisibleLines,
+                                    cursor: { currentColNo: doc.textLines[0].length, currentLineNo: 0 },
+                                    visibleLines: CountViewLines,
                                     statusText: `Resources and document ${properties.DocumentName} loaded successful from Server`,
                                     keyGen: keyGenerator
                                 });
@@ -84,7 +84,7 @@ define(["require", "exports", "jquery", "react", "react-dom", "./CrossWriterEdit
                                     editShortCuts: _editShortCuts,
                                     document: state.document,
                                     cursor: state.cursor,
-                                    visibleLines: CountVisibleLines,
+                                    visibleLines: CountViewLines,
                                     statusText: `Resources loaded successful from Server, but not the Document. ${fName} failed, ErrClass: ${errClass}, ${args.join(", ")}`,
                                     keyGen: keyGenerator
                                 });
@@ -102,7 +102,7 @@ define(["require", "exports", "jquery", "react", "react-dom", "./CrossWriterEdit
                             editShortCuts: _editShortCuts,
                             document: state.document,
                             cursor: state.cursor,
-                            visibleLines: CountVisibleLines,
+                            visibleLines: CountViewLines,
                             statusText: "Resources loaded successful from Server",
                             keyGen: keyGenerator
                         });
@@ -117,7 +117,7 @@ define(["require", "exports", "jquery", "react", "react-dom", "./CrossWriterEdit
                         editShortCuts: state.editShortCuts,
                         document: state.document,
                         cursor: state.cursor,
-                        visibleLines: CountVisibleLines,
+                        visibleLines: CountViewLines,
                         statusText: errTxt,
                         keyGen: keyGenerator
                     });
@@ -125,16 +125,17 @@ define(["require", "exports", "jquery", "react", "react-dom", "./CrossWriterEdit
             }
             if (invisibleInputFildForEdit !== null && invisibleInputFildForEdit !== undefined) {
                 invisibleInputFildForEdit.current.focus();
+                invisibleInputFildForEdit.current.value = "";
             }
         }
         react_1.default.useEffect(() => LoadResourcesFromServer(), []);
         // Berechnet die Anzahl der sichtbaren Zeilen vor und nach der Editor- Zeile
-        function CountPrePostLines() { return (CountVisibleLines - 1) / 2; }
+        function CountPrePostLines() { return (CountViewLines - 1) / 2; }
         ;
         // mko, 2.1.2024
         // Erzeugt Visuelle ausgabe der Edit- Zeile und der unmittelbar vor und nach der Edit- Zeile befindlichen
         // Zeilen des Dokumentes
-        function VisibleLines() {
+        function ViewLines() {
             let vLines = [];
             let lineCount = state.document.LineCount;
             let currentCursorLine = state.cursor.currentLineNo;
@@ -160,7 +161,9 @@ define(["require", "exports", "jquery", "react", "react-dom", "./CrossWriterEdit
                 for (var i = 0; i < prePostLines; i++) {
                     vLines.push(react_1.default.createElement(CrossWriterEmptyLine_1.CrossWriterEmptyLine, { key: state.keyGen(), cssClassLineNo: "col cw-3 lineNo", cssClassLine: "col cw-56 lineContent", cssClassLineFunction: "col cw-6 lineFunc" }));
                 }
-                vLines.push(react_1.default.createElement(CrossWriterEditLine_1.CrossWriterEditLine, { key: state.keyGen(), document: state.document, lineNo: currentCursorLine, cssClassLineNo: "col cw-3 lineNo", cssClassLine: "col cw-56 EditLine", cssClassLineFunction: "col cw-6 lineFunc", ProcessKeyDownEventForVisibleLines: ProcessKeyDownEventForVisibleLines, nytKeywords: state.nytKeywords }));
+                vLines.push(react_1.default.createElement(CrossWriterEditLine_1.CrossWriterEditLine, { key: state.keyGen(), document: state.document, lineNo: currentCursorLine, cssClassLineNo: "col cw-3 lineNo", cssClassLine: "col cw-56 EditLine", cssClassLineFunction: "col cw-6 lineFunc", 
+                    //ProcessKeyDownEventForVisibleLines={ProcessKeyDownEventForEditLine}
+                    nytKeywords: state.nytKeywords }));
                 // Leerzeilen nach der Editor- zeile aufbauen
                 for (var i = 0; i < prePostLines; i++) {
                     vLines.push(react_1.default.createElement(CrossWriterEmptyLine_1.CrossWriterEmptyLine, { key: state.keyGen(), cssClassLineNo: "col cw-3 lineNo", cssClassLine: "col cw-56 lineContent", cssClassLineFunction: "col cw-6 lineFunc" }));
@@ -168,13 +171,15 @@ define(["require", "exports", "jquery", "react", "react-dom", "./CrossWriterEdit
             }
             else {
                 AddPreLines(vLines, currentCursorLine);
-                vLines.push(react_1.default.createElement(CrossWriterEditLine_1.CrossWriterEditLine, { key: state.keyGen(), document: state.document, lineNo: currentCursorLine, cssClassLineNo: "col cw-3 lineNo", cssClassLine: "col cw-56 EditLine", cssClassLineFunction: "col cw-6 lineFunc", ProcessKeyDownEventForVisibleLines: ProcessKeyDownEventForVisibleLines, nytKeywords: state.nytKeywords }));
+                vLines.push(react_1.default.createElement(CrossWriterEditLine_1.CrossWriterEditLine, { key: state.keyGen(), document: state.document, lineNo: currentCursorLine, cssClassLineNo: "col cw-3 lineNo", cssClassLine: "col cw-56 EditLine", cssClassLineFunction: "col cw-6 lineFunc", 
+                    //ProcessKeyDownEventForVisibleLines={ProcessKeyDownEventForEditLine}
+                    nytKeywords: state.nytKeywords }));
                 AddPostLines(vLines, currentCursorLine, state.document.LineCount());
             }
             return vLines;
         }
         // KeyCodes siehe https://www.freecodecamp.org/news/javascript-keycode-list-keypress-event-key-codes/
-        function ProcessKeyDownEventForVisibleLines(key, ctrlKey) {
+        function ProcessKeyDownEventForEditLine(key, ctrlKey) {
             if (key == "Enter") {
                 // Ctrl+Enter ⏎: Neuen Text übernehmen
             }
@@ -191,7 +196,7 @@ define(["require", "exports", "jquery", "react", "react-dom", "./CrossWriterEdit
                         init: state.init,
                         nytKeywords: state.nytKeywords,
                         statusText: state.statusText,
-                        visibleLines: CountVisibleLines,
+                        visibleLines: CountViewLines,
                         keyGen: state.keyGen
                     });
                 }
@@ -209,7 +214,7 @@ define(["require", "exports", "jquery", "react", "react-dom", "./CrossWriterEdit
                         init: state.init,
                         nytKeywords: state.nytKeywords,
                         statusText: state.statusText,
-                        visibleLines: CountVisibleLines,
+                        visibleLines: CountViewLines,
                         keyGen: state.keyGen
                     });
                 }
@@ -228,7 +233,7 @@ define(["require", "exports", "jquery", "react", "react-dom", "./CrossWriterEdit
                         init: state.init,
                         nytKeywords: state.nytKeywords,
                         statusText: state.statusText,
-                        visibleLines: CountVisibleLines,
+                        visibleLines: CountViewLines,
                         keyGen: state.keyGen
                     });
                 }
@@ -236,7 +241,7 @@ define(["require", "exports", "jquery", "react", "react-dom", "./CrossWriterEdit
             else if (key == "ArrowRight") {
                 // Arrow Right →: Cursor nach rechts
                 if (state.document.textLines[state.cursor.currentLineNo].length > 0
-                    && state.document.textLines[state.cursor.currentLineNo].length - 1 > state.cursor.currentColNo) {
+                    && state.document.textLines[state.cursor.currentLineNo].length > state.cursor.currentColNo) {
                     setState({
                         cursor: {
                             currentColNo: state.cursor.currentColNo + 1,
@@ -247,10 +252,65 @@ define(["require", "exports", "jquery", "react", "react-dom", "./CrossWriterEdit
                         init: state.init,
                         nytKeywords: state.nytKeywords,
                         statusText: state.statusText,
-                        visibleLines: CountVisibleLines,
+                        visibleLines: CountViewLines,
                         keyGen: state.keyGen
                     });
                 }
+            }
+            else if (key == "Backspace") {
+                // Zeichen links vom Cursor löschen
+                let currentCursor = state.cursor.currentColNo;
+                let currentLine = state.document.textLines[state.cursor.currentLineNo];
+                if (currentLine.length > 0) {
+                    let left = currentLine.substring(0, currentCursor - 1);
+                    let right = currentLine.substring(currentCursor);
+                    currentCursor--;
+                    currentLine = `${left}${right}`;
+                }
+                // Die aktuelle Zeile wird mit der modifizierten überschrieben
+                state.document.textLines[state.cursor.currentLineNo] = currentLine;
+                setState({
+                    cursor: {
+                        currentColNo: currentCursor,
+                        currentLineNo: state.cursor.currentLineNo
+                    },
+                    document: state.document,
+                    editShortCuts: state.editShortCuts,
+                    init: state.init,
+                    nytKeywords: state.nytKeywords,
+                    statusText: state.statusText,
+                    visibleLines: CountViewLines,
+                    keyGen: state.keyGen
+                });
+            }
+            else if (key == "Delete") {
+                // Zeichen rechts vom Cursor löschen
+                let currentCursor = state.cursor.currentColNo;
+                let currentLine = state.document.textLines[state.cursor.currentLineNo];
+                if (currentLine.length > 0 && currentCursor < currentLine.length) {
+                    let left = currentLine.substring(0, currentCursor);
+                    let right = currentLine.substring(currentCursor + 1);
+                    currentCursor--;
+                    currentLine = `${left}${right}`;
+                }
+                // Die aktuelle Zeile wird mit der modifizierten überschrieben
+                state.document.textLines[state.cursor.currentLineNo] = currentLine;
+                setState({
+                    cursor: {
+                        currentColNo: currentCursor,
+                        currentLineNo: state.cursor.currentLineNo
+                    },
+                    document: state.document,
+                    editShortCuts: state.editShortCuts,
+                    init: state.init,
+                    nytKeywords: state.nytKeywords,
+                    statusText: state.statusText,
+                    visibleLines: CountViewLines,
+                    keyGen: state.keyGen
+                });
+            }
+            else if (key == "Shift") {
+                // ignorieren
             }
             else {
                 // Das Zeichen wird an der Cursorposition eingefügt
@@ -279,7 +339,7 @@ define(["require", "exports", "jquery", "react", "react-dom", "./CrossWriterEdit
                     init: state.init,
                     nytKeywords: state.nytKeywords,
                     statusText: state.statusText,
-                    visibleLines: CountVisibleLines,
+                    visibleLines: CountViewLines,
                     keyGen: state.keyGen
                 });
             }
@@ -329,9 +389,9 @@ define(["require", "exports", "jquery", "react", "react-dom", "./CrossWriterEdit
                     react_1.default.createElement("button", { id: "btnOpenFile", className: "btn btn-normal" }, "\uD83D\uDDBA Open"),
                     react_1.default.createElement("button", { id: "btnSave", className: "btn btn-normal" }, "\uD83D\uDDAB Save"),
                     react_1.default.createElement("button", { id: "help", className: "btn btn-normal" }, "\uD83D\uDD6E Help"))),
-            react_1.default.createElement("input", { ref: invisibleInputFildForEdit, onKeyDown: e => ProcessKeyDownEventForVisibleLines(e.key, e.ctrlKey) }),
+            react_1.default.createElement("input", { ref: invisibleInputFildForEdit, onKeyDown: e => ProcessKeyDownEventForEditLine(e.key, e.ctrlKey) }),
             react_1.default.createElement("div", { id: "visibleLines", className: "VisibleLines" },
-                VisibleLines(),
+                ViewLines(),
                 "input"),
             react_1.default.createElement("footer", { className: "row" },
                 react_1.default.createElement("div", { id: "statusLine", className: "col col-10" },

@@ -22,7 +22,7 @@ export interface ICrossWriterEditLineProps {
     cssClassLineFunction: string,
     lineNo: number,
     document: IDocument,
-    ProcessKeyDownEventForVisibleLines : (key: string, ctrlKey: boolean) => void,
+    //ProcessKeyDownEventForVisibleLines : (key: string, ctrlKey: boolean) => void,
     nytKeywords: INamingContainer[]
 }
 
