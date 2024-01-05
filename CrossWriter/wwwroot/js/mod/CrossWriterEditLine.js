@@ -15,6 +15,7 @@ define(["require", "exports", "react", "jquery", "./SiegelAndSowilo"], function 
         // Die Liste der Schlüsselwörter wird einmalig in der Hauptkomponente CrossWriter
         // geladen. Hier wird nur eine referenz auf die Struktur abgelegt.
         nytKeywords = properties.nytKeywords;
+        let editLineRef = react_1.default.useRef();
         function getTextLine(props, succF, errF) {
             let lineNo = props.lineNo;
             let textLines = props.document.textLines;
@@ -44,7 +45,7 @@ define(["require", "exports", "react", "jquery", "./SiegelAndSowilo"], function 
             react_1.default.createElement("div", { className: properties.cssClassLineNo },
                 state.lineNo,
                 ":"),
-            react_1.default.createElement("div", { id: "editLine", onFocus: setFocus(properties.lineNo), className: properties.cssClassLine, contentEditable: true, onKeyDown: e => properties.ProcessKeyDownEventForVisibleLines(e.key, e.ctrlKey) }, line),
+            react_1.default.createElement("div", { id: "editLine", className: properties.cssClassLine }, line),
             react_1.default.createElement("div", { className: properties.cssClassLineFunction }, "\u2503\u00A0")), 
         // SowiloErrFunc: if access to line was not ksuccessful, an error message will be rendered here
         (state, calledFName, errCls, ...args) => react_1.default.createElement("div", { className: "row" },

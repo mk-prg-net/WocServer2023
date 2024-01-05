@@ -85,6 +85,8 @@ function CrossWriter(properties: ICrossWriterProps) {
         keyGen : CreateKeyGenerator()
     });
 
+    let invisibleInputFildForEdit = React.useRef<HTMLInputElement>(null);
+
     function LoadResourcesFromServer() {
         if (state.init) {
             let keyGenerator = CreateKeyGenerator();
@@ -177,6 +179,10 @@ function CrossWriter(properties: ICrossWriterProps) {
                     });
                 });
         }
+
+        if (invisibleInputFildForEdit !== null &&  invisibleInputFildForEdit !== undefined) {
+            invisibleInputFildForEdit.current.focus();
+        }
     }
 
     React.useEffect(() => LoadResourcesFromServer(), []);
@@ -258,7 +264,7 @@ function CrossWriter(properties: ICrossWriterProps) {
                 nytKeywords={state.nytKeywords}></CrossWriterEditLine>);
 
             AddPostLines(vLines, currentCursorLine, state.document.LineCount());
-        }
+        }        
 
         return vLines;
     }
@@ -484,10 +490,12 @@ function CrossWriter(properties: ICrossWriterProps) {
                     <button id="help" className="btn btn-normal">🕮 Help</button>
                 </nav>
             </header>
+
+            <input ref={invisibleInputFildForEdit} onKeyDown={e => ProcessKeyDownEventForVisibleLines(e.key, e.ctrlKey)}></input>
             
             <div id="visibleLines" className="VisibleLines">
                 {VisibleLines()}
-            </div>
+            input</div>
 
             <footer className="row">
                 <div id="statusLine" className="col col-10">Line: {state.cursor.currentLineNo} Col: {state.cursor.currentColNo} #Lines: {state.document.LineCount()} </div>

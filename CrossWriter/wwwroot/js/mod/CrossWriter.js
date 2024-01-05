@@ -42,6 +42,7 @@ define(["require", "exports", "jquery", "react", "react-dom", "./CrossWriterEdit
             statusText: "start",
             keyGen: CreateKeyGenerator()
         });
+        let invisibleInputFildForEdit = react_1.default.useRef(null);
         function LoadResourcesFromServer() {
             if (state.init) {
                 let keyGenerator = CreateKeyGenerator();
@@ -121,6 +122,9 @@ define(["require", "exports", "jquery", "react", "react-dom", "./CrossWriterEdit
                         keyGen: keyGenerator
                     });
                 });
+            }
+            if (invisibleInputFildForEdit !== null && invisibleInputFildForEdit !== undefined) {
+                invisibleInputFildForEdit.current.focus();
             }
         }
         react_1.default.useEffect(() => LoadResourcesFromServer(), []);
@@ -325,7 +329,10 @@ define(["require", "exports", "jquery", "react", "react-dom", "./CrossWriterEdit
                     react_1.default.createElement("button", { id: "btnOpenFile", className: "btn btn-normal" }, "\uD83D\uDDBA Open"),
                     react_1.default.createElement("button", { id: "btnSave", className: "btn btn-normal" }, "\uD83D\uDDAB Save"),
                     react_1.default.createElement("button", { id: "help", className: "btn btn-normal" }, "\uD83D\uDD6E Help"))),
-            react_1.default.createElement("div", { id: "visibleLines", className: "VisibleLines" }, VisibleLines()),
+            react_1.default.createElement("input", { ref: invisibleInputFildForEdit, onKeyDown: e => ProcessKeyDownEventForVisibleLines(e.key, e.ctrlKey) }),
+            react_1.default.createElement("div", { id: "visibleLines", className: "VisibleLines" },
+                VisibleLines(),
+                "input"),
             react_1.default.createElement("footer", { className: "row" },
                 react_1.default.createElement("div", { id: "statusLine", className: "col col-10" },
                     "Line: ",

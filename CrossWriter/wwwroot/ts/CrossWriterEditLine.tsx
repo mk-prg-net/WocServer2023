@@ -36,7 +36,7 @@ export function CrossWriterEditLine(properties: ICrossWriterEditLineProps) {
     // geladen. Hier wird nur eine referenz auf die Struktur abgelegt.
     nytKeywords = properties.nytKeywords;
 
-
+    let editLineRef = React.useRef();
 
     function getTextLine(props: ICrossWriterEditLineProps, succF: SiegelSuccessFunc<ICrossWriterEditLineProps>, errF: SowiloErrFunc<ICrossWriterEditLineProps>): any {
         let lineNo = props.lineNo;
@@ -74,7 +74,7 @@ export function CrossWriterEditLine(properties: ICrossWriterEditLineProps) {
             (state, line) =>
                 <div className={"row"}>
                     <div className={properties.cssClassLineNo}>{state.lineNo}:</div>
-                    <div id="editLine" onFocus={ setFocus(properties.lineNo) } className={properties.cssClassLine} contentEditable onKeyDown={e => properties.ProcessKeyDownEventForVisibleLines(e.key, e.ctrlKey) }>
+                    <div id="editLine" className={properties.cssClassLine}>
                         {line}
                     </div>
                     <div className={properties.cssClassLineFunction}>┃&nbsp;</div>
