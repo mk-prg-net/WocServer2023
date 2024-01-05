@@ -56,7 +56,7 @@ export function CrossWriterEditLine(properties: ICrossWriterEditLineProps) {
             let textLine = props.document.textLines[lineNo];
             let cursorPos = props.cursor.currentColNo;
             let left = textLine.substring(0, cursorPos);
-            let right = textLine.substring(cursorPos + 1);
+            let right = textLine.substring(cursorPos);
 
             res = succF(props, left, right);
         }
