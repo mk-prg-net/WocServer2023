@@ -3,11 +3,12 @@
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-define(["require", "exports", "react", "./SiegelAndSowilo"], function (require, exports, react_1, SiegelAndSowilo_1) {
+define(["require", "exports", "react", "jquery", "./SiegelAndSowilo"], function (require, exports, react_1, jquery_1, SiegelAndSowilo_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.CrossWriterEditLine = void 0;
     react_1 = __importDefault(react_1);
+    jquery_1 = __importDefault(jquery_1);
     // List of all NYT Keywords. Must be loaded from Server
     var nytKeywords;
     function CrossWriterEditLine(properties) {
@@ -32,6 +33,9 @@ define(["require", "exports", "react", "./SiegelAndSowilo"], function (require, 
             }
             return res;
         }
+        function setFocus(lineNo) {
+            (0, jquery_1.default)("#editLine").setCursorPosition(6);
+        }
         return (getTextLine(
         // State of Component
         properties, 
@@ -40,7 +44,7 @@ define(["require", "exports", "react", "./SiegelAndSowilo"], function (require, 
             react_1.default.createElement("div", { className: properties.cssClassLineNo },
                 state.lineNo,
                 ":"),
-            react_1.default.createElement("div", { className: properties.cssClassLine, contentEditable: true, onKeyDown: e => properties.ProcessKeyDownEventForVisibleLines(e.key, e.ctrlKey) }, line),
+            react_1.default.createElement("div", { id: "editLine", onFocus: setFocus(properties.lineNo), className: properties.cssClassLine, contentEditable: true, onKeyDown: e => properties.ProcessKeyDownEventForVisibleLines(e.key, e.ctrlKey) }, line),
             react_1.default.createElement("div", { className: properties.cssClassLineFunction }, "\u2503\u00A0")), 
         // SowiloErrFunc: if access to line was not ksuccessful, an error message will be rendered here
         (state, calledFName, errCls, ...args) => react_1.default.createElement("div", { className: "row" },

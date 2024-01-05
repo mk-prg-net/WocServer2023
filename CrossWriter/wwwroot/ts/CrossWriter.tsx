@@ -1,19 +1,17 @@
 ﻿// mko, 28.12.2023
 // Main react Component of CrossWriter
 
-import React, { useEffect } from "react";
-import ReactDom from "react-dom"
-import $ from "jquery"
+import $ from "jquery";
+import React from "react";
+import ReactDom from "react-dom";
 
-import { ErrorClasses, SiegelSuccessFunc, SowiloErrFunc, ArgumentValidationFailedDescriptor } from "./SiegelAndSowilo";
 
-import NamingIds from "./NamingIds";
 import INamingContainer from "./INamingContainer";
 
-import { IDocument, IDocumentCursor, IDocumentHead, CreateDocument } from "./IDocument";
-import { CrossWriterLine, ICrossWriterLineProps } from "./CrossWriterLine";
-import { CrossWriterEditLine, ICrossWriterEditLineProps } from "./CrossWriterEditLine";
-import { CrossWriterEmptyLine, ICrossWriterEmptyLineProps } from "./CrossWriterEmptyLine";
+import { CrossWriterEditLine } from "./CrossWriterEditLine";
+import { CrossWriterEmptyLine } from "./CrossWriterEmptyLine";
+import { CrossWriterLine } from "./CrossWriterLine";
+import { CreateDocument, IDocument, IDocumentCursor } from "./IDocument";
 
 interface ICrossWriterProps {
     ServerOrigin: string,    
@@ -43,6 +41,16 @@ interface ICrossWriterState {
 
     // A short text, describing current status of edit control
     statusText: string
+
+    // Generates unique Keys
+    keyGen: () => number
+}
+
+function CreateKeyGenerator(): () => number
+{
+    let key = Math.floor(Math.random() * 1000000);
+
+    return () => key++;
 }
 
 // This must be an uneven Number (count pre- Lines, edit- Line, count post- Lines)
@@ -73,11 +81,14 @@ function CrossWriter(properties: ICrossWriterProps) {
         },
         cursor: { currentLineNo: 0, currentColNo: 0 },
         visibleLines: CountVisibleLines,
-        statusText: "start"
+        statusText: "start",
+        keyGen : CreateKeyGenerator()
     });
 
     function LoadResourcesFromServer() {
         if (state.init) {
+            let keyGenerator = CreateKeyGenerator();
+
             $.ajax(`${properties.ServerOrigin}/NamingContainers?NC=${properties.NameSpaceNytNamingContainers}`, { method: "GET" })
                 .done((data, textStatus, jqXhr) => {
                     let _ncList = data as Array<INamingContainer>;
@@ -111,7 +122,8 @@ function CrossWriter(properties: ICrossWriterProps) {
                                             document: doc,
                                             cursor: { currentColNo: 0, currentLineNo: 0 },
                                             visibleLines: CountVisibleLines,
-                                            statusText: `Resources and document ${properties.DocumentName} loaded successful from Server`
+                                            statusText: `Resources and document ${properties.DocumentName} loaded successful from Server`,
+                                            keyGen: keyGenerator
                                         });
                                         return "";
                                     },
@@ -124,7 +136,8 @@ function CrossWriter(properties: ICrossWriterProps) {
                                             document: state.document,
                                             cursor: state.cursor,
                                             visibleLines: CountVisibleLines,
-                                            statusText: `Resources loaded successful from Server, but not the Document. ${fName} failed, ErrClass: ${errClass}, ${args.join(", ")}`
+                                            statusText: `Resources loaded successful from Server, but not the Document. ${fName} failed, ErrClass: ${errClass}, ${args.join(", ")}`,
+                                            keyGen: keyGenerator
                                         });
                                         return "";
                                     }
@@ -141,7 +154,8 @@ function CrossWriter(properties: ICrossWriterProps) {
                             document: state.document,
                             cursor: state.cursor,
                             visibleLines: CountVisibleLines,
-                            statusText: "Resources loaded successful from Server"
+                            statusText: "Resources loaded successful from Server",
+                            keyGen: keyGenerator
                         });
                     }
 
@@ -158,7 +172,8 @@ function CrossWriter(properties: ICrossWriterProps) {
                         document: state.document,
                         cursor: state.cursor,
                         visibleLines: CountVisibleLines,
-                        statusText: errTxt
+                        statusText: errTxt,
+                        keyGen: keyGenerator
                     });
                 });
         }
@@ -174,7 +189,7 @@ function CrossWriter(properties: ICrossWriterProps) {
     // Zeilen des Dokumentes
     function VisibleLines(): any[] {
 
-        let vLines = [<div></div>];
+        let vLines = [];
 
         let lineCount = state.document.LineCount;
         let currentCursorLine = state.cursor.currentLineNo;
@@ -199,17 +214,18 @@ function CrossWriter(properties: ICrossWriterProps) {
         let prePostLines = CountPrePostLines();
 
         if (lineCount() === 0) {
-            // Fall: [00E00] leeres Dokument
-
+            // Fall: [00E00] leeres Dokument            
             // Leerzeilen vor der Editor- zeile aufbauen
             for (var i = 0; i < prePostLines; i++) {
                 vLines.push(<CrossWriterEmptyLine
+                    key={state.keyGen()}
                     cssClassLineNo="col cw-3 lineNo"
                     cssClassLine="col cw-56 lineContent"
                     cssClassLineFunction="col cw-6 lineFunc"></CrossWriterEmptyLine>);
             }
 
             vLines.push(<CrossWriterEditLine
+                key={state.keyGen()}
                 document={state.document}
                 lineNo={currentCursorLine}
                 cssClassLineNo="col cw-3 lineNo"
@@ -221,6 +237,7 @@ function CrossWriter(properties: ICrossWriterProps) {
             // Leerzeilen nach der Editor- zeile aufbauen
             for (var i = 0; i < prePostLines; i++) {
                 vLines.push(<CrossWriterEmptyLine
+                    key={state.keyGen()}
                     cssClassLineNo="col cw-3 lineNo"
                     cssClassLine="col cw-56 lineContent"
                     cssClassLineFunction="col cw-6 lineFunc"></CrossWriterEmptyLine>);
@@ -231,6 +248,7 @@ function CrossWriter(properties: ICrossWriterProps) {
             AddPreLines(vLines, currentCursorLine);
 
             vLines.push(<CrossWriterEditLine
+                key={state.keyGen()}
                 document={state.document}
                 lineNo={currentCursorLine}
                 cssClassLineNo="col cw-3 lineNo"
@@ -265,7 +283,8 @@ function CrossWriter(properties: ICrossWriterProps) {
                     init: state.init,
                     nytKeywords: state.nytKeywords,
                     statusText: state.statusText,
-                    visibleLines: CountVisibleLines
+                    visibleLines: CountVisibleLines,
+                    keyGen: state.keyGen
 
                 })
             }
@@ -284,8 +303,8 @@ function CrossWriter(properties: ICrossWriterProps) {
                     init: state.init,
                     nytKeywords: state.nytKeywords,
                     statusText: state.statusText,
-                    visibleLines: CountVisibleLines
-
+                    visibleLines: CountVisibleLines,
+                    keyGen: state.keyGen
                 })
             }
         }
@@ -304,8 +323,8 @@ function CrossWriter(properties: ICrossWriterProps) {
                     init: state.init,
                     nytKeywords: state.nytKeywords,
                     statusText: state.statusText,
-                    visibleLines: CountVisibleLines
-
+                    visibleLines: CountVisibleLines,
+                    keyGen: state.keyGen
                 })
             }
         }
@@ -324,8 +343,8 @@ function CrossWriter(properties: ICrossWriterProps) {
                     init: state.init,
                     nytKeywords: state.nytKeywords,
                     statusText: state.statusText,
-                    visibleLines: CountVisibleLines
-
+                    visibleLines: CountVisibleLines,
+                    keyGen: state.keyGen
                 })
             }
         }
@@ -361,7 +380,8 @@ function CrossWriter(properties: ICrossWriterProps) {
                 init: state.init,
                 nytKeywords: state.nytKeywords,
                 statusText: state.statusText,
-                visibleLines: CountVisibleLines
+                visibleLines: CountVisibleLines,
+                keyGen: state.keyGen
             })
         }
 
@@ -369,13 +389,14 @@ function CrossWriter(properties: ICrossWriterProps) {
 
     function AddPreLines(vLines: any[], currentCursorLine: number) {
 
-        let prePostLines = CountPrePostLines();
+        let prePostLines = CountPrePostLines();        
 
         if (prePostLines - currentCursorLine > 0) {
             // Leerraumzeilen am Anfang einfügen, falls Dokumentzeilen sichtbare Fläche nicht vollständig
             // ausfüllen.
             for (var i = 0, countEmptyLines = prePostLines - currentCursorLine; i < countEmptyLines; i++) {
                 vLines.push(<CrossWriterEmptyLine
+                    key={state.keyGen()}
                     cssClassLineNo="col cw-3 lineNo"
                     cssClassLine="col cw-56 lineContent"
                     cssClassLineFunction="col cw-6 lineFunc"></CrossWriterEmptyLine>);
@@ -384,6 +405,7 @@ function CrossWriter(properties: ICrossWriterProps) {
             // Der Editorzeile vorauseilende Zeilen des Dokumentes ausgeben
             for (var i = 0; i < currentCursorLine; i++, j++) {
                 vLines.push(<CrossWriterLine
+                    key={state.keyGen()}
                     document={state.document}
                     lineNo={i}
                     cssClassLineNo="col cw-3 lineNo"
@@ -398,6 +420,7 @@ function CrossWriter(properties: ICrossWriterProps) {
             // Der Editorzeile vorauseilende Zeilen des Dokumentes ausgeben
             for (var i = 0, j = currentCursorLine - 1 - prePostLines; i < prePostLines; i++, j++) {
                 vLines.push(<CrossWriterLine
+                    key={state.keyGen()}
                     document={state.document}
                     lineNo={j}
                     cssClassLineNo="col cw-3 lineNo"
@@ -410,12 +433,13 @@ function CrossWriter(properties: ICrossWriterProps) {
 
     function AddPostLines(vLines: any[], currentCursorLine: number, LineCount: number) {
 
-        let prePostLines = CountPrePostLines();
-
+        let prePostLines = CountPrePostLines();      
 
         if (LineCount - currentCursorLine < prePostLines) {
             for (var i = currentCursorLine + 1; i < LineCount; i++) {
+
                 vLines.push(<CrossWriterLine
+                    key={state.keyGen()}
                     document={state.document}
                     lineNo={i}
                     cssClassLineNo="col cw-3 lineNo"
@@ -427,6 +451,7 @@ function CrossWriter(properties: ICrossWriterProps) {
             // Rest mit Leerzeilen auffüllen
             for (var i = 0, countEmptyLines = prePostLines - (LineCount - currentCursorLine); i < countEmptyLines; i++) {
                 vLines.push(<CrossWriterEmptyLine
+                    key={state.keyGen() }
                     cssClassLineNo="col cw-3 lineNo"
                     cssClassLine="col cw-56 lineContent"
                     cssClassLineFunction="col cw-6 lineFunc"></CrossWriterEmptyLine>);
@@ -438,6 +463,7 @@ function CrossWriter(properties: ICrossWriterProps) {
 
             for (var i = 0, j = currentCursorLine + 1; i < prePostLines; i++, j++) {
                 vLines.push(<CrossWriterLine
+                    key={state.keyGen() }
                     document={state.document}
                     lineNo={j}
                     cssClassLineNo="col cw-3 lineNo"
@@ -459,7 +485,7 @@ function CrossWriter(properties: ICrossWriterProps) {
                 </nav>
             </header>
             
-            <div id="visibleLines" onKeyDown={e => ProcessKeyDownEventForVisibleLines(e.key, e.ctrlKey )} className="VisibleLines">
+            <div id="visibleLines" className="VisibleLines">
                 {VisibleLines()}
             </div>
 
@@ -472,12 +498,18 @@ function CrossWriter(properties: ICrossWriterProps) {
 
 export default function CrossWriterSetUp(idRoot: string, ServerOrigin: string, documentName: string) {
 
-    ReactDom.render(<CrossWriter        
-        ServerOrigin={ServerOrigin}
-        DocumentName={documentName}
-        NameSpaceNytNamingContainers="MKPRG.Naming.NYT.Keywords"
-        UserId="mko"        
-    />, $(`#${idRoot}`)[0]);
+    ReactDom.render(
+        <React.StrictMode>
+            
+            <CrossWriter 
+            
+            ServerOrigin={ServerOrigin}
+            DocumentName={documentName}
+            NameSpaceNytNamingContainers="MKPRG.Naming.NYT.Keywords"
+            UserId="mko" />
+            
+        </React.StrictMode>
+            , $(`#${idRoot}`)[0]);
 
 }
 

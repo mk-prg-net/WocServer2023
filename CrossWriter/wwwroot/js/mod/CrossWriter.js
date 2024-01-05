@@ -3,12 +3,16 @@
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-define(["require", "exports", "react", "react-dom", "jquery", "./IDocument", "./CrossWriterLine", "./CrossWriterEditLine", "./CrossWriterEmptyLine"], function (require, exports, react_1, react_dom_1, jquery_1, IDocument_1, CrossWriterLine_1, CrossWriterEditLine_1, CrossWriterEmptyLine_1) {
+define(["require", "exports", "jquery", "react", "react-dom", "./CrossWriterEditLine", "./CrossWriterEmptyLine", "./CrossWriterLine", "./IDocument"], function (require, exports, jquery_1, react_1, react_dom_1, CrossWriterEditLine_1, CrossWriterEmptyLine_1, CrossWriterLine_1, IDocument_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
+    jquery_1 = __importDefault(jquery_1);
     react_1 = __importDefault(react_1);
     react_dom_1 = __importDefault(react_dom_1);
-    jquery_1 = __importDefault(jquery_1);
+    function CreateKeyGenerator() {
+        let key = Math.floor(Math.random() * 1000000);
+        return () => key++;
+    }
     // This must be an uneven Number (count pre- Lines, edit- Line, count post- Lines)
     const CountVisibleLines = 31;
     // Default- Namingcontainer
@@ -35,10 +39,12 @@ define(["require", "exports", "react", "react-dom", "jquery", "./IDocument", "./
             },
             cursor: { currentLineNo: 0, currentColNo: 0 },
             visibleLines: CountVisibleLines,
-            statusText: "start"
+            statusText: "start",
+            keyGen: CreateKeyGenerator()
         });
         function LoadResourcesFromServer() {
             if (state.init) {
+                let keyGenerator = CreateKeyGenerator();
                 jquery_1.default.ajax(`${properties.ServerOrigin}/NamingContainers?NC=${properties.NameSpaceNytNamingContainers}`, { method: "GET" })
                     .done((data, textStatus, jqXhr) => {
                     let _ncList = data;
@@ -64,7 +70,8 @@ define(["require", "exports", "react", "react-dom", "jquery", "./IDocument", "./
                                     document: doc,
                                     cursor: { currentColNo: 0, currentLineNo: 0 },
                                     visibleLines: CountVisibleLines,
-                                    statusText: `Resources and document ${properties.DocumentName} loaded successful from Server`
+                                    statusText: `Resources and document ${properties.DocumentName} loaded successful from Server`,
+                                    keyGen: keyGenerator
                                 });
                                 return "";
                             }, 
@@ -77,7 +84,8 @@ define(["require", "exports", "react", "react-dom", "jquery", "./IDocument", "./
                                     document: state.document,
                                     cursor: state.cursor,
                                     visibleLines: CountVisibleLines,
-                                    statusText: `Resources loaded successful from Server, but not the Document. ${fName} failed, ErrClass: ${errClass}, ${args.join(", ")}`
+                                    statusText: `Resources loaded successful from Server, but not the Document. ${fName} failed, ErrClass: ${errClass}, ${args.join(", ")}`,
+                                    keyGen: keyGenerator
                                 });
                                 return "";
                             });
@@ -94,7 +102,8 @@ define(["require", "exports", "react", "react-dom", "jquery", "./IDocument", "./
                             document: state.document,
                             cursor: state.cursor,
                             visibleLines: CountVisibleLines,
-                            statusText: "Resources loaded successful from Server"
+                            statusText: "Resources loaded successful from Server",
+                            keyGen: keyGenerator
                         });
                     }
                 })
@@ -108,7 +117,8 @@ define(["require", "exports", "react", "react-dom", "jquery", "./IDocument", "./
                         document: state.document,
                         cursor: state.cursor,
                         visibleLines: CountVisibleLines,
-                        statusText: errTxt
+                        statusText: errTxt,
+                        keyGen: keyGenerator
                     });
                 });
             }
@@ -121,7 +131,7 @@ define(["require", "exports", "react", "react-dom", "jquery", "./IDocument", "./
         // Erzeugt Visuelle ausgabe der Edit- Zeile und der unmittelbar vor und nach der Edit- Zeile befindlichen
         // Zeilen des Dokumentes
         function VisibleLines() {
-            let vLines = [react_1.default.createElement("div", null)];
+            let vLines = [];
             let lineCount = state.document.LineCount;
             let currentCursorLine = state.cursor.currentLineNo;
             // Fälle: Positionierung des Fensters [] mit sichbaren Edit- Zeilen. * ist die Eingabezeile
@@ -141,20 +151,20 @@ define(["require", "exports", "react", "react-dom", "jquery", "./IDocument", "./
             // ++++[++*00]  LineCount == 7 currentLineNo == 6 LineCount > prePostCount
             let prePostLines = CountPrePostLines();
             if (lineCount() === 0) {
-                // Fall: [00E00] leeres Dokument
+                // Fall: [00E00] leeres Dokument            
                 // Leerzeilen vor der Editor- zeile aufbauen
                 for (var i = 0; i < prePostLines; i++) {
-                    vLines.push(react_1.default.createElement(CrossWriterEmptyLine_1.CrossWriterEmptyLine, { cssClassLineNo: "col cw-3 lineNo", cssClassLine: "col cw-56 lineContent", cssClassLineFunction: "col cw-6 lineFunc" }));
+                    vLines.push(react_1.default.createElement(CrossWriterEmptyLine_1.CrossWriterEmptyLine, { key: state.keyGen(), cssClassLineNo: "col cw-3 lineNo", cssClassLine: "col cw-56 lineContent", cssClassLineFunction: "col cw-6 lineFunc" }));
                 }
-                vLines.push(react_1.default.createElement(CrossWriterEditLine_1.CrossWriterEditLine, { document: state.document, lineNo: currentCursorLine, cssClassLineNo: "col cw-3 lineNo", cssClassLine: "col cw-56 EditLine", cssClassLineFunction: "col cw-6 lineFunc", ProcessKeyDownEventForVisibleLines: ProcessKeyDownEventForVisibleLines, nytKeywords: state.nytKeywords }));
+                vLines.push(react_1.default.createElement(CrossWriterEditLine_1.CrossWriterEditLine, { key: state.keyGen(), document: state.document, lineNo: currentCursorLine, cssClassLineNo: "col cw-3 lineNo", cssClassLine: "col cw-56 EditLine", cssClassLineFunction: "col cw-6 lineFunc", ProcessKeyDownEventForVisibleLines: ProcessKeyDownEventForVisibleLines, nytKeywords: state.nytKeywords }));
                 // Leerzeilen nach der Editor- zeile aufbauen
                 for (var i = 0; i < prePostLines; i++) {
-                    vLines.push(react_1.default.createElement(CrossWriterEmptyLine_1.CrossWriterEmptyLine, { cssClassLineNo: "col cw-3 lineNo", cssClassLine: "col cw-56 lineContent", cssClassLineFunction: "col cw-6 lineFunc" }));
+                    vLines.push(react_1.default.createElement(CrossWriterEmptyLine_1.CrossWriterEmptyLine, { key: state.keyGen(), cssClassLineNo: "col cw-3 lineNo", cssClassLine: "col cw-56 lineContent", cssClassLineFunction: "col cw-6 lineFunc" }));
                 }
             }
             else {
                 AddPreLines(vLines, currentCursorLine);
-                vLines.push(react_1.default.createElement(CrossWriterEditLine_1.CrossWriterEditLine, { document: state.document, lineNo: currentCursorLine, cssClassLineNo: "col cw-3 lineNo", cssClassLine: "col cw-56 EditLine", cssClassLineFunction: "col cw-6 lineFunc", ProcessKeyDownEventForVisibleLines: ProcessKeyDownEventForVisibleLines, nytKeywords: state.nytKeywords }));
+                vLines.push(react_1.default.createElement(CrossWriterEditLine_1.CrossWriterEditLine, { key: state.keyGen(), document: state.document, lineNo: currentCursorLine, cssClassLineNo: "col cw-3 lineNo", cssClassLine: "col cw-56 EditLine", cssClassLineFunction: "col cw-6 lineFunc", ProcessKeyDownEventForVisibleLines: ProcessKeyDownEventForVisibleLines, nytKeywords: state.nytKeywords }));
                 AddPostLines(vLines, currentCursorLine, state.document.LineCount());
             }
             return vLines;
@@ -177,7 +187,8 @@ define(["require", "exports", "react", "react-dom", "jquery", "./IDocument", "./
                         init: state.init,
                         nytKeywords: state.nytKeywords,
                         statusText: state.statusText,
-                        visibleLines: CountVisibleLines
+                        visibleLines: CountVisibleLines,
+                        keyGen: state.keyGen
                     });
                 }
             }
@@ -194,7 +205,8 @@ define(["require", "exports", "react", "react-dom", "jquery", "./IDocument", "./
                         init: state.init,
                         nytKeywords: state.nytKeywords,
                         statusText: state.statusText,
-                        visibleLines: CountVisibleLines
+                        visibleLines: CountVisibleLines,
+                        keyGen: state.keyGen
                     });
                 }
             }
@@ -212,7 +224,8 @@ define(["require", "exports", "react", "react-dom", "jquery", "./IDocument", "./
                         init: state.init,
                         nytKeywords: state.nytKeywords,
                         statusText: state.statusText,
-                        visibleLines: CountVisibleLines
+                        visibleLines: CountVisibleLines,
+                        keyGen: state.keyGen
                     });
                 }
             }
@@ -230,7 +243,8 @@ define(["require", "exports", "react", "react-dom", "jquery", "./IDocument", "./
                         init: state.init,
                         nytKeywords: state.nytKeywords,
                         statusText: state.statusText,
-                        visibleLines: CountVisibleLines
+                        visibleLines: CountVisibleLines,
+                        keyGen: state.keyGen
                     });
                 }
             }
@@ -261,7 +275,8 @@ define(["require", "exports", "react", "react-dom", "jquery", "./IDocument", "./
                     init: state.init,
                     nytKeywords: state.nytKeywords,
                     statusText: state.statusText,
-                    visibleLines: CountVisibleLines
+                    visibleLines: CountVisibleLines,
+                    keyGen: state.keyGen
                 });
             }
         }
@@ -271,17 +286,17 @@ define(["require", "exports", "react", "react-dom", "jquery", "./IDocument", "./
                 // Leerraumzeilen am Anfang einfügen, falls Dokumentzeilen sichtbare Fläche nicht vollständig
                 // ausfüllen.
                 for (var i = 0, countEmptyLines = prePostLines - currentCursorLine; i < countEmptyLines; i++) {
-                    vLines.push(react_1.default.createElement(CrossWriterEmptyLine_1.CrossWriterEmptyLine, { cssClassLineNo: "col cw-3 lineNo", cssClassLine: "col cw-56 lineContent", cssClassLineFunction: "col cw-6 lineFunc" }));
+                    vLines.push(react_1.default.createElement(CrossWriterEmptyLine_1.CrossWriterEmptyLine, { key: state.keyGen(), cssClassLineNo: "col cw-3 lineNo", cssClassLine: "col cw-56 lineContent", cssClassLineFunction: "col cw-6 lineFunc" }));
                 }
                 // Der Editorzeile vorauseilende Zeilen des Dokumentes ausgeben
                 for (var i = 0; i < currentCursorLine; i++, j++) {
-                    vLines.push(react_1.default.createElement(CrossWriterLine_1.CrossWriterLine, { document: state.document, lineNo: i, cssClassLineNo: "col cw-3 lineNo", cssClassLine: "col cw-56 lineContent", cssClassLineFunction: "col cw-6 lineFunc", nytKeywords: state.nytKeywords }));
+                    vLines.push(react_1.default.createElement(CrossWriterLine_1.CrossWriterLine, { key: state.keyGen(), document: state.document, lineNo: i, cssClassLineNo: "col cw-3 lineNo", cssClassLine: "col cw-56 lineContent", cssClassLineFunction: "col cw-6 lineFunc", nytKeywords: state.nytKeywords }));
                 }
             }
             else {
                 // Der Editorzeile vorauseilende Zeilen des Dokumentes ausgeben
                 for (var i = 0, j = currentCursorLine - 1 - prePostLines; i < prePostLines; i++, j++) {
-                    vLines.push(react_1.default.createElement(CrossWriterLine_1.CrossWriterLine, { document: state.document, lineNo: j, cssClassLineNo: "col cw-3 lineNo", cssClassLine: "col cw-56 lineContent", cssClassLineFunction: "col cw-6 lineFunc", nytKeywords: state.nytKeywords }));
+                    vLines.push(react_1.default.createElement(CrossWriterLine_1.CrossWriterLine, { key: state.keyGen(), document: state.document, lineNo: j, cssClassLineNo: "col cw-3 lineNo", cssClassLine: "col cw-56 lineContent", cssClassLineFunction: "col cw-6 lineFunc", nytKeywords: state.nytKeywords }));
                 }
             }
         }
@@ -289,17 +304,17 @@ define(["require", "exports", "react", "react-dom", "jquery", "./IDocument", "./
             let prePostLines = CountPrePostLines();
             if (LineCount - currentCursorLine < prePostLines) {
                 for (var i = currentCursorLine + 1; i < LineCount; i++) {
-                    vLines.push(react_1.default.createElement(CrossWriterLine_1.CrossWriterLine, { document: state.document, lineNo: i, cssClassLineNo: "col cw-3 lineNo", cssClassLine: "col cw-56 lineContent", cssClassLineFunction: "col cw-6 lineFunc", nytKeywords: state.nytKeywords }));
+                    vLines.push(react_1.default.createElement(CrossWriterLine_1.CrossWriterLine, { key: state.keyGen(), document: state.document, lineNo: i, cssClassLineNo: "col cw-3 lineNo", cssClassLine: "col cw-56 lineContent", cssClassLineFunction: "col cw-6 lineFunc", nytKeywords: state.nytKeywords }));
                 }
                 // Rest mit Leerzeilen auffüllen
                 for (var i = 0, countEmptyLines = prePostLines - (LineCount - currentCursorLine); i < countEmptyLines; i++) {
-                    vLines.push(react_1.default.createElement(CrossWriterEmptyLine_1.CrossWriterEmptyLine, { cssClassLineNo: "col cw-3 lineNo", cssClassLine: "col cw-56 lineContent", cssClassLineFunction: "col cw-6 lineFunc" }));
+                    vLines.push(react_1.default.createElement(CrossWriterEmptyLine_1.CrossWriterEmptyLine, { key: state.keyGen(), cssClassLineNo: "col cw-3 lineNo", cssClassLine: "col cw-56 lineContent", cssClassLineFunction: "col cw-6 lineFunc" }));
                 }
             }
             else {
                 // Alle sichtbaren Zeilen nach der Edit- Zeile mit Zeilen aus dem Dokument füllen
                 for (var i = 0, j = currentCursorLine + 1; i < prePostLines; i++, j++) {
-                    vLines.push(react_1.default.createElement(CrossWriterLine_1.CrossWriterLine, { document: state.document, lineNo: j, cssClassLineNo: "col cw-3 lineNo", cssClassLine: "col cw-56 lineContent", cssClassLineFunction: "col cw-6 lineFunc", nytKeywords: state.nytKeywords }));
+                    vLines.push(react_1.default.createElement(CrossWriterLine_1.CrossWriterLine, { key: state.keyGen(), document: state.document, lineNo: j, cssClassLineNo: "col cw-3 lineNo", cssClassLine: "col cw-56 lineContent", cssClassLineFunction: "col cw-6 lineFunc", nytKeywords: state.nytKeywords }));
                 }
             }
         }
@@ -310,7 +325,7 @@ define(["require", "exports", "react", "react-dom", "jquery", "./IDocument", "./
                     react_1.default.createElement("button", { id: "btnOpenFile", className: "btn btn-normal" }, "\uD83D\uDDBA Open"),
                     react_1.default.createElement("button", { id: "btnSave", className: "btn btn-normal" }, "\uD83D\uDDAB Save"),
                     react_1.default.createElement("button", { id: "help", className: "btn btn-normal" }, "\uD83D\uDD6E Help"))),
-            react_1.default.createElement("div", { id: "visibleLines", onKeyDown: e => ProcessKeyDownEventForVisibleLines(e.key, e.ctrlKey), className: "VisibleLines" }, VisibleLines()),
+            react_1.default.createElement("div", { id: "visibleLines", className: "VisibleLines" }, VisibleLines()),
             react_1.default.createElement("footer", { className: "row" },
                 react_1.default.createElement("div", { id: "statusLine", className: "col col-10" },
                     "Line: ",
@@ -322,7 +337,8 @@ define(["require", "exports", "react", "react-dom", "jquery", "./IDocument", "./
                     " "))));
     }
     function CrossWriterSetUp(idRoot, ServerOrigin, documentName) {
-        react_dom_1.default.render(react_1.default.createElement(CrossWriter, { ServerOrigin: ServerOrigin, DocumentName: documentName, NameSpaceNytNamingContainers: "MKPRG.Naming.NYT.Keywords", UserId: "mko" }), (0, jquery_1.default)(`#${idRoot}`)[0]);
+        react_dom_1.default.render(react_1.default.createElement(react_1.default.StrictMode, null,
+            react_1.default.createElement(CrossWriter, { ServerOrigin: ServerOrigin, DocumentName: documentName, NameSpaceNytNamingContainers: "MKPRG.Naming.NYT.Keywords", UserId: "mko" })), (0, jquery_1.default)(`#${idRoot}`)[0]);
     }
     exports.default = CrossWriterSetUp;
 });

@@ -10,6 +10,12 @@ import { ErrorClasses, SiegelSuccessFunc, SowiloErrFunc, ArgumentValidationFaile
 import INamingContainer from "./INamingContainer"
 import { IDocument } from "./IDocument";
 
+declare global {
+    interface JQuery {
+        setCursorPosition(arg: number): JQuery;
+    }
+}
+
 export interface ICrossWriterEditLineProps {
     cssClassLineNo: string,
     cssClassLine: string,
@@ -29,6 +35,8 @@ export function CrossWriterEditLine(properties: ICrossWriterEditLineProps) {
     // Die Liste der Schlüsselwörter wird einmalig in der Hauptkomponente CrossWriter
     // geladen. Hier wird nur eine referenz auf die Struktur abgelegt.
     nytKeywords = properties.nytKeywords;
+
+
 
     function getTextLine(props: ICrossWriterEditLineProps, succF: SiegelSuccessFunc<ICrossWriterEditLineProps>, errF: SowiloErrFunc<ICrossWriterEditLineProps>): any {
         let lineNo = props.lineNo;
@@ -52,6 +60,10 @@ export function CrossWriterEditLine(properties: ICrossWriterEditLineProps) {
         return res;
     }
 
+    function setFocus(lineNo: number): any {
+        $("#editLine").setCursorPosition(6);
+    }
+
 
     return (
 
@@ -62,7 +74,7 @@ export function CrossWriterEditLine(properties: ICrossWriterEditLineProps) {
             (state, line) =>
                 <div className={"row"}>
                     <div className={properties.cssClassLineNo}>{state.lineNo}:</div>
-                    <div className={properties.cssClassLine} contentEditable onKeyDown={e => properties.ProcessKeyDownEventForVisibleLines(e.key, e.ctrlKey) }>
+                    <div id="editLine" onFocus={ setFocus(properties.lineNo) } className={properties.cssClassLine} contentEditable onKeyDown={e => properties.ProcessKeyDownEventForVisibleLines(e.key, e.ctrlKey) }>
                         {line}
                     </div>
                     <div className={properties.cssClassLineFunction}>┃&nbsp;</div>
