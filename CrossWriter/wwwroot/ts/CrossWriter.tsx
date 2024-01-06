@@ -5,6 +5,7 @@ import $ from "jquery";
 import React from "react";
 import ReactDom from "react-dom";
 
+import {ErrorClasses, SiegelSuccessFunc, SowiloErrFunc } from "./SiegelAndSowilo";
 import NamingIds from "./NamingIds";
 import INamingContainer from "./INamingContainer";
 
@@ -569,17 +570,39 @@ function CrossWriter(properties: ICrossWriterProps) {
         }        
     }
 
+    // Sicherer Abruf eines Namenscontainers
+    function getNameFromNc(NID: string, siegel: SiegelSuccessFunc<INamingContainer>, sowilo: SowiloErrFunc<ICrossWriterState>) : any {
+
+        if (Object.keys(state.nytKeywords).find(key => key == NID) == undefined) {
+            return sowilo(state, "getNameFromNc", ErrorClasses.ArgumentValidationFailed, `NID ${NID} cannot be found in state,´.nytKeyWords`);
+        }
+        else {
+            let nc = state.nytKeywords[NID];
+            return siegel(nc);
+        }
+    }
+
     return (
         <div id="CrossWriterCtrl" className="CrossWriter">
             <header>
                 <nav id="main_nav">
-                    <button id="btnNewFile" className="btn btn-normal">🗋 New</button>
-                    <button id="btnOpenFile" className="btn btn-normal">🖺 Open</button>
-                    <button id="btnSave" className="btn btn-normal">🖫 Save</button>
-                    <button id="help" className="btn btn-normal">🕮 Help</button>
-                    <span id="currentDocName">{state.document.documentName == undefined ? "&nbsp;" : state.document.documentName}</span>
-                    <span>{ state.nytKeywords[Nids.MKPRG.Naming.NYT.Keywords.CrossWriter].EN}</span>
-
+                    <div>
+                        <button id="btnNewFile" className="btn btn-normal">🗋 New</button>
+                        <button id="btnOpenFile" className="btn btn-normal">🖺 Open</button>
+                        <button id="btnSave" className="btn btn-normal">🖫 Save</button>
+                        <button id="help" className="btn btn-normal">🕮 Help</button>
+                        <span id="currentDocName">{state.document.documentName == undefined ? "&nbsp;" : state.document.documentName}</span>
+                    </div>
+                    <div>
+                    {getNameFromNc(Nids.MKPRG.Naming.NYT.Keywords.CrossWriter,
+                        (nc) => {
+                            return <span className="progName">{nc.EN}</span>
+                        },
+                        (cwstate, fName, errClass, descr) => {
+                            return <span className="progName">{`${fName} failed: Err Class: ${errClass}, ${descr}` }</span>
+                        }
+                    )}
+                    </div>
                 </nav>
             </header>
 

@@ -5,7 +5,6 @@
 
 
 .lineNo {
-    font-family: Consolas, Courier New, Courier, monospace;
     font-weight: bold;
     color: aqua;
     text-align:right;
@@ -13,12 +12,10 @@
 
 .lineContent {
     white-space:pre-wrap;
-    font-family: Consolas, Courier New, Courier, monospace;    
     color: whitesmoke;
 }
 
-.lineFunc {
-    font-family: Consolas, Courier New, Courier, monospace;
+.lineFunc {    
     font-weight: bold;
     color: aqua;
 }
@@ -27,13 +24,11 @@
     white-space: pre-wrap;
     border-bottom-style: solid;
     border-bottom-color: brown;
-    font-family: Consolas, Courier New, Courier, monospace;
     font-weight: bold;
     color: gold;
 }
 
 .Cursor {
-    font-family: Consolas, Courier New, Courier, monospace;
     font-weight: bold;
     color: coral;
 }

@@ -4,9 +4,7 @@
 */
 
 div.CrossWriter {
-    font-family: Consolas, Courier New, Courier, monospace;
-    font-size: 1.25em;
-    
+    font-family: 'Cascadia Code', Consolas, monospace;
 }
 
 div.VisibleLines {

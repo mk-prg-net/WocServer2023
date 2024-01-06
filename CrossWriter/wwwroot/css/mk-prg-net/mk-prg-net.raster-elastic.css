@@ -4,15 +4,22 @@
 
 
 .row {
+    /*
     content: ".";
     display: flow;
     clear: both;
     height: 0;
+        */
+    clear: both;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
 }
 
 /* Spalte */
-.col {    
-    float: left;
+.col {
+    /*float: left; */
     display: inline;
     margin: 0em;
     margin-left: 0px;

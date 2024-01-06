@@ -3,7 +3,7 @@
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-define(["require", "exports", "jquery", "react", "react-dom", "./NamingIds", "./CrossWriterEditLine", "./CrossWriterEmptyLine", "./CrossWriterLine", "./Document"], function (require, exports, jquery_1, react_1, react_dom_1, NamingIds_1, CrossWriterEditLine_1, CrossWriterEmptyLine_1, CrossWriterLine_1, Document_1) {
+define(["require", "exports", "jquery", "react", "react-dom", "./SiegelAndSowilo", "./NamingIds", "./CrossWriterEditLine", "./CrossWriterEmptyLine", "./CrossWriterLine", "./Document"], function (require, exports, jquery_1, react_1, react_dom_1, SiegelAndSowilo_1, NamingIds_1, CrossWriterEditLine_1, CrossWriterEmptyLine_1, CrossWriterLine_1, Document_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     jquery_1 = __importDefault(jquery_1);
@@ -403,15 +403,30 @@ define(["require", "exports", "jquery", "react", "react-dom", "./NamingIds", "./
                 }
             }
         }
+        // Sicherer Abruf eines Namenscontainers
+        function getNameFromNc(NID, siegel, sowilo) {
+            if (Object.keys(state.nytKeywords).find(key => key == NID) == undefined) {
+                return sowilo(state, "getNameFromNc", SiegelAndSowilo_1.ErrorClasses.ArgumentValidationFailed, `NID ${NID} cannot be found in state,´.nytKeyWords`);
+            }
+            else {
+                let nc = state.nytKeywords[NID];
+                return siegel(nc);
+            }
+        }
         return (react_1.default.createElement("div", { id: "CrossWriterCtrl", className: "CrossWriter" },
             react_1.default.createElement("header", null,
                 react_1.default.createElement("nav", { id: "main_nav" },
-                    react_1.default.createElement("button", { id: "btnNewFile", className: "btn btn-normal" }, "\uD83D\uDDCB New"),
-                    react_1.default.createElement("button", { id: "btnOpenFile", className: "btn btn-normal" }, "\uD83D\uDDBA Open"),
-                    react_1.default.createElement("button", { id: "btnSave", className: "btn btn-normal" }, "\uD83D\uDDAB Save"),
-                    react_1.default.createElement("button", { id: "help", className: "btn btn-normal" }, "\uD83D\uDD6E Help"),
-                    react_1.default.createElement("span", { id: "currentDocName" }, state.document.documentName == undefined ? "&nbsp;" : state.document.documentName),
-                    react_1.default.createElement("span", null, state.nytKeywords[Nids.MKPRG.Naming.NYT.Keywords.CrossWriter].EN))),
+                    react_1.default.createElement("div", null,
+                        react_1.default.createElement("button", { id: "btnNewFile", className: "btn btn-normal" }, "\uD83D\uDDCB New"),
+                        react_1.default.createElement("button", { id: "btnOpenFile", className: "btn btn-normal" }, "\uD83D\uDDBA Open"),
+                        react_1.default.createElement("button", { id: "btnSave", className: "btn btn-normal" }, "\uD83D\uDDAB Save"),
+                        react_1.default.createElement("button", { id: "help", className: "btn btn-normal" }, "\uD83D\uDD6E Help"),
+                        react_1.default.createElement("span", { id: "currentDocName" }, state.document.documentName == undefined ? "&nbsp;" : state.document.documentName)),
+                    react_1.default.createElement("div", null, getNameFromNc(Nids.MKPRG.Naming.NYT.Keywords.CrossWriter, (nc) => {
+                        return react_1.default.createElement("span", { className: "progName" }, nc.EN);
+                    }, (cwstate, fName, errClass, descr) => {
+                        return react_1.default.createElement("span", { className: "progName" }, `${fName} failed: Err Class: ${errClass}, ${descr}`);
+                    })))),
             react_1.default.createElement("input", { ref: invisibleInputFildForEdit, onKeyDown: e => ProcessKeyDownEventForEditLine(e.key, e.ctrlKey) }),
             react_1.default.createElement("div", { id: "visibleLines", className: "VisibleLines" },
                 ViewLines(),
