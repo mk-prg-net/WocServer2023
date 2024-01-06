@@ -23,11 +23,11 @@ export interface ICrossWriterEditLineProps {
     cssClassCursor: string,
     document: IDocument,
     cursor : IDocumentCursor,
-    nytKeywords: INamingContainer[]
+    nytKeywords: Record<string, INamingContainer>
 }
 
 // List of all NYT Keywords. Must be loaded from Server
-var nytKeywords: INamingContainer[];
+var nytKeywords: Record<string, INamingContainer>
 
 
 export function CrossWriterEditLine(properties: ICrossWriterEditLineProps) {

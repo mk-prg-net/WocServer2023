@@ -14,12 +14,12 @@ export interface ICrossWriterLineProps {
     cssClassLineFunction: string,
     lineNo: number,
     document:  IDocument,
-    nytKeywords: INamingContainer[]    
+    nytKeywords: Record<string, INamingContainer>    
 }
 
 
 // List of all NYT Keywords. Must be loaded from Server
-var nytKeywords: INamingContainer[];
+var nytKeywords: Record<string, INamingContainer>;
 
 
 export function CrossWriterLine(properties: ICrossWriterLineProps) {

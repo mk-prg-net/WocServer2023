@@ -31,7 +31,7 @@ define(["require", "exports", "jquery", "react", "react-dom", "./NamingIds", "./
         // Define initial State
         let [state, setState] = react_1.default.useState({
             init: true,
-            nytKeywords: [UnkownNC],
+            nytKeywords: { "none": UnkownNC },
             editShortCuts: { "none": UnkownNC },
             document: {
                 autorUserId: properties.UserId,
@@ -53,13 +53,17 @@ define(["require", "exports", "jquery", "react", "react-dom", "./NamingIds", "./
                 jquery_1.default.ajax(`${properties.ServerOrigin}/NamingContainers?NC=${properties.NameSpaceNytNamingContainers}`, { method: "GET" })
                     .done((data, textStatus, jqXhr) => {
                     let _ncList = data;
+                    let _nc = {};
+                    for (var i = 0, _ncListCount = _ncList.length; i < _ncListCount; i++) {
+                        var nc = _ncList[i];
+                        _nc[nc.NIDstr] = nc;
+                    }
                     let _editShortCuts = {};
                     // Dictionary mit den Short Cuts aufbauen
                     for (var i = 0, _ncListCount = _ncList.length; i < _ncListCount; i++) {
                         var nc = _ncList[i];
                         _editShortCuts[nc.EditShortCut] = nc;
                     }
-                    AppName = _ncList.find((nc) => nc.NIDstr == Nids.MKPRG.Naming.NYT.Keywords.CrossWriter).EN;
                     if (properties.DocumentName !== "") {
                         // Laden des Beispieldokumentes
                         jquery_1.default.ajax(`${properties.ServerOrigin}/fileStore?fileName=${properties.DocumentName}`, { method: "GET" })
@@ -71,7 +75,7 @@ define(["require", "exports", "jquery", "react", "react-dom", "./NamingIds", "./
                             (doc) => {
                                 setState({
                                     init: false,
-                                    nytKeywords: _ncList,
+                                    nytKeywords: _nc,
                                     editShortCuts: _editShortCuts,
                                     document: doc,
                                     cursor: { currentColNo: doc.textLines[0].length, currentLineNo: 0, cursorSymbol: CursorSymbol },
@@ -85,7 +89,7 @@ define(["require", "exports", "jquery", "react", "react-dom", "./NamingIds", "./
                             (txt, fName, errClass, ...args) => {
                                 setState({
                                     init: false,
-                                    nytKeywords: _ncList,
+                                    nytKeywords: _nc,
                                     editShortCuts: _editShortCuts,
                                     document: state.document,
                                     cursor: state.cursor,
@@ -103,7 +107,7 @@ define(["require", "exports", "jquery", "react", "react-dom", "./NamingIds", "./
                         // Zustand der React- Komponente neu setzten und rendern
                         setState({
                             init: false,
-                            nytKeywords: _ncList,
+                            nytKeywords: _nc,
                             editShortCuts: _editShortCuts,
                             document: state.document,
                             cursor: state.cursor,
@@ -407,7 +411,7 @@ define(["require", "exports", "jquery", "react", "react-dom", "./NamingIds", "./
                     react_1.default.createElement("button", { id: "btnSave", className: "btn btn-normal" }, "\uD83D\uDDAB Save"),
                     react_1.default.createElement("button", { id: "help", className: "btn btn-normal" }, "\uD83D\uDD6E Help"),
                     react_1.default.createElement("span", { id: "currentDocName" }, state.document.documentName == undefined ? "&nbsp;" : state.document.documentName),
-                    react_1.default.createElement("span", null, AppName))),
+                    react_1.default.createElement("span", null, state.nytKeywords[Nids.MKPRG.Naming.NYT.Keywords.CrossWriter].EN))),
             react_1.default.createElement("input", { ref: invisibleInputFildForEdit, onKeyDown: e => ProcessKeyDownEventForEditLine(e.key, e.ctrlKey) }),
             react_1.default.createElement("div", { id: "visibleLines", className: "VisibleLines" },
                 ViewLines(),

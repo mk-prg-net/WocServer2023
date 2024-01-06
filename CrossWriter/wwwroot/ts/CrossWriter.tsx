@@ -25,7 +25,7 @@ interface ICrossWriterState {
     init: boolean,
 
     // List of all NYT Keywords. Must be loaded from Server
-    nytKeywords: INamingContainer[],
+    nytKeywords: Record<string, INamingContainer>,
 
     // Mapping Key Board Shortcuts to Nyt Naming- Container.
     editShortCuts: Record<string, INamingContainer>,
@@ -72,7 +72,7 @@ function CrossWriter(properties: ICrossWriterProps) {
     // Define initial State
     let [state, setState] = React.useState<ICrossWriterState>({
         init: true,
-        nytKeywords: [UnkownNC],
+        nytKeywords: { "none": UnkownNC },
         editShortCuts: { "none": UnkownNC },
         document: {
             autorUserId: properties.UserId,
@@ -98,6 +98,13 @@ function CrossWriter(properties: ICrossWriterProps) {
             $.ajax(`${properties.ServerOrigin}/NamingContainers?NC=${properties.NameSpaceNytNamingContainers}`, { method: "GET" })
                 .done((data, textStatus, jqXhr) => {
                     let _ncList = data as Array<INamingContainer>;
+                    let _nc: Record<string, INamingContainer> = {};
+
+                    for (var i = 0, _ncListCount = _ncList.length; i < _ncListCount; i++) {
+                        var nc = _ncList[i];
+                        _nc[nc.NIDstr] = nc;
+                    }                    
+
 
                     let _editShortCuts: Record<string, INamingContainer> = {};
 
@@ -105,9 +112,7 @@ function CrossWriter(properties: ICrossWriterProps) {
                     for (var i = 0, _ncListCount = _ncList.length; i < _ncListCount; i++) {
                         var nc = _ncList[i];
                         _editShortCuts[nc.EditShortCut] = nc;
-                    }
-
-                    AppName = _ncList.find((nc) => nc.NIDstr == Nids.MKPRG.Naming.NYT.Keywords.CrossWriter).EN;
+                    }                    
 
                     if (properties.DocumentName !== "") {
 
@@ -125,7 +130,7 @@ function CrossWriter(properties: ICrossWriterProps) {
 
                                         setState({
                                             init: false,
-                                            nytKeywords: _ncList,
+                                            nytKeywords: _nc,
                                             editShortCuts: _editShortCuts,
                                             document: doc,
                                             cursor: { currentColNo: doc.textLines[0].length, currentLineNo: 0, cursorSymbol: CursorSymbol },
@@ -139,7 +144,7 @@ function CrossWriter(properties: ICrossWriterProps) {
                                     (txt, fName, errClass, ...args) => {
                                         setState({
                                             init: false,
-                                            nytKeywords: _ncList,
+                                            nytKeywords: _nc,
                                             editShortCuts: _editShortCuts,
                                             document: state.document,
                                             cursor: state.cursor,
@@ -157,7 +162,7 @@ function CrossWriter(properties: ICrossWriterProps) {
                         // Zustand der React- Komponente neu setzten und rendern
                         setState({
                             init: false,
-                            nytKeywords: _ncList,
+                            nytKeywords: _nc,
                             editShortCuts: _editShortCuts,
                             document: state.document,
                             cursor: state.cursor,
@@ -573,7 +578,7 @@ function CrossWriter(properties: ICrossWriterProps) {
                     <button id="btnSave" className="btn btn-normal">🖫 Save</button>
                     <button id="help" className="btn btn-normal">🕮 Help</button>
                     <span id="currentDocName">{state.document.documentName == undefined ? "&nbsp;" : state.document.documentName}</span>
-                    <span>{AppName}</span>
+                    <span>{ state.nytKeywords[Nids.MKPRG.Naming.NYT.Keywords.CrossWriter].EN}</span>
 
                 </nav>
             </header>
