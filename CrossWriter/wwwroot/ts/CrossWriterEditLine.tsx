@@ -55,8 +55,8 @@ export function CrossWriterEditLine(properties: ICrossWriterEditLineProps) {
 
             let textLine = props.document.textLines[lineNo];
             let cursorPos = props.cursor.currentColNo;
-            let left = textLine.substring(0, cursorPos);
-            let right = textLine.substring(cursorPos);
+            let left = textLine.substring(0, cursorPos).replace(" ", " &nbsp; ");
+            let right = textLine.substring(cursorPos).replace(" ", " &nbsp; ");
 
             res = succF(props, left, right);
         }
@@ -78,7 +78,7 @@ export function CrossWriterEditLine(properties: ICrossWriterEditLineProps) {
                 <div className={"row"}>
                     <div className={properties.cssClassLineNo}>{state.cursor.currentLineNo}:</div>
                     <div id="editLine" className={properties.cssClassLine}>
-                        {left}<span className={state.cssClassCursor} >{state.cursor.cursorSymbol}</span>{right}
+                        {left} <span className={state.cssClassCursor} >{state.cursor.cursorSymbol}</span> {right}
                     </div>
                     <div className={properties.cssClassLineFunction}>┃&nbsp;</div>
                 </div>,

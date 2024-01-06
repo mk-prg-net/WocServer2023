@@ -44,7 +44,7 @@ export function CrossWriterLine(properties: ICrossWriterLineProps) {
         }
         else {
             
-            let textLine = props.document.textLines[lineNo];
+            let textLine = props.document.textLines[lineNo].replace(" ", " &nbsp; ");
             res = succF(props, textLine);            
         }
         return res;
