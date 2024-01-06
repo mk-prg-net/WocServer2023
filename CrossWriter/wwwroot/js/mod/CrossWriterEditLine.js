@@ -31,8 +31,8 @@ define(["require", "exports", "react", "jquery", "./SiegelAndSowilo"], function 
             else {
                 let textLine = props.document.textLines[lineNo];
                 let cursorPos = props.cursor.currentColNo;
-                let left = textLine.substring(0, cursorPos).replace(" ", " &nbsp; ");
-                let right = textLine.substring(cursorPos).replace(" ", " &nbsp; ");
+                let left = textLine.substring(0, cursorPos);
+                let right = textLine.substring(cursorPos);
                 res = succF(props, left, right);
             }
             return res;
@@ -50,9 +50,7 @@ define(["require", "exports", "react", "jquery", "./SiegelAndSowilo"], function 
                 ":"),
             react_1.default.createElement("div", { id: "editLine", className: properties.cssClassLine },
                 left,
-                " ",
                 react_1.default.createElement("span", { className: state.cssClassCursor }, state.cursor.cursorSymbol),
-                " ",
                 right),
             react_1.default.createElement("div", { className: properties.cssClassLineFunction }, "\u2503\u00A0")), 
         // SowiloErrFunc: if access to line was not ksuccessful, an error message will be rendered here

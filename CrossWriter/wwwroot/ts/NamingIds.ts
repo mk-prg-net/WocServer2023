@@ -177,6 +177,7 @@ export default function NamingIds() {
                         "SwitchToSowiloBranch": "3B23D49F17CB2BB5",
                         "FloatingPoint": "6D13E1AB7C474281",
                         "ListBegin": "32C882437685EE5F",
+                        "CrossWriter": "15C1E6B3BCE37C0C",
                         "FractionType": "E52697AEA1E3735",
                         "StackAssignment": "1DC2633CA0B19454",
                         "NamingIDType": "69DD59EC5C1EC8FC",

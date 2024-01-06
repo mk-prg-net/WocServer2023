@@ -3,12 +3,13 @@
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-define(["require", "exports", "jquery", "react", "react-dom", "./CrossWriterEditLine", "./CrossWriterEmptyLine", "./CrossWriterLine", "./Document"], function (require, exports, jquery_1, react_1, react_dom_1, CrossWriterEditLine_1, CrossWriterEmptyLine_1, CrossWriterLine_1, Document_1) {
+define(["require", "exports", "jquery", "react", "react-dom", "./NamingIds", "./CrossWriterEditLine", "./CrossWriterEmptyLine", "./CrossWriterLine", "./Document"], function (require, exports, jquery_1, react_1, react_dom_1, NamingIds_1, CrossWriterEditLine_1, CrossWriterEmptyLine_1, CrossWriterLine_1, Document_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     jquery_1 = __importDefault(jquery_1);
     react_1 = __importDefault(react_1);
     react_dom_1 = __importDefault(react_dom_1);
+    NamingIds_1 = __importDefault(NamingIds_1);
     function CreateKeyGenerator() {
         let key = Math.floor(Math.random() * 1000000);
         return () => key++;
@@ -43,6 +44,8 @@ define(["require", "exports", "jquery", "react", "react-dom", "./CrossWriterEdit
             statusText: "start",
             keyGen: CreateKeyGenerator()
         });
+        const Nids = react_1.default.useMemo(() => (0, NamingIds_1.default)(), [properties.NameSpaceNytNamingContainers]);
+        let AppName = "???";
         let invisibleInputFildForEdit = react_1.default.useRef(null);
         function LoadResourcesFromServer() {
             if (state.init) {
@@ -56,6 +59,7 @@ define(["require", "exports", "jquery", "react", "react-dom", "./CrossWriterEdit
                         var nc = _ncList[i];
                         _editShortCuts[nc.EditShortCut] = nc;
                     }
+                    AppName = _ncList.find((nc) => nc.NIDstr == Nids.MKPRG.Naming.NYT.Keywords.CrossWriter).EN;
                     if (properties.DocumentName !== "") {
                         // Laden des Beispieldokumentes
                         jquery_1.default.ajax(`${properties.ServerOrigin}/fileStore?fileName=${properties.DocumentName}`, { method: "GET" })
@@ -133,6 +137,7 @@ define(["require", "exports", "jquery", "react", "react-dom", "./CrossWriterEdit
         // Berechnet die Anzahl der sichtbaren Zeilen vor und nach der Editor- Zeile
         function CountPrePostLines() { return (CountViewLines - 1) / 2; }
         ;
+        const fKeys = ["F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9", "F10", "F11", "F12"];
         // mko, 2.1.2024
         // Erzeugt Visuelle ausgabe der Edit- Zeile und der unmittelbar vor und nach der Edit- Zeile befindlichen
         // Zeilen des Dokumentes
@@ -181,6 +186,7 @@ define(["require", "exports", "jquery", "react", "react-dom", "./CrossWriterEdit
         }
         // KeyCodes siehe https://www.freecodecamp.org/news/javascript-keycode-list-keypress-event-key-codes/
         function ProcessKeyDownEventForEditLine(key, ctrlKey) {
+            let test = fKeys.find((val) => val === key);
             if (key == "Enter") {
                 // Ctrl+Enter ⏎: Neuen Text übernehmen
             }
@@ -296,7 +302,6 @@ define(["require", "exports", "jquery", "react", "react-dom", "./CrossWriterEdit
                 if (currentLine.length > 0 && currentCursor < currentLine.length) {
                     let left = currentLine.substring(0, currentCursor);
                     let right = currentLine.substring(currentCursor + 1);
-                    currentCursor--;
                     currentLine = `${left}${right}`;
                 }
                 // Die aktuelle Zeile wird mit der modifizierten überschrieben
@@ -316,8 +321,12 @@ define(["require", "exports", "jquery", "react", "react-dom", "./CrossWriterEdit
                     keyGen: state.keyGen
                 });
             }
-            else if (key == "Shift") {
+            else if (key == "Shift" || key == "Control") {
                 // ignorieren
+            }
+            else if (fKeys.find((val) => val === key) != undefined) {
+                // Funktionstasten aktuell ignorieren
+                console.log(`${key} ignoriert`);
             }
             else {
                 // Das Zeichen wird an der Cursorposition eingefügt
@@ -396,7 +405,9 @@ define(["require", "exports", "jquery", "react", "react-dom", "./CrossWriterEdit
                     react_1.default.createElement("button", { id: "btnNewFile", className: "btn btn-normal" }, "\uD83D\uDDCB New"),
                     react_1.default.createElement("button", { id: "btnOpenFile", className: "btn btn-normal" }, "\uD83D\uDDBA Open"),
                     react_1.default.createElement("button", { id: "btnSave", className: "btn btn-normal" }, "\uD83D\uDDAB Save"),
-                    react_1.default.createElement("button", { id: "help", className: "btn btn-normal" }, "\uD83D\uDD6E Help"))),
+                    react_1.default.createElement("button", { id: "help", className: "btn btn-normal" }, "\uD83D\uDD6E Help"),
+                    react_1.default.createElement("span", { id: "currentDocName" }, state.document.documentName == undefined ? "&nbsp;" : state.document.documentName),
+                    react_1.default.createElement("span", null, AppName))),
             react_1.default.createElement("input", { ref: invisibleInputFildForEdit, onKeyDown: e => ProcessKeyDownEventForEditLine(e.key, e.ctrlKey) }),
             react_1.default.createElement("div", { id: "visibleLines", className: "VisibleLines" },
                 ViewLines(),

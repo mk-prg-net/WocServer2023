@@ -13,34 +13,42 @@ nav {
     margin: 0.25em;
 }
 
-    nav article {
-        column-count: 1;
-        -webkit-column-count: 1;
-        -moz-column-count: 1;
-        height: 180px;
-        width: 200px;
-        margin: 8px;
-        margin-left: 4px;
-        margin-right: 4px;
-        margin-bottom: 0px;
-        padding: 8px;
-        border-style: none;
-        border-color: #606060;
-        border-radius: 8px;
-        background-color: #808080;
-        text-align: center;
-        /* overflow-y: scroll */
-    }
+nav span {
+    margin: 0px;
+    margin-right: 0.5em;
+    margin-bottom: 0px;
+    background-color: gold;
+    color: #808080;
+}
 
-    nav button {
-        column-count: 1;
-        -webkit-column-count: 1;
-        -moz-column-count: 1;
-        margin: 0px;        
-        margin-right: 0.5em;
-        margin-bottom: 0px;        
-        background-color: gold;
-        color: #808080;        
+nav article {
+    column-count: 1;
+    -webkit-column-count: 1;
+    -moz-column-count: 1;
+    height: 180px;
+    width: 200px;
+    margin: 8px;
+    margin-left: 4px;
+    margin-right: 4px;
+    margin-bottom: 0px;
+    padding: 8px;
+    border-style: none;
+    border-color: #606060;
+    border-radius: 8px;
+    background-color: #808080;
+    text-align: center;
+    /* overflow-y: scroll */
+}
+
+nav button {
+    column-count: 1;
+    -webkit-column-count: 1;
+    -moz-column-count: 1;
+    margin: 0px;
+    margin-right: 0.5em;
+    margin-bottom: 0px;
+    background-color: gold;
+    color: #808080;
     }
 
 @media screen and (max-width:989px) {

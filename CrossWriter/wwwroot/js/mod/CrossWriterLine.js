@@ -25,7 +25,7 @@ define(["require", "exports", "react", "./SiegelAndSowilo"], function (require, 
                 res = errF.apply(null, (0, SiegelAndSowilo_1.ArgumentValidationFailedDescriptor)(props, fname, "lineNo", lineNo, `lineNo is lower than 0`));
             }
             else {
-                let textLine = props.document.textLines[lineNo].replace(" ", " &nbsp; ");
+                let textLine = props.document.textLines[lineNo];
                 res = succF(props, textLine);
             }
             return res;

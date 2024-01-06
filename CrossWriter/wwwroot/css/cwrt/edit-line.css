@@ -12,6 +12,7 @@
 }
 
 .lineContent {
+    white-space:pre-wrap;
     font-family: Consolas, Courier New, Courier, monospace;    
     color: whitesmoke;
 }
@@ -23,6 +24,7 @@
 }
 
 .EditLine {
+    white-space: pre-wrap;
     border-bottom-style: solid;
     border-bottom-color: brown;
     font-family: Consolas, Courier New, Courier, monospace;
@@ -33,5 +35,5 @@
 .Cursor {
     font-family: Consolas, Courier New, Courier, monospace;
     font-weight: bold;
-    color: brown;
+    color: coral;
 }

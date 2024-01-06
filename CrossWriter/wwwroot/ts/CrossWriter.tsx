@@ -5,7 +5,7 @@ import $ from "jquery";
 import React from "react";
 import ReactDom from "react-dom";
 
-
+import NamingIds from "./NamingIds";
 import INamingContainer from "./INamingContainer";
 
 import { CrossWriterEditLine } from "./CrossWriterEditLine";
@@ -83,8 +83,11 @@ function CrossWriter(properties: ICrossWriterProps) {
         cursor: { currentLineNo: 0, currentColNo: 0, cursorSymbol: CursorSymbol },
         visibleLines: CountViewLines,
         statusText: "start",
-        keyGen : CreateKeyGenerator()
+        keyGen: CreateKeyGenerator()
     });
+
+    const Nids = React.useMemo(() => NamingIds(), [properties.NameSpaceNytNamingContainers]);
+    let AppName = "???";
 
     let invisibleInputFildForEdit = React.useRef<HTMLInputElement>(null);
 
@@ -103,6 +106,8 @@ function CrossWriter(properties: ICrossWriterProps) {
                         var nc = _ncList[i];
                         _editShortCuts[nc.EditShortCut] = nc;
                     }
+
+                    AppName = _ncList.find((nc) => nc.NIDstr == Nids.MKPRG.Naming.NYT.Keywords.CrossWriter).EN;
 
                     if (properties.DocumentName !== "") {
 
@@ -192,6 +197,8 @@ function CrossWriter(properties: ICrossWriterProps) {
     // Berechnet die Anzahl der sichtbaren Zeilen vor und nach der Editor- Zeile
     function CountPrePostLines() { return (CountViewLines - 1) / 2 };
 
+    const fKeys = ["F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9", "F10", "F11", "F12"];
+
     // mko, 2.1.2024
     // Erzeugt Visuelle ausgabe der Edit- Zeile und der unmittelbar vor und nach der Edit- Zeile befindlichen
     // Zeilen des Dokumentes
@@ -275,6 +282,8 @@ function CrossWriter(properties: ICrossWriterProps) {
 
     // KeyCodes siehe https://www.freecodecamp.org/news/javascript-keycode-list-keypress-event-key-codes/
     function ProcessKeyDownEventForEditLine(key: string, ctrlKey: boolean) {
+
+        let test = fKeys.find((val) => val === key);
 
         if (key == "Enter") {
             // Ctrl+Enter ⏎: Neuen Text übernehmen
@@ -399,8 +408,7 @@ function CrossWriter(properties: ICrossWriterProps) {
 
             if (currentLine.length > 0 && currentCursor < currentLine.length) {
                 let left = currentLine.substring(0, currentCursor);
-                let right = currentLine.substring(currentCursor + 1);
-                currentCursor--;
+                let right = currentLine.substring(currentCursor + 1);                
                 currentLine = `${left}${right}`;
             }
 
@@ -422,8 +430,12 @@ function CrossWriter(properties: ICrossWriterProps) {
                 keyGen: state.keyGen
             })
         }
-        else if (key == "Shift") {
+        else if (key == "Shift" || key=="Control") {
             // ignorieren
+        }
+        else if (fKeys.find((val) => val === key) != undefined) {
+            // Funktionstasten aktuell ignorieren
+            console.log(`${key} ignoriert`);
         }
         else {
 
@@ -560,6 +572,9 @@ function CrossWriter(properties: ICrossWriterProps) {
                     <button id="btnOpenFile" className="btn btn-normal">🖺 Open</button>
                     <button id="btnSave" className="btn btn-normal">🖫 Save</button>
                     <button id="help" className="btn btn-normal">🕮 Help</button>
+                    <span id="currentDocName">{state.document.documentName == undefined ? "&nbsp;" : state.document.documentName}</span>
+                    <span>{AppName}</span>
+
                 </nav>
             </header>
 

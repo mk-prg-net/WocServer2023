@@ -5,6 +5,25 @@ using System.Text;
 
 namespace MKPRG.Naming.NYT.Keywords
 {
+    public class CrossWriter
+        : NamingBase,
+        IGlyphUniCode
+    {
+        public const long UID = 0x15C1E6B3BCE37C0CL;
+
+        public CrossWriter()
+            : base(UID)
+        {
+        }
+
+        public override string CNT => "crossWriter";
+        public override string DE => EN;
+        public override string EN => "Cross᛭Writer ";
+
+        public string GlyphUniCode => "᛭ᚥ";
+        public override string Glyph => "&#x16ED;&#x16A5;";
+    }
+
     public class Comment
         : NamingBase,
         IGlyphUniCode,
