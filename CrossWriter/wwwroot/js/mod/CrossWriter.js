@@ -245,7 +245,27 @@ define(["require", "exports", "jquery", "react", "react-dom", "./NamingIds", "./
                     }
                     else {
                         // LineCount > 1 
-                        state.document.textLines.splice(state.cursor.currentLineNo - 1, 1);
+                        state.document.textLines.splice(state.cursor.currentLineNo, 1);
+                    }
+                    SetCtrlKeyInState(false);
+                }
+                else if (key == "Enter") {
+                    // Insert a new line
+                    // Fälle                
+                    if (state.document.LineCount() == 0) {
+                        state.document.textLines.push("");
+                    }
+                    else {
+                        // LineCount > 1
+                        // Zwei Fälle: steht der Cursor am Zeilenanfang, dann vor der aktuellen Zeile einfügen.
+                        // Sonst nach der aktuellen Zeile
+                        if (state.cursor.currentColNo == 0) {
+                            state.document.textLines.splice(state.cursor.currentLineNo, 0, "");
+                        }
+                        else {
+                            state.cursor.currentLineNo++;
+                            state.document.textLines.splice(state.cursor.currentLineNo, 0, "");
+                        }
                     }
                     SetCtrlKeyInState(false);
                 }

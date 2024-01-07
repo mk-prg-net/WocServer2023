@@ -334,7 +334,6 @@ function CrossWriter(properties: ICrossWriterProps) {
 
         let test = fKeys.find((val) => val === key);
         if (key == "#") {
-
             SetRauteKeyInState(true);
         }
         else if (state.rauteKey) {
@@ -359,12 +358,31 @@ function CrossWriter(properties: ICrossWriterProps) {
                 }
                 else if (state.document.LineCount() == 1) {
                     // LineCount == 1
-                    state.document.textLines[0] = "";                    
+                    state.document.textLines[0] = "";
                 } else {
                     // LineCount > 1 
-                    state.document.textLines.splice(state.cursor.currentLineNo - 1, 1);                    
+                    state.document.textLines.splice(state.cursor.currentLineNo, 1);
                 }
                 SetCtrlKeyInState(false);
+            } else if (key == "Enter") {
+                // Insert a new line
+                // Fälle                
+                if (state.document.LineCount() == 0) {
+                    state.document.textLines.push("");
+                } else {
+                    // LineCount > 1
+                    // Zwei Fälle: steht der Cursor am Zeilenanfang, dann vor der aktuellen Zeile einfügen.
+                    // Sonst nach der aktuellen Zeile
+                    if (state.cursor.currentColNo == 0) {                        
+                        state.document.textLines.splice(state.cursor.currentLineNo, 0, "");                        
+                    }
+                    else {
+                        state.cursor.currentLineNo++;
+                        state.document.textLines.splice(state.cursor.currentLineNo, 0, "");                        
+                    }                    
+                }
+                SetCtrlKeyInState(false);
+            
             } else {
                 SetCtrlKeyInState(false);
             }
