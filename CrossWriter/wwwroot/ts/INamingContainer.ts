@@ -2,7 +2,10 @@
 //
 // mko, 28.12.2023
 // Angepasst an neue Namenscontainer
-export default interface INamingContainer {
+
+import { ErrorClasses, SiegelSuccessFunc, SowiloErrFunc } from "./SiegelAndSowilo";
+
+export interface INamingContainer {
     NIDstr: string,
     DE: string,
     EN: string,
@@ -11,4 +14,16 @@ export default interface INamingContainer {
     Glyph: string,
     GlyphUniCode: string
 }
+
+export function getNameFromNc(ncDict: Record<string, INamingContainer>, NID: string, siegel: SiegelSuccessFunc<INamingContainer>, sowilo: SowiloErrFunc<Record<string, INamingContainer>>): any {
+
+    if (Object.keys(ncDict).find(key => key == NID) == undefined) {
+        return sowilo(ncDict, "getNameFromNc", ErrorClasses.ArgumentValidationFailed, `NID ${NID} cannot be found in state,´.nytKeyWords`);
+    }
+    else {
+        let nc = ncDict[NID];
+        return siegel(nc);
+    }
+}
+
 

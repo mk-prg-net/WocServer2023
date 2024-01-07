@@ -3,7 +3,7 @@
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-define(["require", "exports", "jquery", "react", "react-dom", "./SiegelAndSowilo", "./NamingIds", "./CrossWriterEditLine", "./CrossWriterEmptyLine", "./CrossWriterLine", "./Document"], function (require, exports, jquery_1, react_1, react_dom_1, SiegelAndSowilo_1, NamingIds_1, CrossWriterEditLine_1, CrossWriterEmptyLine_1, CrossWriterLine_1, Document_1) {
+define(["require", "exports", "jquery", "react", "react-dom", "./NamingIds", "./INamingContainer", "./CrossWriterEditLine", "./CrossWriterEmptyLine", "./CrossWriterLine", "./Document"], function (require, exports, jquery_1, react_1, react_dom_1, NamingIds_1, INamingContainer_1, CrossWriterEditLine_1, CrossWriterEmptyLine_1, CrossWriterLine_1, Document_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     jquery_1 = __importDefault(jquery_1);
@@ -42,7 +42,8 @@ define(["require", "exports", "jquery", "react", "react-dom", "./SiegelAndSowilo
             cursor: { currentLineNo: 0, currentColNo: 0, cursorSymbol: CursorSymbol },
             visibleLines: CountViewLines,
             statusText: "start",
-            keyGen: CreateKeyGenerator()
+            keyGen: CreateKeyGenerator(),
+            altKey: false
         });
         const Nids = react_1.default.useMemo(() => (0, NamingIds_1.default)(), [properties.NameSpaceNytNamingContainers]);
         let AppName = "???";
@@ -81,7 +82,8 @@ define(["require", "exports", "jquery", "react", "react-dom", "./SiegelAndSowilo
                                     cursor: { currentColNo: doc.textLines[0].length, currentLineNo: 0, cursorSymbol: CursorSymbol },
                                     visibleLines: CountViewLines,
                                     statusText: `Resources and document ${properties.DocumentName} loaded successful from Server`,
-                                    keyGen: keyGenerator
+                                    keyGen: keyGenerator,
+                                    altKey: false
                                 });
                                 return "";
                             }, 
@@ -95,7 +97,8 @@ define(["require", "exports", "jquery", "react", "react-dom", "./SiegelAndSowilo
                                     cursor: state.cursor,
                                     visibleLines: CountViewLines,
                                     statusText: `Resources loaded successful from Server, but not the Document. ${fName} failed, ErrClass: ${errClass}, ${args.join(", ")}`,
-                                    keyGen: keyGenerator
+                                    keyGen: keyGenerator,
+                                    altKey: false
                                 });
                                 return "";
                             });
@@ -113,7 +116,8 @@ define(["require", "exports", "jquery", "react", "react-dom", "./SiegelAndSowilo
                             cursor: state.cursor,
                             visibleLines: CountViewLines,
                             statusText: "Resources loaded successful from Server",
-                            keyGen: keyGenerator
+                            keyGen: keyGenerator,
+                            altKey: false
                         });
                     }
                 })
@@ -128,7 +132,8 @@ define(["require", "exports", "jquery", "react", "react-dom", "./SiegelAndSowilo
                         cursor: state.cursor,
                         visibleLines: CountViewLines,
                         statusText: errTxt,
-                        keyGen: keyGenerator
+                        keyGen: keyGenerator,
+                        altKey: false
                     });
                 });
             }
@@ -189,17 +194,31 @@ define(["require", "exports", "jquery", "react", "react-dom", "./SiegelAndSowilo
             return vLines;
         }
         // KeyCodes siehe https://www.freecodecamp.org/news/javascript-keycode-list-keypress-event-key-codes/
-        function ProcessKeyDownEventForEditLine(key, ctrlKey) {
+        function ProcessKeyDownEventForEditLine(key, ctrlKey, altKey, shiftKey) {
             let test = fKeys.find((val) => val === key);
-            if (key == "Enter") {
+            if (key == "#") {
+                SetAltKeyInState(true);
+            }
+            else if (state.altKey) {
+                let runeShortCut = `#${key}`;
+                if (Object.keys(state.editShortCuts).find(sc => sc === runeShortCut) != undefined) {
+                    let glyph = state.editShortCuts[runeShortCut].GlyphUniCode;
+                    InsertCharInText(glyph);
+                }
+                else {
+                    SetAltKeyInState(false);
+                }
+            }
+            else if (key == "Enter") {
                 // Ctrl+Enter ⏎: Neuen Text übernehmen
             }
             else if (key == "ArrowUp") {
                 // Ctrl+Arrow Up ↑: Vorausgehenden Textabschnitt bearbeiten
                 if (state.document.LineCount() !== 0 && state.cursor.currentLineNo > 0) {
+                    let newCursorPos = state.document.textLines[state.cursor.currentLineNo - 1].length;
                     setState({
                         cursor: {
-                            currentColNo: state.cursor.currentColNo,
+                            currentColNo: newCursorPos,
                             currentLineNo: state.cursor.currentLineNo - 1,
                             cursorSymbol: state.cursor.cursorSymbol
                         },
@@ -209,16 +228,18 @@ define(["require", "exports", "jquery", "react", "react-dom", "./SiegelAndSowilo
                         nytKeywords: state.nytKeywords,
                         statusText: state.statusText,
                         visibleLines: CountViewLines,
-                        keyGen: state.keyGen
+                        keyGen: state.keyGen,
+                        altKey: false
                     });
                 }
             }
             else if (key == "ArrowDown") {
-                // Ctrl+Arrow Down ↓: Vorausgehenden Textabschnitt bearbeiten
+                // Ctrl+Arrow Down ↓: Vorausgehenden Textabschnitt bearbeiten            
                 if (state.document.LineCount() !== 0 && state.cursor.currentLineNo < state.document.LineCount() - 1) {
+                    let newCursorPos = state.document.textLines[state.cursor.currentLineNo + 1].length;
                     setState({
                         cursor: {
-                            currentColNo: state.cursor.currentColNo,
+                            currentColNo: newCursorPos,
                             currentLineNo: state.cursor.currentLineNo + 1,
                             cursorSymbol: state.cursor.cursorSymbol
                         },
@@ -228,7 +249,8 @@ define(["require", "exports", "jquery", "react", "react-dom", "./SiegelAndSowilo
                         nytKeywords: state.nytKeywords,
                         statusText: state.statusText,
                         visibleLines: CountViewLines,
-                        keyGen: state.keyGen
+                        keyGen: state.keyGen,
+                        altKey: false
                     });
                 }
             }
@@ -248,7 +270,8 @@ define(["require", "exports", "jquery", "react", "react-dom", "./SiegelAndSowilo
                         nytKeywords: state.nytKeywords,
                         statusText: state.statusText,
                         visibleLines: CountViewLines,
-                        keyGen: state.keyGen
+                        keyGen: state.keyGen,
+                        altKey: false
                     });
                 }
             }
@@ -268,9 +291,44 @@ define(["require", "exports", "jquery", "react", "react-dom", "./SiegelAndSowilo
                         nytKeywords: state.nytKeywords,
                         statusText: state.statusText,
                         visibleLines: CountViewLines,
-                        keyGen: state.keyGen
+                        keyGen: state.keyGen,
+                        altKey: false
                     });
                 }
+            }
+            else if (key == "Home") {
+                setState({
+                    cursor: {
+                        currentColNo: 0,
+                        currentLineNo: state.cursor.currentLineNo,
+                        cursorSymbol: state.cursor.cursorSymbol
+                    },
+                    document: state.document,
+                    editShortCuts: state.editShortCuts,
+                    init: state.init,
+                    nytKeywords: state.nytKeywords,
+                    statusText: state.statusText,
+                    visibleLines: CountViewLines,
+                    keyGen: state.keyGen,
+                    altKey: false
+                });
+            }
+            else if (key == "End") {
+                setState({
+                    cursor: {
+                        currentColNo: state.document.textLines[state.cursor.currentLineNo].length,
+                        currentLineNo: state.cursor.currentLineNo,
+                        cursorSymbol: state.cursor.cursorSymbol
+                    },
+                    document: state.document,
+                    editShortCuts: state.editShortCuts,
+                    init: state.init,
+                    nytKeywords: state.nytKeywords,
+                    statusText: state.statusText,
+                    visibleLines: CountViewLines,
+                    keyGen: state.keyGen,
+                    altKey: false
+                });
             }
             else if (key == "Backspace") {
                 // Zeichen links vom Cursor löschen
@@ -296,7 +354,8 @@ define(["require", "exports", "jquery", "react", "react-dom", "./SiegelAndSowilo
                     nytKeywords: state.nytKeywords,
                     statusText: state.statusText,
                     visibleLines: CountViewLines,
-                    keyGen: state.keyGen
+                    keyGen: state.keyGen,
+                    altKey: false
                 });
             }
             else if (key == "Delete") {
@@ -322,7 +381,8 @@ define(["require", "exports", "jquery", "react", "react-dom", "./SiegelAndSowilo
                     nytKeywords: state.nytKeywords,
                     statusText: state.statusText,
                     visibleLines: CountViewLines,
-                    keyGen: state.keyGen
+                    keyGen: state.keyGen,
+                    altKey: false
                 });
             }
             else if (key == "Shift" || key == "Control") {
@@ -333,37 +393,58 @@ define(["require", "exports", "jquery", "react", "react-dom", "./SiegelAndSowilo
                 console.log(`${key} ignoriert`);
             }
             else {
-                // Das Zeichen wird an der Cursorposition eingefügt
-                let currentCursor = state.cursor.currentColNo;
-                let currentLine = state.document.textLines[state.cursor.currentLineNo];
-                if (currentLine.length == 0) {
-                    currentLine = key;
-                }
-                else if (currentLine.length - 1 == currentCursor) {
-                    currentLine += key;
-                }
-                else {
-                    let left = currentLine.substring(0, currentCursor);
-                    let right = currentLine.substring(currentCursor);
-                    currentLine = `${left}${key}${right}`;
-                }
-                // Die aktuelle Zeile wird mit der modifizierten überschrieben
-                state.document.textLines[state.cursor.currentLineNo] = currentLine;
-                setState({
-                    cursor: {
-                        currentColNo: state.cursor.currentColNo + 1,
-                        currentLineNo: state.cursor.currentLineNo,
-                        cursorSymbol: state.cursor.cursorSymbol
-                    },
-                    document: state.document,
-                    editShortCuts: state.editShortCuts,
-                    init: state.init,
-                    nytKeywords: state.nytKeywords,
-                    statusText: state.statusText,
-                    visibleLines: CountViewLines,
-                    keyGen: state.keyGen
-                });
+                InsertCharInText(key);
             }
+        }
+        function InsertCharInText(key) {
+            // Das Zeichen wird an der Cursorposition eingefügt
+            let currentCursor = state.cursor.currentColNo;
+            let currentLine = state.document.textLines[state.cursor.currentLineNo];
+            if (currentLine.length == 0) {
+                currentLine = key;
+            }
+            else if (currentLine.length - 1 == currentCursor) {
+                currentLine += key;
+            }
+            else {
+                let left = currentLine.substring(0, currentCursor);
+                let right = currentLine.substring(currentCursor);
+                currentLine = `${left}${key}${right}`;
+            }
+            // Die aktuelle Zeile wird mit der modifizierten überschrieben
+            state.document.textLines[state.cursor.currentLineNo] = currentLine;
+            setState({
+                cursor: {
+                    currentColNo: state.cursor.currentColNo + 1,
+                    currentLineNo: state.cursor.currentLineNo,
+                    cursorSymbol: state.cursor.cursorSymbol
+                },
+                document: state.document,
+                editShortCuts: state.editShortCuts,
+                init: state.init,
+                nytKeywords: state.nytKeywords,
+                statusText: state.statusText,
+                visibleLines: CountViewLines,
+                keyGen: state.keyGen,
+                altKey: false
+            });
+        }
+        function SetAltKeyInState(altKey) {
+            setState({
+                cursor: {
+                    currentColNo: state.cursor.currentColNo,
+                    currentLineNo: state.cursor.currentLineNo,
+                    cursorSymbol: state.cursor.cursorSymbol
+                },
+                document: state.document,
+                editShortCuts: state.editShortCuts,
+                init: state.init,
+                nytKeywords: state.nytKeywords,
+                statusText: state.statusText,
+                visibleLines: CountViewLines,
+                keyGen: state.keyGen,
+                altKey: altKey
+            });
         }
         function AddPreLines(vLines, currentCursorLine) {
             let prePostLines = CountPrePostLines();
@@ -404,15 +485,15 @@ define(["require", "exports", "jquery", "react", "react-dom", "./SiegelAndSowilo
             }
         }
         // Sicherer Abruf eines Namenscontainers
-        function getNameFromNc(NID, siegel, sowilo) {
-            if (Object.keys(state.nytKeywords).find(key => key == NID) == undefined) {
-                return sowilo(state, "getNameFromNc", SiegelAndSowilo_1.ErrorClasses.ArgumentValidationFailed, `NID ${NID} cannot be found in state,´.nytKeyWords`);
-            }
-            else {
-                let nc = state.nytKeywords[NID];
-                return siegel(nc);
-            }
-        }
+        //function getNameFromNc(NID: string, siegel: SiegelSuccessFunc<INamingContainer>, sowilo: SowiloErrFunc<ICrossWriterState>) : any {
+        //    if (Object.keys(state.nytKeywords).find(key => key == NID) == undefined) {
+        //        return sowilo(state, "getNameFromNc", ErrorClasses.ArgumentValidationFailed, `NID ${NID} cannot be found in state,´.nytKeyWords`);
+        //    }
+        //    else {
+        //        let nc = state.nytKeywords[NID];
+        //        return siegel(nc);
+        //    }
+        //}
         return (react_1.default.createElement("div", { id: "CrossWriterCtrl", className: "CrossWriter" },
             react_1.default.createElement("header", null,
                 react_1.default.createElement("nav", { id: "main_nav" },
@@ -422,12 +503,12 @@ define(["require", "exports", "jquery", "react", "react-dom", "./SiegelAndSowilo
                         react_1.default.createElement("button", { id: "btnSave", className: "btn btn-normal" }, "\uD83D\uDDAB Save"),
                         react_1.default.createElement("button", { id: "help", className: "btn btn-normal" }, "\uD83D\uDD6E Help"),
                         react_1.default.createElement("span", { id: "currentDocName" }, state.document.documentName == undefined ? "&nbsp;" : state.document.documentName)),
-                    react_1.default.createElement("div", null, getNameFromNc(Nids.MKPRG.Naming.NYT.Keywords.CrossWriter, (nc) => {
+                    react_1.default.createElement("div", null, (0, INamingContainer_1.getNameFromNc)(state.nytKeywords, Nids.MKPRG.Naming.NYT.Keywords.CrossWriter, (nc) => {
                         return react_1.default.createElement("span", { className: "progName" }, nc.EN);
-                    }, (cwstate, fName, errClass, descr) => {
+                    }, (ncDict, fName, errClass, descr) => {
                         return react_1.default.createElement("span", { className: "progName" }, `${fName} failed: Err Class: ${errClass}, ${descr}`);
                     })))),
-            react_1.default.createElement("input", { ref: invisibleInputFildForEdit, onKeyDown: e => ProcessKeyDownEventForEditLine(e.key, e.ctrlKey) }),
+            react_1.default.createElement("input", { ref: invisibleInputFildForEdit, onKeyDown: e => ProcessKeyDownEventForEditLine(e.key, e.ctrlKey, e.altKey, e.shiftKey) }),
             react_1.default.createElement("div", { id: "visibleLines", className: "VisibleLines" },
                 ViewLines(),
                 "input"),

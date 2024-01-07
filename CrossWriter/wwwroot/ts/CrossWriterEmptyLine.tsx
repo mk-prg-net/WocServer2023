@@ -7,7 +7,7 @@ import $, { fn } from "jquery"
 import NamingIds from "./NamingIds";
 import { ErrorClasses, SiegelSuccessFunc, SowiloErrFunc, ArgumentValidationFailedDescriptor } from "./SiegelAndSowilo";
 
-import INamingContainer from "./INamingContainer"
+import { INamingContainer, getNameFromNc } from "./INamingContainer"
 import { IDocument } from "./Document";
 
 export interface ICrossWriterEmptyLineProps {
