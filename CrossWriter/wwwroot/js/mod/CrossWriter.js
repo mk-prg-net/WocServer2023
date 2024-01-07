@@ -10,6 +10,7 @@ define(["require", "exports", "jquery", "react", "react-dom", "./NamingIds", "./
     react_1 = __importDefault(react_1);
     react_dom_1 = __importDefault(react_dom_1);
     NamingIds_1 = __importDefault(NamingIds_1);
+    // Key Generator for React Key Property
     function CreateKeyGenerator() {
         let key = Math.floor(Math.random() * 1000000);
         return () => key++;
@@ -43,6 +44,8 @@ define(["require", "exports", "jquery", "react", "react-dom", "./NamingIds", "./
             statusText: "start",
             keyGen: CreateKeyGenerator(),
             altKey: false,
+            rauteKey: false,
+            ctrlKey: false,
             countEditOp: 0
         });
         const Nids = react_1.default.useMemo(() => (0, NamingIds_1.default)(), []);
@@ -84,6 +87,8 @@ define(["require", "exports", "jquery", "react", "react-dom", "./NamingIds", "./
                                     statusText: `Resources and document ${properties.DocumentName} loaded successful from Server`,
                                     keyGen: keyGenerator,
                                     altKey: false,
+                                    rauteKey: false,
+                                    ctrlKey: false,
                                     countEditOp: 1
                                 });
                                 return "";
@@ -100,6 +105,8 @@ define(["require", "exports", "jquery", "react", "react-dom", "./NamingIds", "./
                                     statusText: `Resources loaded successful from Server, but not the Document. ${fName} failed, ErrClass: ${errClass}, ${args.join(", ")}`,
                                     keyGen: keyGenerator,
                                     altKey: false,
+                                    rauteKey: false,
+                                    ctrlKey: false,
                                     countEditOp: 1
                                 });
                                 return "";
@@ -120,6 +127,8 @@ define(["require", "exports", "jquery", "react", "react-dom", "./NamingIds", "./
                             statusText: "Resources loaded successful from Server",
                             keyGen: keyGenerator,
                             altKey: false,
+                            rauteKey: false,
+                            ctrlKey: false,
                             countEditOp: 0
                         });
                     }
@@ -137,6 +146,8 @@ define(["require", "exports", "jquery", "react", "react-dom", "./NamingIds", "./
                         statusText: errTxt,
                         keyGen: keyGenerator,
                         altKey: false,
+                        rauteKey: false,
+                        ctrlKey: false,
                         countEditOp: 0
                     });
                 });
@@ -206,16 +217,40 @@ define(["require", "exports", "jquery", "react", "react-dom", "./NamingIds", "./
             countEditOp = state.countEditOp + 1;
             let test = fKeys.find((val) => val === key);
             if (key == "#") {
-                SetAltKeyInState(true);
+                SetRauteKeyInState(true);
             }
-            else if (state.altKey) {
+            else if (state.rauteKey) {
                 let runeShortCut = `#${key}`;
                 if (Object.keys(state.editShortCuts).find(sc => sc === runeShortCut) != undefined) {
                     let glyph = state.editShortCuts[runeShortCut].GlyphUniCode;
                     InsertCharInText(glyph);
                 }
                 else {
-                    SetAltKeyInState(false);
+                    SetRauteKeyInState(false);
+                }
+            }
+            else if (key == "Control") {
+                SetCtrlKeyInState(true);
+            }
+            else if (state.ctrlKey) {
+                if (key == "Delete") {
+                    // Delete current Line
+                    // Fälle                
+                    if (state.document.LineCount() == 0) {
+                        // LineCount == 0                    
+                    }
+                    else if (state.document.LineCount() == 1) {
+                        // LineCount == 1
+                        state.document.textLines[0] = "";
+                    }
+                    else {
+                        // LineCount > 1 
+                        state.document.textLines.splice(state.cursor.currentLineNo - 1, 1);
+                    }
+                    SetCtrlKeyInState(false);
+                }
+                else {
+                    SetCtrlKeyInState(false);
                 }
             }
             else if (key == "Enter") {
@@ -293,6 +328,8 @@ define(["require", "exports", "jquery", "react", "react-dom", "./NamingIds", "./
                     visibleLines: CountViewLines,
                     keyGen: state.keyGen,
                     altKey: false,
+                    rauteKey: false,
+                    ctrlKey: false,
                     countEditOp: state.countEditOp + 1
                 });
             }
@@ -321,6 +358,8 @@ define(["require", "exports", "jquery", "react", "react-dom", "./NamingIds", "./
                     visibleLines: CountViewLines,
                     keyGen: state.keyGen,
                     altKey: false,
+                    rauteKey: false,
+                    ctrlKey: false,
                     countEditOp: state.countEditOp + 1
                 });
             }
@@ -350,6 +389,8 @@ define(["require", "exports", "jquery", "react", "react-dom", "./NamingIds", "./
                 visibleLines: CountViewLines,
                 keyGen: state.keyGen,
                 altKey: false,
+                rauteKey: false,
+                ctrlKey: false,
                 countEditOp: state.countEditOp + 1
             });
         }
@@ -384,6 +425,8 @@ define(["require", "exports", "jquery", "react", "react-dom", "./NamingIds", "./
                 visibleLines: CountViewLines,
                 keyGen: state.keyGen,
                 altKey: false,
+                rauteKey: state.rauteKey,
+                ctrlKey: state.ctrlKey,
                 countEditOp: state.countEditOp + 1
             });
         }
@@ -402,6 +445,48 @@ define(["require", "exports", "jquery", "react", "react-dom", "./NamingIds", "./
                 visibleLines: CountViewLines,
                 keyGen: state.keyGen,
                 altKey: altKey,
+                rauteKey: state.rauteKey,
+                ctrlKey: state.ctrlKey,
+                countEditOp: state.countEditOp + 1
+            });
+        }
+        function SetCtrlKeyInState(ctrlKey) {
+            setState({
+                cursor: {
+                    currentColNo: state.cursor.currentColNo,
+                    currentLineNo: state.cursor.currentLineNo,
+                    cursorSymbol: state.cursor.cursorSymbol
+                },
+                document: state.document,
+                editShortCuts: state.editShortCuts,
+                init: state.init,
+                nytKeywords: state.nytKeywords,
+                statusText: state.statusText,
+                visibleLines: CountViewLines,
+                keyGen: state.keyGen,
+                altKey: state.altKey,
+                rauteKey: state.rauteKey,
+                ctrlKey: ctrlKey,
+                countEditOp: state.countEditOp + 1
+            });
+        }
+        function SetRauteKeyInState(rauteKey) {
+            setState({
+                cursor: {
+                    currentColNo: state.cursor.currentColNo,
+                    currentLineNo: state.cursor.currentLineNo,
+                    cursorSymbol: state.cursor.cursorSymbol
+                },
+                document: state.document,
+                editShortCuts: state.editShortCuts,
+                init: state.init,
+                nytKeywords: state.nytKeywords,
+                statusText: state.statusText,
+                visibleLines: CountViewLines,
+                keyGen: state.keyGen,
+                altKey: state.altKey,
+                rauteKey: rauteKey,
+                ctrlKey: state.ctrlKey,
                 countEditOp: state.countEditOp + 1
             });
         }
