@@ -16,7 +16,6 @@ define(["require", "exports", "jquery", "react", "react-dom", "./NamingIds", "./
     }
     // This must be an uneven Number (count pre- Lines, edit- Line, count post- Lines)
     const CountViewLines = 31;
-    const CursorSymbol = "⧳";
     // Default- Namingcontainer
     var UnkownNC = {
         CNT: "unknown",
@@ -29,7 +28,7 @@ define(["require", "exports", "jquery", "react", "react-dom", "./NamingIds", "./
     };
     function CrossWriter(properties) {
         // Define initial State
-        let [state, setState] = react_1.default.useState({
+        const [state, setState] = react_1.default.useState({
             init: true,
             nytKeywords: { "none": UnkownNC },
             editShortCuts: { "none": UnkownNC },
@@ -39,19 +38,20 @@ define(["require", "exports", "jquery", "react", "react-dom", "./NamingIds", "./
                 textLines: [""],
                 LineCount: () => 0
             },
-            cursor: { currentLineNo: 0, currentColNo: 0, cursorSymbol: CursorSymbol },
+            cursor: { currentLineNo: 0, currentColNo: 0, cursorSymbol: properties.CursorSymbol },
             visibleLines: CountViewLines,
             statusText: "start",
             keyGen: CreateKeyGenerator(),
-            altKey: false
+            altKey: false,
+            countEditOp: 0
         });
-        const Nids = react_1.default.useMemo(() => (0, NamingIds_1.default)(), [properties.NameSpaceNytNamingContainers]);
+        const Nids = react_1.default.useMemo(() => (0, NamingIds_1.default)(), []);
         let AppName = "???";
         let invisibleInputFildForEdit = react_1.default.useRef(null);
         function LoadResourcesFromServer() {
             if (state.init) {
                 let keyGenerator = CreateKeyGenerator();
-                jquery_1.default.ajax(`${properties.ServerOrigin}/NamingContainers?NC=${properties.NameSpaceNytNamingContainers}`, { method: "GET" })
+                jquery_1.default.ajax(`${properties.ServerOrigin}/NamingContainers?NC=MKPRG.Naming.NYT.Keywords`, { method: "GET" })
                     .done((data, textStatus, jqXhr) => {
                     let _ncList = data;
                     let _nc = {};
@@ -79,11 +79,12 @@ define(["require", "exports", "jquery", "react", "react-dom", "./NamingIds", "./
                                     nytKeywords: _nc,
                                     editShortCuts: _editShortCuts,
                                     document: doc,
-                                    cursor: { currentColNo: doc.textLines[0].length, currentLineNo: 0, cursorSymbol: CursorSymbol },
+                                    cursor: { currentColNo: doc.textLines[0].length, currentLineNo: 0, cursorSymbol: properties.CursorSymbol },
                                     visibleLines: CountViewLines,
                                     statusText: `Resources and document ${properties.DocumentName} loaded successful from Server`,
                                     keyGen: keyGenerator,
-                                    altKey: false
+                                    altKey: false,
+                                    countEditOp: 1
                                 });
                                 return "";
                             }, 
@@ -98,7 +99,8 @@ define(["require", "exports", "jquery", "react", "react-dom", "./NamingIds", "./
                                     visibleLines: CountViewLines,
                                     statusText: `Resources loaded successful from Server, but not the Document. ${fName} failed, ErrClass: ${errClass}, ${args.join(", ")}`,
                                     keyGen: keyGenerator,
-                                    altKey: false
+                                    altKey: false,
+                                    countEditOp: 1
                                 });
                                 return "";
                             });
@@ -117,7 +119,8 @@ define(["require", "exports", "jquery", "react", "react-dom", "./NamingIds", "./
                             visibleLines: CountViewLines,
                             statusText: "Resources loaded successful from Server",
                             keyGen: keyGenerator,
-                            altKey: false
+                            altKey: false,
+                            countEditOp: 0
                         });
                     }
                 })
@@ -133,16 +136,21 @@ define(["require", "exports", "jquery", "react", "react-dom", "./NamingIds", "./
                         visibleLines: CountViewLines,
                         statusText: errTxt,
                         keyGen: keyGenerator,
-                        altKey: false
+                        altKey: false,
+                        countEditOp: 0
                     });
                 });
             }
+        }
+        react_1.default.useEffect(() => LoadResourcesFromServer(), []);
+        function SetFocusOnInputField() {
             if (invisibleInputFildForEdit !== null && invisibleInputFildForEdit !== undefined) {
                 invisibleInputFildForEdit.current.focus();
                 invisibleInputFildForEdit.current.value = "";
             }
         }
-        react_1.default.useEffect(() => LoadResourcesFromServer(), []);
+        let countEditOp = 0;
+        react_1.default.useEffect(SetFocusOnInputField, []);
         // Berechnet die Anzahl der sichtbaren Zeilen vor und nach der Editor- Zeile
         function CountPrePostLines() { return (CountViewLines - 1) / 2; }
         ;
@@ -178,7 +186,7 @@ define(["require", "exports", "jquery", "react", "react-dom", "./NamingIds", "./
                 }
                 vLines.push(react_1.default.createElement(CrossWriterEditLine_1.CrossWriterEditLine, { key: state.keyGen(), document: state.document, cursor: state.cursor, cssClassCursor: "Cursor", cssClassLineNo: "col cw-3 lineNo", cssClassLine: "col cw-56 EditLine", cssClassLineFunction: "col cw-6 lineFunc", 
                     //ProcessKeyDownEventForVisibleLines={ProcessKeyDownEventForEditLine}
-                    nytKeywords: state.nytKeywords }));
+                    nytKeywords: state.nytKeywords, SetFocusOnInputField: SetFocusOnInputField, countEditOps: state.countEditOp }));
                 // Leerzeilen nach der Editor- zeile aufbauen
                 for (var i = 0; i < prePostLines; i++) {
                     vLines.push(react_1.default.createElement(CrossWriterEmptyLine_1.CrossWriterEmptyLine, { key: state.keyGen(), cssClassLineNo: "col cw-3 lineNo", cssClassLine: "col cw-56 lineContent", cssClassLineFunction: "col cw-6 lineFunc" }));
@@ -188,13 +196,14 @@ define(["require", "exports", "jquery", "react", "react-dom", "./NamingIds", "./
                 AddPreLines(vLines, currentCursorLine);
                 vLines.push(react_1.default.createElement(CrossWriterEditLine_1.CrossWriterEditLine, { key: state.keyGen(), document: state.document, cursor: state.cursor, cssClassCursor: "Cursor", cssClassLineNo: "col cw-3 lineNo", cssClassLine: "col cw-56 EditLine", cssClassLineFunction: "col cw-6 lineFunc", 
                     //ProcessKeyDownEventForVisibleLines={ProcessKeyDownEventForEditLine}
-                    nytKeywords: state.nytKeywords }));
+                    nytKeywords: state.nytKeywords, SetFocusOnInputField: SetFocusOnInputField, countEditOps: state.countEditOp }));
                 AddPostLines(vLines, currentCursorLine, state.document.LineCount());
             }
             return vLines;
         }
         // KeyCodes siehe https://www.freecodecamp.org/news/javascript-keycode-list-keypress-event-key-codes/
         function ProcessKeyDownEventForEditLine(key, ctrlKey, altKey, shiftKey) {
+            countEditOp = state.countEditOp + 1;
             let test = fKeys.find((val) => val === key);
             if (key == "#") {
                 SetAltKeyInState(true);
@@ -211,124 +220,52 @@ define(["require", "exports", "jquery", "react", "react-dom", "./NamingIds", "./
             }
             else if (key == "Enter") {
                 // Ctrl+Enter ⏎: Neuen Text übernehmen
+                if (state.document.LineCount() !== 0 && state.cursor.currentLineNo < state.document.LineCount() - 1) {
+                    let newCursorColPos = state.document.textLines[state.cursor.currentLineNo + 1].length;
+                    SetNewCursorPos(state.cursor.currentLineNo + 1, newCursorColPos);
+                }
+                else if (state.document.LineCount() == 0) {
+                    // erste Zeile 
+                    state.document.textLines.push("");
+                }
+                else {
+                    state.document.textLines.push("");
+                    SetNewCursorPos(state.cursor.currentLineNo + 1, 0);
+                }
             }
             else if (key == "ArrowUp") {
                 // Ctrl+Arrow Up ↑: Vorausgehenden Textabschnitt bearbeiten
                 if (state.document.LineCount() !== 0 && state.cursor.currentLineNo > 0) {
                     let newCursorPos = state.document.textLines[state.cursor.currentLineNo - 1].length;
-                    setState({
-                        cursor: {
-                            currentColNo: newCursorPos,
-                            currentLineNo: state.cursor.currentLineNo - 1,
-                            cursorSymbol: state.cursor.cursorSymbol
-                        },
-                        document: state.document,
-                        editShortCuts: state.editShortCuts,
-                        init: state.init,
-                        nytKeywords: state.nytKeywords,
-                        statusText: state.statusText,
-                        visibleLines: CountViewLines,
-                        keyGen: state.keyGen,
-                        altKey: false
-                    });
+                    SetNewCursorPos(state.cursor.currentLineNo - 1, newCursorPos);
                 }
             }
             else if (key == "ArrowDown") {
                 // Ctrl+Arrow Down ↓: Vorausgehenden Textabschnitt bearbeiten            
                 if (state.document.LineCount() !== 0 && state.cursor.currentLineNo < state.document.LineCount() - 1) {
                     let newCursorPos = state.document.textLines[state.cursor.currentLineNo + 1].length;
-                    setState({
-                        cursor: {
-                            currentColNo: newCursorPos,
-                            currentLineNo: state.cursor.currentLineNo + 1,
-                            cursorSymbol: state.cursor.cursorSymbol
-                        },
-                        document: state.document,
-                        editShortCuts: state.editShortCuts,
-                        init: state.init,
-                        nytKeywords: state.nytKeywords,
-                        statusText: state.statusText,
-                        visibleLines: CountViewLines,
-                        keyGen: state.keyGen,
-                        altKey: false
-                    });
+                    SetNewCursorPos(state.cursor.currentLineNo + 1, newCursorPos);
                 }
             }
             else if (key == "ArrowLeft") {
                 // Arrow Left ←: Cursor nach links
                 if (state.document.textLines[state.cursor.currentLineNo].length > 0
                     && state.cursor.currentColNo > 0) {
-                    setState({
-                        cursor: {
-                            currentColNo: state.cursor.currentColNo - 1,
-                            currentLineNo: state.cursor.currentLineNo,
-                            cursorSymbol: state.cursor.cursorSymbol
-                        },
-                        document: state.document,
-                        editShortCuts: state.editShortCuts,
-                        init: state.init,
-                        nytKeywords: state.nytKeywords,
-                        statusText: state.statusText,
-                        visibleLines: CountViewLines,
-                        keyGen: state.keyGen,
-                        altKey: false
-                    });
+                    SetNewCursorPos(state.cursor.currentLineNo, state.cursor.currentColNo - 1);
                 }
             }
             else if (key == "ArrowRight") {
                 // Arrow Right →: Cursor nach rechts
                 if (state.document.textLines[state.cursor.currentLineNo].length > 0
                     && state.document.textLines[state.cursor.currentLineNo].length > state.cursor.currentColNo) {
-                    setState({
-                        cursor: {
-                            currentColNo: state.cursor.currentColNo + 1,
-                            currentLineNo: state.cursor.currentLineNo,
-                            cursorSymbol: state.cursor.cursorSymbol
-                        },
-                        document: state.document,
-                        editShortCuts: state.editShortCuts,
-                        init: state.init,
-                        nytKeywords: state.nytKeywords,
-                        statusText: state.statusText,
-                        visibleLines: CountViewLines,
-                        keyGen: state.keyGen,
-                        altKey: false
-                    });
+                    SetNewCursorPos(state.cursor.currentLineNo, state.cursor.currentColNo + 1);
                 }
             }
             else if (key == "Home") {
-                setState({
-                    cursor: {
-                        currentColNo: 0,
-                        currentLineNo: state.cursor.currentLineNo,
-                        cursorSymbol: state.cursor.cursorSymbol
-                    },
-                    document: state.document,
-                    editShortCuts: state.editShortCuts,
-                    init: state.init,
-                    nytKeywords: state.nytKeywords,
-                    statusText: state.statusText,
-                    visibleLines: CountViewLines,
-                    keyGen: state.keyGen,
-                    altKey: false
-                });
+                SetNewCursorPos(state.cursor.currentLineNo, 0);
             }
             else if (key == "End") {
-                setState({
-                    cursor: {
-                        currentColNo: state.document.textLines[state.cursor.currentLineNo].length,
-                        currentLineNo: state.cursor.currentLineNo,
-                        cursorSymbol: state.cursor.cursorSymbol
-                    },
-                    document: state.document,
-                    editShortCuts: state.editShortCuts,
-                    init: state.init,
-                    nytKeywords: state.nytKeywords,
-                    statusText: state.statusText,
-                    visibleLines: CountViewLines,
-                    keyGen: state.keyGen,
-                    altKey: false
-                });
+                SetNewCursorPos(state.cursor.currentLineNo, state.document.textLines[state.cursor.currentLineNo].length);
             }
             else if (key == "Backspace") {
                 // Zeichen links vom Cursor löschen
@@ -355,7 +292,8 @@ define(["require", "exports", "jquery", "react", "react-dom", "./NamingIds", "./
                     statusText: state.statusText,
                     visibleLines: CountViewLines,
                     keyGen: state.keyGen,
-                    altKey: false
+                    altKey: false,
+                    countEditOp: state.countEditOp + 1
                 });
             }
             else if (key == "Delete") {
@@ -382,7 +320,8 @@ define(["require", "exports", "jquery", "react", "react-dom", "./NamingIds", "./
                     statusText: state.statusText,
                     visibleLines: CountViewLines,
                     keyGen: state.keyGen,
-                    altKey: false
+                    altKey: false,
+                    countEditOp: state.countEditOp + 1
                 });
             }
             else if (key == "Shift" || key == "Control") {
@@ -395,6 +334,24 @@ define(["require", "exports", "jquery", "react", "react-dom", "./NamingIds", "./
             else {
                 InsertCharInText(key);
             }
+        }
+        function SetNewCursorPos(cursorPosLine, cursorPosCol) {
+            setState({
+                cursor: {
+                    currentColNo: cursorPosCol,
+                    currentLineNo: cursorPosLine,
+                    cursorSymbol: state.cursor.cursorSymbol
+                },
+                document: state.document,
+                editShortCuts: state.editShortCuts,
+                init: state.init,
+                nytKeywords: state.nytKeywords,
+                statusText: state.statusText,
+                visibleLines: CountViewLines,
+                keyGen: state.keyGen,
+                altKey: false,
+                countEditOp: state.countEditOp + 1
+            });
         }
         function InsertCharInText(key) {
             // Das Zeichen wird an der Cursorposition eingefügt
@@ -426,7 +383,8 @@ define(["require", "exports", "jquery", "react", "react-dom", "./NamingIds", "./
                 statusText: state.statusText,
                 visibleLines: CountViewLines,
                 keyGen: state.keyGen,
-                altKey: false
+                altKey: false,
+                countEditOp: state.countEditOp + 1
             });
         }
         function SetAltKeyInState(altKey) {
@@ -443,7 +401,8 @@ define(["require", "exports", "jquery", "react", "react-dom", "./NamingIds", "./
                 statusText: state.statusText,
                 visibleLines: CountViewLines,
                 keyGen: state.keyGen,
-                altKey: altKey
+                altKey: altKey,
+                countEditOp: state.countEditOp + 1
             });
         }
         function AddPreLines(vLines, currentCursorLine) {
@@ -524,7 +483,7 @@ define(["require", "exports", "jquery", "react", "react-dom", "./NamingIds", "./
     }
     function CrossWriterSetUp(idRoot, ServerOrigin, documentName) {
         react_dom_1.default.render(react_1.default.createElement(react_1.default.StrictMode, null,
-            react_1.default.createElement(CrossWriter, { ServerOrigin: ServerOrigin, DocumentName: documentName, NameSpaceNytNamingContainers: "MKPRG.Naming.NYT.Keywords", UserId: "mko" })), (0, jquery_1.default)(`#${idRoot}`)[0]);
+            react_1.default.createElement(CrossWriter, { ServerOrigin: ServerOrigin, DocumentName: documentName, CursorSymbol: "\u29F3", UserId: "mko" })), (0, jquery_1.default)(`#${idRoot}`)[0]);
     }
     exports.default = CrossWriterSetUp;
 });

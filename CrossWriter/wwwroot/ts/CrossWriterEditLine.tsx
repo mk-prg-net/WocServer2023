@@ -23,19 +23,21 @@ export interface ICrossWriterEditLineProps {
     cssClassCursor: string,
     document: IDocument,
     cursor : IDocumentCursor,
-    nytKeywords: Record<string, INamingContainer>
+    nytKeywords: Record<string, INamingContainer>,
+    SetFocusOnInputField: () => any,
+    countEditOps: number
 }
 
 // List of all NYT Keywords. Must be loaded from Server
 var nytKeywords: Record<string, INamingContainer>
 
-
 export function CrossWriterEditLine(properties: ICrossWriterEditLineProps) {
     // Die Liste der Schlüsselwörter wird einmalig in der Hauptkomponente CrossWriter
     // geladen. Hier wird nur eine referenz auf die Struktur abgelegt.
-    nytKeywords = properties.nytKeywords;
+    nytKeywords = properties.nytKeywords;    
 
-    let editLineRef = React.useRef();
+
+    React.useEffect(properties.SetFocusOnInputField, [properties.countEditOps]);
 
     function getTextLine(props: ICrossWriterEditLineProps, succF: SiegelSuccessFunc<ICrossWriterEditLineProps>, errF: SowiloErrFunc<ICrossWriterEditLineProps>): any {
         let lineNo = props.cursor.currentLineNo;

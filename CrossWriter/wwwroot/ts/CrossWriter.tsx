@@ -17,8 +17,8 @@ import { CreateDocument, IDocument, IDocumentCursor } from "./Document";
 interface ICrossWriterProps {
     ServerOrigin: string,    
     UserId: string,
-    NameSpaceNytNamingContainers: string,
-    DocumentName: string
+    CursorSymbol: string,
+    DocumentName: string    
 }
 
 
@@ -47,7 +47,10 @@ interface ICrossWriterState {
     statusText: string
 
     // Generates unique Keys
-    keyGen: () => number
+    keyGen: () => number,
+
+    // Indicates a new edit Op
+    countEditOp: number
 }
 
 function CreateKeyGenerator(): () => number
@@ -59,7 +62,6 @@ function CreateKeyGenerator(): () => number
 
 // This must be an uneven Number (count pre- Lines, edit- Line, count post- Lines)
 const CountViewLines = 31;
-const CursorSymbol = "⧳";
 
 // Default- Namingcontainer
 var UnkownNC: INamingContainer = {
@@ -74,7 +76,7 @@ var UnkownNC: INamingContainer = {
 
 function CrossWriter(properties: ICrossWriterProps) {
     // Define initial State
-    let [state, setState] = React.useState<ICrossWriterState>({
+    const [state, setState] = React.useState<ICrossWriterState>({
         init: true,
         nytKeywords: { "none": UnkownNC },
         editShortCuts: { "none": UnkownNC },
@@ -84,14 +86,15 @@ function CrossWriter(properties: ICrossWriterProps) {
             textLines: [""],
             LineCount: () => 0
         },
-        cursor: { currentLineNo: 0, currentColNo: 0, cursorSymbol: CursorSymbol },
+        cursor: { currentLineNo: 0, currentColNo: 0, cursorSymbol: properties.CursorSymbol },
         visibleLines: CountViewLines,
         statusText: "start",
         keyGen: CreateKeyGenerator(),
-        altKey: false
+        altKey: false,
+        countEditOp: 0
     });
 
-    const Nids = React.useMemo(() => NamingIds(), [properties.NameSpaceNytNamingContainers]);
+    const Nids = React.useMemo(() => NamingIds(), []);
     let AppName = "???";
 
     let invisibleInputFildForEdit = React.useRef<HTMLInputElement>(null);
@@ -100,7 +103,7 @@ function CrossWriter(properties: ICrossWriterProps) {
         if (state.init) {
             let keyGenerator = CreateKeyGenerator();
 
-            $.ajax(`${properties.ServerOrigin}/NamingContainers?NC=${properties.NameSpaceNytNamingContainers}`, { method: "GET" })
+            $.ajax(`${properties.ServerOrigin}/NamingContainers?NC=MKPRG.Naming.NYT.Keywords`, { method: "GET" })
                 .done((data, textStatus, jqXhr) => {
                     let _ncList = data as Array<INamingContainer>;
                     let _nc: Record<string, INamingContainer> = {};
@@ -138,11 +141,12 @@ function CrossWriter(properties: ICrossWriterProps) {
                                             nytKeywords: _nc,
                                             editShortCuts: _editShortCuts,
                                             document: doc,
-                                            cursor: { currentColNo: doc.textLines[0].length, currentLineNo: 0, cursorSymbol: CursorSymbol },
+                                            cursor: { currentColNo: doc.textLines[0].length, currentLineNo: 0, cursorSymbol: properties.CursorSymbol },
                                             visibleLines: CountViewLines,
                                             statusText: `Resources and document ${properties.DocumentName} loaded successful from Server`,
                                             keyGen: keyGenerator,
-                                            altKey: false
+                                            altKey: false,
+                                            countEditOp: 1
                                         });
                                         return "";
                                     },
@@ -157,7 +161,8 @@ function CrossWriter(properties: ICrossWriterProps) {
                                             visibleLines: CountViewLines,
                                             statusText: `Resources loaded successful from Server, but not the Document. ${fName} failed, ErrClass: ${errClass}, ${args.join(", ")}`,
                                             keyGen: keyGenerator,
-                                            altKey: false
+                                            altKey: false,
+                                            countEditOp: 1
                                         });
                                         return "";
                                     }
@@ -176,7 +181,8 @@ function CrossWriter(properties: ICrossWriterProps) {
                             visibleLines: CountViewLines,
                             statusText: "Resources loaded successful from Server",
                             keyGen: keyGenerator,
-                            altKey: false
+                            altKey: false,
+                            countEditOp: 0
                         });
                     }
 
@@ -195,18 +201,24 @@ function CrossWriter(properties: ICrossWriterProps) {
                         visibleLines: CountViewLines,
                         statusText: errTxt,
                         keyGen: keyGenerator,
-                        altKey: false
+                        altKey: false,
+                        countEditOp: 0
                     });
                 });
-        }
-
-        if (invisibleInputFildForEdit !== null &&  invisibleInputFildForEdit !== undefined) {
-            invisibleInputFildForEdit.current.focus();
-            invisibleInputFildForEdit.current.value = "";
         }
     }
 
     React.useEffect(() => LoadResourcesFromServer(), []);
+
+    function SetFocusOnInputField(): any {
+        if (invisibleInputFildForEdit !== null && invisibleInputFildForEdit !== undefined) {
+            invisibleInputFildForEdit.current.focus();
+            invisibleInputFildForEdit.current.value = "";
+        }
+    }   
+
+    let countEditOp = 0;
+    React.useEffect(SetFocusOnInputField, []);
 
     // Berechnet die Anzahl der sichtbaren Zeilen vor und nach der Editor- Zeile
     function CountPrePostLines() { return (CountViewLines - 1) / 2 };
@@ -262,7 +274,11 @@ function CrossWriter(properties: ICrossWriterProps) {
                 cssClassLine="col cw-56 EditLine"
                 cssClassLineFunction="col cw-6 lineFunc"
                 //ProcessKeyDownEventForVisibleLines={ProcessKeyDownEventForEditLine}
-                nytKeywords={state.nytKeywords}></CrossWriterEditLine>);
+                nytKeywords={state.nytKeywords}
+                SetFocusOnInputField = { SetFocusOnInputField }
+                countEditOps={state.countEditOp}>
+            </CrossWriterEditLine>,
+            );
 
             // Leerzeilen nach der Editor- zeile aufbauen
             for (var i = 0; i < prePostLines; i++) {
@@ -286,7 +302,10 @@ function CrossWriter(properties: ICrossWriterProps) {
                 cssClassLine="col cw-56 EditLine"
                 cssClassLineFunction="col cw-6 lineFunc"
                 //ProcessKeyDownEventForVisibleLines={ProcessKeyDownEventForEditLine}
-                nytKeywords={state.nytKeywords}></CrossWriterEditLine>);
+                nytKeywords={state.nytKeywords}
+                SetFocusOnInputField = {SetFocusOnInputField}
+                countEditOps={state.countEditOp}>
+            </CrossWriterEditLine>);
 
             AddPostLines(vLines, currentCursorLine, state.document.LineCount());
         }        
@@ -295,7 +314,8 @@ function CrossWriter(properties: ICrossWriterProps) {
     }
 
     // KeyCodes siehe https://www.freecodecamp.org/news/javascript-keycode-list-keypress-event-key-codes/
-    function ProcessKeyDownEventForEditLine(key: string, ctrlKey: boolean, altKey: boolean, shiftKey: boolean) {
+    function ProcessKeyDownEventForEditLine(key: string, ctrlKey: boolean, altKey: boolean, shiftKey: boolean) {  
+        countEditOp = state.countEditOp + 1;
 
         let test = fKeys.find((val) => val === key);
         if (key == "#") {
@@ -313,6 +333,17 @@ function CrossWriter(properties: ICrossWriterProps) {
         }
         else if (key == "Enter") {
             // Ctrl+Enter ⏎: Neuen Text übernehmen
+
+            if (state.document.LineCount() !== 0 && state.cursor.currentLineNo < state.document.LineCount() - 1) {
+                let newCursorColPos = state.document.textLines[state.cursor.currentLineNo + 1].length;
+                SetNewCursorPos(state.cursor.currentLineNo + 1, newCursorColPos);
+            } else if (state.document.LineCount() == 0) {
+                // erste Zeile 
+                state.document.textLines.push("");
+            } else {
+                state.document.textLines.push("");                
+                SetNewCursorPos(state.cursor.currentLineNo + 1, 0);
+            }
         }
         else if (key == "ArrowUp") {
             // Ctrl+Arrow Up ↑: Vorausgehenden Textabschnitt bearbeiten
@@ -320,47 +351,15 @@ function CrossWriter(properties: ICrossWriterProps) {
             if (state.document.LineCount() !== 0 && state.cursor.currentLineNo > 0) {
 
                 let newCursorPos = state.document.textLines[state.cursor.currentLineNo - 1].length;
-
-                setState({
-                    cursor: {
-                        currentColNo: newCursorPos,
-                        currentLineNo: state.cursor.currentLineNo - 1,
-                        cursorSymbol: state.cursor.cursorSymbol
-                    },
-                    document: state.document,
-                    editShortCuts: state.editShortCuts,
-                    init: state.init,
-                    nytKeywords: state.nytKeywords,
-                    statusText: state.statusText,
-                    visibleLines: CountViewLines,
-                    keyGen: state.keyGen,
-                    altKey: false
-
-                })
+                SetNewCursorPos(state.cursor.currentLineNo - 1, newCursorPos);    
             }
         }
         else if (key == "ArrowDown") {
             // Ctrl+Arrow Down ↓: Vorausgehenden Textabschnitt bearbeiten            
 
             if (state.document.LineCount() !== 0 && state.cursor.currentLineNo < state.document.LineCount() - 1) {
-
                 let newCursorPos = state.document.textLines[state.cursor.currentLineNo + 1].length;
-
-                setState({
-                    cursor: {
-                        currentColNo: newCursorPos,
-                        currentLineNo: state.cursor.currentLineNo + 1,
-                        cursorSymbol: state.cursor.cursorSymbol
-                    },
-                    document: state.document,
-                    editShortCuts: state.editShortCuts,
-                    init: state.init,
-                    nytKeywords: state.nytKeywords,
-                    statusText: state.statusText,
-                    visibleLines: CountViewLines,
-                    keyGen: state.keyGen,
-                    altKey: false
-                })
+                SetNewCursorPos(state.cursor.currentLineNo + 1, newCursorPos);    
             }
         }
         else if (key == "ArrowLeft") {
@@ -368,21 +367,7 @@ function CrossWriter(properties: ICrossWriterProps) {
 
             if (state.document.textLines[state.cursor.currentLineNo].length > 0
                 && state.cursor.currentColNo > 0) {
-                setState({
-                    cursor: {
-                        currentColNo: state.cursor.currentColNo - 1,
-                        currentLineNo: state.cursor.currentLineNo,
-                        cursorSymbol: state.cursor.cursorSymbol
-                    },
-                    document: state.document,
-                    editShortCuts: state.editShortCuts,
-                    init: state.init,
-                    nytKeywords: state.nytKeywords,
-                    statusText: state.statusText,
-                    visibleLines: CountViewLines,
-                    keyGen: state.keyGen,
-                    altKey: false
-                })
+                SetNewCursorPos(state.cursor.currentLineNo, state.cursor.currentColNo -1);    
             }
         }
         else if (key == "ArrowRight") {
@@ -390,56 +375,14 @@ function CrossWriter(properties: ICrossWriterProps) {
 
             if (state.document.textLines[state.cursor.currentLineNo].length > 0
                 && state.document.textLines[state.cursor.currentLineNo].length > state.cursor.currentColNo) {
-                setState({
-                    cursor: {
-                        currentColNo: state.cursor.currentColNo + 1,
-                        currentLineNo: state.cursor.currentLineNo,
-                        cursorSymbol: state.cursor.cursorSymbol
-                    },
-                    document: state.document,
-                    editShortCuts: state.editShortCuts,
-                    init: state.init,
-                    nytKeywords: state.nytKeywords,
-                    statusText: state.statusText,
-                    visibleLines: CountViewLines,
-                    keyGen: state.keyGen,
-                    altKey: false
-                })
+                SetNewCursorPos(state.cursor.currentLineNo, state.cursor.currentColNo + 1);    
             }
         }
         else if (key == "Home") {
-            setState({
-                cursor: {
-                    currentColNo: 0,
-                    currentLineNo: state.cursor.currentLineNo,
-                    cursorSymbol: state.cursor.cursorSymbol
-                },
-                document: state.document,
-                editShortCuts: state.editShortCuts,
-                init: state.init,
-                nytKeywords: state.nytKeywords,
-                statusText: state.statusText,
-                visibleLines: CountViewLines,
-                keyGen: state.keyGen,
-                altKey: false
-            })
+            SetNewCursorPos(state.cursor.currentLineNo, 0);
         }
         else if (key == "End") {
-            setState({
-                cursor: {
-                    currentColNo: state.document.textLines[state.cursor.currentLineNo].length,
-                    currentLineNo: state.cursor.currentLineNo,
-                    cursorSymbol: state.cursor.cursorSymbol
-                },
-                document: state.document,
-                editShortCuts: state.editShortCuts,
-                init: state.init,
-                nytKeywords: state.nytKeywords,
-                statusText: state.statusText,
-                visibleLines: CountViewLines,
-                keyGen: state.keyGen,
-                altKey: false
-            })
+            SetNewCursorPos(state.cursor.currentLineNo, state.document.textLines[state.cursor.currentLineNo].length);
         }
         else if (key == "Backspace") {
             // Zeichen links vom Cursor löschen
@@ -469,7 +412,8 @@ function CrossWriter(properties: ICrossWriterProps) {
                 statusText: state.statusText,
                 visibleLines: CountViewLines,
                 keyGen: state.keyGen,
-                altKey: false
+                altKey: false,
+                countEditOp: state.countEditOp +1
             })
         }
         else if (key == "Delete") {
@@ -499,7 +443,8 @@ function CrossWriter(properties: ICrossWriterProps) {
                 statusText: state.statusText,
                 visibleLines: CountViewLines,
                 keyGen: state.keyGen,
-                altKey: false
+                altKey: false,
+                countEditOp: state.countEditOp + 1
             })
         }
         else if (key == "Shift" || key=="Control") {
@@ -512,6 +457,26 @@ function CrossWriter(properties: ICrossWriterProps) {
         else {
             InsertCharInText(key);
         }
+    }
+
+    function SetNewCursorPos(cursorPosLine: number, cursorPosCol: number) {
+        setState({
+            cursor: {
+                currentColNo: cursorPosCol,
+                currentLineNo: cursorPosLine,
+                cursorSymbol: state.cursor.cursorSymbol
+            },
+            document: state.document,
+            editShortCuts: state.editShortCuts,
+            init: state.init,
+            nytKeywords: state.nytKeywords,
+            statusText: state.statusText,
+            visibleLines: CountViewLines,
+            keyGen: state.keyGen,
+            altKey: false,
+            countEditOp: state.countEditOp + 1
+        })
+
     }
 
     function InsertCharInText(key: string) {
@@ -549,7 +514,8 @@ function CrossWriter(properties: ICrossWriterProps) {
             statusText: state.statusText,
             visibleLines: CountViewLines,
             keyGen: state.keyGen,
-            altKey: false
+            altKey: false,
+            countEditOp: state.countEditOp + 1            
         })
     }
 
@@ -567,7 +533,8 @@ function CrossWriter(properties: ICrossWriterProps) {
             statusText: state.statusText,
             visibleLines: CountViewLines,
             keyGen: state.keyGen,
-            altKey: altKey
+            altKey: altKey,
+            countEditOp: state.countEditOp + 1
         })
 
     }
@@ -714,10 +681,9 @@ export default function CrossWriterSetUp(idRoot: string, ServerOrigin: string, d
         <React.StrictMode>
             
             <CrossWriter 
-            
             ServerOrigin={ServerOrigin}
             DocumentName={documentName}
-            NameSpaceNytNamingContainers="MKPRG.Naming.NYT.Keywords"
+            CursorSymbol="⧳"            
             UserId="mko" />
             
         </React.StrictMode>

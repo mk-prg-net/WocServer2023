@@ -15,7 +15,7 @@ define(["require", "exports", "react", "jquery", "./SiegelAndSowilo"], function 
         // Die Liste der Schlüsselwörter wird einmalig in der Hauptkomponente CrossWriter
         // geladen. Hier wird nur eine referenz auf die Struktur abgelegt.
         nytKeywords = properties.nytKeywords;
-        let editLineRef = react_1.default.useRef();
+        react_1.default.useEffect(properties.SetFocusOnInputField, [properties.countEditOps]);
         function getTextLine(props, succF, errF) {
             let lineNo = props.cursor.currentLineNo;
             let textLines = props.document.textLines;
