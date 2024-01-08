@@ -568,10 +568,12 @@ define(["require", "exports", "jquery", "react", "react-dom", "./NamingIds", "./
             react_1.default.createElement("header", null,
                 react_1.default.createElement("nav", { id: "main_nav" },
                     react_1.default.createElement("div", null,
-                        react_1.default.createElement("button", { id: "btnNewFile", className: "btn btn-normal", tabIndex: 10 }, "\uD83D\uDDCB New"),
+                        react_1.default.createElement("button", { id: "btnSave", className: "btn btn-normal", tabIndex: 10 }, "\uD83D\uDDAB Save"),
                         react_1.default.createElement("button", { id: "btnOpenFile", className: "btn btn-normal", tabIndex: 20 }, "\uD83D\uDDBA Open"),
-                        react_1.default.createElement("button", { id: "btnSave", className: "btn btn-normal", tabIndex: 30 }, "\uD83D\uDDAB Save"),
-                        react_1.default.createElement("button", { id: "help", className: "btn btn-normal", tabIndex: 40 }, "\uD83D\uDD6E Help"),
+                        react_1.default.createElement("button", { id: "btnNewFile", className: "btn btn-normal", tabIndex: 30 }, "\uD83D\uDDCB New"),
+                        react_1.default.createElement("button", { id: "btnNewFile", className: "btn btn-normal", tabIndex: 40 }, "\u2325 Branch"),
+                        react_1.default.createElement("button", { id: "btnNewFile", className: "btn btn-normal", tabIndex: 40 }, "\u21C9 Rebase"),
+                        react_1.default.createElement("button", { id: "help", className: "btn btn-normal", tabIndex: 50 }, "\uD83D\uDD6E Help"),
                         react_1.default.createElement("span", { id: "currentDocName" }, state.document.documentName == undefined ? "&nbsp;" : state.document.documentName)),
                     react_1.default.createElement("div", null, (0, INamingContainer_1.getNameFromNc)(state.nytKeywords, Nids.MKPRG.Naming.NYT.Keywords.CrossWriter, (nc) => {
                         return react_1.default.createElement("span", { className: "progName" }, nc.EN);

@@ -760,10 +760,12 @@ function CrossWriter(properties: ICrossWriterProps) {
             <header>
                 <nav id="main_nav">
                     <div>
-                        <button id="btnNewFile" className="btn btn-normal" tabIndex={10}>🗋 New</button>
+                        <button id="btnSave" className="btn btn-normal" tabIndex={10}>🖫 Save</button>
                         <button id="btnOpenFile" className="btn btn-normal" tabIndex={20}>🖺 Open</button>
-                        <button id="btnSave" className="btn btn-normal" tabIndex={30}>🖫 Save</button>
-                        <button id="help" className="btn btn-normal" tabIndex={40}>🕮 Help</button>
+                        <button id="btnNewFile" className="btn btn-normal" tabIndex={30}>🗋 New</button>
+                        <button id="btnNewFile" className="btn btn-normal" tabIndex={40}>⌥ Branch</button>
+                        <button id="btnNewFile" className="btn btn-normal" tabIndex={40}>⇉ Rebase</button>
+                        <button id="help" className="btn btn-normal" tabIndex={50}>🕮 Help</button>
                         <span id="currentDocName">{state.document.documentName == undefined ? "&nbsp;" : state.document.documentName}</span>
                     </div>
                     <div>

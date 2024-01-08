@@ -119,4 +119,10 @@ app.MapGet("/Main", (HttpRequest req, MyNamingContainers myNamingContainers) =>
 
 });
 
+
+app.MapPost("/Save", (HttpRequest req) =>
+{
+
+});
+
 app.Run();
