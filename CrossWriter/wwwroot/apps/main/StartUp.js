@@ -16,16 +16,35 @@ requirejs.config({
     }
 });
 
-requirejs(['jquery', "react", "react-dom", "mod/nyt/LoadConfig"],
-    function ($, React, ReacDOM, LoadConfig) {        
+requirejs(['jquery', "mod/CrossWriter"],
+    function ($, CrossWriter) {        
 
-        // Caching in ajax abschalten
+        // Disable AJAX Caching
         $.ajax({
             cache: false
         });        
 
+        // Erweiterungspunkt setzen
+        //SET CURSOR POSITION
+        $.fn.setCursorPosition = function (pos) {
+            this.each(function (index, elem) {
+                if (elem.setSelectionRange) {
+                    elem.setSelectionRange(pos, pos);
+                } else if (elem.createTextRange) {
+                    var range = elem.createTextRange();
+                    range.collapse(true);
+                    range.moveEnd('character', pos);
+                    range.moveStart('character', pos);
+                    range.select();
+                }
+            });
+            return this;
+        };
+
+        // Get ServerOrigin
         let urlOrigin = $('#urlOrigin').val();
 
-        let loadConfig = LoadConfig.default($);
+        // Load CrossWriter
+        CrossWriter.default("crossWriter", urlOrigin, "nytDemoSquRoot.cwf");
         
     });

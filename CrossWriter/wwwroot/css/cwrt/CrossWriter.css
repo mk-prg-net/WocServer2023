@@ -1,0 +1,13 @@
+﻿/* 
+    mko, 3.1.2024
+    CrossWriter
+*/
+
+div.CrossWriter {
+    font-family: 'Cascadia Code', Consolas, monospace;
+}
+
+div.VisibleLines {
+    margin: 0.5em;
+}
+

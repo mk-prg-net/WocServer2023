@@ -3,10 +3,32 @@
     Gestaltung der Eingabezeile
 */
 
-.LLP-EditorLine {
+
+.lineNo {
+    font-weight: bold;
+    color: aqua;
+    text-align:right;
+}
+
+.lineContent {
+    white-space:pre-wrap;
+    color: whitesmoke;
+}
+
+.lineFunc {    
+    font-weight: bold;
+    color: aqua;
+}
+
+.EditLine {
+    white-space: pre-wrap;
     border-bottom-style: solid;
     border-bottom-color: brown;
-    font-family: Consolas, Courier New, Courier, monospace;
     font-weight: bold;
     color: gold;
+}
+
+.Cursor {
+    font-weight: bold;
+    color: coral;
 }

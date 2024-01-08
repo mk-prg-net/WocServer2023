@@ -5,7 +5,7 @@
 
 .row {
     content: ".";
-    display: block;
+    display: flow;
     clear: both;
     height: 0;
 }
@@ -13,11 +13,12 @@
 
 .col {    
     float: left;
-    margin: 8px;
-    margin-left: 4px;
-    margin-right: 4px;
-    margin-bottom: 0px;
-    padding: 8px;
+    display: inline;
+    margin: 0px;
+    margin-left: 0px;
+    margin-right: 0.2em;
+    margin-bottom: 0.2em;
+    padding: 0px;
 }
 
 .col-1 {

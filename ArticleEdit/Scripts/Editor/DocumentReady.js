@@ -47,7 +47,8 @@ function (StringHlp, Parser, RPNHtml) {
 
                 $("#post_text").html(main_data.slice(pos + 1, main_data.length).map(function (fn) { return fn.print(); }).join(" "));
 
-            } else if (event.keyCode == 38 && event.ctrlKey) {
+            }
+            else if (event.keyCode == 38 && event.ctrlKey) {
                 // Ctrl+Arrow Up: Vorausgehenden Textabschnitt bearbeiten                
 
                 if (pos > 0) pos--;

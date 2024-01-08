@@ -244,7 +244,8 @@ app.MapGet("/NamingContainers", (HttpRequest request, MyNamingContainers myNamin
     {
         var nidString = request.Query["NC"].First() ?? "";
 
-        var ncList = NamingContainerWebApiHlp.FetchNamingContainers(nidString, myNamingContainers);
+        var ncList = NamingContainerWebApiHlp
+        .FetchNamingContainers(nidString, myNamingContainers);
 
         return Results.Json(ncList, new System.Text.Json.JsonSerializerOptions()
         {

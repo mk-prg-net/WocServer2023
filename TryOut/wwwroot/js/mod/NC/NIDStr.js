@@ -1,5 +1,5 @@
 // mko, 26.4.2023
-// React Komponente, die eine Naming- Id in einen Namen aufl�st
+// React Komponente, die eine Naming- Id in einen Namen auflöst
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -74,7 +74,7 @@ define(["require", "exports", "react", "jquery", "./NamingIds"], function (requi
                 });
             }
         }
-        // Hier wird das Laden des zugeh�rigen Naming- Container initiert
+        // Hier wird das Laden des zugehörigen Naming- Container initiert
         react_1.default.useEffect(() => LoadNCfromServer(), []);
         return (react_1.default.createElement("span", { className: properties.cssClass, "data-nid": properties.nid }, getStringFromNamingContainer(properties.lng)));
     }

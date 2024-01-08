@@ -2,23 +2,20 @@
     (c) Martin Korneffel, Stuttgart 2017
 */
 
+.clearfix:after {
+    content: ".";
+    display: block;
+    clear: both;
+    height: 0;
+    visibility: hidden;
+}
+
 
 body {
     background-color: #404040; /* Schrift */
-    font-family: Arial;
-    font-weight: normal;
-    font-size: 12pt;
     color: #dfdfdf;
-    margin: 0px;
+    font-size: 1.5em;
 }
-
-@media screen and (max-width: 989px) {
-
-    body {
-        font-size: 20pt;
-    }
-}
-
 
 /* Element is hidden*/
 hidden {
@@ -27,87 +24,65 @@ hidden {
     display: none;
 }
 
-article {
-    /*height: 400px;*/
-    margin: 8px;
-    padding-top: 8px;
-    padding-bottom: 8px;
-    padding-left: 4px;
-    padding-right: 4px;
-    border-style: none;
-    border-color: #606060;
-    border-radius: 8px;
-    /*background-color: #808080;*/
-    background-color: white;
-    color: black;
-    text-align: left;
-    /* overflow-y: scroll */
-}
 
-    article time {
-        border-style: solid;
-        border-color: gold;
-        border-width: 2px;
-        border-radius: 4px;
-        padding: 4px;
-    }
-
-
-@media screen and (max-width: 989px) {
-    article {
-        height: auto;
-        padding-bottom: 1em;
-        font-size:initial;
-    }
-
-    img {
-        width: 100%;
-        height:auto;
-        margin: 0;
+@media screen and (max-width:3840px) {
+    body {
+        font-size: 1.5em;
     }
 }
 
-
-/*article img {
-    width: 80%;
-}*/
-
-
-h1 {
-    font-family: Arial, Helvetica, Sans-Serif;
+@media screen and (max-width:3270px) {
 }
 
-article h1 {
-    text-align: center;
-    font-family: 'Noto Sans', sans-serif;
+@media screen and (max-width:3200px) {
+    body {
+        font-size: 1.25em;
+    }
 }
 
-
-h2 {
-    font-family: Arial, Helvetica, Sans-Serif;
+@media screen and (max-width:2560px) {
 }
 
-h3 {
-    /* Elemente aus pseudoh3 */
-    font-family: Arial, Helvetica, sans-serif;
+@media screen and (max-width:2048px) {
+    body {
+        font-size: 1em;
+    }
 }
 
-h4 {
-    /* Elemente aus pseudoh3 */
-    font-family: Arial, Helvetica, sans-serif;
+@media screen and (max-width:1920px) {
+}
+
+@media screen and (max-width:1680px) {
+}
+
+@media screen and (max-width:1600px) {
+}
+
+@media screen and (max-width:1400px) {
+}
+
+@media screen and (max-width:1366px) {
+    body {
+        font-size: 0.75em;
+    }
+}
+
+@media screen and (max-width:1280px) {
+}
+
+@media screen and (max-width:1024px) {
+}
+
+@media screen and (max-width: 800px) {
 
 }
 
-/* ------------------------------------------------------------------------------ */
-/* Absätze */
-p {
-    font-family: Arial, Helvetica, sans-serif;
-    font-weight: normal;
-    /*color: White;*/
+@media screen and (max-width: 640px) {
 }
 
-
-ol {
-    
+@media screen and (max-width: 320px) {
+    body {
+        font-size: 0.5em;
+    }
 }
 

@@ -2,22 +2,6 @@
     (c) Martin Korneffel, IT-Beratung/Softwareentwicklung, Stuttgart 2014, 2017
     */
 
-body {
-    background-color: #404040; /* Schrift */
-    font-family: Arial;
-    font-weight: normal;
-    font-size: 10pt;
-    color: #dfdfdf;
-    margin: 0px;
-}
-
-@media screen and (max-width: 767px) {
-
-    body {
-        font-size: 16pt;
-    }
-}
-
 /* ------------------------------------------------------------------------------ */
 /* Hyperlinks */
 
