@@ -233,6 +233,14 @@ function CrossWriter(properties: ICrossWriterProps) {
         }
     }
 
+    function SetFocusOnInputField2(): any {
+        if (invisibleInputFildForEdit !== null && invisibleInputFildForEdit !== undefined) {
+            invisibleInputFildForEdit.current.focus();
+            invisibleInputFildForEdit.current.value = "a";
+        }
+    }
+
+
     let countEditOp = 0;
     React.useEffect(SetFocusOnInputField, []);
 
@@ -752,10 +760,10 @@ function CrossWriter(properties: ICrossWriterProps) {
             <header>
                 <nav id="main_nav">
                     <div>
-                        <button id="btnNewFile" className="btn btn-normal">🗋 New</button>
-                        <button id="btnOpenFile" className="btn btn-normal">🖺 Open</button>
-                        <button id="btnSave" className="btn btn-normal">🖫 Save</button>
-                        <button id="help" className="btn btn-normal">🕮 Help</button>
+                        <button id="btnNewFile" className="btn btn-normal" tabIndex={10}>🗋 New</button>
+                        <button id="btnOpenFile" className="btn btn-normal" tabIndex={20}>🖺 Open</button>
+                        <button id="btnSave" className="btn btn-normal" tabIndex={30}>🖫 Save</button>
+                        <button id="help" className="btn btn-normal" tabIndex={40}>🕮 Help</button>
                         <span id="currentDocName">{state.document.documentName == undefined ? "&nbsp;" : state.document.documentName}</span>
                     </div>
                     <div>
@@ -769,13 +777,20 @@ function CrossWriter(properties: ICrossWriterProps) {
                         )}
                     </div>
                 </nav>
-            </header>
+            </header>            
 
-            <input ref={invisibleInputFildForEdit} onKeyDown={e => ProcessKeyDownEventForEditLine(e.key, e.ctrlKey, e.altKey, e.shiftKey)}></input>
-
-            <div id="visibleLines" className="VisibleLines">
+            <div id="visibleLines" className="VisibleLines" >
+                <input ref={invisibleInputFildForEdit}
+                    onKeyDown={e => ProcessKeyDownEventForEditLine(e.key, e.ctrlKey, e.altKey, e.shiftKey)}
+                    onBlur={e => {
+                        // Keeps Foocus on Input field. See https://adueck.github.io/blog/keep-focus-when-clicking-on-element-react/
+                        if (e.relatedTarget === null) {
+                            e.target.focus();
+                        }
+                    }}>
+                </input>
                 {ViewLines()}
-                input</div>
+            </div>
 
             <footer className="row">
                 <div id="statusLine" className="col col-10">Line: {state.cursor.currentLineNo} Col: {state.cursor.currentColNo} #Lines: {state.document.LineCount()} </div>

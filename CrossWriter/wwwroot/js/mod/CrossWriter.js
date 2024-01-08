@@ -160,6 +160,12 @@ define(["require", "exports", "jquery", "react", "react-dom", "./NamingIds", "./
                 invisibleInputFildForEdit.current.value = "";
             }
         }
+        function SetFocusOnInputField2() {
+            if (invisibleInputFildForEdit !== null && invisibleInputFildForEdit !== undefined) {
+                invisibleInputFildForEdit.current.focus();
+                invisibleInputFildForEdit.current.value = "a";
+            }
+        }
         let countEditOp = 0;
         react_1.default.useEffect(SetFocusOnInputField, []);
         // Berechnet die Anzahl der sichtbaren Zeilen vor und nach der Editor- Zeile
@@ -562,20 +568,24 @@ define(["require", "exports", "jquery", "react", "react-dom", "./NamingIds", "./
             react_1.default.createElement("header", null,
                 react_1.default.createElement("nav", { id: "main_nav" },
                     react_1.default.createElement("div", null,
-                        react_1.default.createElement("button", { id: "btnNewFile", className: "btn btn-normal" }, "\uD83D\uDDCB New"),
-                        react_1.default.createElement("button", { id: "btnOpenFile", className: "btn btn-normal" }, "\uD83D\uDDBA Open"),
-                        react_1.default.createElement("button", { id: "btnSave", className: "btn btn-normal" }, "\uD83D\uDDAB Save"),
-                        react_1.default.createElement("button", { id: "help", className: "btn btn-normal" }, "\uD83D\uDD6E Help"),
+                        react_1.default.createElement("button", { id: "btnNewFile", className: "btn btn-normal", tabIndex: 10 }, "\uD83D\uDDCB New"),
+                        react_1.default.createElement("button", { id: "btnOpenFile", className: "btn btn-normal", tabIndex: 20 }, "\uD83D\uDDBA Open"),
+                        react_1.default.createElement("button", { id: "btnSave", className: "btn btn-normal", tabIndex: 30 }, "\uD83D\uDDAB Save"),
+                        react_1.default.createElement("button", { id: "help", className: "btn btn-normal", tabIndex: 40 }, "\uD83D\uDD6E Help"),
                         react_1.default.createElement("span", { id: "currentDocName" }, state.document.documentName == undefined ? "&nbsp;" : state.document.documentName)),
                     react_1.default.createElement("div", null, (0, INamingContainer_1.getNameFromNc)(state.nytKeywords, Nids.MKPRG.Naming.NYT.Keywords.CrossWriter, (nc) => {
                         return react_1.default.createElement("span", { className: "progName" }, nc.EN);
                     }, (ncDict, fName, errClass, descr) => {
                         return react_1.default.createElement("span", { className: "progName" }, `${fName} failed: Err Class: ${errClass}, ${descr}`);
                     })))),
-            react_1.default.createElement("input", { ref: invisibleInputFildForEdit, onKeyDown: e => ProcessKeyDownEventForEditLine(e.key, e.ctrlKey, e.altKey, e.shiftKey) }),
             react_1.default.createElement("div", { id: "visibleLines", className: "VisibleLines" },
-                ViewLines(),
-                "input"),
+                react_1.default.createElement("input", { ref: invisibleInputFildForEdit, onKeyDown: e => ProcessKeyDownEventForEditLine(e.key, e.ctrlKey, e.altKey, e.shiftKey), onBlur: e => {
+                        // Keeps Foocus on Input field. See https://adueck.github.io/blog/keep-focus-when-clicking-on-element-react/
+                        if (e.relatedTarget === null) {
+                            e.target.focus();
+                        }
+                    } }),
+                ViewLines()),
             react_1.default.createElement("footer", { className: "row" },
                 react_1.default.createElement("div", { id: "statusLine", className: "col col-10" },
                     "Line: ",
