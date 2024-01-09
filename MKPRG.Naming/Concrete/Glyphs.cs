@@ -823,12 +823,12 @@ namespace MKPRG.Naming
 
 
             // ᛗ M Module Begin
-            public static string MModuleBegin => "ᛗ";
-            public static string MModuleBeginHtm => "&#x16D7;";
+            public static string MModuleBegin => "ᛖ";
+            public static string MModuleBeginHtm => "&#x16D6;";
 
             // ᛖ Ehwaz Mokdule End
-            public static string EhwazMooduleEnd => "ᛖ";
-            public static string EhwazMooduleEndHtm => "&#x16D6;";
+            public static string EhwazMooduleEnd => "ᛗ";
+            public static string EhwazMooduleEndHtm => "&#x16D7;";
 
             // ᛋ SIEGEL Branch
             public static string SiegelBranch => "ᛋ";
@@ -837,6 +837,9 @@ namespace MKPRG.Naming
             // ᛊ SOWILO Branch
             public static string SowiloBranch => "ᛊ";
             public static string SowiloBranchHtm => "&#x16CA;";
+
+            public static string TyrGoto => "ᛏ";
+            public static string TyrGotoHtm => "&#x16CF;";
 
             // ᛋᛏ Switch to Siegel Branch
             public static string SwitchToSiegelBranch => "ᛋᛏ";
@@ -863,6 +866,11 @@ namespace MKPRG.Naming
             // ᛩ Q List End
             public static string QListEnd => "ᛩ";
             public static string QListEndHtm => "&#x16E9;";
+
+
+            // ᛠ Type
+            public static string Type => "ᛠ";
+            public static string TypeHtm => "&#x16E0;";
 
             // ᚠ FEHU Hierarchical List
             public static string FehuHirachy => "ᚠ";

@@ -80,6 +80,7 @@ var UnkownNC: INamingContainer = {
     NIDstr: "unknown"
 };
 
+// Main Control for the Cross Writer Editor
 function CrossWriter(properties: ICrossWriterProps) {
     // Define initial State
     const [state, setState] = React.useState<ICrossWriterState>({
@@ -102,10 +103,10 @@ function CrossWriter(properties: ICrossWriterProps) {
         countEditOp: 0
     });
 
+    // Calculate all Naming Ids only once
     const Nids = React.useMemo(() => NamingIds(), []);
-    let AppName = "???";
 
-    let invisibleInputFildForEdit = React.useRef<HTMLInputElement>(null);
+    let centralInputFieldForCatchingKeyboardEvents = React.useRef<HTMLInputElement>(null);
 
     function LoadResourcesFromServer() {
         if (state.init) {
@@ -226,20 +227,13 @@ function CrossWriter(properties: ICrossWriterProps) {
 
     React.useEffect(() => LoadResourcesFromServer(), []);
 
+    // Ensures, that central input field for catching keyboard events will not lost the focus.
     function SetFocusOnInputField(): any {
-        if (invisibleInputFildForEdit !== null && invisibleInputFildForEdit !== undefined) {
-            invisibleInputFildForEdit.current.focus();
-            invisibleInputFildForEdit.current.value = "";
+        if (centralInputFieldForCatchingKeyboardEvents !== null && centralInputFieldForCatchingKeyboardEvents !== undefined) {
+            centralInputFieldForCatchingKeyboardEvents.current.focus();
+            centralInputFieldForCatchingKeyboardEvents.current.value = "";
         }
     }
-
-    function SetFocusOnInputField2(): any {
-        if (invisibleInputFildForEdit !== null && invisibleInputFildForEdit !== undefined) {
-            invisibleInputFildForEdit.current.focus();
-            invisibleInputFildForEdit.current.value = "a";
-        }
-    }
-
 
     let countEditOp = 0;
     React.useEffect(SetFocusOnInputField, []);
@@ -247,6 +241,7 @@ function CrossWriter(properties: ICrossWriterProps) {
     // Berechnet die Anzahl der sichtbaren Zeilen vor und nach der Editor- Zeile
     function CountPrePostLines() { return (CountViewLines - 1) / 2 };
 
+    // Lists all F- Keys
     const fKeys = ["F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9", "F10", "F11", "F12"];
 
     // mko, 2.1.2024
@@ -381,16 +376,16 @@ function CrossWriter(properties: ICrossWriterProps) {
                     // LineCount > 1
                     // Zwei Fälle: steht der Cursor am Zeilenanfang, dann vor der aktuellen Zeile einfügen.
                     // Sonst nach der aktuellen Zeile
-                    if (state.cursor.currentColNo == 0) {                        
-                        state.document.textLines.splice(state.cursor.currentLineNo, 0, "");                        
+                    if (state.cursor.currentColNo == 0) {
+                        state.document.textLines.splice(state.cursor.currentLineNo, 0, "");
                     }
                     else {
                         state.cursor.currentLineNo++;
-                        state.document.textLines.splice(state.cursor.currentLineNo, 0, "");                        
-                    }                    
+                        state.document.textLines.splice(state.cursor.currentLineNo, 0, "");
+                    }
                 }
                 SetCtrlKeyInState(false);
-            
+
             } else {
                 SetCtrlKeyInState(false);
             }
@@ -655,7 +650,7 @@ function CrossWriter(properties: ICrossWriterProps) {
     }
 
 
-
+    // Inserts all Lines befor Editor Line
     function AddPreLines(vLines: any[], currentCursorLine: number) {
 
         let prePostLines = CountPrePostLines();
@@ -700,6 +695,7 @@ function CrossWriter(properties: ICrossWriterProps) {
         }
     }
 
+    // Inserts all Lines after Editor Line
     function AddPostLines(vLines: any[], currentCursorLine: number, LineCount: number) {
 
         let prePostLines = CountPrePostLines();
@@ -743,17 +739,18 @@ function CrossWriter(properties: ICrossWriterProps) {
         }
     }
 
-    // Sicherer Abruf eines Namenscontainers
-    //function getNameFromNc(NID: string, siegel: SiegelSuccessFunc<INamingContainer>, sowilo: SowiloErrFunc<ICrossWriterState>) : any {
 
-    //    if (Object.keys(state.nytKeywords).find(key => key == NID) == undefined) {
-    //        return sowilo(state, "getNameFromNc", ErrorClasses.ArgumentValidationFailed, `NID ${NID} cannot be found in state,´.nytKeyWords`);
-    //    }
-    //    else {
-    //        let nc = state.nytKeywords[NID];
-    //        return siegel(nc);
-    //    }
-    //}
+    function CreateEditorShortCutTable(): any[] {
+        let shortCuts = Object.keys(state.editShortCuts).filter((sc) => sc.length < 3).sort((a, b) => a.charCodeAt(1) - b.charCodeAt(1));
+        let divs = shortCuts.map((shortCut) =>
+            <div className="col cw-1">
+                <div>{state.editShortCuts[shortCut].GlyphUniCode}</div>
+                <div>{shortCut}</div>
+            </div>
+        );
+
+        return divs;
+    }
 
     return (
         <div id="CrossWriterCtrl" className="CrossWriter">
@@ -779,10 +776,12 @@ function CrossWriter(properties: ICrossWriterProps) {
                         )}
                     </div>
                 </nav>
-            </header>            
+            </header>
 
             <div id="visibleLines" className="VisibleLines" >
-                <input ref={invisibleInputFildForEdit}
+
+                {/* The central input Control for catching Keyboard Events */}
+                <input ref={centralInputFieldForCatchingKeyboardEvents}
                     onKeyDown={e => ProcessKeyDownEventForEditLine(e.key, e.ctrlKey, e.altKey, e.shiftKey)}
                     onBlur={e => {
                         // Keeps Foocus on Input field. See https://adueck.github.io/blog/keep-focus-when-clicking-on-element-react/
@@ -794,12 +793,17 @@ function CrossWriter(properties: ICrossWriterProps) {
                 {ViewLines()}
             </div>
 
-            <footer className="row">
-                <div id="statusLine" className="col col-10">Line: {state.cursor.currentLineNo} Col: {state.cursor.currentColNo} #Lines: {state.document.LineCount()} </div>
+            <footer>
+                <div id="shortCutTable" className="row">
+                    {CreateEditorShortCutTable()}
+                </div>
+                <div id="statusLine">Line: {state.cursor.currentLineNo} Col: {state.cursor.currentColNo} #Lines: {state.document.LineCount()} </div>
             </footer>
         </div>
     );
+
 }
+
 
 export default function CrossWriterSetUp(idRoot: string, ServerOrigin: string, documentName: string) {
 

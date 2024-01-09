@@ -27,6 +27,7 @@ define(["require", "exports", "jquery", "react", "react-dom", "./NamingIds", "./
         GlyphUniCode: " ",
         NIDstr: "unknown"
     };
+    // Main Control for the Cross Writer Editor
     function CrossWriter(properties) {
         // Define initial State
         const [state, setState] = react_1.default.useState({
@@ -48,9 +49,9 @@ define(["require", "exports", "jquery", "react", "react-dom", "./NamingIds", "./
             ctrlKey: false,
             countEditOp: 0
         });
+        // Calculate all Naming Ids only once
         const Nids = react_1.default.useMemo(() => (0, NamingIds_1.default)(), []);
-        let AppName = "???";
-        let invisibleInputFildForEdit = react_1.default.useRef(null);
+        let centralInputFieldForCatchingKeyboardEvents = react_1.default.useRef(null);
         function LoadResourcesFromServer() {
             if (state.init) {
                 let keyGenerator = CreateKeyGenerator();
@@ -154,16 +155,11 @@ define(["require", "exports", "jquery", "react", "react-dom", "./NamingIds", "./
             }
         }
         react_1.default.useEffect(() => LoadResourcesFromServer(), []);
+        // Ensures, that central input field for catching keyboard events will not lost the focus.
         function SetFocusOnInputField() {
-            if (invisibleInputFildForEdit !== null && invisibleInputFildForEdit !== undefined) {
-                invisibleInputFildForEdit.current.focus();
-                invisibleInputFildForEdit.current.value = "";
-            }
-        }
-        function SetFocusOnInputField2() {
-            if (invisibleInputFildForEdit !== null && invisibleInputFildForEdit !== undefined) {
-                invisibleInputFildForEdit.current.focus();
-                invisibleInputFildForEdit.current.value = "a";
+            if (centralInputFieldForCatchingKeyboardEvents !== null && centralInputFieldForCatchingKeyboardEvents !== undefined) {
+                centralInputFieldForCatchingKeyboardEvents.current.focus();
+                centralInputFieldForCatchingKeyboardEvents.current.value = "";
             }
         }
         let countEditOp = 0;
@@ -171,6 +167,7 @@ define(["require", "exports", "jquery", "react", "react-dom", "./NamingIds", "./
         // Berechnet die Anzahl der sichtbaren Zeilen vor und nach der Editor- Zeile
         function CountPrePostLines() { return (CountViewLines - 1) / 2; }
         ;
+        // Lists all F- Keys
         const fKeys = ["F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9", "F10", "F11", "F12"];
         // mko, 2.1.2024
         // Erzeugt Visuelle ausgabe der Edit- Zeile und der unmittelbar vor und nach der Edit- Zeile befindlichen
@@ -516,6 +513,7 @@ define(["require", "exports", "jquery", "react", "react-dom", "./NamingIds", "./
                 countEditOp: state.countEditOp + 1
             });
         }
+        // Inserts all Lines befor Editor Line
         function AddPreLines(vLines, currentCursorLine) {
             let prePostLines = CountPrePostLines();
             if (prePostLines - currentCursorLine > 0) {
@@ -536,6 +534,7 @@ define(["require", "exports", "jquery", "react", "react-dom", "./NamingIds", "./
                 }
             }
         }
+        // Inserts all Lines after Editor Line
         function AddPostLines(vLines, currentCursorLine, LineCount) {
             let prePostLines = CountPrePostLines();
             if (LineCount - currentCursorLine < prePostLines) {
@@ -554,16 +553,13 @@ define(["require", "exports", "jquery", "react", "react-dom", "./NamingIds", "./
                 }
             }
         }
-        // Sicherer Abruf eines Namenscontainers
-        //function getNameFromNc(NID: string, siegel: SiegelSuccessFunc<INamingContainer>, sowilo: SowiloErrFunc<ICrossWriterState>) : any {
-        //    if (Object.keys(state.nytKeywords).find(key => key == NID) == undefined) {
-        //        return sowilo(state, "getNameFromNc", ErrorClasses.ArgumentValidationFailed, `NID ${NID} cannot be found in state,´.nytKeyWords`);
-        //    }
-        //    else {
-        //        let nc = state.nytKeywords[NID];
-        //        return siegel(nc);
-        //    }
-        //}
+        function CreateEditorShortCutTable() {
+            let shortCuts = Object.keys(state.editShortCuts).filter((sc) => sc.length < 3).sort((a, b) => a.charCodeAt(1) - b.charCodeAt(1));
+            let divs = shortCuts.map((shortCut) => react_1.default.createElement("div", { className: "col cw-1" },
+                react_1.default.createElement("div", null, state.editShortCuts[shortCut].GlyphUniCode),
+                react_1.default.createElement("div", null, shortCut)));
+            return divs;
+        }
         return (react_1.default.createElement("div", { id: "CrossWriterCtrl", className: "CrossWriter" },
             react_1.default.createElement("header", null,
                 react_1.default.createElement("nav", { id: "main_nav" },
@@ -581,15 +577,16 @@ define(["require", "exports", "jquery", "react", "react-dom", "./NamingIds", "./
                         return react_1.default.createElement("span", { className: "progName" }, `${fName} failed: Err Class: ${errClass}, ${descr}`);
                     })))),
             react_1.default.createElement("div", { id: "visibleLines", className: "VisibleLines" },
-                react_1.default.createElement("input", { ref: invisibleInputFildForEdit, onKeyDown: e => ProcessKeyDownEventForEditLine(e.key, e.ctrlKey, e.altKey, e.shiftKey), onBlur: e => {
+                react_1.default.createElement("input", { ref: centralInputFieldForCatchingKeyboardEvents, onKeyDown: e => ProcessKeyDownEventForEditLine(e.key, e.ctrlKey, e.altKey, e.shiftKey), onBlur: e => {
                         // Keeps Foocus on Input field. See https://adueck.github.io/blog/keep-focus-when-clicking-on-element-react/
                         if (e.relatedTarget === null) {
                             e.target.focus();
                         }
                     } }),
                 ViewLines()),
-            react_1.default.createElement("footer", { className: "row" },
-                react_1.default.createElement("div", { id: "statusLine", className: "col col-10" },
+            react_1.default.createElement("footer", null,
+                react_1.default.createElement("div", { id: "shortCutTable", className: "row" }, CreateEditorShortCutTable()),
+                react_1.default.createElement("div", { id: "statusLine" },
                     "Line: ",
                     state.cursor.currentLineNo,
                     " Col: ",
