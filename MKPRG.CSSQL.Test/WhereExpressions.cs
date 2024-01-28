@@ -3,7 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using NaLisp = mko.NaLisp;
 using System.Text.RegularExpressions;
-
+using MKPRG.Woc.Concrete;
 
 namespace MKPRG.CSSQL.Test
 {
@@ -11,7 +11,7 @@ namespace MKPRG.CSSQL.Test
     public class WhereExpressions
     {
 
-        SQL<Woc.Author> qBG = new SQL<Woc.Author>();  
+        SQL<Author> qBG = new SQL<Author>();  
         TabAuthors tab;
 
         [TestInitialize]

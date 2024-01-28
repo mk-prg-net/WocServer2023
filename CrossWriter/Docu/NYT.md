@@ -1,9 +1,9 @@
-# ᚾᚤᛏ = NYT, nützliche Datenflüsse
+# Stack ᛝ Flow (ehem. ᚾᚤᛏ = NYT, nützliche Datenflüsse)
 
 
 Nyt (die nützliche) Flussname im Lied der Grímnismál (Edda): https://de.wikipedia.org/wiki/Liste_der_Fl%C3%BCsse_im_Lied_Gr%C3%ADmnism%C3%A1l
 
-**ᚾᚤᛏ = NYT** soll eine minimalistische formale Sprache zur semantischen Auszeichung von Texten, zur funktionalen Formulierung von Algorithmen und zur generatorischen Beschreibung von Diagrammen, Bildern und Fräskopfbahnen werden.
+**Stack ᛝ Flow** soll eine minimalistische formale Sprache zur semantischen Auszeichung von Texten, zur funktionalen Formulierung von Algorithmen und zur generatorischen Beschreibung von Diagrammen, Bildern und Fräskopfbahnen werden.
 
 ## Grundlagen
 
@@ -21,7 +21,7 @@ Die *Runen* werden in keiner heute mehr existierenden Sprache gennutzt. Damit si
 ### Präfixe für die Notation von Zahlenwerten
 Eine Gleitpunktzahl wie **3.14** ist eine kulturspezifische Notation (**en-US**). 
 
-Um die Notation von Zahlenwert von einer textuellen und kulturspezifischen Präsentation in einer Sprache zu unterscheiden, werden diese in **LLP** stets durch ein spezielles *Präfix* explizit gekennzeichnet.
+Um die Notation von Zahlenwert von einer textuellen und kulturspezifischen Präsentation in einer Sprache zu unterscheiden, werden diese in **Stack ᛝ Flow** stets durch ein spezielles *Präfix* explizit gekennzeichnet.
 
 🚨 Zahlen  können wie z.B. `ᚱ _Zähler_ _Nenner_` eine listenartige Struktur darstellen, sind aber keine Listen. Die einzelnen Partikel wie im Beispiel `_Zähler_` und `_Nenner_` dürfen nur Konstanten sein, wie `ᚱ 1 2`, jedoch keine Ausdrücke!
 

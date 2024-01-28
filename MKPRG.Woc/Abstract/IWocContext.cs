@@ -12,8 +12,14 @@ namespace MKPRG.Woc
     /// </summary>
     public interface IWocContext
     {
+        /// <summary>
+        /// Author, der das Woc erstellt und bearbeitet
+        /// </summary>
         long WocAuthorId { get; }
 
-        long WocNodeId { get; }
+        /// <summary>
+        /// Id des Netzwerkknotens
+        /// </summary>
+        long WocNetworkNodeId { get; }
     }
 }

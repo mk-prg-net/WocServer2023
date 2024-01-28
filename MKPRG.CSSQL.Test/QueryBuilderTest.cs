@@ -5,6 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Diagnostics;
 
 using static MKPRG.CSSQL.TabColAccess;
+using MKPRG.Woc.Concrete;
 
 namespace MKPRG.CSSQL.Test
 {
@@ -72,7 +73,7 @@ namespace MKPRG.CSSQL.Test
 
             //dataReaderMoq.Setup(r => r.Read()).Returns();
 
-            var sql = new SQL<Woc.Author>();
+            var sql = new SQL<Author>();
             var tab = new TabAuthors();
 
             var res = sql.Select(
@@ -110,7 +111,7 @@ namespace MKPRG.CSSQL.Test
 
             //dataReaderMoq.Setup(r => r.Read()).Returns();
 
-            var sql = new SQL<Woc.Author>(SQL.Dialect.MSSql);
+            var sql = new SQL<Author>(SQL.Dialect.MSSql);
             var tab = new TabAuthors();
 
             var res = sql.Select(

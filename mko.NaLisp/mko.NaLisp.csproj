@@ -22,4 +22,7 @@
     <Compile Remove="Long\ConstLong.cs" />
     <Compile Remove="Long\Long.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Docu\" />
+  </ItemGroup>
 </Project>
