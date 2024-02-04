@@ -24,11 +24,13 @@ namespace MKPRG.Tracing.DocuTerms.Parser
         : EvalBase
     {
         IComposer pnL;
+        ANC.INamingHelper NH;
 
 
-        public BoolEval(IComposer pnL)
+        public BoolEval(IComposer pnL, ANC.INamingHelper NH)
         {
             this.pnL = pnL;
+            this.NH = NH;
         }
 
         public override void ReadParametersAndEvaluate(Stack<IToken> stack)
@@ -46,11 +48,11 @@ namespace MKPRG.Tracing.DocuTerms.Parser
             {
                 stack.Pop();
 
-                if (mkoStr.Value == RC.NC[TTD.Boolean.True.UID].CNT || mkoStr.Value == RC.NC[TTD.Boolean.True.UID].Glyph)
+                if (mkoStr.Value == NH._(TTD.Boolean.True.UID, ANC.Language.CNT) || mkoStr.Value == NH.glyph(TTD.Boolean.True.UID))
                 {
                     stack.Push(new BooleanToken(true));
                 }
-                else if (mkoStr.Value == RC.NC[TTD.Boolean.False.UID].CNT || mkoStr.Value == RC.NC[TTD.Boolean.False.UID].Glyph)
+                else if (mkoStr.Value == NH._(TTD.Boolean.False.UID, ANC.Language.CNT) || mkoStr.Value == NH.glyph(TTD.Boolean.False.UID))
                 {
                     stack.Push(new BooleanToken(false));
                 }
@@ -63,11 +65,11 @@ namespace MKPRG.Tracing.DocuTerms.Parser
             {
                 stack.Pop();
 
-                if (Str.Value == RC.NC[TTD.Boolean.True.UID].CNT || Str.Value == RC.NC[TTD.Boolean.True.UID].Glyph)
+                if (Str.Value == NH._(TTD.Boolean.True.UID, ANC.Language.CNT) || Str.Value == NH.glyph(TTD.Boolean.True.UID))
                 {
                     stack.Push(new BooleanToken(true));
                 }
-                else if (Str.Value == RC.NC[TTD.Boolean.False.UID].CNT || Str.Value == RC.NC[TTD.Boolean.False.UID].Glyph)
+                else if (Str.Value == NH._(TTD.Boolean.False.UID, ANC.Language.CNT) || Str.Value == NH.glyph(TTD.Boolean.False.UID))
                 {
                     stack.Push(new BooleanToken(false));
                 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MKPRG.Naming.TechTerms.Sets;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,6 +12,7 @@ namespace MKPRG.Naming
     /// Sammlung bewährter Methoden für den vereinfachten Zugriff auf 
     /// </summary>
     public class NamingHelper
+        : INamingHelper
     {
         public NamingHelper(IReadOnlyDictionary<long, INaming> NC, Language lng = Language.CNT)
         {
@@ -44,6 +46,19 @@ namespace MKPRG.Naming
 
             return str;
         }
+
+        public string _(long NID, Language lng)
+        {
+            var str = $"🗲 NID({NID}) ⊷ NamingContainer: {NC[TechTerms.Search.NotFound.UID].NameIn(Language)} 🗲";
+
+            if (NC.TryGetValue(NID, out INaming nc))
+            {
+                str = nc.NameIn(lng);
+            }
+
+            return str;
+        }
+
 
         /// <summary>
         /// mko, 10.5.2021 
@@ -88,10 +103,10 @@ namespace MKPRG.Naming
                         InterfaceConversionErrorTypes.NIDisUndefined,
                         nullVal.ID,
                         nullVal.CNT,
-                        nullVal.CN,
-                        nullVal.DE,
-                        nullVal.EN,
-                        nullVal.ES
+                        nullVal is ILangCN cnLng ? cnLng.CN : nullVal.CNT,
+                        nullVal is ILangDE deLng ? deLng.DE : nullVal.CNT,
+                        nullVal is ILangEN enLng ? enLng.EN : nullVal.CNT,
+                        nullVal is ILangES esLng ? esLng.ES : nullVal.CNT
                     );
             }
             else if (NC[NIDFinishedActivity] is I phrase)
@@ -106,10 +121,11 @@ namespace MKPRG.Naming
                         InterfaceConversionErrorTypes.RequestedInterfaceIsNotSupportetdByNC,
                         nc.ID,
                         nc.CNT,
-                        nc.CN,
-                        nc.DE,
-                        nc.EN,
-                        nc.ES);
+                        nc is ILangCN cnLng ? cnLng.CN : nc.CNT,
+                        nc is ILangDE deLng ? deLng.DE : nc.CNT,
+                        nc is ILangEN enLng ? enLng.EN : nc.CNT,
+                        nc is ILangES esLng ? esLng.ES : nc.CNT
+                    );
             }
             return ret;
         }
@@ -220,9 +236,9 @@ namespace MKPRG.Naming
         public string glyph(long NID)
         {
             var g = "🗲";
-            if (NC.TryGetValue(NID, out INaming nc))
+            if (NC.TryGetValue(NID, out INaming nc) && nc is IGlyph gy)
             {
-                g = Glyphs.toStr(nc.Glyph);
+                g = Glyphs.toStr(gy.Glyph);
             }
             return g;
         }
@@ -235,9 +251,9 @@ namespace MKPRG.Naming
         public string htmlGlyph(long NID)
         {
             var entity = "🗲";
-            if (NC.TryGetValue(NID, out INaming nc))
+            if (NC.TryGetValue(NID, out INaming nc) && nc is IGlyph gy)
             {
-                entity = nc.Glyph;
+                entity = gy.Glyph;
             }
             return entity;
         }

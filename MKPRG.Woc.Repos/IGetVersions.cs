@@ -17,6 +17,6 @@ namespace MKPRG.Woc.Repos
         /// </summary>
         /// <param name="CurrentAvailableWocs">Liste der aktuell verfügbaren Wocs</param>
         /// <returns>Liste von Wocs aus dem Repo, deren Id einem in CurrentAvailableWocs entsprechen, jedoch eine höhere Version haben.</returns>
-        Task<RC<IWocVersion[]>> GetNewerVersionsOf(IEnumerable<IWocVersion> CurrentAvailableWocs);
+        //Task<RC<IWocVersion[]>> GetNewerVersionsOf(IEnumerable<IWocVersion> CurrentAvailableWocs);
     }
 }

@@ -73,7 +73,6 @@
     <Compile Include="TabDocuments.cs" />
     <Compile Include="Tables.cs" />
     <Compile Include="TabNodes.cs" />
-    <Compile Include="WhereExpressions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

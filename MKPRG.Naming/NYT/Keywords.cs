@@ -7,6 +7,7 @@ namespace MKPRG.Naming.NYT.Keywords
 {
     public class CrossWriter
         : NamingBase,
+        INaming,
         IGlyphUniCode        
     {
         public const long UID = 0x15C1E6B3BCE37C0CL;

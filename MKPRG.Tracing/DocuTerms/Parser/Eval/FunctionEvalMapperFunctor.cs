@@ -5,7 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 using mko.RPN;
-using pnL = MKPRG.Tracing.DocuTerms.Composer;
+using DT = MKPRG.Tracing.DocuTerms;
+using NM = MKPRG.Naming;
 
 namespace MKPRG.Tracing.DocuTerms.Parser
 {
@@ -19,23 +20,26 @@ namespace MKPRG.Tracing.DocuTerms.Parser
     public class FunctionEvalMapperFunctor : IFnameEvalMapper
     {
         IFn fn;
+        DT.IComposer pnL;
+        NM.INamingHelper NH;
+        
 
-        public FunctionEvalMapperFunctor() 
-        {
-            fn = Fn._;
-            pnL = new Composer(fn);
-        }
+        //public FunctionEvalMapperFunctor() 
+        //{
+        //    fn = Fn._;
+        //    pnL = new Composer(fn);
+        //}        
 
-        IComposer pnL;
-
-        public FunctionEvalMapperFunctor(IFn fn, IComposer pnL)
+        public FunctionEvalMapperFunctor(IFn fn, IComposer pnL, NM.INamingHelper NH)
         {
             this.fn = fn;
             this.pnL = pnL;
+            this.NH = NH;
         }
 
         public void MapFnameToEvalIn(Dictionary<string, IEval> dict)
-        {
+        {            
+
             dict[fn.Instance] = new InstanceEval(pnL);
             dict[fn.Property] = new PropertyEval(pnL);
             // Deaktiviert am 25.6.2020: aktuell wird das Konzept eines Property- Setters nicht weiterverfolgt
@@ -43,7 +47,7 @@ namespace MKPRG.Tracing.DocuTerms.Parser
             dict[fn.Method] = new MethodEval(pnL);
             dict[fn.Event] = new EventEval(pnL);
             dict[fn.Version] = new VersionEval(pnL);
-            dict[fn.Bool] = new BoolEval(pnL);
+            dict[fn.Bool] = new BoolEval(pnL, NH);
             dict[fn.Txt] = new TextEval(fn, pnL);
             dict[fn.Date] = new DateEval(pnL);
             dict[fn.Time] = new TimeEval(pnL);

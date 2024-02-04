@@ -16,8 +16,8 @@ namespace CrossWriter.Hlp
             {
                 NIDstr = undefNc.NID.ToString("X"),
                 CNT = undefNc.CNT,
-                DE = undefNc.DE,
-                EN = undefNc.EN,
+                DE = undefNc is ILangDE deLng ? deLng.DE : undefNc.CNT,
+                EN = undefNc is ILangEN enLng ? enLng.EN : undefNc.CNT,
             };
 
         }
@@ -118,8 +118,8 @@ namespace CrossWriter.Hlp
             {
                 NIDstr = nc.NID.ToString("X"),
                 CNT = nc.CNT,
-                DE = nc.DE,
-                EN = nc.EN,
+                DE = nc is ILangDE deLng ? deLng.DE : nc.CNT,
+                EN = nc is ILangEN enLng ? enLng.EN : nc.CNT,
             };
 
             if (nc is IGlyph g)

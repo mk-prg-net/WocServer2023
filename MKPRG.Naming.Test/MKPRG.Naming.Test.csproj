@@ -52,6 +52,7 @@
     <Compile Include="Glyph.Test.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="JsonID.Test.cs" />
+    <Compile Include="GetNamingContainersTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

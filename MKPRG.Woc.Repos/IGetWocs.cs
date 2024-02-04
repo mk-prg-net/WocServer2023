@@ -32,6 +32,6 @@ namespace MKPRG.Woc.Repos
         /// <param name="RefType">Art der Woc- Referenz</param>
         /// <param name="ReferencingWocId">Bezüglich des RefTypes referenziertes Woc</param>
         /// <returns></returns>
-        Task<RC<IWocVersion[]>> GetWocsReferencing(long RefType, long ReferencingWocId);
+        //Task<RC<IWocVersion[]>> GetWocsReferencing(long RefType, long ReferencingWocId);
     }
 }

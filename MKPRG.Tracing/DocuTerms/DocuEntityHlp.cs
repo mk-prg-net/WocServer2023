@@ -9,6 +9,7 @@ using TT = MKPRG.Naming.TechTerms;
 using TTD = MKPRG.Naming.DocuTerms;
 
 using MKPRG.Tracing.DocuTerms;
+using MKPRG.Naming;
 
 namespace MKPRG.Tracing.DocuTerms
 {
@@ -183,8 +184,8 @@ namespace MKPRG.Tracing.DocuTerms
 
             var glyph = "&nbsp;";
 
-            if (entity is IDocuEntityWithNameAsNid dtNid)
-                glyph = NC[dtNid.DocuTermNid.NamingId].Glyph;
+            if (entity is IDocuEntityWithNameAsNid dtNid && NC[dtNid.DocuTermNid.NamingId] is IGlyph gy)
+                glyph = gy.Glyph;
 
             return glyph;
         }

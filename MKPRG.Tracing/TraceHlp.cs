@@ -525,8 +525,8 @@ namespace MKPRG.Tracing
                 }
                 else
                 {
-
-                    var rcParse = string.IsNullOrWhiteSpace(ex.Message) ? RC<IDocuEntity>.Failed(null) : DocuTerms.Parser.Parser.Parse20_06(ex.Message, DocuTerms.Parser.Fn._, RC.pnL);
+                    var NH = new ANC.NamingHelper(RC.NC);
+                    var rcParse = string.IsNullOrWhiteSpace(ex.Message) ? RC<IDocuEntity>.Failed(null) : DocuTerms.Parser.Parser.Parse20_06(ex.Message, DocuTerms.Parser.Fn._, RC.pnL, NH);
 
                     if (rcParse.Succeeded)
                     {
@@ -587,8 +587,8 @@ namespace MKPRG.Tracing
                 }
                 else
                 {
-
-                    var rcParse = string.IsNullOrWhiteSpace(ex.Message) ? RC<IDocuEntity>.Failed(null) : DocuTerms.Parser.Parser.Parse20_06(ex.Message, DocuTerms.Parser.Fn._, RC.pnL);
+                    var NH = new ANC.NamingHelper(RC.NC);
+                    var rcParse = string.IsNullOrWhiteSpace(ex.Message) ? RC<IDocuEntity>.Failed(null) : DocuTerms.Parser.Parser.Parse20_06(ex.Message, DocuTerms.Parser.Fn._, RC.pnL, NH);
 
                     if (rcParse.Succeeded)
                     {

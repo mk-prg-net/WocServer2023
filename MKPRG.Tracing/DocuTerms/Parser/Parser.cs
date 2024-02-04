@@ -106,17 +106,17 @@ namespace MKPRG.Tracing.DocuTerms.Parser
         /// </summary>
         /// <param name="pn"></param>
         /// <returns></returns>
-        public static RC<IDocuEntity> Parse(string pn, IFn fn, bool doRPNUrlDecode = true)
+        public static RC<IDocuEntity> Parse(string pn, IFn fn, ANC.INamingHelper NH, bool doRPNUrlDecode = true)
         {
             RC<IDocuEntity> rc = null;
             IDocuEntity NullEntity = null;
 
             var pnL = RC.pnL;
 
-            var ncTools = new ANC.Tools();
+            //var ncTools = new ANC.Tools();
 
-            var fmt = new DT.Formatter.PNFormater(fn, RC.NC);
-            var evalTab = new FunctionEvaluatorTable(new FunctionEvalMapperFunctor(fn, pnL));
+            //var fmt = new DT.Formatter.PNFormater(fn, RC.NC);
+            var evalTab = new FunctionEvaluatorTable(new FunctionEvalMapperFunctor(fn, pnL, NH));
             var _parser = new ParserV2(evalTab.FuncEvaluators);
 
             var rcT = BasicTokenizer.TokenizePN(pn, doRPNUrlDecode, evalTab.FuncEvaluators.Keys.ToArray());
@@ -165,7 +165,7 @@ namespace MKPRG.Tracing.DocuTerms.Parser
         /// <param name="fn"></param>
         /// <param name="pnL"></param>
         /// <returns></returns>
-        public static RC<IDocuEntity> Parse18_11(string pn, IFn fn, DT.IComposer pnL, bool doRPNUrlDecode = true)
+        public static RC<IDocuEntity> Parse18_11(string pn, IFn fn, DT.IComposer pnL, ANC.INamingHelper NH,  bool doRPNUrlDecode = true)
         {
             RC<IDocuEntity> rc = null;
             IDocuEntity NullEntity = null;
@@ -174,7 +174,7 @@ namespace MKPRG.Tracing.DocuTerms.Parser
 
             try
             {
-                var evalTab = new FunctionEvaluatorTable(new FunctionEvalMapperFunctor(fn, pnL));
+                var evalTab = new FunctionEvaluatorTable(new FunctionEvalMapperFunctor(fn, pnL, NH));
                 var _parser = new ParserV2(evalTab.FuncEvaluators);
 
                 pn = NormalizePN(pn, fn);
@@ -279,6 +279,7 @@ namespace MKPRG.Tracing.DocuTerms.Parser
             string pn,
             IFn fn,
             DT.IComposer pnL,
+            ANC.INamingHelper NH,
             //DocuEntities.IFormater fmt,
             bool doRPNUrlDecode = true)
         {
@@ -290,7 +291,7 @@ namespace MKPRG.Tracing.DocuTerms.Parser
                 if (!string.IsNullOrWhiteSpace(pn))
                 {
 
-                    var evalTab = new FunctionEvaluatorTable(new FunctionEvalMapperFunctor(fn, pnL));
+                    var evalTab = new FunctionEvaluatorTable(new FunctionEvalMapperFunctor(fn, pnL, NH));
                     var parser = new ParserV3(evalTab.FuncEvaluators);
 
                     // mko, 19.11.2020

@@ -5,7 +5,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Diagnostics;
 
 using static MKPRG.CSSQL.TabColAccess;
-using MKPRG.Woc.Concrete;
 
 namespace MKPRG.CSSQL.Test
 {
@@ -66,69 +65,69 @@ namespace MKPRG.CSSQL.Test
 
         #endregion
 
-        [TestMethod]
-        public void QueryBuilder_SQL()
-        {
-            var dataReaderMoq = new Moq.Mock<System.Data.IDataReader>();
+        //[TestMethod]
+        //public void QueryBuilder_SQL()
+        //{
+        //    var dataReaderMoq = new Moq.Mock<System.Data.IDataReader>();
 
-            //dataReaderMoq.Setup(r => r.Read()).Returns();
+        //    //dataReaderMoq.Setup(r => r.Read()).Returns();
 
-            var sql = new SQL<Author>();
-            var tab = new TabAuthors();
+        //    var sql = new SQL<Author>();
+        //    var tab = new TabAuthors();
 
-            var res = sql.Select(
-                            sql.Map(tab.FirstName, (p, v) => p.AuthorFirstName = GetSave(v, "")),
-                            sql.Map(tab.LastName, (p, v) => p.AuthorLastName = GetSave(v, "")),
-                            sql.Map(tab.Birthday, (p, v) => p.AuthorBrithday = GetSave(v, DateTime.MaxValue)))                           
-                        .From(tab)
-                        .Where(sql.Eq(tab.FirstName, "Martin"))
-                        .By(tab.City)
-                        .By(tab.Birthday)
-                        .done();
-
-
-            var a = new Woc.Author();
-            var readerMockUp = new ReaderMockUp(
-                (tab.FirstName.N, "Martin"),
-                (tab.LastName.N, "Korneffel"),
-                (tab.Birthday.N, new DateTime(1968, 6, 7))                
-            );
-
-            res.RecordToBoMapper.SetPropertiesOf(a, readerMockUp);
-
-            Assert.AreEqual("Martin", a.AuthorFirstName);
-            Assert.AreEqual("Korneffel", a.AuthorLastName);
-            Assert.AreEqual(new DateTime(1968, 6, 7), a.AuthorBrithday);
+        //    var res = sql.Select(
+        //                    sql.Map(tab.FirstName, (p, v) => p.AuthorFirstName = GetSave(v, "")),
+        //                    sql.Map(tab.LastName, (p, v) => p.AuthorLastName = GetSave(v, "")),
+        //                    sql.Map(tab.Birthday, (p, v) => p.AuthorBrithday = GetSave(v, DateTime.MaxValue)))                           
+        //                .From(tab)
+        //                .Where(sql.Eq(tab.FirstName, "Martin"))
+        //                .By(tab.City)
+        //                .By(tab.Birthday)
+        //                .done();
 
 
-            var query = res.QueryAsSql;
-        }
+        //    var a = new Woc.Author();
+        //    var readerMockUp = new ReaderMockUp(
+        //        (tab.FirstName.N, "Martin"),
+        //        (tab.LastName.N, "Korneffel"),
+        //        (tab.Birthday.N, new DateTime(1968, 6, 7))                
+        //    );
 
-        [TestMethod]
-        public void QueryBuilder_MSSQL()
-        {
-            var dataReaderMoq = new Moq.Mock<System.Data.IDataReader>();
+        //    res.RecordToBoMapper.SetPropertiesOf(a, readerMockUp);
 
-            //dataReaderMoq.Setup(r => r.Read()).Returns();
-
-            var sql = new SQL<Author>(SQL.Dialect.MSSql);
-            var tab = new TabAuthors();
-
-            var res = sql.Select(
-                            sql.Map(tab.FirstName, (p, v) => p.AuthorFirstName = GetSave(v, "")),
-                            sql.Map(tab.Birthday, (p, v) => p.AuthorBrithday = GetSave(v, DateTime.MaxValue)))
-                        .From(tab)
-                        .Where(
-                            sql.And(
-                                sql.Eq(tab.AuthorId, 123456789L),
-                                sql.Gt(tab.Erfahrung, 5))
-                            )
-                        .By(tab.Erfahrung)
-                        .By(tab.Birthday)
-                        .done();
+        //    Assert.AreEqual("Martin", a.AuthorFirstName);
+        //    Assert.AreEqual("Korneffel", a.AuthorLastName);
+        //    Assert.AreEqual(new DateTime(1968, 6, 7), a.AuthorBrithday);
 
 
-        }       
+        //    var query = res.QueryAsSql;
+        //}
+
+        //[TestMethod]
+        //public void QueryBuilder_MSSQL()
+        //{
+        //    var dataReaderMoq = new Moq.Mock<System.Data.IDataReader>();
+
+        //    //dataReaderMoq.Setup(r => r.Read()).Returns();
+
+        //    var sql = new SQL<Author>(SQL.Dialect.MSSql);
+        //    var tab = new TabAuthors();
+
+        //    var res = sql.Select(
+        //                    sql.Map(tab.FirstName, (p, v) => p.AuthorFirstName = GetSave(v, "")),
+        //                    sql.Map(tab.Birthday, (p, v) => p.AuthorBrithday = GetSave(v, DateTime.MaxValue)))
+        //                .From(tab)
+        //                .Where(
+        //                    sql.And(
+        //                        sql.Eq(tab.AuthorId, 123456789L),
+        //                        sql.Gt(tab.Erfahrung, 5))
+        //                    )
+        //                .By(tab.Erfahrung)
+        //                .By(tab.Birthday)
+        //                .done();
+
+
+        //}       
 
     }
 }

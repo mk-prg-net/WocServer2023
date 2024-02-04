@@ -23,6 +23,7 @@ namespace MKPRG.Tracing.DocuTerms.Test
         IComposer pnL = new Composer();
 
         IFormater fmt; // = new Formatter.IndentedTextFormatter(Parser.Fn._, RC.NC);
+        ANC.INamingHelper NH;
 
         /// <summary>
         /// mko, 2.3.2020
@@ -45,6 +46,7 @@ namespace MKPRG.Tracing.DocuTerms.Test
 
             MapUIDToName = getNamingContainers.ncDict;
 
+            NH = new ANC.NamingHelper(MapUIDToName, ANC.Language.CNT);
             fmt = new IndentedTextFormatter(Parser.FnRunen._, RC.NC, ANC.Language.CNT);
             
         }
@@ -74,7 +76,7 @@ namespace MKPRG.Tracing.DocuTerms.Test
             //var fmt = new PNFormater(fn: , NC: RCV3.NC, RPNUrlSaveEncode: true);
             var treeStr = fmt.Print(tree);
 
-            var getParsed = Parser.Parser.Parse20_06(treeStr, Parser.FnRunen._, pnL);
+            var getParsed = Parser.Parser.Parse20_06(treeStr, Parser.FnRunen._, pnL, NH);
             Assert.IsTrue(getParsed.Succeeded);
 
             var parsedTree = getParsed.Value;
