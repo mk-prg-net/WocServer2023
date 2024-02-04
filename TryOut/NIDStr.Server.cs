@@ -1,4 +1,5 @@
-﻿using TryOut.Models;
+﻿using MKPRG.Naming;
+using TryOut.Models;
 using TryOut.MySingeltons;
 
 public class NamingContainerWebApiHlp
@@ -15,12 +16,12 @@ public class NamingContainerWebApiHlp
         var undefNc = myNamingContainers.NC[MKPRG.Naming.DocuTerms.Types.UndefinedDocuTerm.UID];
         var undef = new NamingContainerSimple()
         {
-            NIDstr = undefNc.NID.ToString("X"),
-            CN = undefNc.CN,
+            NIDstr = undefNc.NID.ToString("X"),            
             CNT = undefNc.CNT,
-            DE = undefNc.DE,
-            EN = undefNc.EN,
-            ES = undefNc.ES
+            CN = undefNc is ILangCN lngCn ? lngCn.CN : undefNc.CNT,
+            DE = undefNc is ILangDE lngDe ? lngDe.DE : undefNc.CNT,
+            EN = undefNc is ILangEN lngEn ? lngEn.EN : undefNc.CNT,
+            ES = undefNc is ILangES lngEs ? lngEs.ES : undefNc.CNT
         };
 
         var ncList = nidString.Split(new char[] { ',' }).Select(r =>
@@ -36,12 +37,12 @@ public class NamingContainerWebApiHlp
                     var nc = myNamingContainers.NC[nid];
                     return new NamingContainerSimple()
                     {
-                        NIDstr = nc.NID.ToString("X"),
-                        CN = nc.CN,
+                        NIDstr = nc.NID.ToString("X"),                        
                         CNT = nc.CNT,
-                        DE = nc.DE,
-                        EN = nc.EN,
-                        ES = nc.ES
+                        CN = nc is ILangCN lngCn ? lngCn.CN : nc.CNT,
+                        DE = nc is ILangDE lngDe ? lngDe.DE : nc.CNT,
+                        EN = nc is ILangEN lngEn ? lngEn.EN : nc.CNT,
+                        ES = nc is ILangES lngEs ? lngEs.ES : nc.CNT
                     };
                 }
                 else

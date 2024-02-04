@@ -118,6 +118,7 @@ namespace CrossWriter.Hlp
             {
                 NIDstr = nc.NID.ToString("X"),
                 CNT = nc.CNT,
+                //CN = nc is ILangCN cnLng ? cnLng.CN : nc.CNT,
                 DE = nc is ILangDE deLng ? deLng.DE : nc.CNT,
                 EN = nc is ILangEN enLng ? enLng.EN : nc.CNT,
             };

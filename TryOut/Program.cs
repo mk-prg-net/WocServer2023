@@ -11,6 +11,7 @@ using MKPRG.Naming.TechTerms.Development;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using TryOut.Middelware;
 using Microsoft.AspNetCore.Authorization;
+using MKPRG.Naming;
 
 // Martin Korneffel, Feb.2023
 // SPA- Grundgerüst auf Basis
@@ -328,16 +329,16 @@ app.MapPost("/WocTitlesStartsWith", async (HttpRequest req, MyNamingContainers m
 
             if (!string.IsNullOrWhiteSpace(titleStart))
             {
-                var allStartsWith = myNamingContainers.NC.Where(r => r.Value.DE.StartsWith(titleStart))
-                                                         .OrderBy(r => r.Value.DE)
+                var allStartsWith = myNamingContainers.NC.Where(r => r.Value is ILangDE lngDe && lngDe.DE.StartsWith(titleStart))
+                                                         .OrderBy(r => ((ILangDE)r.Value).DE)
                                                          .Select(r => new NamingContainerSimple()
                                                          {
                                                              NIDstr = r.Key.ToString("X"),
                                                              CNT = r.Value.CNT,
-                                                             CN = r.Value.CN,
-                                                             EN = r.Value.EN,
-                                                             ES = r.Value.ES,
-                                                             DE = r.Value.DE,
+                                                             CN = r.Value is ILangCN lngCn ? lngCn.CN : r.Value.CNT,
+                                                             DE = r.Value is ILangDE lngDe ? lngDe.DE : r.Value.CNT,
+                                                             EN = r.Value is ILangEN lngEn ? lngEn.EN : r.Value.CNT,
+                                                             ES = r.Value is ILangES lngEs ? lngEs.ES : r.Value.CNT
                                                          })
                                                          .ToArray();
 
