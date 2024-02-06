@@ -196,63 +196,6 @@ Für den Zugriff auf die Werte in der benannten Liste kann wieder mittels runic 
 ᛭ Zugriff auf PI
 ᛟPiAusMath ᛡᚠ Math Const PI ᛩ
 ```
-
-### Semantische Referenzen zwischen Namensraum- Listen
-
-Sei **milDiscCircularCenterOfDiskX** ein Namenscontainer, der die X- Koordinaten des Mittelpunktes einer auszufräsenden Kreisscheibe beschreibt. Dieser stehe mit anderen Namenscontainern in folgenden semantischen Beziehungen:
-
-```
-                                                            **circleGeoParameter**
-                                                                        A
-                                                                        | 
-                                                                     isPartOf
-                                                                        |
- **milProgramm**                                                **centerOfCircle**
-     A                                                                  A
-     |                                                                  |
-  isInstanceOf                                                       isPartOf
-     |                                                                  | 
-**milDiskCircular**                                             **centerXOfCircle**
-     A                                                                  A
-     |                                                                  |
-     +---isPartOf-- **milDiscCircularCenterOfDiskX** --- isSubTermOf ---+ 
-```
-
-Die semantischen Beziehungen werden durch den ternären Operator **ᛯ** dargestellt:
-
-`ᛯ _NID_Referring_ _NID_SemRefName_ _NID_Related_` 
-
-```
-ᛯ milDiscCircular isInstanceOf milProgram
-       |               |          |
-    referring       sem Rel     referred
-
-```
-
-#### Abfragen der semantisch referenzierten Instanz
-
-```
-ᛯᛏ _NID_Referring_ _NID_SemRefName_ 
-
-```
-
-Beispiel: Bestimmen, mit wem alles **milDiscCircular** in der semantischen Beziehung **isInstanceOf** steht:
-
-```
-ᛯᛏ ᚻ milDiscCircular ᚻ isInstanceOf 
-```
-
-#### Abfragen der semantisch referenzierenden Instanzen
-
-```
-ᛯᛏ _NID_SemRefName_ _NID_Related_
-```
-
-Beispiel: Bestimmen der Instanzen von **milProgram**:
-
-```
-ᛯᛏ isInstanceOf milProgram
-```
 ### Strings ᛇ
 
 *Strings* sind Listen aus beliebigen Zeichen. Sie können auch Leerzeichen enthalten.
@@ -284,7 +227,6 @@ So wird *Text* und *Logik* vollständig vermischt.ᛩ
 #### Zugriff auf Teilstrings
 
 Auf Teile einer Zeichenkette kann mittels 
-
 
 #### Stringinterpolation
 
