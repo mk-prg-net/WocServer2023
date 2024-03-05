@@ -1,6 +1,5 @@
 # Stack ᛝ Flow (ehem. ᚾᚤᛏ = NYT, nützliche Datenflüsse)
 
-
 Nyt (die nützliche) Flussname im Lied der Grímnismál (Edda): https://de.wikipedia.org/wiki/Liste_der_Fl%C3%BCsse_im_Lied_Gr%C3%ADmnism%C3%A1l
 
 **Stack ᛝ Flow** soll eine minimalistische formale Sprache zur semantischen Auszeichung von Texten, zur funktionalen Formulierung von Algorithmen und zur generatorischen Beschreibung von Diagrammen, Bildern und Fräskopfbahnen werden.
@@ -34,16 +33,32 @@ Die nummerischen Datentypen werden durch Kombination des speziellen Präfixes f�
 
 **ᛠ** alleine steht für jeden beliebigen Datentyp.
 
+### Basis des Zahlensystems ᛔ 
+Zahlen können über verschiedenen *Basen* dargestellt werden. So kann die **26** dargestellt werden dekadisch mit der Basis **10** als **26**, hexadezimal mit der Basis **16** als **1A**, und binär mit der Basis **2** als **LL0L0**. 
+
+Die Basis kann in einen nummerischen Typ explizit definiert werden mit dem Präfix **ᛔ**
+
+```
+᛭ Basis 2
+ᛔ2
+
+᛭ Basis 10- kann in der Regel entfallen, da Default
+ᛔ10
+
+᛭ Basis 16
+ᛔ16
+```
+
 ### Kardinalzahlen ᛕ
 
 **ᛕ** ist das Präfix für ganze Zahlen:
 ```
-ᛕ 1         ⟺ 1
-ᛕ -123      ⟺ -123
-ᛕ 16 AFD    ⟺ nat. Zahl zur Basis 16 (hex)
-ᛕ  2 L00LLL ⟺ nat. Zahl zur Basis  2 (dual)  
-ᛕ ᛞ         ⟺ + Unendlich
-ᛕ -ᛞ        ⟺ - Unendlich
+ᛕ 1          ⟺ 1
+ᛕ -123       ⟺ -123
+ᛕ ᛔ16 AFD    ⟺ nat. Zahl zur Basis 16 (hex)
+ᛕ ᛔ2  L00LLL ⟺ nat. Zahl zur Basis  2 (dual)  
+ᛕ ᛞ          ⟺ + Unendlich
+ᛕ -ᛞ         ⟺ - Unendlich
 ```
 **ᛕᛠ** ist der Datentyp für Kardinalzahlen.
 
@@ -61,6 +76,7 @@ Beispiele:
 ᚱ 1 2   ⟺ 1/2 = 0.5
 ᚱ 1 2 3 ⟺ 1 2/3 = 1.666
 ᚱ -4 16 ⟺ -4/16 = -0.25
+ᚱ ᛔ2 -L00 L0000 ⟺ -4/16 = -0.25 im binärsystem
 ```
 Die rationalen Zahlen können z.B. als Zoll- Maße genutzt werden
 
@@ -75,6 +91,7 @@ Die rationalen Zahlen können z.B. als Zoll- Maße genutzt werden
 ᚩ 3 14    ⟺  3.14
 ᚩ -2 72   ⟺ -2.72
 ᚩ -2 72 3 ⟺ -2.72e3 = -2720 
+ᚩ ᛔ2 -L00 L0000 ⟺ -4,5 (binär)
 ```
 
 **ᚩᛠ** ist der Datentyp für Gleitpunkt- Zahlen.
@@ -106,31 +123,31 @@ Beispiele:
 
 `ᚠ ᛕ23 ᛕ10 ᛕ15 ᛩ` ⟺ Kann z.B. eine Versionsnummer mit den drei Hierarchieebnen *Hauptversion*, *Nebenversion*, *Buildnummer* darstellen. Oder die Uhrzeit **23:10:15**. Oder das Datum **15.10.2023**.
 
-`ᚠ ᚻ millingMachine ᚻ circelMilling ᚻ millDisc ᛩ` ⟺ Pfad in einem Namensraum
+`ᚠ millingMachine circelMilling millDiscᛩ` ⟺ Pfad in einem Namensraum
 
 **ᚠᛠ** ist der Datentyp für Hierarchieen.
 
-## Abstraktion durch benennen von Werten mittels ᛟ Operator
+## Abstraktion durch das Benennen von Werten mittels ᛟ Operator
 
 Werte können an einen *Namen* mittels dem **Bind** Operator **ᛟ** (runic Othalan) gebunden werden. Über diesen Namen wird der Wert dann referenziert und abgerufen.
 
-`ᛟ _NameAlsString_ _Wert_` bindet den Wert an einen Namen, der nur im Kontext der aktuellen 𝓛𝓛𝓟 Datei eindeutig ist.
+`ᛟ_NameAlsString_ _Wert_` bindet den Wert an einen Namen, der nur im Kontext der aktuellen **Stack ᛝ Flow** Datei eindeutig ist.
 
-`ᛟ _MonikerForNamingIdAsString_ ᚻ _NamingID_` bindet lokal in der 𝓛𝓛𝓟 Datei einen Namen (Moniker)  an eine *NamingId*. Die *Naming* ID ist dabei ein 64bit Wert, der für einen global gültigen Namen steht (Namenskontainer).
+`ᛟᚻ _NamingID_ _Wert_` bindet einen Wert an eine global gültige *NamingId*. Die *Naming* ID ist dabei ein **64bit** Wert.
 
 ```
 ᛭ Konstante PI definieren
 ᛟPI ᚩ 3 14 
 
-᛭ Den lokal gültigen Namen PI an eine global gültige Naming ID binden.
-ᛟPI ᚻ ᛕ16 7ABC123
+᛭ An die global gültige Naming ID 0x7ABC123 wird der Wert 3,1427 gebunden.
+ᛟᚻ ᛕ ᛔ16 7ABC123 ᚩ 3 1427
 
 ᛭ Liste der ersten fünf Primzahlen an einen Namen binden
 ᛟersteFünfPrimzahlen ᚤᛕ2 ᛕ3 ᛕ5 ᛕ7 ᛕ11 ᛩ
 ```
 Die Bindung eines Namens an einen Wert kann auch als **Attribut Wertepaar** betrachtet werden!
 
-### Zugriff Auf den Werte, die an Namen gebunden sind mittels ᛡ
+### Namen in einen Wert auflösen mittels ᛡ (Ior)
 
 Wurde an einen Namen ein Wert gebunden, dann kann überall, wo normalerweise der Wert eingesetzt wird, der Name eingesetzt werden. Dazu ist dem Namen das runic Ior **ᛡ** voranzusetzen:
 
@@ -141,21 +158,19 @@ Wurde an einen Namen ein Wert gebunden, dann kann überall, wo normalerweise der
 ᛭ Den Wert von **PI** an den synonymen Namen **pie** binden
 ᛟpie ᛡPI
 
-᛭ Den Wert der globalen mit Naming ID definierten Konstante **PI** an den synonymen Namen **piee** binden
-
-ᛟpie ᛡ ᚻ ᛕ16 7ABC123I
-
+᛭ Den Wert der globalen mit Naming ID definierten Konstante **PI** an den synonymen Namen **piGlob** binden
+ᛟpiGlob ᛡᚻ ᛕ ᛔ16 7ABC123I
 ```
 
 ### Namensraum- Listen ᛟ ... ᚹ ... ᛩ
 
-Eine Menge von *Bind* Operationen können in Listen zusammengefasst werden. Innerhalb einer solchen Liste darf ein bestimmter Name stets nur einmal an einen Wert gebunden werden.
+Eine Menge von *Bind* Operationen können in Listen **ᚹ ... ᛩ** zusammengefasst werden. Innerhalb einer solchen Liste darf ein bestimmter Name stets nur einmal an einen Wert gebunden werden.
 
 ```
 ᛭ Beschreibung einer Punktkoordinate durch eine Liste aus Namensbindungen
 ᚹ ᛟx ᚪ2 72 ᛟy ᚪ3 14 ᛩ 
 ```
-Die Liste kann selber mittels Bind an einen Namen gebunden. So entsteht ein *Namensraum* oder eine benannte Struktur:
+Die Liste kann selber mittels Bind an einen Namen gebunden werden. So entsteht ein *Namensraum* oder eine benannte Struktur:
 
 ```
 ᛭ Namensraum mathematischer Konstanten
@@ -173,10 +188,10 @@ Die Liste kann selber mittels Bind an einen Namen gebunden. So entsteht ein *Nam
 ᛩ 
 ```
 
-Für den Zugriff auf die Werte in der benannten Liste kann wieder mittels runic Ior Operator **ᛡ** benutzt werden. In diesem Fall sind die Namen jedoch als Hierarchie anzugeben: `ᛡᚠ _NameListe_ _NameAttribut_ ᛩ`
+Für den Zugriff auf die Werte in der benannten Liste kann wieder mittels runic Ior Operator **ᛡ** benutzt werden. In diesem Fall sind die Namen jedoch als Hierarchie anzugeben: `ᛡᚠ _NameListe_ _NameAttribut_ ... ᛩ`
 
 ```
-᛭ Organisation einer Mathematischen Bibliothek
+᛭ Organisation einer mathematischen Bibliothek
 ᛟMath
 ᚹ
     ᛟConst
@@ -188,14 +203,39 @@ Für den Zugriff auf die Werte in der benannten Liste kann wieder mittels runic 
     ᛟBasicFunctions
     ᚹ
         ᛭ Naming- IDs der math. Grundrechenarten werden an lokale Namen gebunden
-        ᛟadd ᛟᛡ ᚻ ᛕ 16 ADDADD
-        ᛟsub ᛟᛡ ᚻ ᛕ 16 DE2323
+        ᛟadd ᛡᚻ ᛕ ᛔ16 ADDADD
+        ᛟsub ᛡᚻ ᛕ ᛔ16 DE2323
     ᛩ
 ᛩ
 
 ᛭ Zugriff auf PI
-ᛟPiAusMath ᛡᚠ Math Const PI ᛩ
+ᛡᚠMath Const PIᛩ
 ```
+
+#### Namensräume auf Basis globaler Naming- IDs
+Um abstrakte Naming- IDs besser zu handhaben, können sie an lesbare Namen mittels **ᛟ** gebunden, und diese lesbaren Namen in Namensraumstrukturen organisiert werden:
+
+```
+᛭ Organisation einer mathematischen Bibliothek, 2
+ᛟMath
+ᚹ    
+    ᛟBasicFunctions
+    ᚹ
+        ᛭ Naming- IDs der math. Grundrechenarten werden an lokale Namen gebunden
+        ᛟadd ᛡᚻ ᛕ ᛔ16 ADDADD
+        ᛟsub ᛡᚻ ᛕ ᛔ16 DE2323
+    ᛩ
+ᛩ
+
+᛭ Zugriff auf add
+ᛡᚠMath BasicFunctions addᛩ
+
+᛭ Hier wird über den hierarchichen Namen die Funktion aufgerufen
+ᛣᚠMath BasicFunctions addᛩ  ᛕ1 ᛕ2
+᛭ ᛟsum ist nur innerhalb des Siegel - Zweiges sichtbar
+ᛋ ᛟsum ᛣprint ᛇ ᛡsum ist die Summe aus 1 uns 2 ᛩ
+```
+
 ### Strings ᛇ
 
 *Strings* sind Listen aus beliebigen Zeichen. Sie können auch Leerzeichen enthalten.
@@ -654,11 +694,6 @@ Das Modul kann dann später wie eine elementare Datenverarbeitungsstufe mit den 
 
 ᛗ
 ```
-
-
-
-
-
 
 ## Von der Laufzeitumgebung bereitgestellte Stufen
 
