@@ -7,6 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Middelware\**" />
+    <Content Remove="Middelware\**" />
+    <EmbeddedResource Remove="Middelware\**" />
+    <None Remove="Middelware\**" />
+    <TypeScriptCompile Remove="Middelware\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Docu\NYT.md" />
   </ItemGroup>
 
@@ -34,7 +42,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Middelware\" />
     <Folder Include="wwwroot\fileStore\" />
   </ItemGroup>
 

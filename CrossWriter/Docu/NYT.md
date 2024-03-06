@@ -107,135 +107,6 @@ Die Datentypen **ᚱᛠ** und **ᚩᛠ** sind kompatibel bzw. austauschbar: Ein 
 ```
 **ᛒᛠ** ist der Datentyp für boolsche Werte.
 
-### Namensreferenzen ᚻ
-
-**ᚻ** ist das Präfix für eine *NamingID*. Eine *NamingID* ist ein eindeutiger Schlüssel zu Identifizierung eines Namenscontainers.
-
-Beispiele:
-
-`ᚻ milProgramm` ⟺ Referenz auf den Namenscontainer, der für Fräsenprogramme steht.
-
-**ᚻᛠ** ist der Datentyp für Namensreferenzen.
-
-### Hierarchieen ᚠ
-
-**ᚠ** (runic Fehu) ist das Präfix eines Pfades in einer Hierarchie. Der Pfad muß durch ein Listenendsymbol **ᛩ** (runic Q) abgeschlossen werden.
-
-`ᚠ ᛕ23 ᛕ10 ᛕ15 ᛩ` ⟺ Kann z.B. eine Versionsnummer mit den drei Hierarchieebnen *Hauptversion*, *Nebenversion*, *Buildnummer* darstellen. Oder die Uhrzeit **23:10:15**. Oder das Datum **15.10.2023**.
-
-`ᚠ millingMachine circelMilling millDiscᛩ` ⟺ Pfad in einem Namensraum
-
-**ᚠᛠ** ist der Datentyp für Hierarchieen.
-
-## Abstraktion durch das Benennen von Werten mittels ᛟ Operator
-
-Werte können an einen *Namen* mittels dem **Bind** Operator **ᛟ** (runic Othalan) gebunden werden. Über diesen Namen wird der Wert dann referenziert und abgerufen.
-
-`ᛟ_NameAlsString_ _Wert_` bindet den Wert an einen Namen, der nur im Kontext der aktuellen **Stack ᛝ Flow** Datei eindeutig ist.
-
-`ᛟᚻ _NamingID_ _Wert_` bindet einen Wert an eine global gültige *NamingId*. Die *Naming* ID ist dabei ein **64bit** Wert.
-
-```
-᛭ Konstante PI definieren
-ᛟPI ᚩ 3 14 
-
-᛭ An die global gültige Naming ID 0x7ABC123 wird der Wert 3,1427 gebunden.
-ᛟᚻ ᛕ ᛔ16 7ABC123 ᚩ 3 1427
-
-᛭ Liste der ersten fünf Primzahlen an einen Namen binden
-ᛟersteFünfPrimzahlen ᚤᛕ2 ᛕ3 ᛕ5 ᛕ7 ᛕ11 ᛩ
-```
-Die Bindung eines Namens an einen Wert kann auch als **Attribut Wertepaar** betrachtet werden!
-
-### Namen in einen Wert auflösen mittels ᛡ (Ior)
-
-Wurde an einen Namen ein Wert gebunden, dann kann überall, wo normalerweise der Wert eingesetzt wird, der Name eingesetzt werden. Dazu ist dem Namen das runic Ior **ᛡ** voranzusetzen:
-
-```
-᛭ Konstante PI definieren
-ᛟPI ᚪ3 14 
-
-᛭ Den Wert von **PI** an den synonymen Namen **pie** binden
-ᛟpie ᛡPI
-
-᛭ Den Wert der globalen mit Naming ID definierten Konstante **PI** an den synonymen Namen **piGlob** binden
-ᛟpiGlob ᛡᚻ ᛕ ᛔ16 7ABC123I
-```
-
-### Namensraum- Listen ᛟ ... ᚹ ... ᛩ
-
-Eine Menge von *Bind* Operationen können in Listen **ᚹ ... ᛩ** zusammengefasst werden. Innerhalb einer solchen Liste darf ein bestimmter Name stets nur einmal an einen Wert gebunden werden.
-
-```
-᛭ Beschreibung einer Punktkoordinate durch eine Liste aus Namensbindungen
-ᚹ ᛟx ᚪ2 72 ᛟy ᚪ3 14 ᛩ 
-```
-Die Liste kann selber mittels Bind an einen Namen gebunden werden. So entsteht ein *Namensraum* oder eine benannte Struktur:
-
-```
-᛭ Namensraum mathematischer Konstanten
-ᛟMathConst
-ᚹ
-    ᛟPI ᚪ3 14
-    ᛟe  ᚪ2 72
-ᛩ
-
-᛭ Benannte Datenstruktur, die einen Punkt darstellt
-ᛟPunkt1 
-ᚹ 
-    ᛟx ᚪ2 72 
-    ᛟy ᚪ3 14 
-ᛩ 
-```
-
-Für den Zugriff auf die Werte in der benannten Liste kann wieder mittels runic Ior Operator **ᛡ** benutzt werden. In diesem Fall sind die Namen jedoch als Hierarchie anzugeben: `ᛡᚠ _NameListe_ _NameAttribut_ ... ᛩ`
-
-```
-᛭ Organisation einer mathematischen Bibliothek
-ᛟMath
-ᚹ
-    ᛟConst
-    ᚹ
-        ᛟPI ᚪ3 14
-        ᛟe  ᚪ2 72
-    ᛩ
-
-    ᛟBasicFunctions
-    ᚹ
-        ᛭ Naming- IDs der math. Grundrechenarten werden an lokale Namen gebunden
-        ᛟadd ᛡᚻ ᛕ ᛔ16 ADDADD
-        ᛟsub ᛡᚻ ᛕ ᛔ16 DE2323
-    ᛩ
-ᛩ
-
-᛭ Zugriff auf PI
-ᛡᚠMath Const PIᛩ
-```
-
-#### Namensräume auf Basis globaler Naming- IDs
-Um abstrakte Naming- IDs besser zu handhaben, können sie an lesbare Namen mittels **ᛟ** gebunden, und diese lesbaren Namen in Namensraumstrukturen organisiert werden:
-
-```
-᛭ Organisation einer mathematischen Bibliothek, 2
-ᛟMath
-ᚹ    
-    ᛟBasicFunctions
-    ᚹ
-        ᛭ Naming- IDs der math. Grundrechenarten werden an lokale Namen gebunden
-        ᛟadd ᛡᚻ ᛕ ᛔ16 ADDADD
-        ᛟsub ᛡᚻ ᛕ ᛔ16 DE2323
-    ᛩ
-ᛩ
-
-᛭ Zugriff auf add
-ᛡᚠMath BasicFunctions addᛩ
-
-᛭ Hier wird über den hierarchichen Namen die Funktion aufgerufen
-ᛣᚠMath BasicFunctions addᛩ  ᛕ1 ᛕ2
-᛭ ᛟsum ist nur innerhalb des Siegel - Zweiges sichtbar
-ᛋ ᛟsum ᛣprint ᛇ ᛡsum ist die Summe aus 1 uns 2 ᛩ
-```
-
 ### Strings ᛇ
 
 *Strings* sind Listen aus beliebigen Zeichen. Sie können auch Leerzeichen enthalten.
@@ -264,10 +135,6 @@ So wird *Text* und *Logik* vollständig vermischt.ᛩ
 ```
 **ᛇᛠ** ist der Datentyp für Strings.
 
-#### Zugriff auf Teilstrings
-
-Auf Teile einer Zeichenkette kann mittels 
-
 #### Stringinterpolation
 
 Werden in einem String Namensreferenzen eingesetzt, die beim Abruf des Strings evaluiert werden, dann liegt eine Stringinterpolation vor.
@@ -280,6 +147,138 @@ Diese wird dann evaluiert zu:
 
 **ᛇ Hallo schöne Welt ᛩ** 
 
+### Hierarchieen ᚠ
+
+**ᚠ** (runic Fehu) ist das Präfix eines Pfades in einer Hierarchie. Der Pfad muß durch ein Listenendsymbol **ᛩ** (runic Q) abgeschlossen werden.
+
+`ᚠ ᛕ23 ᛕ10 ᛕ15 ᛩ` ⟺ Kann z.B. eine Versionsnummer mit den drei Hierarchieebnen *Hauptversion*, *Nebenversion*, *Buildnummer* darstellen. Oder die Uhrzeit **23:10:15**. Oder das Datum **15.10.2023**.
+
+`ᚠ millingMachine circelMilling millDiscᛩ` ⟺ Pfad in einem Namensraum
+
+**ᚠᛠ** ist der Datentyp für Hierarchieen.
+
+## Informationen darstellen durch binden von Werten an Namen mittels ᛟ Operator
+
+Informationen bestimmen den Ausgang von Entscheidungen. Entscheidungen manifestieren sich durch die Zuordnung/Belegung/Bindung von Werten an Systemparametern.
+
+Die Bindung eines Wertes an einen Systemparameter wird **Attibut** genannt.
+
+Mittels dem **Bind** Operator **ᛟ** (runic Othalan) kann in **Stack ᛝ Flow** ein Wert an einen Namen gebunden, und somit ein Attribute gebildet werden. Über den Namen ist der Wert dann referenzier- und abgerufbar. 
+
+Der Namen muss innerhalb seines *Namensraumes* (siehe unten) eindeutig sein. Ein typischer Namensraum ist die **Stack ᛝ Flow** Datei.
+
+Attribute bzw Namensbindungen sind wie folgt aufgebaut: `ᛟ <Name als String> <Wert>`
+
+Beispiele:
+```
+᛭ Konstante PI definieren
+ᛟPI ᚩ 3 14 
+
+᛭ Liste der ersten fünf Primzahlen an einen Namen binden
+ᛟersteFünfPrimzahlen ᚤᛕ2 ᛕ3 ᛕ5 ᛕ7 ᛕ11 ᛩ
+```
+Die Bindung eines Namens an einen Wert kann auch als **Attribut Wertepaar** betrachtet werden!
+
+### Naming ID's ᚻ
+
+**ᚻ** ist das Präfix für eine *NamingID*. Eine *NamingID* ist ein global eindeutiger Name in Form einer **64bit** *GUID*.
+
+An eine global eindeutige *NamingID* kann wie an einen lokalen *Namen* ein Wert gebunden werden in der Form `ᛟᚻ ᛕ ᛔ16 <Hex- Wert Naming ID> _Attribut-Wert_`.
+
+Beispiele:
+```
+᛭ An die global gültige Naming ID 0x7ABC123 wird der Wert 3,1427 gebunden.
+ᛟᚻ ᛕ ᛔ16 7ABC123 ᚩ 3 1427
+```
+
+**ᚻᛠ** ist der Datentyp für Namensreferenzen.
+
+### Namen in einen Wert auflösen mittels ᛡ (Ior)
+
+Wurde an einen Namen ein Wert gebunden, dann kann überall, wo normalerweise der Wert eingesetzt wird, der Name eingesetzt werden. Dazu ist dem Namen das runic Ior **ᛡ** voranzusetzen:
+
+```
+᛭ Konstante PI definieren
+ᛟPI ᚪ3 14 
+
+᛭ Den Wert von **PI** an den synonymen Namen **pie** binden
+ᛟpie ᛡPI
+
+᛭ Den Wert der globalen mit Naming ID definierten Konstante **PI** an den synonymen Namen **piGlob** binden
+ᛟpiGlob ᛡᚻ ᛕ ᛔ16 7ABC123I
+```
+
+### Namensraum- Strukturen ᛟ ... ᚹ ... ᛩ
+
+Eine Menge von *Bind* Operationen können in Listen **ᚹ ... ᛩ** zusammengefasst werden. Innerhalb einer solchen Liste darf ein bestimmter Name stets nur einmal an einen Wert gebunden werden. Diese Listen werden **Namensraumstruktur**, oder kurz **Struktur** genannt.
+
+```
+᛭ Beschreibung einer Punktkoordinate durch eine Namensraumstruktur
+ᚹ ᛟx ᚪ2 72 ᛟy ᚪ3 14 ᛩ 
+```
+Die Struktur kann selber als Wert mittels Bind an einen Namen gebunden werden. So entsteht ein **Namensraum**
+
+```
+᛭ Namensraum mathematischer Konstanten
+ᛟMathConst
+ᚹ
+    ᛟPI ᚪ3 14
+    ᛟe  ᚪ2 72
+ᛩ
+
+᛭ Namensraum, der einen Punkt darstellt
+ᛟPunkt1 
+ᚹ 
+    ᛟx ᚪ2 72 
+    ᛟy ᚪ3 14 
+ᛩ 
+```
+
+#### Hierarchische Namensraum Referenzen ᚻᚠ ... ᛩ
+
+Die Namen in einem Namensraum sind außerhalb dieses nicht mehr eindeutig. Eine eindeutige Addressierung der Attribute aus einer Position im Code außerhalb eines Namensraumes werden *Hierarchische Namensraum Referenzen* benötigt. Diese haben folgenden Aufbau: `ᚻᚠ <Name 1. Level> <Name 2. Level> ... <Name N. Level>ᛩ`.
+
+Für den Zugriff auf den Werte ist er hierarchichen Referenz der *Ior* Operator **ᛡ** voranzustellen: `ᛡᚻᚠ <Name 1. Level> <Name 2. Level> ... <Name N. Level>ᛩ`. 
+
+Beispiel
+```
+᛭ Organisation einer mathematischen Bibliothek
+ᛟMath
+ᚹ
+    ᛟConst
+    ᚹ
+        ᛟPI ᚪ3 14
+        ᛟe  ᚪ2 72
+    ᛩ   
+ᛩ
+
+᛭ Zugriff auf PI
+ᛡᚻᚠMath Const PIᛩ
+```
+
+#### Namensräume auf Basis globaler Naming- IDs
+Um abstrakte Naming- IDs besser zu handhaben, können sie an lesbare Namen mittels **ᛟ** gebunden, und diese lesbaren Namen in Namensraumstrukturen organisiert werden:
+
+```
+᛭ Organisation einer mathematischen Bibliothek, 2
+ᛟMath
+ᚹ    
+    ᛟBasicFunctions
+    ᚹ
+        ᛭ Naming- IDs der math. Grundrechenarten werden an lokale Namen gebunden
+        ᛟadd ᛡᚻ ᛕ ᛔ16 ADDADD
+        ᛟsub ᛡᚻ ᛕ ᛔ16 DE2323
+    ᛩ
+ᛩ
+
+᛭ Zugriff auf add
+ᛡᚻᚠMath BasicFunctions addᛩ
+
+᛭ Hier wird über den hierarchichen Namen die Funktion aufgerufen
+ᛣᚻᚠMath BasicFunctions addᛩ  ᛕ1 ᛕ2
+᛭ ᛟsum ist nur innerhalb des Siegel - Zweiges sichtbar
+ᛋ ᛟsum ᛣprint ᛇ ᛡsum ist die Summe aus 1 uns 2 ᛩ
+```
 ### Arrays ᚤ
 
 *Arrays* sind Listen von Werten. Die Werte können primitiv oder komplex sein.
