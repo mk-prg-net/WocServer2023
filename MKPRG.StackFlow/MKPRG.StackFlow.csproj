@@ -1,7 +1,18 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
   </PropertyGroup>
-
+  <ItemGroup>
+    <None Remove="Docu\StackFlowSpec.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Docu\StackFlowSpec.md">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MKPRG.Naming\MKPRG.Naming.csproj" />
+    <ProjectReference Include="..\MKPRG.Tracing\MKPRG.Tracing.csproj" />
+  </ItemGroup>
 </Project>

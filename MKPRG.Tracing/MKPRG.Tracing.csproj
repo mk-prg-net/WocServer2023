@@ -5,6 +5,11 @@
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="Naming\**" />
+    <EmbeddedResource Remove="Naming\**" />
+    <None Remove="Naming\**" />
+  </ItemGroup>
+  <ItemGroup>
     <None Include="DocuTerms\Docu\.vscode\tasks.json" />
   </ItemGroup>
   <ItemGroup>
@@ -14,9 +19,6 @@
     <ProjectReference Include="..\mko\mko.csproj" />
     <ProjectReference Include="..\MKPRG.Naming\MKPRG.Naming.csproj" />
     <ProjectReference Include="..\MKPRG.Woc\MKPRG.Woc.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Naming\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
