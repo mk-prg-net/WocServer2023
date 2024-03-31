@@ -72,6 +72,21 @@ namespace MKPRG.Tracing
             internal set;
         }
 
-        public IMethod DescriptorOfMethodCallAndReturnValue => throw new NotImplementedException();
+        public IMethod DescriptorOfMethodCallAndReturnValue
+        {
+            get;
+            internal set;
+        }
+
+
+        public bool ReturnedFromSuccessfulCallButEmptyResultSet => throw new NotImplementedException();
+
+        public bool ReturnedBeforeExecutionCompleted => throw new NotImplementedException();
+
+        public bool AuthenticationFailed => throw new NotImplementedException();
+
+        public bool ValidationOfArgumentsFailed => throw new NotImplementedException();
+
+        public bool SqlDatabaseQueryFailed => throw new NotImplementedException();
     }
 }

@@ -9,6 +9,11 @@ namespace MKPRG.Tracing
     /// </summary>
     public interface IRetBldFactory
     {
-        IRetBld CreateRetBld();
+        /// <summary>
+        /// Erzeugr eine Klassenfabrik für IRet Objekte, die den Zustand eines Funktionsaufrufes beschreiben.
+        /// </summary>
+        /// <param name="fcallParamDescriptors"></param>
+        /// <returns></returns>
+        IRetBld CreateRetBld(params DocuTerms.IProperty[] fcallParamDescriptors);
     }
 }
