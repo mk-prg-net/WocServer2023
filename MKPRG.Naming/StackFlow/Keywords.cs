@@ -43,8 +43,8 @@ namespace MKPRG.Naming.NYT.Keywords
         public override string DE => "Kommentar";
         public override string EN => "Comment";
 
-        public string GlyphUniCode => Glyphs.NYT.Comment;
-        public override string Glyph => Glyphs.NYT.CommentHtm;
+        public string GlyphUniCode => Glyphs.StackFlow.Comment;
+        public override string Glyph => Glyphs.StackFlow.CommentHtm;
 
         public string EditShortCut => "#x";        
     }
@@ -65,8 +65,8 @@ namespace MKPRG.Naming.NYT.Keywords
         public override string DE => "Feldanfang";
         public override string EN => "Array Begin";
 
-        public string GlyphUniCode => Glyphs.NYT.YArrayBegin;
-        public override string Glyph => Glyphs.NYT.YArrayBeginHtm;
+        public string GlyphUniCode => Glyphs.StackFlow.YArrayBegin;
+        public override string Glyph => Glyphs.StackFlow.YArrayBeginHtm;
 
         public string EditShortCut => "#a";
     }
@@ -87,8 +87,8 @@ namespace MKPRG.Naming.NYT.Keywords
         public override string DE => "Benennen";
         public override string EN => "Define";
 
-        public string GlyphUniCode => Glyphs.NYT.OthalanDefine;
-        public override string Glyph => Glyphs.NYT.OthalanDefineHtm;
+        public string GlyphUniCode => Glyphs.StackFlow.OthalanDefine;
+        public override string Glyph => Glyphs.StackFlow.OthalanDefineHtm;
 
         public string EditShortCut => "#d";
     }
@@ -110,8 +110,8 @@ namespace MKPRG.Naming.NYT.Keywords
         public override string DE => "dereferenzieren";
         public override string EN => "derefer";
 
-        public string GlyphUniCode => Glyphs.NYT.IorDereference;
-        public override string Glyph => Glyphs.NYT.IorDereferenceHtm;
+        public string GlyphUniCode => Glyphs.StackFlow.IorDereference;
+        public override string Glyph => Glyphs.StackFlow.IorDereferenceHtm;
 
         public string EditShortCut => "#i";
     }
@@ -132,8 +132,8 @@ namespace MKPRG.Naming.NYT.Keywords
         public override string DE => "Start der Verarbeitungsstufe";
         public override string EN => "Begin of Processing Stage";
 
-        public string GlyphUniCode => Glyphs.NYT.CalcBeginStage;
-        public override string Glyph => Glyphs.NYT.CalcBeginStageHtm;
+        public string GlyphUniCode => Glyphs.StackFlow.CalcBeginStage;
+        public override string Glyph => Glyphs.StackFlow.CalcBeginStageHtm;
 
         public string EditShortCut => "#z";
     }
@@ -154,8 +154,8 @@ namespace MKPRG.Naming.NYT.Keywords
         public override string DE => "Musterbelegung für den Stapelspeicher";
         public override string EN => "Stack Model assignment";
 
-        public string GlyphUniCode => Glyphs.NYT.IngwazModelStackAssigment;
-        public override string Glyph => Glyphs.NYT.IngwazModelStackAssigmentHtm;
+        public string GlyphUniCode => Glyphs.StackFlow.IngwazModelStackAssigment;
+        public override string Glyph => Glyphs.StackFlow.IngwazModelStackAssigmentHtm;
 
         public string EditShortCut => "#p";
     }
@@ -176,8 +176,8 @@ namespace MKPRG.Naming.NYT.Keywords
         public override string DE => "Ende der Verarbeitungsstufe";
         public override string EN => "End of Processing Stage";
 
-        public string GlyphUniCode => Glyphs.NYT.EolhxEndStage;
-        public override string Glyph => Glyphs.NYT.EolhxEndStageHtm;
+        public string GlyphUniCode => Glyphs.StackFlow.EolhxEndStage;
+        public override string Glyph => Glyphs.StackFlow.EolhxEndStageHtm;
 
         public string EditShortCut => "#j";
     }
@@ -198,8 +198,8 @@ namespace MKPRG.Naming.NYT.Keywords
         public override string DE => "Begin einer Moduldefinition";
         public override string EN => "Begin of Modul definition";
 
-        public string GlyphUniCode => Glyphs.NYT.MModuleBegin;
-        public override string Glyph => Glyphs.NYT.MModuleBeginHtm;
+        public string GlyphUniCode => Glyphs.StackFlow.MModuleBegin;
+        public override string Glyph => Glyphs.StackFlow.MModuleBeginHtm;
 
         public string EditShortCut => "#m";
     }
@@ -242,8 +242,8 @@ namespace MKPRG.Naming.NYT.Keywords
         public override string DE => "Siegel Zweig";
         public override string EN => "Siegel Branch";
 
-        public string GlyphUniCode => Glyphs.NYT.SiegelBranch;
-        public override string Glyph => Glyphs.NYT.SiegelBranchHtm;
+        public string GlyphUniCode => Glyphs.StackFlow.SiegelBranch;
+        public override string Glyph => Glyphs.StackFlow.SiegelBranchHtm;
 
         public string EditShortCut => "#g";
     }
@@ -264,8 +264,8 @@ namespace MKPRG.Naming.NYT.Keywords
         public override string DE => "Sowilo Zweig";
         public override string EN => "Sowilo Branch";
 
-        public string GlyphUniCode => Glyphs.NYT.SowiloBranch;
-        public override string Glyph => Glyphs.NYT.SowiloBranchHtm;
+        public string GlyphUniCode => Glyphs.StackFlow.SowiloBranch;
+        public override string Glyph => Glyphs.StackFlow.SowiloBranchHtm;
 
         public string EditShortCut => "#w";
     }
@@ -286,8 +286,8 @@ namespace MKPRG.Naming.NYT.Keywords
         public override string DE => "Im Siegel Zweig fortsetzen";
         public override string EN => "Switch to Siegel Branch";
 
-        public string GlyphUniCode => Glyphs.NYT.SwitchToSiegelBranch;
-        public override string Glyph => Glyphs.NYT.SwitchToSiegelBranchHtm;
+        public string GlyphUniCode => Glyphs.StackFlow.SwitchToSiegelBranch;
+        public override string Glyph => Glyphs.StackFlow.SwitchToSiegelBranchHtm;
 
         public string EditShortCut => "#gg";
     }
@@ -308,8 +308,8 @@ namespace MKPRG.Naming.NYT.Keywords
         public override string DE => "Im Sowilo Zweig fortsetzen";
         public override string EN => "Switch to Sowilo Branch";
 
-        public string GlyphUniCode => Glyphs.NYT.SwitchToSowiloBranch;
-        public override string Glyph => Glyphs.NYT.SwitchToSowiloBranchHtm;
+        public string GlyphUniCode => Glyphs.StackFlow.SwitchToSowiloBranch;
+        public override string Glyph => Glyphs.StackFlow.SwitchToSowiloBranchHtm;
 
         public string EditShortCut => "#gw";
     }
@@ -330,8 +330,8 @@ namespace MKPRG.Naming.NYT.Keywords
         public override string DE => "Zeichenkette eröffnen";
         public override string EN => "Begin of String";
 
-        public string GlyphUniCode => Glyphs.NYT.IwazStringBegin;
-        public override string Glyph => Glyphs.NYT.IwazStringBeginHtm;
+        public string GlyphUniCode => Glyphs.StackFlow.IwazStringBegin;
+        public override string Glyph => Glyphs.StackFlow.IwazStringBeginHtm;
 
         public string EditShortCut => "#s";
     }
@@ -352,8 +352,8 @@ namespace MKPRG.Naming.NYT.Keywords
         public override string DE => "Zeichenkette anfügen";
         public override string EN => "Concatenate String";
 
-        public string GlyphUniCode => Glyphs.NYT.CweorthStringCat;
-        public override string Glyph => Glyphs.NYT.CweorthStringCatHtm;
+        public string GlyphUniCode => Glyphs.StackFlow.CweorthStringCat;
+        public override string Glyph => Glyphs.StackFlow.CweorthStringCatHtm;
 
         public string EditShortCut => "#u";
     }
@@ -374,8 +374,8 @@ namespace MKPRG.Naming.NYT.Keywords
         public override string DE => "Listenanfang";
         public override string EN => "List begin";
 
-        public string GlyphUniCode => Glyphs.NYT.WynnListBegin;
-        public override string Glyph => Glyphs.NYT.WynnListBeginHtm;
+        public string GlyphUniCode => Glyphs.StackFlow.WynnListBegin;
+        public override string Glyph => Glyphs.StackFlow.WynnListBeginHtm;
 
         public string EditShortCut => "#o";
     }
@@ -396,8 +396,8 @@ namespace MKPRG.Naming.NYT.Keywords
         public override string DE => "Listenende";
         public override string EN => "List end";
 
-        public string GlyphUniCode => Glyphs.NYT.QListEnd;
-        public override string Glyph => Glyphs.NYT.QListEndHtm;
+        public string GlyphUniCode => Glyphs.StackFlow.QListEnd;
+        public override string Glyph => Glyphs.StackFlow.QListEndHtm;
 
         public string EditShortCut => "#q";
     }
@@ -418,8 +418,8 @@ namespace MKPRG.Naming.NYT.Keywords
         public override string DE => "Anfang einer Hierarchie- Definition";
         public override string EN => "Begin of definition of a Hirarchy";
 
-        public string GlyphUniCode => Glyphs.NYT.FehuHirachy;
-        public override string Glyph => Glyphs.NYT.FehuHirachyHtm;
+        public string GlyphUniCode => Glyphs.StackFlow.FehuHirachy;
+        public override string Glyph => Glyphs.StackFlow.FehuHirachyHtm;
 
         public string EditShortCut => "#h";
     }
@@ -440,8 +440,8 @@ namespace MKPRG.Naming.NYT.Keywords
         public override string DE => "boolscher Wert";
         public override string EN => "boolean Value";
 
-        public string GlyphUniCode => Glyphs.NYT.BjarkanBool;
-        public override string Glyph => Glyphs.NYT.BjarkanBoolHtm;
+        public string GlyphUniCode => Glyphs.StackFlow.BjarkanBool;
+        public override string Glyph => Glyphs.StackFlow.BjarkanBoolHtm;
 
         public string EditShortCut => "#b";
     }
@@ -462,8 +462,8 @@ namespace MKPRG.Naming.NYT.Keywords
         public override string DE => "Datentyp Boolean";
         public override string EN => "Bool Datatype";
 
-        public string GlyphUniCode => Glyphs.NYT.BjarkanBoolType;
-        public override string Glyph => Glyphs.NYT.BjarkanBoolTypeHtm;
+        public string GlyphUniCode => Glyphs.StackFlow.BjarkanBoolType;
+        public override string Glyph => Glyphs.StackFlow.BjarkanBoolTypeHtm;
 
         public string EditShortCut => "#tb";
     }
@@ -484,8 +484,8 @@ namespace MKPRG.Naming.NYT.Keywords
         public override string DE => "ganzzahliger Wert";
         public override string EN => "int Value";
 
-        public string GlyphUniCode => Glyphs.NYT.PInt;
-        public override string Glyph => Glyphs.NYT.PIntHtm;
+        public string GlyphUniCode => Glyphs.StackFlow.PInt;
+        public override string Glyph => Glyphs.StackFlow.PIntHtm;
 
         public string EditShortCut => "#k";
     }
@@ -507,8 +507,8 @@ namespace MKPRG.Naming.NYT.Keywords
         public override string DE => "Datentyp Integer";
         public override string EN => "Integer Datatype";
 
-        public string GlyphUniCode => Glyphs.NYT.PIntType;
-        public override string Glyph => Glyphs.NYT.PIntHtmType;
+        public string GlyphUniCode => Glyphs.StackFlow.PIntType;
+        public override string Glyph => Glyphs.StackFlow.PIntHtmType;
 
         public string EditShortCut => "#tk";
     }
@@ -529,8 +529,8 @@ namespace MKPRG.Naming.NYT.Keywords
         public override string DE => "gebrochene Zahl";
         public override string EN => "Fraction";
 
-        public string GlyphUniCode => Glyphs.NYT.RadFraction;
-        public override string Glyph => Glyphs.NYT.RadFractionHtm;
+        public string GlyphUniCode => Glyphs.StackFlow.RadFraction;
+        public override string Glyph => Glyphs.StackFlow.RadFractionHtm;
 
         public string EditShortCut => "#r";
     }
@@ -552,8 +552,8 @@ namespace MKPRG.Naming.NYT.Keywords
         public override string DE => "Datentyp Bruchzahl";
         public override string EN => "Fraction Datatype";
 
-        public string GlyphUniCode => Glyphs.NYT.RadFractionType;
-        public override string Glyph => Glyphs.NYT.RadFractionHtmType;
+        public string GlyphUniCode => Glyphs.StackFlow.RadFractionType;
+        public override string Glyph => Glyphs.StackFlow.RadFractionHtmType;
 
         public string EditShortCut => "#tr";
     }
@@ -574,8 +574,8 @@ namespace MKPRG.Naming.NYT.Keywords
         public override string DE => "Gleitpunktzahl";
         public override string EN => "Floating Point Number";
 
-        public string GlyphUniCode => Glyphs.NYT.AcFloatingPointNum;
-        public override string Glyph => Glyphs.NYT.AcFloatingPointNumHtm;
+        public string GlyphUniCode => Glyphs.StackFlow.AcFloatingPointNum;
+        public override string Glyph => Glyphs.StackFlow.AcFloatingPointNumHtm;
 
         public string EditShortCut => "#f";
     }
@@ -596,8 +596,8 @@ namespace MKPRG.Naming.NYT.Keywords
         public override string DE => "Datentyp Gleitpunktzahl";
         public override string EN => "Floating Point  Datatype";
 
-        public string GlyphUniCode => Glyphs.NYT.AcFloatingPointNumType;
-        public override string Glyph => Glyphs.NYT.AcFloatingPointNumHtmType;
+        public string GlyphUniCode => Glyphs.StackFlow.AcFloatingPointNumType;
+        public override string Glyph => Glyphs.StackFlow.AcFloatingPointNumHtmType;
 
         public string EditShortCut => "#tf";
     }
@@ -618,8 +618,8 @@ namespace MKPRG.Naming.NYT.Keywords
         public override string DE => "Namens- ID";
         public override string EN => "Naming ID";
 
-        public string GlyphUniCode => Glyphs.NYT.HaeglNID;
-        public override string Glyph => Glyphs.NYT.HaeglNIDHtm;
+        public string GlyphUniCode => Glyphs.StackFlow.HaeglNID;
+        public override string Glyph => Glyphs.StackFlow.HaeglNIDHtm;
 
         public string EditShortCut => "#n";
     }
@@ -640,8 +640,8 @@ namespace MKPRG.Naming.NYT.Keywords
         public override string DE => "Datentyp Namens- ID";
         public override string EN => "Naming ID Type";
 
-        public string GlyphUniCode => Glyphs.NYT.HaeglNIDType;
-        public override string Glyph => Glyphs.NYT.HaeglNIDHtmType;
+        public string GlyphUniCode => Glyphs.StackFlow.HaeglNIDType;
+        public override string Glyph => Glyphs.StackFlow.HaeglNIDHtmType;
 
         public string EditShortCut => "#tn";
     }
@@ -662,8 +662,8 @@ namespace MKPRG.Naming.NYT.Keywords
         public override string DE => "Semantische Beziehung";
         public override string EN => "Semantic Reference";
 
-        public string GlyphUniCode => Glyphs.NYT.TvimadurSemanticRef;
-        public override string Glyph => Glyphs.NYT.TvimadurSemanticRefHtm;
+        public string GlyphUniCode => Glyphs.StackFlow.TvimadurSemanticRef;
+        public override string Glyph => Glyphs.StackFlow.TvimadurSemanticRefHtm;
 
         public string EditShortCut => "#l";
     }
@@ -684,8 +684,8 @@ namespace MKPRG.Naming.NYT.Keywords
         public override string DE => "Goto";
         public override string EN => "Goto";
 
-        public string GlyphUniCode => Glyphs.NYT.TyrGoto;
-        public override string Glyph => Glyphs.NYT.TyrGoto;
+        public string GlyphUniCode => Glyphs.StackFlow.TyrGoto;
+        public override string Glyph => Glyphs.StackFlow.TyrGoto;
 
         public string EditShortCut => "#y";
     }
@@ -708,8 +708,8 @@ namespace MKPRG.Naming.NYT.Keywords
         public override string DE => "Datentyp";
         public override string EN => "Data Type";
 
-        public string GlyphUniCode => Glyphs.NYT.Type;
-        public override string Glyph => Glyphs.NYT.TypeHtm;
+        public string GlyphUniCode => Glyphs.StackFlow.Type;
+        public override string Glyph => Glyphs.StackFlow.TypeHtm;
 
         public string EditShortCut => "#t";
     }

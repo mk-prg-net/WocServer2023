@@ -21,19 +21,74 @@ namespace MKPRG.Tracing.DocuTerms
     public interface IComposer
         : IXTabGenerator
     {
-
-
+        // ᚹ...ᛩ List
         IDTList List(params IListMember[] entities);
 
-
+        // ᛔ Boolean
         IBoolean boolean(bool b);
 
+        // ᛕ Integer
         IInteger integer(long i);
 
+        // ᚪ Floating point Number
         IDouble dbl(double d);
 
+        // 
         IString str(string s);
 
+        // ᛒᛒᛒ Text ᛒᛒᛒ Text ᛒᛒᛒ Text ᛒᛒᛒ Text ᛒᛒᛒ Text ᛒᛒᛒ Text ᛒᛒᛒ Text ᛒᛒᛒ Text ᛒᛒᛒ Text ᛒᛒᛒ Text ᛒᛒᛒ Text ᛒᛒᛒ
+
+        /// <summary>
+        /// Defines a textvalue
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns></returns>
+        ITxt txt(string text);
+
+
+        // ᚻᚻᚻ Naming IDs (NID) ᚻᚻᚻ Naming IDs (NID) ᚻᚻᚻ Naming IDs (NID) ᚻᚻᚻ Naming IDs (NID) ᚻᚻᚻ
+
+        /// <summary>
+        /// mko, 24.6.2020
+        /// Erzeugt eine Naming- Id
+        /// </summary>
+        /// <param name="nid"></param>
+        /// <returns></returns>
+        INID NID(long nid);
+
+        // ᚦᚦᚦ Date ᚦᚦᚦ Date ᚦᚦᚦ Date ᚦᚦᚦ Date ᚦᚦᚦ Date ᚦᚦᚦ Date ᚦᚦᚦ Date ᚦᚦᚦ Date ᚦᚦᚦ Date ᚦᚦᚦ Date ᚦᚦᚦ Date ᚦᚦᚦ
+
+        /// <summary>
+        /// Defines a date constant
+        /// </summary>
+        /// <param name="dat"></param>
+        /// <returns></returns>
+        IDate date(DateTime dat);
+
+        IDate date(int year, int month, int day);
+
+        // ᛠᛠᛠ Time ᛠᛠᛠ Time ᛠᛠᛠ Time ᛠᛠᛠ Time ᛠᛠᛠ Time ᛠᛠᛠ Time ᛠᛠᛠ Time ᛠᛠᛠ Time ᛠᛠᛠ Time ᛠᛠᛠ Time ᛠᛠᛠ Time ᛠᛠᛠ
+
+        /// <summary>
+        /// Defines a time constant
+        /// </summary>
+        /// <param name="dat"></param>
+        /// <param name="showMilliseconds"></param>
+        /// <returns></returns>
+        ITime time(TimeSpan dat, bool showMilliseconds = false);
+
+        ITime time(int hour, int minutes, int sec, int milliseconds = 0);
+
+        // ᚠᚠᚠ Versions ᚠᚠᚠ Versions ᚠᚠᚠ Versions ᚠᚠᚠ Versions ᚠᚠᚠ Versions ᚠᚠᚠ Versions ᚠᚠᚠ Versions ᚠᚠᚠ
+
+        /// <summary>
+        /// Defines a vrsion number of an object or method
+        /// </summary>
+        /// <param name="versionStr"></param>
+        /// <returns></returns>
+        IVer ver(string versionStr);
+
+        // ᛝᛝᛝ Instances ᛝᛝᛝ Instances ᛝᛝᛝ Instances ᛝᛝᛝ Instances ᛝᛝᛝ Instances ᛝᛝᛝ Instances ᛝᛝᛝ Instances ᛝᛝᛝ
 
         IInstance i(string name, params IInstanceMember[] pn);
 
@@ -67,13 +122,7 @@ namespace MKPRG.Tracing.DocuTerms
         //IInstance i(IWildCard wc, params IInstanceMember[] pn);
 
 
-        /// <summary>
-        /// Defines a vrsion number of an object or method
-        /// </summary>
-        /// <param name="versionStr"></param>
-        /// <returns></returns>
-        IVer ver(string versionStr);
-
+        // ᛖᛖᛖ Methods ᛖᛖᛖ Methods ᛖᛖᛖ Methods ᛖᛖᛖ Methods ᛖᛖᛖ Methods ᛖᛖᛖ Methods ᛖᛖᛖ Methods ᛖᛖᛖ Methods ᛖᛖᛖ
 
         /// <summary>
         /// Decribes a method/action call
@@ -98,6 +147,7 @@ namespace MKPRG.Tracing.DocuTerms
         /// <returns></returns>
         //IMethod m(IWildCard wc, params IMethodParameter[] pn);
 
+        // ᛏᛏᛏ Return ᛏᛏᛏ Return ᛏᛏᛏ Return ᛏᛏᛏ Return ᛏᛏᛏ Return ᛏᛏᛏ Return ᛏᛏᛏ Return ᛏᛏᛏ Return ᛏᛏᛏ Return ᛏᛏᛏ
 
         /// <summary>
         /// mko, 10.4.2018
@@ -150,7 +200,7 @@ namespace MKPRG.Tracing.DocuTerms
         /// <returns></returns>
         IReturn ret_NID(long nid);
 
-        // == Eigenschaften ====== ====== ======
+        // ᛜᛜᛜ Properties ᛜᛜᛜ Properties ᛜᛜᛜ Properties ᛜᛜᛜ Properties ᛜᛜᛜ Properties ᛜᛜᛜ Properties ᛜᛜᛜ Properties ᛜᛜᛜ
 
         /// <summary>
         /// mko, 18.6.2020
@@ -162,7 +212,6 @@ namespace MKPRG.Tracing.DocuTerms
         /// <param name="docuTerm"></param>
         /// <returns></returns>
         IPropertyValue EncapsulateAsPropertyValue(IDocuEntity docuTerm);
-
 
         /// <summary>
         /// Reports the value of a property 
@@ -228,7 +277,6 @@ namespace MKPRG.Tracing.DocuTerms
         /// <param name="NID"></param>
         /// <returns></returns>
         IProperty p_NID(long NID, long NID_Value);
-
 
         /// <summary>
         /// mko, 22.2.2019
@@ -298,7 +346,7 @@ namespace MKPRG.Tracing.DocuTerms
         /// <returns></returns>
         IProperty p(long NID, double Value);
 
-        // == Wildcards/Paltzhalter ====== ====== ======
+        // ᛍ᛫ Wildcards/Paltzhalter ᛍ᛫ Wildcards/Paltzhalter ᛍ᛫ Wildcards/Paltzhalter ᛍ᛫ Wildcards/Paltzhalter ᛍ᛫
 
         /// <summary>
         /// mko, 28.7.2021
@@ -340,7 +388,6 @@ namespace MKPRG.Tracing.DocuTerms
         /// <returns></returns>
         IWildCard _v(IDocuEntity subTreePattern);
 
-
         /// <summary>
         /// Reports the value, property was set
         /// </summary>
@@ -359,7 +406,7 @@ namespace MKPRG.Tracing.DocuTerms
         /// <returns></returns>
         IProperty pSet(long NID, IPropertyValue Value);
 
-        // == Ergeignisse ====== ====== ======
+        // ᛪᛪᛪ Events ᛪᛪᛪ Events ᛪᛪᛪ Events ᛪᛪᛪ Events ᛪᛪᛪ Events ᛪᛪᛪ Events ᛪᛪᛪ Events ᛪᛪᛪ Events ᛪᛪᛪ
 
         /// <summary>
         /// mko, 18.6.2020
@@ -370,7 +417,6 @@ namespace MKPRG.Tracing.DocuTerms
         /// <param name="docuTerm"></param>
         /// <returns></returns>
         IEventParameter EncapsulateAsEventParameter(IDocuEntity docuTerm);
-
 
         /// <summary>
         /// Defines a fired event with parameters
@@ -649,42 +695,7 @@ namespace MKPRG.Tracing.DocuTerms
 
         IEvent ePrms(string name, params IEventParameter[] pn);
 
-        /// <summary>
-        /// Defines a textvalue
-        /// </summary>
-        /// <param name="text"></param>
-        /// <returns></returns>
-        ITxt txt(string text);
-
-        /// <summary>
-        /// mko, 24.6.2020
-        /// Erzeugt eine Naming- Id
-        /// </summary>
-        /// <param name="nid"></param>
-        /// <returns></returns>
-        INID NID(long nid);
-
-
-        /// <summary>
-        /// Defines a date constant
-        /// </summary>
-        /// <param name="dat"></param>
-        /// <returns></returns>
-        IDate date(DateTime dat);
-
-        IDate date(int year, int month, int day);
-
-        /// <summary>
-        /// Defines a time constant
-        /// </summary>
-        /// <param name="dat"></param>
-        /// <param name="showMilliseconds"></param>
-        /// <returns></returns>
-        ITime time(TimeSpan dat, bool showMilliseconds = false);
-
-        ITime time(int hour, int minutes, int sec, int milliseconds = 0);
-
-        // == KillIf ====== ====== ======
+        // KillIf ============================================================================================
 
         IKillListElementIfNot KillListMemberIfNot(bool Condition, Func<IListMember> docuEntityFactory);
 
@@ -739,14 +750,7 @@ namespace MKPRG.Tracing.DocuTerms
         /// <returns></returns>
         IKillInstanceMemberIfNot KillInstanceMemberIf(bool Condition, Func<IInstanceMember> docuEntityFactory);    
 
-
-
-
-
-
-
-
-        // == IfElse ====== ====== ======
+        // IfElse ===========================================================================================
 
         /// <summary>
         /// mko, 17.6.2020
@@ -848,6 +852,7 @@ namespace MKPRG.Tracing.DocuTerms
         /// <returns></returns>
         IEventParameter IfElseEventParam(bool Condition, Func<IEventParameter> valueIfTrue, Func<IEventParameter> valueIfFalse);
 
+        // Embeed ================================================================================================
 
         /// <summary>
         /// Embeds entities as Child in current Entity.
@@ -885,34 +890,7 @@ namespace MKPRG.Tracing.DocuTerms
         /// </summary>
         /// <param name="members"></param>
         /// <returns></returns>
-        IInstanceMembersToEmbed EmbedInstanceMembers(params IInstanceMember[] members);
+        IInstanceMembersToEmbed EmbedInstanceMembers(params IInstanceMember[] members);        
 
-        /// <summary>
-        /// mko, 31.1.2019
-        /// Führt ein KillIfNot- Kommando aus, wenn der übergebene Parameter ein solches ist.
-        /// Als Ergebnis wird dann das eingekapselte IDocuEntity, falls die Bedingung nicht zutraf,
-        /// oder null zurückgegeben. 
-        /// Liegt kein KillIfNot- Kommando vor, dann wird dieses zurückgegeben
-        /// 
-        /// mko, 9.8.2021
-        /// Aus der Schnittstelle entfernt, da Implementierungsdetail.
-        /// Wird jetzt in den Konstruktoren von IInstance, IProperty etc. implementiert.
-        /// 
-        /// </summary>
-        /// <param name="docuEntity"></param>
-        /// <returns></returns>
-        //IDocuEntity ExecuteKillCommand(IDocuEntity docuEntity);
-
-
-        /// <summary>
-        /// mko, 2.7.2019
-        /// Erzeugt eine Kopie eines DocuEntity.
-        /// 
-        /// mko, 9.8.2021
-        /// Entfernt
-        /// </summary>
-        /// <param name="entity"></param>
-        /// <returns></returns>
-        //IDocuEntity CreateCopyOfEntity(IDocuEntity entity);
     }
 }

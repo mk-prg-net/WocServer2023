@@ -711,9 +711,6 @@ namespace MKPRG.Naming
             // ᛖ
             public static string Method => "&#x16D6;";
 
-            // ᚪ 
-            //public static string Function => "&#x16AA;";
-
             // ᛏ 
             public static string Return => "&#x16CF;";
 
@@ -783,7 +780,7 @@ namespace MKPRG.Naming
         /// Schlüsselwörter der formalen Sprache zur Beschreibung von Datenflussgraphen, NYT
         /// 
         /// </summary>
-        public static class NYT
+        public static class StackFlow
         {
             // ᚾᚤᛏ = NYT, nützliche Datenflüsse
             public static string NYTLogo => "ᚾᚤᛏ";

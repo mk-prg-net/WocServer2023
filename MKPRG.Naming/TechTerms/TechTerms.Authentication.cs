@@ -63,6 +63,26 @@ namespace MKPRG.Naming.TechTerms.Authentication
         public override string ES => "autentificar";
     }
 
+    public class AuthenticationFailedForUserId
+        : NamingBase, Grammar.IFinishedActivity
+    {
+        public const long UID = 0xACC75C60;
+
+        public AuthenticationFailedForUserId()
+            : base(UID)
+        {
+        }
+
+        public override string CNT => GetType().Name;
+        public override string CN => EN;
+        public override string DE => "Die Authentifizierung schlug fehl für den Benutzer";
+        public override string EN => "Authentication failed for User";
+        public override string ES => EN;
+
+        public override string Glyph => Glyphs.Validation.Invalid;
+    }
+
+
     public class HaveBeenAuthenticated
         : NamingBase, Grammar.IFinishedActivity
     {

@@ -12,14 +12,12 @@ namespace MKPRG.Naming.TechTerms.ClientServer
     public class Client
      : NamingBase
     {
-
         public const long UID = 0x75D91483;
 
         public Client()
             : base(UID)
         {
         }
-
 
         public override string CNT => "Client";
         public override string CN => "客户";

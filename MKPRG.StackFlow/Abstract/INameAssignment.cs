@@ -5,10 +5,9 @@ using System.Text;
 namespace MKPRG.StackFlow.Abstract
 {
     /// <summary>
-    /// Markiert Objekte, die an eienn Namen zugewiesen werden können
+    /// Markiert Objekte, die an einen Namen zugewiesen werden können
     /// </summary>
     public interface IAssignableToName { }
-
 
     /// <summary>
     /// mko, 24.1.2024

@@ -1,7 +1,9 @@
-﻿using MKPRG.Tracing.DocuTerms;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
+
+using TT = MKPRG.Naming.TechTerms;
+using TTD = MKPRG.Naming.DocuTerms;
 
 namespace MKPRG.Tracing
 {
@@ -11,21 +13,32 @@ namespace MKPRG.Tracing
     public class RetBld
         : IRetBld
     {
+        DocuTerms.IComposer pnL;
         string methName;
         DocuTerms.IProperty[] fcallParameterDescriptors;
 
-        public RetBld(string methName, params IProperty[] fcallParameterDescriptors)
+        public RetBld(DocuTerms.IComposer pnL, string methName, params DocuTerms.IProperty[] fcallParameterDescriptors)
         {
+            this.pnL = pnL;
             this.methName = methName;
             this.fcallParameterDescriptors = fcallParameterDescriptors;
         }
 
-        public IRet AuthenticationFailed(string UserIdToAuthenticate, IMethod DescriptionOfFailedAuthorizationProcess)
-        {
-            throw new NotImplementedException();
-        }
+        public IRet AuthenticationFailed(string UserIdToAuthenticate, DocuTerms.IMethod DescriptionOfFailedAuthorizationProcess)
+            =>
+            new Ret()
+            {
+                AuthenticationFailed = true,
+                DescriptorOfMethodCallAndReturnValue = pnL.m(methName, 
+                                                        pnL.p(TT.Authentication.UserId.UID, UserIdToAuthenticate),
+                                                        pnL.EmbedMethodParameters(fcallParameterDescriptors),
+                                                        pnL.ret(pnL.eFails(pnL.List(
+                                                            pnL.p(TTD.StateDescription.WhatsUp.UID, TT.Authentication.AuthenticationFailedForUserId.UID
+                    )
+            };
+            
 
-        public IRet AuthorizationFailed(IMethod DescriptionOfFailedAuthorizationProcess)
+        public IRet AuthorizationFailed(DocuTerm.IMethod DescriptionOfFailedAuthorizationProcess)
         {
             throw new NotImplementedException();
         }

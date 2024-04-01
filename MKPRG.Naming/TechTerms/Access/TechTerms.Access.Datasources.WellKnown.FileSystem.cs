@@ -34,20 +34,20 @@ namespace MKPRG.Naming.TechTerms.Access.Datasources.WellKnown.FileSystem
     /// Dateiverzeichnis
     /// </summary>
     public class FileDir
-        : NamingBase
+        : NamingBase24, ILangCN, ILangDE, ILangEN, ILangES
     {
         public const long UID = 0x641C8BBB;
 
         public FileDir()
-            : base(UID)
+            : base(UID, SemanticNet.SemRef.PartOf(FileSystem.UID))
         {
         }
 
         public override string CNT => "fileDir";
-        public override string CN => "文件目录";
-        public override string DE => "Dateiverzeichnis";
-        public override string EN => "File directory";
-        public override string ES => "Directorio de archivos";
+        public string CN => "文件目录";
+        public string DE => "Dateiverzeichnis";
+        public string EN => "File directory";
+        public string ES => "Directorio de archivos";
 
         public override string Glyph => Glyphs.DataAndDocuments.Folder;
     }

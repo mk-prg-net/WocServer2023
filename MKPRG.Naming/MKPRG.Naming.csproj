@@ -6,6 +6,7 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\MKPRG.Edit\MKPRG.Edit.csproj" />
+    <ProjectReference Include="..\MKPRG.SemanticNet\MKPRG.SemanticNet.csproj" />
     <ProjectReference Include="..\MKPRG.Woc\MKPRG.Woc.csproj" />
   </ItemGroup>
   <ItemGroup>

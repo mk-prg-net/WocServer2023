@@ -79,14 +79,35 @@ namespace MKPRG.Tracing
         }
 
 
-        public bool ReturnedFromSuccessfulCallButEmptyResultSet => throw new NotImplementedException();
+        public bool ReturnedFromSuccessfulCallButEmptyResultSet
+        {
+            get;
+            internal set;
+        }
 
-        public bool ReturnedBeforeExecutionCompleted => throw new NotImplementedException();
+        public bool ReturnedBeforeExecutionCompleted
+        {
+            get;
+            internal set;
+        }
 
-        public bool AuthenticationFailed => throw new NotImplementedException();
+        public bool AuthenticationFailed
+        {
+            get;
+            internal set;
+        }
 
-        public bool ValidationOfArgumentsFailed => throw new NotImplementedException();
+        public bool ValidationOfArgumentsFailed
+        {
+            get;
+            internal set;
+        }
 
-        public bool SqlDatabaseQueryFailed => throw new NotImplementedException();
+        public bool SqlDatabaseQueryFailed
+        {
+            get;
+            internal set;
+        }
+
     }
 }
