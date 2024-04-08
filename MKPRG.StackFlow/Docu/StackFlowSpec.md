@@ -2,7 +2,11 @@
 
 Nyt (die nützliche) Flussname im Lied der Grímnismál (Edda): https://de.wikipedia.org/wiki/Liste_der_Fl%C3%BCsse_im_Lied_Gr%C3%ADmnism%C3%A1l
 
-**Stack ᛝ Flow** soll eine minimalistische formale Sprache zur semantischen Auszeichung von Texten, zur funktionalen Formulierung von Algorithmen und zur generatorischen Beschreibung von Diagrammen, Bildern und Fräskopfbahnen werden.
+**Stack ᛝ Flow** ist eine minimalistische, formale Sprache zur Beschreibung aktiver Berechnungen aus laufendem Text heraus. Zum Beispiel kann eine auf dem newtonsche Grundgesetz **F=m⋆a** basierende Berechnung wie folgt definiert werden:
+
+    Die Beschleunigung auf der Erde beträgt ᚩ9,81ᛎ ᛇm/s²ᛎ. Ein Mensch mit einem Gewicht von ᛕ120ᛎ ᛇkgᛎ wird mit der Kraft ᛨF=m⋆a ᛨ⎙ angezogen.
+
+Für die Berechnung relevante nummerische Werte als auch Strings werden vom Text durch spezielle Präfixe wie ᚩ, ᛕ und ᛇ separiert. Mittels des Operators ᛎ werden diese in einen Stapelspeicher im Hintergrund geschrieben, aus dem dann Funktionen wie ᛨF=m⋆a oder ᛨ⎙ diese einlesen, verarbeiten und auf den Stapel wieder zurückschreiben. ᛨ⎙ liest zum Beispiel den gesamten Stapel aus, und blendet ihn hinter dem Funktionsaufruf in den Text ein.
 
 ## Grundlagen
 
@@ -15,6 +19,12 @@ Die *Runen* werden in keiner heute mehr existierenden Sprache gennutzt. Damit si
 ### Kommentare ᛭
 **᛭** schließt den Rest vom Parsen aus. Damit können nach **᛭** beliebige Kommentare notiert werden.
 
+
+### Der Stapelspeicher und die Operatoren ᛎ (push) und ᛏ (pop)
+
+In **Stack ᛝ Flow** ist der Stapelspeicher das primäre Speichermedium, aus dem Programme lesen und in den diese ihre Ergebnisse zurückschreiben.
+Ein Wert wie die Zahl 99 kann aus eine
+
 ## Literale elementarer Datentypen
 
 ### Präfixe für die Notation von Zahlenwerten
@@ -22,7 +32,7 @@ Eine Gleitpunktzahl wie **3.14** ist eine kulturspezifische Notation (**en-US**)
 
 Um die Notation von Zahlenwert von einer textuellen und kulturspezifischen Präsentation in einer Sprache zu unterscheiden, werden diese in **Stack ᛝ Flow** stets durch ein spezielles *Präfix* explizit gekennzeichnet.
 
-🚨 Zahlen  können wie z.B. `ᚱ _Zähler_ _Nenner_` eine listenartige Struktur darstellen, sind aber keine Listen. Die einzelnen Partikel wie im Beispiel `_Zähler_` und `_Nenner_` dürfen nur Konstanten sein, wie `ᚱ 1 2`, jedoch keine Ausdrücke!
+🚨 Zahlen  können wie z.B. `ᚱ *Zähler*/*Nenner*` eine listenartige Struktur darstellen, sind aber keine Listen. Die einzelnen Partikel wie im Beispiel `*Zähler*` und `*Nenner*` dürfen nur Konstanten sein, wie `ᚱ 1/2`, jedoch keine Ausdrücke!
 
 ### Nummerische Datentpen
 Die Notationsformen für Zahlenwerte haben Beschränkungen bezüglich der Genauigkeit. Deshalb korrespondieren die Notationsformen auch mit Teilmengen von **ℚ**. Diese Teilmengen Werden *Nummerische Datentypen* genannt. 
@@ -64,19 +74,22 @@ Die Basis kann in einen nummerischen Typ explizit definiert werden mit dem Präf
 
 ### Gebrochen Rationale Zahlen ᚱ
 
-**ᚱ** ist das Präfix für gebrochen rationale Zahlen. Diese bestehen aus einem *Nenner* und einem *Zähler*, getrennt durch ein Leerzeichen: 
+**ᚱ** ist das Präfix für gebrochen rationale Zahlen. Diese bestehen aus einem *Nenner* und einem *Zähler*, getrennt durch ein /. Die Rune **ᚷ** (Gebo) präfixed den Exponenten. Per default ist die *Basis* **10**, auch für den *Exponenten*. Mittels **ᛔ** kann eine abweichende *Basis* vereinbart werden.
 
-1. `ᚱ _Zähler_` hier ist der Nenner stets 1
-2. `ᚱ _Zähler_ _Nenner_`
-3. `ᚱ _Ganzzahlig_ _Zähler_ _Nenner_`
+1. `ᚱ *Zähler*` hier ist der Nenner stets 1
+2. `ᚱ *Zähler* / *Nenner*`
+3. `ᚱ *Ganzzahlig* *Zähler* / *Nenner*`
+4. `ᚱ *Ganzzahlig* *Zähler* / *Nenner* ᚷ *Exponent*`
+5. `ᚱ ᛔ *Basis* *Ganzzahlig* *Zähler* / *Nenner* ᚷ *Exponent*`
 
 Beispiele:
 ```
 ᚱ 2     ⟺ 2/1 = 2.0
-ᚱ 1 2   ⟺ 1/2 = 0.5
-ᚱ 1 2 3 ⟺ 1 2/3 = 1.666
-ᚱ -4 16 ⟺ -4/16 = -0.25
-ᚱ ᛔ2 -L00 L0000 ⟺ -4/16 = -0.25 im binärsystem
+ᚱ 1/2   ⟺ 1/2 = 0.5
+ᚱ 1 2/3 ⟺ 1 2/3 = 1.666
+ᚱ -4/16 ⟺ -4/16 = -0.25
+ᚱ ᛔ2 -L00/L0000 ⟺ -4/16 = -0.25 im binärsystem
+ᚱ ᛔ2 -L/L000 ᚷLL ⟺ -1 = -1/8 * 2^3
 ```
 Die rationalen Zahlen können z.B. als Zoll- Maße genutzt werden
 
@@ -84,19 +97,27 @@ Die rationalen Zahlen können z.B. als Zoll- Maße genutzt werden
 
 ### Gleitpunktzahlen ᚪ
 
-**ᚩ** ist das Präfix für rationale Zahlen in der Gleitpunkt- Darstellung. Vor- und Nachkomma- Stellen bilden die beiden Elemente einer Liste. Kulturspezikfische Spearatoren wie **,** oder **.** sind damit überwunden.
+**ᚩ** ist das Präfix für rationale Zahlen in der Gleitpunkt- Darstellung. Vor- und Nachkomma- Stellen werden durch , getrennt. Einen Exponenten zu Basis 10 
 
 ```
 ᚩ 3       ⟺  3.0
-ᚩ 3 14    ⟺  3.14
-ᚩ -2 72   ⟺ -2.72
-ᚩ -2 72 3 ⟺ -2.72e3 = -2720 
+ᚩ 3,14    ⟺  3.14
+ᚩ -2,72   ⟺ -2.72
+ᚩ -2,72ᚷ3 ⟺ -2.72e3 = -2720 
 ᚩ ᛔ2 -L00 L0000 ⟺ -4,5 (binär)
 ```
 
 **ᚩᛠ** ist der Datentyp für Gleitpunkt- Zahlen.
 
 Die Datentypen **ᚱᛠ** und **ᚩᛠ** sind kompatibel bzw. austauschbar: Ein **ᚱᛠ** kann an ein **ᚩᛠ** zugewiesen werden und umgekehrt.
+
+### Komplexe Zahlen ᛈ
+
+Komplexe Zahlen können als Punkte der gausschen Zahlenebene betrachtet werden. Dies legt die Darstellung als Wertepaar **(re, im)** mit re= Realteil, und im= Imaginärteil nahe.
+
+Alternativ kann man komplexe Zahlen als die algebraische Kombination **re + 𝒾im** von reellen und imaginären Zahlen betrachten. Dabei ist **re ∈ ℝ** und **𝒾im ∈ 𝕀**. Der Imaginärteil erhält dabei das mathematische Schreibschrift **𝒾** (U +1D4BE) als Präfix. 
+
+
 
 ### Boolsche Werte ᛒ
 
