@@ -4,6 +4,8 @@ Nyt (die nützliche) Flussname im Lied der Grímnismál (Edda): https://de.wikip
 
 **Stack ᛝ Flow** ist eine minimalistische, formale Sprache zur Beschreibung aktiver Berechnungen aus laufendem Text heraus. Zum Beispiel kann eine auf dem newtonsche Grundgesetz **F=m⋆a** basierende Berechnung wie folgt definiert werden:
 
+    ᛝS1 ᛭ Für die folgenden Berechnungen im Text wird ein separater Stack S1 angelegt.
+
     Die Beschleunigung auf der Erde beträgt ᚩ9,81ᛎ ᛇm/s²ᛎ. Ein Mensch mit einem Gewicht von ᛕ120ᛎ ᛇkgᛎ wird mit der Kraft ᛨF=m⋆a ᛨ⎙ angezogen.
 
 Für die Berechnung relevante nummerische Werte als auch Strings werden vom Text durch spezielle Präfixe wie ᚩ, ᛕ und ᛇ separiert. Mittels des Operators ᛎ werden diese in einen Stapelspeicher im Hintergrund geschrieben, aus dem dann Funktionen wie ᛨF=m⋆a oder ᛨ⎙ diese einlesen, verarbeiten und auf den Stapel wieder zurückschreiben. ᛨ⎙ liest zum Beispiel den gesamten Stapel aus, und blendet ihn hinter dem Funktionsaufruf in den Text ein.
@@ -20,10 +22,39 @@ Die *Runen* werden in keiner heute mehr existierenden Sprache gennutzt. Damit si
 **᛭** schließt den Rest vom Parsen aus. Damit können nach **᛭** beliebige Kommentare notiert werden.
 
 
-### Der Stapelspeicher und die Operatoren ᛎ (push) und ᛏ (pop)
+### Stapelspeicher ᛝ und die Operatoren ᛎ (push) und ᛏ (pop)
 
-In **Stack ᛝ Flow** ist der Stapelspeicher das primäre Speichermedium, aus dem Programme lesen und in den diese ihre Ergebnisse zurückschreiben.
-Ein Wert wie die Zahl 99 kann aus eine
+Stapelspeicher sind die einzigen, zur Laufzeit veränderliche Speicher in **Stack ᛝ Flow**. Operatoren und Programme können aus diesen lesen und ihre Ergebnisse wieder zurückschreiben.
+
+Es können mittels dem Stack- Operator **ᛝ** beliebig viele Stapel zu Laufzeit definiert und aktiviert werden.
+
+Mittels **ᛝ _Stack_Name_** wird ein Stack angelegt, an den Namen gebunden und aktiviert. Aktiviert bedeutet, dass alle nachfolgenden Stackoperationen für diesen gültig sind.
+
+Die Stackoperation **_Wert_ᛎ** (push) speichert/legt den Wert auf den Staple. Mittels der Stackoperation **ᛏ** (pop) kann der Wert wieder vom Stapel genommen werden. **ᛏᛟ_name_** nimmt einen Wert vom Stapel und bindet ihn an den Namen *_namen_* (siehe unten) .
+
+Wird ein weiterer Stapel mittels **ᛝ _Stack_Name_2_** angelegt und aktiviert, dann existert der unter _Stack_Name_ zuerst weiter, ist jedoch nicht aktiv. Soll er wieder aktiv werden, dann muss **ᛝ _Stack_Name_** erneut aufgerufen werden.
+
+```
+᛭ Ein neuer Stack mit dem Namen S1 wird angelegt. Der Stack ist leer []
+ᛝS1
+
+᛭ Die drei Werte 1, 2, 3 werden auf dem Stack abgelegt
+ᛕ1ᛎ ᛕ2ᛎ ᛕ3ᛎ
+
+᛭ Nun hat der Stack den Inhalt Bottom[1][2][3]Top
+᛭ Es wird ein Wert vom Stack genommen, und an den Namen x gebunden
+ᛏᛟx
+᛭ Der Stack S1 hat nun den Inhalt Bottom[1][2]Top
+
+᛭ Ein neuer Stack mit dem Namen S2 wird angelegt. Der Stack ist leer []
+᛭ Der Stack S1 existiert jedoch weiter
+ᛝS2
+
+᛭ In S2 werden zwei weitere Werte abgelegt:
+ᛕ4ᛎ ᛕ5ᛎ ᛡxᛎ
+᛭ S1 hat den Inhalt Bottom[1][2]Top
+᛭ S2 hat den Inhalt Bottom[4][5][3]Top
+```
 
 ## Literale elementarer Datentypen
 
@@ -178,7 +209,7 @@ Diese wird dann evaluiert zu:
 
 **ᚠᛠ** ist der Datentyp für Hierarchieen.
 
-## Informationen darstellen durch binden von Werten an Namen mittels ᛟ Operator
+## Informationen darstellen durch Binden von Werten an Namen mittels ᛟ Operator
 
 Informationen bestimmen den Ausgang von Entscheidungen. Entscheidungen manifestieren sich durch die Zuordnung/Belegung/Bindung von Werten an Systemparametern.
 
@@ -193,12 +224,19 @@ Attribute bzw Namensbindungen sind wie folgt aufgebaut: `ᛟ <Name als String> <
 Beispiele:
 ```
 ᛭ Konstante PI definieren
-ᛟPI ᚩ 3 14 
+ᛟPI ᚩ3,14 
 
 ᛭ Liste der ersten fünf Primzahlen an einen Namen binden
 ᛟersteFünfPrimzahlen ᚤᛕ2 ᛕ3 ᛕ5 ᛕ7 ᛕ11 ᛩ
 ```
 Die Bindung eines Namens an einen Wert kann auch als **Attribut Wertepaar** betrachtet werden!
+
+Zu bindende Werte könne mit **ᛏ** vom Stapel gelesen werden:
+```
+Die Erdbeschleunigung beträgt ᚩ9,81ᛎ ᛇm/s²ᛎ.
+ᛏᛟg         ᛭ Wert für Erdbeschleunigung vom Stack lesen und an Name g binden
+ᛏᛟgunit     ᛭ Einheit für Erdbeschleunigung vom Stack lesen und an Name gunit binden
+```
 
 ### Naming ID's ᚻ
 
@@ -209,7 +247,7 @@ An eine global eindeutige *NamingID* kann wie an einen lokalen *Namen* ein Wert 
 Beispiele:
 ```
 ᛭ An die global gültige Naming ID 0x7ABC123 wird der Wert 3,1427 gebunden.
-ᛟᚻ ᛕ ᛔ16 7ABC123 ᚩ 3 1427
+ᛟᚻ ᛕ ᛔ16 7ABC123 ᚩ3,1427
 ```
 
 **ᚻᛠ** ist der Datentyp für Namensreferenzen.
@@ -220,7 +258,7 @@ Wurde an einen Namen ein Wert gebunden, dann kann überall, wo normalerweise der
 
 ```
 ᛭ Konstante PI definieren
-ᛟPI ᚪ3 14 
+ᛟPI ᚪ3,14 
 
 ᛭ Den Wert von **PI** an den synonymen Namen **pie** binden
 ᛟpie ᛡPI
@@ -235,7 +273,7 @@ Eine Menge von *Bind* Operationen können in Listen **ᚹ ... ᛩ** zusammengefa
 
 ```
 ᛭ Beschreibung einer Punktkoordinate durch eine Namensraumstruktur
-ᚹ ᛟx ᚪ2 72 ᛟy ᚪ3 14 ᛩ 
+ᚹ ᛟx ᚪ2,72 ᛟy ᚪ3,14 ᛩ 
 ```
 Die Struktur kann selber als Wert mittels Bind an einen Namen gebunden werden. So entsteht ein **Namensraum**
 
@@ -243,15 +281,15 @@ Die Struktur kann selber als Wert mittels Bind an einen Namen gebunden werden. S
 ᛭ Namensraum mathematischer Konstanten
 ᛟMathConst
 ᚹ
-    ᛟPI ᚪ3 14
-    ᛟe  ᚪ2 72
+    ᛟPI ᚪ3,14
+    ᛟe  ᚪ2,72
 ᛩ
 
 ᛭ Namensraum, der einen Punkt darstellt
 ᛟPunkt1 
 ᚹ 
-    ᛟx ᚪ2 72 
-    ᛟy ᚪ3 14 
+    ᛟx ᚪ2,72 
+    ᛟy ᚪ3,14 
 ᛩ 
 ```
 
@@ -268,8 +306,8 @@ Beispiel
 ᚹ
     ᛟConst
     ᚹ
-        ᛟPI ᚪ3 14
-        ᛟe  ᚪ2 72
+        ᛟPI ᚪ3,14
+        ᛟe  ᚪ2,72
     ᛩ   
 ᛩ
 
@@ -298,7 +336,7 @@ Um abstrakte Naming- IDs besser zu handhaben, können sie an lesbare Namen mitte
 ᛭ Hier wird über den hierarchichen Namen die Funktion aufgerufen
 ᛣᚻᚠMath BasicFunctions addᛩ  ᛕ1 ᛕ2
 ᛭ ᛟsum ist nur innerhalb des Siegel - Zweiges sichtbar
-ᛋ ᛟsum ᛣprint ᛇ ᛡsum ist die Summe aus 1 uns 2 ᛩ
+ᛋ ᛏᛟsum ᛣprint ᛇ ᛡsum ist die Summe aus 1 uns 2 ᛩ
 ```
 ### Arrays ᚤ
 
@@ -312,8 +350,8 @@ Um abstrakte Naming- IDs besser zu handhaben, können sie an lesbare Namen mitte
 
 ᛭ Array mit zwei Koordinaten
 ᚤ 
-   ᚹ ᛟx ᚪ2 72 ᛟy ᚪ3 14 ᛩ 
-   ᚹ ᛟx ᚪ5 3  ᛟy ᚪ1 7ᛩ ᛩ
+   ᚹ ᛟx ᚪ2,72 ᛟy ᚪ3,14 ᛩ 
+   ᚹ ᛟx ᚪ5,3  ᛟy ᚪ1,7ᛩ ᛩ
 ᛩ
 
 ᛭ Array aus Daten verschiedener Typen
@@ -328,66 +366,71 @@ Um abstrakte Naming- IDs besser zu handhaben, können sie an lesbare Namen mitte
 
 #### Zugriff auf Array Elemente
 
-Auf einzelne Elemente eines Arrays kann mittels Operator `ᚤᛏ _array_ _index_ ᛋ _Ergebnis_` zugegriffen werden.
+Array sind wie alle Werte unveränderlich (immutable): sie können nur gelesen, jedoch nicht verändert werden!
 
-Dieser hat als Parameter den **0** basierte Index und das *Array*, aus dem der Wert zu entnehmen ist.
-
-Soll im Falle eines Zugriffs auf ein nicht vorhandenes Element durch einen zu kleinen, oder zu großen Index keine Ausnahme, sondern eine benutzerdefinierte Fehlerbehandlung starten, dann ist  `ᚤᛏ _array_ _index_ ᛊ _errIndexOutOfRangeHandler_ ᛋ _Ergebnis_` einzusetzen.
-
-Beispiele (hier enhalten Array selber wieder Arrays)
-
+Auf einzelne Elemente eines Arrays kann mittels Indexzugriffs- Operator **[_index_]** lesend zugegriffen werden. Dieser hat als Parameter den **0** basierte Index. Erw wird direkt auf Array angewendet:
 ```
-᛭ Array mit Elemente, die selber Arrays sind
-ᛟa1
-ᚤ    
-   ᚤ ᛕ1 ᛕ2 ᛩ 
-   ᚤ ᛕ3 ᛕ4 ᛩ 
-ᛩ
+᛭ An den Namen **dritterEintrag** ist nun der Wert ᛕ5 gebunden.
+ᛟdritterEintrag ᚤ ᛕ2 ᛕ3 ᛕ5 ᛕ7 ᛕ11 ᛩ[2] 
 
-᛭ Hier gilt: ᛡe1 == ᚤ ᛕ1 ᛕ2 ᛩ
-ᚤᛏ ᛟa1 1 ᛋ ᛟe1
+᛭ An den Namen **eineListe** wird ein Array gebunden
+ᛟeineListe ᚤ ᛕ2 ᛕ3 ᛕ5 ᛕ7 ᛕ11 ᛩ
 
-᛭ Hier gilt: ᛡe2 == ᚤ ᛕ3 ᛕ4 ᛩ
-ᚤᛏ ᛟa1 2 ᛋ ᛟe2
+᛭ Der 3. Eintrag im Array wird ausgelesen und auf den Stapel gestellt.
+ᛡeineListe[2]ᛎ
 ```
+Im letzten Beispiel wird die Priorität der Operatoren deutlich: höchste Priorität hat ᛡ, dann kommt [], und schließlich ᛎ.
 
 #### Einbetten von Array in Array mittels Expand ᚷ Operator
 
 Mittels des Expand- Operator **ᚷ** kann der Inhalt eines Array in ein anderes eingebettet werden
 
 ```
-᛭ Array mit Elemente, die selber Arrays sind
-ᛟa2
+ᛟsubArray ᚤ ᛕ2 ᛕ3 ᛩ 
+
+᛭ ᛡnotExpandedArray ist ᚤ ᛕ1 ᚤ ᛕ2 ᛕ3 ᛩ ᛕ4ᛩ
+ᛟnotExpandedArray
 ᚤ    
    ᛕ1
-   ᚷᚤ ᛕ2 ᛕ3 ᛩ 
+   ᛡsubArray 
    ᛕ4 
 ᛩ
 
-᛭ Hier gilt: ᛡe1 == ᛕ1
-ᚤᛏ ᛟa2 1 ᛋ ᛟe1
+᛭ ᛡres1 hat den Wert ᚤ ᛕ2 ᛕ3 ᛩ (Array) 
+ᛟres1 ᛡnotExpandedArry[2]
 
-᛭ Hier gilt: ᛡe2 == ᛕ2
-ᚤᛏ ᛟa1 2 ᛋ ᛟe2
+᛭ ᛡexpandedArray ist ᚤ ᛕ1 ᛕ2 ᛕ3 ᛕ4ᛩ
+ᛟexpandedArray
+ᚤ    
+   ᛕ1
+   ᚷᛡsubArray
+   ᛕ4 
+ᛩ
+
+᛭ ᛡres21 hat den Wert ᛕ3 (einzelnener, ganzzahliger Wert) 
+ᛟres2 ᛡexpandedArry[2]
 ```
 
-#### Häufig benutzte Array- Operationen
-Im folgenden werden Operationen auf Array beschreiben, die häufig in **LLP** einzusetzen sind.
+#### Einbetten von Arrays auf den aktuell aktiven Stack mittels Expand ᚷ Operator
 
-##### Pop
-
-`ᛖpop ᚤ a b ... ᛩ` entnimmt das erste Element von Links aus dem Array.
+Mittels des Expand- Operator **ᚷ** können alle Elemente eines Array hintereinander auf den Stapel kopiert werden:
 
 ```
-ᛟar1 ᚤ a b ᛩ
+ᛟmyArray ᚤ ᛕ1 ᛕ2 ᛩ 
 
-ᛖᛏpop ᛟᛡar1
-ᛋ ᛟres             ᛭ ᛟᛡres == a
-ᛗ ᛖᛏlog ᚥ          ᛭ loggt ᚤ b ᛩ
+᛭ Array auf den Stapel kopieren
+ᛡmyArrayᛎ
 
-ᛖᛏpus ᛟᛡar1 ᛩ 
-ᛗ ᛖᛏlog ᚥ          ᛭ loggt ᚤ b ᛩ
+᛭ Der Stapel hat nun die Belegung:
+᛭ [ᚤ ᛕ1 ᛕ2 ᛩ] Top
 
+᛭ Jetzt werden anstatt des Array selbst die einzelnen Werte des Array  auf den Stapel kopiert
+ᛡmyArrayᚷᛎ
+
+᛭ Der Stapel hat nun die Belegung:
+᛭ [ᛕ2       ] Top
+᛭ [ᛕ1       ]
+᛭ [ᚤ ᛕ1 ᛕ2 ᛩ] Bottom
 
 ```
 
@@ -408,12 +451,12 @@ Die Verarbeitung von Daten erfolgt durch einzelne, benannte *Verarbeitungsstufen
 ```
 ᛭ Syntaktischer Aufbau einer Verarbeitungsstufe
 ᛣ _NameVStufe_ _E1_ ... _En_ 
-ᛋ _Verarbeitungsfunktion_im_SIGEL_Zweig_
-ᛊ _Verarbeitungsfunktion_im_SOWILO_Zweig_
-ᛉ _Abschluss_oder_Folge_Funktion_am_Ausgang_
+ᛋ _Nachfolgende_Verarbeitungsfunktion_im_SIGEL_Zweig_
+ᛊ _Nachfolgende_Verarbeitungsfunktion_im_SOWILO_Zweig_
+ᛉ _Abschluss_oder_Nachfolge_Funktion_am_Ausgang_
 ```
 
-In **NYT** kann die Verarbeitung in einer Stufe stets in zwei alternative Pfade erfolgen. Damit wird das grundlegende Prinzip der Verzweigung eingeführt. 
+In **Stack Flow** kann die Verarbeitung in einer Stufe stets in zwei alternative Pfade erfolgen. Damit wird das grundlegende Prinzip der Verzweigung eingeführt. 
 
 - **ᛋ**: SIEGEL Zweig
 - **ᛊ**: SOWILO Zweig
@@ -433,7 +476,7 @@ Am Ende müssen aber beide Pfade wieder am Ausgang zu einem Pfad zusammengeführ
 ```
 ### Eingangswerte/Paramter
 
-Jede Stufe kann parametriert werden. Die Parameter (oder Eingangswerte) werden auf dem Stapelspeicher bereitgestellt. Der Stapelspeicher kann unmittelbar nach dem Stufennamen mit den benötigten Parametern befüllt werden durch eine Parameterliste: `ᛣstufenNamen _p1_ … _pn_`. Die Parameter werden dabei von rechts nach links auf dem Stapelspeicher des Laufzeitsystems abgelegt.
+Jede Stufe kann parametriert werden. Die Parameter (oder Eingangswerte) werden auf dem Stapelspeicher bereitgestellt. Der Stapelspeicher kann unmittelbar nach dem Stufennamen mittel ᛎ (push) Operatoren vor Aufruf der Stufe mit den benötigten Parametern befüllt werden.
 
 Eine einfache Verarbeitungsstufe, die dieses Prinzip direkt auzsnutzt, ist die **push** Stufe. Sie legt alle Eingangsparameter unverändert auf dem Stapel des Laufzeisystems ab:
 
@@ -454,27 +497,21 @@ Da jede Stufe ihre Parameter vom Stapel liest, muss sichergestellt werden, dass 
 𝑫𝒆𝒇 **Musterbelegung**: ist eine Liste von Typnamen nach der INGWAZ Rune: `ᛜ ᛠ1 … ᛠn`. Der erste Typname `ᛠ1` bezeichnet dabei den Datentyp des ersten Wertes auf dem Stapelspeicher, der zweite `ᛠ2` den des zweiten Wertes auf dem Stapelspeicher usw.. 
 
 Die **Musterbelegung** kann an die Parameterliste einer Stufe angehangen werden, und definiert eine Annahme über die Belegung des Stapelspeichers vor dem Einkellern der Parameter einer Stufe:
-
 ```
 
-ᛣstufenName p1  …  pn ᛜ ᛠ1  …  ᛠm ᛉ
-            \---+---/   \---+---/
-                |           |
-         Einzukellernde  Annahme über die bereits auf     
-         Parameter       dem Stapel liegenden Parameter
+p1ᛎ  …  pnᛎ ᛣstufenName ᛜ ᛠ1  …  ᛠm ᛉ
+\---+---/               \---+---/
+    |                       | 
+Einzukellernde   Annahme über die bereits auf     
+Parameter        dem Stapel liegenden Parameter
 ```
 
-Wenn eine **Musterbelegung** nicht zutrifft, dann wird eine Fehlermeldung erzeug und auf dem Stapel abgelegt. Anschließend wird im **ᛊ (Sowilo)** Zweig der Stufe fortgesetzt.
+Wenn eine **Musterbelegung** nicht zutrifft, dann wird eine Fehlermeldung erzeugt und auf dem Stapel abgelegt. Anschließend wird im **ᛊ (Sowilo)** Zweig der Stufe fortgesetzt.
 
 🚨 Achtung: Die Musterbelegung scheint einer formalen Parameterliste einer Prozedur in einer Programmiersprache wie **C#** zu entsprechen. Jedoch handelt es sich hier um ein automatisiertes Prüfverfahren für die Stapelspeicherbelegung zur Laufzeit (keine Prüfung zur Entwurfszeit via Compiler!), die beim konkreten Start der Stufe stattfindet. Es kann deshalb für verschiedene Stufenstarts auch verschiedene Musterbelegungen geben:
 
 ```
-ᛣpush ᛕ77ᛉ
-
-᛭ Hier wird eine Musterbelegung von einer Kardinalzahl auf dem Stapelspeicher angenommen.
-ᛣadd ᛕ88 ᛜ ᛕᛠ
-ᛊ ᛣprintᛉ
-ᛉ
+ᛕ77ᛎ ᛕ88ᛎ
 
 ᛭ Hier wird eine Musterbelegung von zwei Kardinalzahlen auf dem Stapelspeicher angenommen.
 ᛣadd ᛜ ᛕᛠ ᛕᛠ
@@ -495,23 +532,25 @@ Beispiele:
 
 ```
 ᛭ Wurzel aus einer Zahl a ziehen
-ᛣ SQRT a  ᛩ
-ᛋ _op_auf_√a_           ᛭ Hier wird die √ von a bereitgestellt
-ᛊ _Fehlerbehandlung_    ᛭ z.B. im Fall a < 0
-ᛉ _Abschlussfunktion_  ᛭ Hier wird der Stapelspeicher Nach Ausführung von ᛋ oder ᛊ bereitgestellt
+aᛎ ᛣSQRT
+     ᛋ _op_auf_√a_           ᛭ Hier wird die √ von a bereitgestellt
+     ᛊ _Fehlerbehandlung_    ᛭ z.B. im Fall a < 0
+   ᛉ _Abschlussfunktion_  ᛭ Hier wird der Stapelspeicher Nach Ausführung von ᛋ oder ᛊ bereitgestellt
 ```
 
 #### Bereitstellung der Ergebnisse in den Zweigen
 
-```
-             --+---+--+
-ᛣ m a b c    a | b | c| -----+----+     ᛭ Ablage der Parameter auf dem Stapelspeicher
-             --+---+--+      |    |
-             ------------+   |    |
- +---  ᛋ s    m(a, b, c) | <-+    |     ᛭ Ergebnis der Methode s im ᛋ Zweig bereitstellen
- |           ------------+        |
- |           ------------+        |
- | +-- ᛊ e    m(a, b, c) | <------+     ᛭ Ergebnis der Methode e im ᛊ Zweig bereitstellen
+ᛎ (push) und ᛏ (pop)
+```             
+aᛎ bᛎ cᛎ      
+              --+---+--+
+ᛣm            a | b | c| -----+----+     ᛭ Ablage der Parameter auf dem Stapelspeicher
+              --+---+--+      |    |
+              ------------+   |    |
+ +---  ᛋ ᛣsᛉ   m(a, b, c) | <-+    |     ᛭ Ergebnis der Methode s im ᛋ Zweig bereitstellen
+ |            ------------+        |
+ |            ------------+        |
+ | +-- ᛊ ᛣeᛉ   m(a, b, c) | <------+     ᛭ Ergebnis der Methode e im ᛊ Zweig bereitstellen
  | |         ------------+             
  | |  
  | |         ----------------------------------+
@@ -522,26 +561,29 @@ Beispiele:
 Beispiel: Berechnen der Quadratwurzel
 
 ```
-ᛣ input ᛇ a² = ᛩ
-ᛋ ᛟaa
+ᛇa²=ᛩᛎ
+ᛣ input 
+ᛋ ᛏᛟaa
 ᛭ Ende von Input
 ᛉ
 
-ᛣprint ᛇ Es wird nun die Wurzel aus ᛡaa gezogen ᛩ
+ᛇ Es wird nun die Wurzel aus ᛡaa gezogen ᛩᛎ ᛣprintᛉ
 
 ᛭ Start Wurzel ziehen (Inhalt von ᛟaa wird auf den Stapel gelegt)
-ᛣ sqrt ᛡaa
+ᛡaaᛎ
+ᛣ sqrt 
 
 ᛭ Weiterleiten des Ergebnisses an die Print- Methode. Achtung: Im AusgabeString findet
 ᛭ String- Interpolation statt.
-ᛋ print ᛕ2 ᛇ √ ᛟᛡaa= ᛩ ᛜ ᛕᛠ
+ᛋ ᛇ√ᛡaa= ᛩᛎ ᛕ2ᛎ ᛣprint ᛜ ᚪᛠ ᛇᛠ ᛕᛠᛉ
 
 ᛭ Weiterleiten im Fehlerfall an die Print- Methode. Achtung: Im AusgabeString findet
 ᛭ String- Interpolation statt.
-ᛊ print ᛕ2 ᛇ √ ᛟᛡaa ist konnte nicht ermittelt werden. Ursache: ᛩ ᛜ ᛇᛠ
+ᛊ ᛇ√ᛡaa ist konnte nicht ermittelt werden. Ursache: ᛩᛎ ᛕ2ᛎ ᛣprint ᛜ ᛇᛠ ᛇᛠ ᛕᛠᛉ
 
 ᛭ Hier werden die Ausführungspfade wieder zusammengeführt
-ᛉ print ᛕ1 ᛇ Programm √ beendet ᛩ
+ᛉ 
+ᛇProgramm √ beendet.ᛩᛎ ᛕ1ᛎ ᛣprintᛉ
 ```
 
 ### Hintereinanderschalten von Stufen in Sequenzen
