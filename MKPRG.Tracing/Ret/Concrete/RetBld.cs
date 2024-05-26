@@ -9,19 +9,40 @@ namespace MKPRG.Tracing
 {
     /// <summary>
     /// mko, 31.3.2024
+    /// 
+    /// mko, 26.5.2024
     /// </summary>
     public class RetBld
         : IRetBld
     {
         DocuTerms.IComposer pnL;
         string methName;
-        DocuTerms.IProperty[] fcallParameterDescriptors;
+        DocuTerms.IMethodParameter[] fcallParameterDescriptors;
 
-        public RetBld(DocuTerms.IComposer pnL, string methName, params DocuTerms.IProperty[] fcallParameterDescriptors)
+        Func<DocuTerms.IEventParameter, DocuTerms.IMethod> mthCallSuccessful;
+        Func<DocuTerms.IReturnValue, DocuTerms.IMethod> mthCall;
+
+        public RetBld(DocuTerms.IComposer pnL, 
+                      string netAssemblyName, 
+                      string netClassName,
+                      string methName, params DocuTerms.IMethodParameter[] fcallParameterDescriptors)
         {
             this.pnL = pnL;
             this.methName = methName;
             this.fcallParameterDescriptors = fcallParameterDescriptors;
+
+            mthCallSuccessful = evp => pnL.m(methName,
+                                        pnL.p(TT.Development.DotNetAssembly.UID, netAssemblyName),
+                                        pnL.p(TT.Development.DotNetClass.UID, netClassName),
+                                        pnL.EmbedMethodParameters(fcallParameterDescriptors),
+                                        pnL.ret(pnL.eSucceeded(evp)));
+
+            mthCall = rv => pnL.m(methName,
+                                  pnL.p(TT.Development.DotNetAssembly.UID, netAssemblyName),
+                                  pnL.p(TT.Development.DotNetClass.UID, netClassName),
+                                  pnL.EmbedMethodParameters(fcallParameterDescriptors),
+                                  pnL.ret(rv));
+
         }
 
         public IRet AuthenticationFailed(string UserIdToAuthenticate, DocuTerms.IMethod DescriptionOfFailedAuthorizationProcess)
@@ -29,7 +50,7 @@ namespace MKPRG.Tracing
             new Ret()
             {
                 AuthenticationFailed = true,
-                DescriptorOfMethodCallAndReturnValue = pnL.m(methName, 
+                StatusDescriptionAfterMethodCall = pnL.m(methName, 
                                                         pnL.p(TT.Authentication.UserId.UID, UserIdToAuthenticate),
                                                         pnL.EmbedMethodParameters(fcallParameterDescriptors),
                                                         pnL.ret(pnL.eFails(pnL.List(
@@ -38,27 +59,27 @@ namespace MKPRG.Tracing
             };
             
 
-        public IRet AuthorizationFailed(DocuTerm.IMethod DescriptionOfFailedAuthorizationProcess)
+        public IRet AuthorizationFailed(DocuTerms.IMethod DescriptionOfFailedAuthorizationProcess)
         {
             throw new NotImplementedException();
         }
 
-        public IRet AuthorizationFailed(long requestedAccessRightNID, long ResourceClassNID, IMethod DescriptionOfFailedAuthorizationProcess)
+        public IRet AuthorizationFailed(long requestedAccessRightNID, long ResourceClassNID, DocuTerms.IMethod DescriptionOfFailedAuthorizationProcess)
         {
             throw new NotImplementedException();
         }
 
-        public IRet BusinessRuleViolated(IMethod docuTermForFailedBusinessRuleCheck)
+        public IRet BusinessRuleViolated(DocuTerms.IMethod docuTermForFailedBusinessRuleCheck)
         {
             throw new NotImplementedException();
         }
 
-        public IRet DataInconsistencyOccured(IMethod docuTermForFailedDataConsistencyCheck)
+        public IRet DataInconsistencyOccured(DocuTerms.IMethod docuTermForFailedDataConsistencyCheck)
         {
             throw new NotImplementedException();
         }
 
-        public IRet GenerlError(IPropertyValue whatsUp, IPropertyValue Why)
+        public IRet GeneralError(DocuTerms.IPropertyValue whatsUp, DocuTerms.IPropertyValue Why)
         {
             throw new NotImplementedException();
         }
@@ -78,37 +99,28 @@ namespace MKPRG.Tracing
             throw new NotImplementedException();
         }
 
-        public IRet ReturnOk(IEventParameter AdditionalInfosAboutSuccessfulReturn)
+        public IRet ReturnOk(DocuTerms.IEventParameter AdditionalInfosAboutSuccessfulReturn)
         {
             throw new NotImplementedException();
         }
 
-        public IRet ReturnOk(IEventParameter AdditionalInfosAboutSuccessfulReturn)
+        public IRet ReturnOkButWarnings(DocuTerms.IEventParameter Warnings)
         {
             throw new NotImplementedException();
         }
 
-        public IRet ReturnOkButWarnings(IEventParameter Warnings)
+
+        public IRet SqlDatabaseQueryFailed(string sqlQuery, DocuTerms.IMethod docuTermThatDescribesFailedQuery)
         {
             throw new NotImplementedException();
         }
 
-        public IRet ReturnOkButWarnings(IEventParameter Warnings)
+        public IRet SubprocedureCallFailed(DocuTerms.IMethod docuTermThatDescribesFailedSubProcedureCall)
         {
             throw new NotImplementedException();
         }
 
-        public IRet SqlDatabaseQueryFailed(string sqlQuery, IMethod docuTermThatDescribesFailedQuery)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IRet SubprocedureCallFailed(IMethod docuTermThatDescribesFailedSubProcedureCall)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IRet SubsytemCallFailed(IMethod docuTermThatDescribesFailedSubsystemCall)
+        public IRet SubsytemCallFailed(DocuTerms.IMethod docuTermThatDescribesFailedSubsystemCall)
         {
             throw new NotImplementedException();
         }
@@ -118,7 +130,7 @@ namespace MKPRG.Tracing
             throw new NotImplementedException();
         }
 
-        public IRet ValidationOfArgumentFailed(long NameOfValidationRule, IProperty validatedArgument)
+        public IRet ValidationOfArgumentFailed(long NameOfValidationRule, DocuTerms.IProperty validatedArgument)
         {
             throw new NotImplementedException();
         }

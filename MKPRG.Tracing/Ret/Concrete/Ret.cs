@@ -72,7 +72,7 @@ namespace MKPRG.Tracing
             internal set;
         }
 
-        public IMethod DescriptorOfMethodCallAndReturnValue
+        public IMethod StatusDescriptionAfterMethodCall
         {
             get;
             internal set;

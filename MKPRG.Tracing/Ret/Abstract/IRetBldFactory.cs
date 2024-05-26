@@ -14,6 +14,6 @@ namespace MKPRG.Tracing
         /// </summary>
         /// <param name="fcallParamDescriptors"></param>
         /// <returns></returns>
-        IRetBld CreateRetBld(params DocuTerms.IProperty[] fcallParamDescriptors);
+        IRetBld CreateRetBld(params DocuTerms.IMethodParameter[] fcallParamDescriptors);
     }
 }

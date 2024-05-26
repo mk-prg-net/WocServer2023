@@ -60,7 +60,7 @@ namespace MKPRG.Tracing
         /// <param name="whatsUp">Was für ein Fehler ist aufgetreten</param>
         /// <param name="Why">Beschreibung der Fehlerursache</param>
         /// <returns></returns>
-        IRet GenerlError(DocuTerms.IPropertyValue whatsUp, DocuTerms.IPropertyValue Why);
+        IRet GeneralError(DocuTerms.IPropertyValue whatsUp, DocuTerms.IPropertyValue Why);
 
         /// <summary>
         /// Die Authentifizierung eines Benutzers ist fehlgeschlagen.

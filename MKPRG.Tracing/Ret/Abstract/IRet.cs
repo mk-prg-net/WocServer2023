@@ -7,7 +7,7 @@ namespace MKPRG.Tracing
     /// <summary>
     /// mko, 10.3.2024
     /// Beschreibt den Zustand des Systems unmittelbar nach dem Aufruf eines Unterprogrammes.
-    /// Die Wichtigtste Eigenschaft ist **ReturnedFromSuccessfulCall**, die anzeigt, ob der Aufruf
+    /// Die wichtigtste Eigenschaft ist **ReturnedFromSuccessfulCall**, die anzeigt, ob der Aufruf
     /// erfolgreich war oder nicht.
     /// Die weiteren Indikatoren klassifizieren zunächst die Abweichungen vom erwarteten Ergebnis.
     /// Detaillierte Auskunft über Abweichungen bzw. Fehler gibt schließlich der DocuTerm **DescriptorOfMethodCallAndReturnValue**.    
@@ -137,7 +137,7 @@ namespace MKPRG.Tracing
         /// <summary>
         /// This DocuTerm describes the Situation after MethodCall
         /// </summary>
-        DocuTerms.IMethod DescriptorOfMethodCallAndReturnValue
+        DocuTerms.IMethod StatusDescriptionAfterMethodCall
         {
             get;
         }

@@ -27,6 +27,47 @@ namespace MKPRG.Naming.TechTerms.Development
 
     }
 
+    public class DotNetAssembly
+        : NamingBase
+    {
+
+        public const long UID = 0x194772307F0B373AL;
+
+        public DotNetAssembly()
+            : base(UID)
+        {
+        }
+
+        public override string CNT => "netAssembly";
+        public override string CN => EN;
+        public override string DE => EN;
+        public override string EN => ".NET Assembly";
+        public override string ES => EN;
+
+        public override string Glyph => Glyphs.Runtime.Job;
+    }
+
+    public class DotNetClass
+        : NamingBase
+    {
+
+        public const long UID = 0x652A3865622E043L;
+
+        public DotNetClass()
+            : base(UID)
+        {
+        }
+
+        public override string CNT => "netClass";
+        public override string CN => EN;
+        public override string DE => EN;
+        public override string EN => ".NET Class";
+        public override string ES => EN;
+
+        public override string Glyph => Glyphs.Sets.Palette;
+    }
+
+
     public class ProgramFunction
     : NamingBase
     {
