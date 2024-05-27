@@ -267,7 +267,7 @@ namespace MKPRG.Tracing.Monitoring
 
         public RC<JobState> completeJob(long JobId)
         {            
-            var logList = pnL.List(_logQueue[JobId].ToArray());
+            var logList = pnL.L(_logQueue[JobId].ToArray());
 
             var ret = RC<JobState>.Failed(value: JobState.none, ErrorDescription: pnL.eFails());
             if (!_Jobs.ContainsKey(JobId))
@@ -302,7 +302,7 @@ namespace MKPRG.Tracing.Monitoring
         public RC<JobState> completeJob(long JobId, IListMember docuTerm)
         {
             _logQueue[JobId].Enqueue(docuTerm);
-            var logList = pnL.List(_logQueue[JobId].ToArray());
+            var logList = pnL.L(_logQueue[JobId].ToArray());
 
             var ret = RC<JobState>.Failed(value: JobState.none, ErrorDescription: pnL.eFails());
             if (!_Jobs.ContainsKey(JobId))

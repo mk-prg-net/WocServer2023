@@ -33,7 +33,6 @@ namespace MKPRG.Tracing.DocuTerms
         IReadOnlyDictionary<long, ANC.INaming> NC;
         ANC.NamingHelper NH;
 
-
         public Composer(IFn fn, IReadOnlyDictionary<long, ANC.INaming> NC, ANC.NamingHelper NH, IFormater fmt)
         {
             this.fn = fn;
@@ -567,10 +566,10 @@ namespace MKPRG.Tracing.DocuTerms
         /// <param name="value"></param>
         /// <returns></returns>
         public IEvent ePrms(string name, params IEventParameter[] pn)
-            => new EventWithNameAsString(name, List(pn));
+            => new EventWithNameAsString(name, L(pn));
 
         IEventParameter CreateListWithResultProperty(IPropertyValue pVal)
-            => List(p(TTD.MetaData.Result.UID, pVal));
+            => L(p(TTD.MetaData.Result.UID, pVal));
 
         public IEvent eEnd(IEventParameter value)
             => e(TTD.Event.End.UID, value);
@@ -1150,7 +1149,7 @@ namespace MKPRG.Tracing.DocuTerms
         /// </summary>
         /// <param name="listMembers"></param>
         /// <returns></returns>
-        public IDTList List(params IListMember[] listMembers)
+        public IDTList L(params IListMember[] listMembers)
             => new DTList(listMembers);
 
     }

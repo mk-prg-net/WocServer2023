@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MKPRG.Naming.DocuTerms.StateDescription;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -45,88 +46,138 @@ namespace MKPRG.Tracing
 
         }
 
+        public IRet AuthenticationFailed(string UserIdToAuthenticate)
+            =>
+            new Ret()
+            {
+                AuthenticationFailed = true,
+                StatusAfterMethodCall = mthCall(pnL.eFails(pnL.L(pnL.p(TT.Authentication.AuthenticationFailedForUserId.UID, UserIdToAuthenticate))))
+            };
+
+
         public IRet AuthenticationFailed(string UserIdToAuthenticate, DocuTerms.IMethod DescriptionOfFailedAuthorizationProcess)
             =>
             new Ret()
             {
                 AuthenticationFailed = true,
-                StatusDescriptionAfterMethodCall = mthCall(pnL.eFails(
-                                                            pnL.List(
-                                                                pnL.p(TT.Authentication.AuthenticationFailedForUserId.UID, UserIdToAuthenticate),
-
-                                                                )));
-
-
-
-                pnL.m(methName, 
-                                                        pnL.p(TT.Authentication.UserId.UID, UserIdToAuthenticate),
-                                                        pnL.EmbedMethodParameters(fcallParameterDescriptors),
-                                                        pnL.ret(pnL.eFails(pnL.List(
-                                                            pnL.p(TTD.StateDescription.WhatsUp.UID, TT.Authentication.AuthenticationFailedForUserId.UID
-                    )
+                StatusAfterMethodCall = mthCall(pnL.eFails(pnL.L(
+                                                            pnL.p(TT.Authentication.AuthenticationFailedForUserId.UID, UserIdToAuthenticate),
+                                                            pnL.p(TTD.StateDescription.Why.UID, DescriptionOfFailedAuthorizationProcess))))
             };
-            
 
         public IRet AuthorizationFailed(DocuTerms.IMethod DescriptionOfFailedAuthorizationProcess)
-        {
-            throw new NotImplementedException();
-        }
+            =>
+            new Ret()
+            {
+                AuthorizationFailed = true,
+                StatusAfterMethodCall = mthCall(pnL.eFails(pnL.L(
+                                                            pnL.p_NID(TTD.StateDescription.WhatsUp.UID, TT.Authorization.AccessDenied.UID), 
+                                                            pnL.p(TTD.StateDescription.Why.UID, DescriptionOfFailedAuthorizationProcess))));
+            };
 
         public IRet AuthorizationFailed(long requestedAccessRightNID, long ResourceClassNID, DocuTerms.IMethod DescriptionOfFailedAuthorizationProcess)
-        {
-            throw new NotImplementedException();
-        }
+            =>
+            new Ret()
+            {
+                AuthorizationFailed = true,
+                StatusAfterMethodCall = mthCall(pnL.eFails(pnL.L(
+                                                            pnL.p_NID(TTD.StateDescription.WhatsUp.UID, TT.Authorization.AccessDenied.UID),
+                                                            pnL.p_NID(TT.Authorization.RequestedAccessRight.UID, requestedAccessRightNID),
+                                                            pnL.p_NID(TT.Grammar.Prepositions.For.UID, ResourceClassNID),
+                                                            pnL.p(TTD.StateDescription.Why.UID, DescriptionOfFailedAuthorizationProcess))));
+            };
 
         public IRet BusinessRuleViolated(DocuTerms.IMethod docuTermForFailedBusinessRuleCheck)
-        {
-            throw new NotImplementedException();
-        }
+            =>
+            new Ret()
+            {
+                BusinessRuleViolated = true,
+                StatusAfterMethodCall = mthCall(pnL.eFails(pnL.L(
+                                                            pnL.p_NID(TTD.StateDescription.WhatsUp.UID, TT.Development.BusinessRuleViolated.UID),
+                                                            pnL.p(TTD.StateDescription.Why.UID, docuTermForFailedBusinessRuleCheck))))
+            };
 
-        public IRet DataInconsistencyOccured(DocuTerms.IMethod docuTermForFailedDataConsistencyCheck)
-        {
-            throw new NotImplementedException();
-        }
+        public IRet DataInconsistencyOccured(DocuTerms.IMethod docuTermForFailedDataConsistencyCheck)        
+            =>
+            new Ret()
+            {
+                DataInconsistencyOccured = true,
+                StatusAfterMethodCall = mthCall(pnL.eFails(pnL.L(
+                                                            pnL.p_NID(TTD.StateDescription.WhatsUp.UID, TT.Validation.Errors.DataInconsistency.UID),
+                                                            pnL.p(TTD.StateDescription.Why.UID, docuTermForFailedDataConsistencyCheck))))
+            };
+        
 
         public IRet GeneralError(DocuTerms.IPropertyValue whatsUp, DocuTerms.IPropertyValue Why)
-        {
-            throw new NotImplementedException();
-        }
+            =>
+            new Ret()
+            {
+                GeneralError = true,
+                StatusAfterMethodCall = mthCall(pnL.eFails(pnL.L(
+                                                            pnL.p(TTD.StateDescription.WhatsUp.UID, whatsUp),
+                                                            pnL.p(TTD.StateDescription.Why.UID, Why))))
+            };
 
         public IRet MethodIsNotimplemented()
-        {
-            throw new NotImplementedException();
-        }
+            =>
+            new Ret()
+            {
+                MethodIsNotImplemented = true,
+                StatusAfterMethodCall = mthCall(pnL.eFails())
+            };
 
         public IRet NotCompleted()
-        {
-            throw new NotImplementedException();
-        }
+            =>
+            new Ret()
+            {
+                ReturnedBeforeExecutionCompleted = true,
+                StatusAfterMethodCall = mthCall(pnL.eFails())
+            };
 
         public IRet ReturnOK()
-        {
-            throw new NotImplementedException();
-        }
+            =>
+            new Ret()
+            {
+                ReturnedFromSuccessfulCall = true,
+                StatusAfterMethodCall = mthCallSuccessful(pnL.L());
+            };
 
         public IRet ReturnOk(DocuTerms.IEventParameter AdditionalInfosAboutSuccessfulReturn)
-        {
-            throw new NotImplementedException();
-        }
+            =>
+            new Ret()
+            {
+                ReturnedFromSuccessfulCall = true,
+                StatusAfterMethodCall = mthCallSuccessful(AdditionalInfosAboutSuccessfulReturn)
+            };
 
         public IRet ReturnOkButWarnings(DocuTerms.IEventParameter Warnings)
-        {
-            throw new NotImplementedException();
-        }
+            => 
+            new Ret()
+            {
+                ReturnedFromSuccessfulCall = true,
+                StatusAfterMethodCall = mthCall(pnL.eWarn(Warnings))
+            };
 
 
         public IRet SqlDatabaseQueryFailed(string sqlQuery, DocuTerms.IMethod docuTermThatDescribesFailedQuery)
-        {
-            throw new NotImplementedException();
-        }
+            =>
+            new Ret()
+            {
+                SqlDatabaseQueryFailed = true,
+                StatusAfterMethodCall = mthCall(pnL.eFails(pnL.L(
+                                                            pnL.p_NID(TTD.StateDescription.WhatsUp.UID, TT.Access.Datasources.WellKnown.Database.DatabaseQueryFailed.UID),
+                                                            pnL.p(TTD.StateDescription.Why.UID, docuTermThatDescribesFailedQuery))))
+            };
 
         public IRet SubprocedureCallFailed(DocuTerms.IMethod docuTermThatDescribesFailedSubProcedureCall)
-        {
-            throw new NotImplementedException();
-        }
+            =>
+            new Ret()
+            {
+                SubProcedureCallFailed = true,
+                StatusAfterMethodCall = mthCall(pnL.eFails(pnL.L(
+                                                            pnL.p_NID(TTD.StateDescription.WhatsUp.UID, TT.Development.SubProcedureCallFailed.UID),
+                                                            pnL.p(TTD.StateDescription.Why.UID, docuTermThatDescribesFailedSubProcedureCall))))
+            };
 
         public IRet SubsytemCallFailed(DocuTerms.IMethod docuTermThatDescribesFailedSubsystemCall)
         {

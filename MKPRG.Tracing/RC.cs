@@ -386,7 +386,7 @@ namespace MKPRG.Tracing
                         pnL.ret(pnL._v()))).IsSubTreeOf(rcv3AsDocuTerm, false),
 
                 pnL.ReturnAfterFailureWithDetails("Parse",
-                    pnL.List(
+                    pnL.L(
                         pnL.p_NID(TTD.StateDescription.WhatsUp.UID, TTD.Parser.Errors.ParseRCfromDocuTerm_BaseStructureInstanceMethodReturnExpected.UID))));
 
 
@@ -395,7 +395,7 @@ namespace MKPRG.Tracing
             TraceHlp.ThrowArgExIfNot(
                 System.Text.RegularExpressions.Regex.IsMatch(rcv3AsDocuTerm.Name(), AssemblyTypeNameregExPattern),
                 pnL.ReturnAfterFailureWithDetails("Parse",
-                    pnL.List(
+                    pnL.L(
                         pnL.p_NID(TTD.StateDescription.WhatsUp.UID, TTD.Parser.Errors.ParseRCfromDocuTerm_InstanceNameDoesNotContainAssemblyAndClassName.UID))));
 
             {
@@ -404,7 +404,7 @@ namespace MKPRG.Tracing
                 TraceHlp.ThrowArgExIfNot(
                     parts.Length >= 2,
                     pnL.ReturnAfterFailureWithDetails("Parse",
-                        pnL.List(
+                        pnL.L(
                             pnL.p_NID(TTD.StateDescription.WhatsUp.UID, TTD.Parser.Errors.ParseRCfromDocuTerm_InstanceNameIsIncomplete.UID))));
 
                 rc._TypeName = parts[parts.Length - 1];

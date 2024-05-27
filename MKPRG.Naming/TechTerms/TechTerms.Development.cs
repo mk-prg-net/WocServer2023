@@ -89,6 +89,70 @@ namespace MKPRG.Naming.TechTerms.Development
 
     }
 
+    public class SubProcedure
+        : NamingBase
+    {
+
+        public const long UID = 0x2092FBD44689820BL;
+
+        public SubProcedure()
+            : base(UID)
+        {
+        }
+
+        public override string CNT => "subProcedure";
+        public override string CN => EN;
+        public override string DE => "Unterprogramm";
+        public override string EN => "Sub Procedure";
+        public override string ES => EN;
+
+        public override string Glyph => Glyphs.Algorithm.Function;
+
+    }
+
+    public class SubProcedureCall
+        : NamingBase
+    {
+
+        public const long UID = 0x1FF9CAFE0E61263EL;
+
+        public SubProcedureCall()
+            : base(UID)
+        {
+        }
+
+        public override string CNT => "subProcedureCall";
+        public override string CN => EN;
+        public override string DE => "Unterprogrammaufruf";
+        public override string EN => "Sub Procedure Call";
+        public override string ES => EN;
+
+        public override string Glyph => Glyphs.Runtime.Start;
+
+    }
+
+    public class SubProcedureCallFailed
+    : NamingBase
+    {
+
+        public const long UID = 0x7CFACFA6C925D617L;
+
+        public SubProcedureCallFailed()
+            : base(UID)
+        {
+        }
+
+        public override string CNT => "subProcedureCallFailed";
+        public override string CN => EN;
+        public override string DE => "Unterprogrammaufruf gescheitert";
+        public override string EN => "Sub Procedure Call failed";
+        public override string ES => EN;
+
+        public override string Glyph => Glyphs.Runtime.RuntimeError;
+
+    }
+
+
 
 
     /// <summary>
@@ -516,5 +580,76 @@ namespace MKPRG.Naming.TechTerms.Development
         public override string EN => "Installation package";
         public override string ES => "Paquete de instalación";
     }
+
+    public class Layer
+        : NamingBase
+    {
+        public const long UID = 0x49442A1E8F5639A7L;
+
+        public Layer()
+            : base(UID)
+        {
+        }
+
+        public override string CNT => "softwareLayer";
+        public override string CN => EN;
+        public override string DE => "Schicht";
+        public override string EN => "Layer";
+        public override string ES => EN;
+    }
+
+
+    public class BusinessLayer
+        : NamingBase
+    {
+        public const long UID = 0x2F41DFD76BB6F738L;
+
+        public BusinessLayer()
+            : base(UID)
+        {
+        }
+
+        public override string CNT => "businessLayer";
+        public override string CN => EN;
+        public override string DE => "Schicht der Geschäftslogik";
+        public override string EN => "Business Layer";
+        public override string ES => EN;
+    }
+
+    public class BusinessRule
+    : NamingBase
+    {
+        public const long UID = 0x692816E9EB93104AL;
+
+        public BusinessRule()
+            : base(UID)
+        {
+        }
+
+        public override string CNT => "businessRule";
+        public override string CN => EN;
+        public override string DE => "Geschäftsregel";
+        public override string EN => "Business Rule";
+        public override string ES => EN;
+    }
+
+
+    public class BusinessRuleViolated
+        : NamingBase
+    {
+        public const long UID = 0x4F13CB896EDD746EL;
+
+        public BusinessRuleViolated()
+            : base(UID)
+        {
+        }
+
+        public override string CNT => "businessRuleViolated";
+        public override string CN => EN;
+        public override string DE => "Geschäftsregel wurde verletzt";
+        public override string EN => "a Business Rule was violated";
+        public override string ES => EN;
+    }
+
 }
 

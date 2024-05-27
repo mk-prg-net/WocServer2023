@@ -50,6 +50,25 @@ namespace MKPRG.Naming.TechTerms.Authorization
 
     }
 
+    public class RequestedAccessRight
+    : NamingBase
+    {
+        public const long UID = 0x46291ABC7FB3E8C0L;
+
+        public RequestedAccessRight()
+            : base(UID)
+        {
+        }
+
+        public override string CNT => "requestedAccessRight";
+        public override string CN => EN;
+        public override string DE => "gefordertes Zugriffsrecht";
+        public override string EN => "requested Access right";
+        public override string ES => EN;
+
+    }
+
+
     /// <summary>
     /// mko, 13.7.2020
     /// </summary>

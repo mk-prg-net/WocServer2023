@@ -60,7 +60,7 @@ namespace MKPRG.Grid2D
                                             ErrorDescription: 
                                                 pnL.m(TT.Grid2D.Create.UID,
                                                     pnL.p(TT.Grid2D.Gridpoint.UID,
-                                                            pnL.List(
+                                                            pnL.L(
                                                                 pnL.p("X", X),
                                                                 pnL.p("Y", Y))),
                                                     pnL.InProgressActivityStatement(
@@ -119,7 +119,7 @@ namespace MKPRG.Grid2D
                 ret = TRC.RC<Gridpoint>.Failed(p, ErrorDescription:
                             pnL.m(TT.Grid2D.Left.UID,
                                 pnL.p(TT.Grid2D.CursorCurrentlyAtGridpoint.UID, 
-                                        pnL.List(
+                                        pnL.L(
                                             pnL.p("X", p.X),
                                             pnL.p("Y", p.Y))),
                         pnL.InProgressActivityStatement(
@@ -148,7 +148,7 @@ namespace MKPRG.Grid2D
                 ret = TRC.RC<Gridpoint>.Failed(p, ErrorDescription:
                             pnL.m(TT.Grid2D.Right.UID,
                                 pnL.p(TT.Grid2D.CursorCurrentlyAtGridpoint.UID,
-                                        pnL.List(
+                                        pnL.L(
                                             pnL.p("X", p.X),
                                             pnL.p("Y", p.Y))),
                         pnL.InProgressActivityStatement(
@@ -176,7 +176,7 @@ namespace MKPRG.Grid2D
                 ret = TRC.RC<Gridpoint>.Failed(p, ErrorDescription:
                             pnL.m(TT.Grid2D.Right.UID,
                                 pnL.p(TT.Grid2D.CursorCurrentlyAtGridpoint.UID,
-                                        pnL.List(
+                                        pnL.L(
                                             pnL.p("X", p.X),
                                             pnL.p("Y", p.Y))),
                         pnL.InProgressActivityStatement(
@@ -204,7 +204,7 @@ namespace MKPRG.Grid2D
                 ret = TRC.RC<Gridpoint>.Failed(p, ErrorDescription:
                             pnL.m(TT.Grid2D.Right.UID,
                                 pnL.p(TT.Grid2D.CursorCurrentlyAtGridpoint.UID,
-                                        pnL.List(
+                                        pnL.L(
                                             pnL.p("X", p.X),
                                             pnL.p("Y", p.Y))),
                         pnL.InProgressActivityStatement(

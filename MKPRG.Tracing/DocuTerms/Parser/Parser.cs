@@ -69,8 +69,8 @@ namespace MKPRG.Tracing.DocuTerms.Parser
             IInstance msg = pnL.i("ParserResult",
                                 pnL.p("InderxOfLastEvaluatedtoken", result.IndexOfLastEvaluatedToken),
                                 pnL.p("TokenCount", result.EvaluatedTokenBuffer.Count),
-                                pnL.p(TT.Parser.Tokens.UID, pnL.List(TransformToTokenInstances(result.EvaluatedTokenBuffer.Tokens))),
-                                pnL.p(TT.Sets.Containers.Stack.UID, pnL.List(TransformToTokenInstances(result.Stack.ToArray()))));
+                                pnL.p(TT.Parser.Tokens.UID, pnL.L(TransformToTokenInstances(result.EvaluatedTokenBuffer.Tokens))),
+                                pnL.p(TT.Sets.Containers.Stack.UID, pnL.L(TransformToTokenInstances(result.Stack.ToArray()))));
 
 
 
@@ -139,7 +139,7 @@ namespace MKPRG.Tracing.DocuTerms.Parser
                     var msg = TransformToDocuTerm(
                                 rcp,
                                 pnL.i(TTD.MetaData.Result.UID,
-                                        pnL.p(TT.Parser.Token.UID, pnL.List(pnL.EmbedListMembers(TransformToTokenInstances(rcT.Value)))),                                        
+                                        pnL.p(TT.Parser.Token.UID, pnL.L(pnL.EmbedListMembers(TransformToTokenInstances(rcT.Value)))),                                        
                                         pnL.p("IndexOfLastEvaluatedToken", rcp.Value.IndexOfLastEvaluatedToken),
                                         pnL.p("StackCount", rcp.Value.Stack.Count)));
 

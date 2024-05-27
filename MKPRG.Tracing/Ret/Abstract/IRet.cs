@@ -137,7 +137,7 @@ namespace MKPRG.Tracing
         /// <summary>
         /// This DocuTerm describes the Situation after MethodCall
         /// </summary>
-        DocuTerms.IMethod StatusDescriptionAfterMethodCall
+        DocuTerms.IMethod StatusAfterMethodCall
         {
             get;
         }

@@ -73,7 +73,7 @@ namespace MKPRG.Tracing.DocuTerms
                             pnL.p(ANC.DocuTerms.Formatting.XTab.Dim1.UID, Cols),
                             pnL.p(ANC.DocuTerms.Formatting.XTab.Dim2.UID, Rows),
                             pnL.p(ANC.DocuTerms.Formatting.XTab.Values.UID,
-                                pnL.List(
+                                pnL.L(
                                         pnL.EmbedListMembers(colRows.ToArray())
                                     )));
         }

@@ -22,7 +22,7 @@ namespace MKPRG.Tracing.DocuTerms
         : IXTabGenerator
     {
         // ᚹ...ᛩ List
-        IDTList List(params IListMember[] entities);
+        IDTList L(params IListMember[] entities);
 
         // ᛔ Boolean
         IBoolean boolean(bool b);

@@ -58,7 +58,7 @@ namespace MKPRG.CSSQL.Test
             }
 
             {
-                var plx = factory.CreateQueryResultEmpty(pnL.List(pnL.p("Zusatzeigenschaft", pnL.txt("Hallo Welt"))));
+                var plx = factory.CreateQueryResultEmpty(pnL.L(pnL.p("Zusatzeigenschaft", pnL.txt("Hallo Welt"))));
 
                 analyzer = new Results.PlxQueryResultAnalyzer(pnL, plx);
 

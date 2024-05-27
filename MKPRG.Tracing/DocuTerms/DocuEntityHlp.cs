@@ -439,11 +439,11 @@ namespace MKPRG.Tracing.DocuTerms
             IDocuEntity ret = RC.pnL.NID(TTD.Types.UndefinedDocuTerm.UID);
 
             if (entity is IInstance i)
-                ret = RC.pnL.List(i.InstanceMembers);
+                ret = RC.pnL.L(i.InstanceMembers);
             else if (entity is IMethod m)
-                ret = RC.pnL.List(m.Parameters);
+                ret = RC.pnL.L(m.Parameters);
             else if (entity is IDTList lst)
-                ret = RC.pnL.List(lst.ListMembers);
+                ret = RC.pnL.L(lst.ListMembers);
             else if (entity is IProperty p)
                 ret = p.PropertyValue;
             else if (entity is IReturn r)

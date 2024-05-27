@@ -332,7 +332,7 @@ namespace MKPRG.Tracing.DocuTerms
                                  dct.EmbedMethodParameters(CompositeKeyParts?.Select(kp => dct.p(TT.Search.Key.UID, kp)).ToArray()),
                                  dct.ret(
                                      dct.eFails(
-                                         dct.List(
+                                         dct.L(
                                              dct.p_NID(TTD.StateDescription.WhatsUp.UID, TT.Search.NotFound.UID))))));
 
         /// <summary>
@@ -359,7 +359,7 @@ namespace MKPRG.Tracing.DocuTerms
                                  dct.EmbedMethodParameters(CompositeKeyParts?.Select(kp => dct.p(TT.Search.Key.UID, kp)).ToArray()),
                                  dct.ret(
                                      dct.eFails(
-                                         dct.List(
+                                         dct.L(
                                              dct.p_NID(TTD.StateDescription.WhatsUp.UID, TT.Search.NotFound.UID),
                                              dct.p(TTD.StateDescription.Why.UID, Details))))));
 
@@ -391,7 +391,7 @@ namespace MKPRG.Tracing.DocuTerms
                                  dct.EmbedMethodParameters(CompositeKeyParts?.Select(kp => dct.p(TT.Search.Key.UID, kp)).ToArray()),
                                    dct.ret(
                                      dct.eWarn(
-                                         dct.List(
+                                         dct.L(
                                              dct.p_NID(TTD.StateDescription.WhatsUp.UID, TT.Sets.EmptySet.UID))))));
 
         /// <summary>
@@ -420,7 +420,7 @@ namespace MKPRG.Tracing.DocuTerms
                                  dct.EmbedMethodParameters(CompositeKeyParts?.Select(kp => dct.p(TT.Search.Key.UID, kp)).ToArray()),
                                    dct.ret(
                                      dct.eWarn(
-                                         dct.List(
+                                         dct.L(
                                              dct.p_NID(TTD.StateDescription.WhatsUp.UID, ANC.TechTerms.Sets.EmptySet.UID),
                                              dct.p(TTD.StateDescription.Why.UID, Details))))));
 
@@ -1011,7 +1011,7 @@ namespace MKPRG.Tracing.DocuTerms
 
                             // Anzeige, das Validierung gescheitert ist
                             dct.ret(dct.eFails(
-                                dct.List(
+                                dct.L(
                                     dct.p(TTD.StateDescription.WhatsUp.UID, Details))))));
 
 

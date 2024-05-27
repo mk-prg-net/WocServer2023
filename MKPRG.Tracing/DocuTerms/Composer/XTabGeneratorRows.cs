@@ -49,7 +49,7 @@ namespace MKPRG.Tracing.DocuTerms
 
         public IXTabGeneratorDefValues Values()
         {
-            return new XTabGenerator(pnL, Cols, pnL.List(pnL.EmbedListMembers(rows.ToArray())));
+            return new XTabGenerator(pnL, Cols, pnL.L(pnL.EmbedListMembers(rows.ToArray())));
         }
     }
 }

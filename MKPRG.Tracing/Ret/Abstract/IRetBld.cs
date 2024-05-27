@@ -63,6 +63,13 @@ namespace MKPRG.Tracing
         IRet GeneralError(DocuTerms.IPropertyValue whatsUp, DocuTerms.IPropertyValue Why);
 
         /// <summary>
+        /// Die Authentifizierung eines Benutzers ist fehlgeschlagen
+        /// </summary>
+        /// <param name="UserIdToAuthenticate"></param>
+        /// <returns></returns>
+        IRet AuthenticationFailed(string UserIdToAuthenticate);
+
+        /// <summary>
         /// Die Authentifizierung eines Benutzers ist fehlgeschlagen.
         /// </summary>
         /// <param name="UserIdToAuthenticate"></param>
