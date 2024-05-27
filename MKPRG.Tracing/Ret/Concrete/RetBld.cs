@@ -50,7 +50,15 @@ namespace MKPRG.Tracing
             new Ret()
             {
                 AuthenticationFailed = true,
-                StatusDescriptionAfterMethodCall = pnL.m(methName, 
+                StatusDescriptionAfterMethodCall = mthCall(pnL.eFails(
+                                                            pnL.List(
+                                                                pnL.p(TT.Authentication.AuthenticationFailedForUserId.UID, UserIdToAuthenticate),
+
+                                                                )));
+
+
+
+                pnL.m(methName, 
                                                         pnL.p(TT.Authentication.UserId.UID, UserIdToAuthenticate),
                                                         pnL.EmbedMethodParameters(fcallParameterDescriptors),
                                                         pnL.ret(pnL.eFails(pnL.List(
