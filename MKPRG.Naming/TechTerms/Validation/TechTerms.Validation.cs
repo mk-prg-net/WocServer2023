@@ -41,8 +41,27 @@ namespace MKPRG.Naming.TechTerms.Validation
         public override string ES => "válido";
 
         public override string Glyph => Glyphs.Validation.Valid;
+    }
+
+    public class ValidationRule : NamingBase, Grammar.Adverbs.IAdverb, Grammar.Adjectives.IAdjective
+    {
+        public const long UID = 0x27628EBC31C2ED5EL;
+
+        public ValidationRule()
+            : base(UID)
+        {
+        }
+
+        public override string CNT => "validationRule";
+        public override string CN => EN;
+        public override string DE => "Validierungsregel";
+        public override string EN => "Validation Rule";
+        public override string ES => EN;
+
+        public override string Glyph => Glyphs.Validation.Check;
 
     }
+
 
     public class Invalid : NamingBase, Grammar.Adverbs.IAdverb, Grammar.Adjectives.IAdjective
     {
@@ -158,6 +177,8 @@ namespace MKPRG.Naming.TechTerms.Validation
         public override string DE => "prüfen, ob erreichbar";
         public override string EN => "check if accessible";
         public override string ES => "compruebe si es accesible";
+
+        public override string Glyph => Glyphs.Validation.Check;
 
     }
 

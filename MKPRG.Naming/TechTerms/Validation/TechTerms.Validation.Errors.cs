@@ -151,6 +151,25 @@ namespace MKPRG.Naming.TechTerms.Validation.Errors
     }
 
 
+    public class InvalidArgument : NamingBase
+    {
+        public const long UID = 0x616FC82D06C50AA1L;
+
+        public InvalidArgument()
+            : base(UID)
+        {
+        }
+
+        public override string CNT => "invalidArgument";
+        public override string CN => EN;
+        public override string DE => "Ungültiges Argument";
+        public override string EN => "Invalid Argument";
+        public override string ES => EN;
+
+        public override string Glyph => $"{Glyphs.Validation.Invalid}";
+    }
+
+
 
 
 }

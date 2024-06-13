@@ -12,6 +12,8 @@ namespace MKPRG.Tracing
     /// mko, 31.3.2024
     /// 
     /// mko, 26.5.2024
+    /// 
+    /// mko, 13.6.2024
     /// </summary>
     public class RetBld
         : IRetBld
@@ -72,7 +74,7 @@ namespace MKPRG.Tracing
                 AuthorizationFailed = true,
                 StatusAfterMethodCall = mthCall(pnL.eFails(pnL.L(
                                                             pnL.p_NID(TTD.StateDescription.WhatsUp.UID, TT.Authorization.AccessDenied.UID), 
-                                                            pnL.p(TTD.StateDescription.Why.UID, DescriptionOfFailedAuthorizationProcess))));
+                                                            pnL.p(TTD.StateDescription.Why.UID, DescriptionOfFailedAuthorizationProcess))))
             };
 
         public IRet AuthorizationFailed(long requestedAccessRightNID, long ResourceClassNID, DocuTerms.IMethod DescriptionOfFailedAuthorizationProcess)
@@ -84,7 +86,7 @@ namespace MKPRG.Tracing
                                                             pnL.p_NID(TTD.StateDescription.WhatsUp.UID, TT.Authorization.AccessDenied.UID),
                                                             pnL.p_NID(TT.Authorization.RequestedAccessRight.UID, requestedAccessRightNID),
                                                             pnL.p_NID(TT.Grammar.Prepositions.For.UID, ResourceClassNID),
-                                                            pnL.p(TTD.StateDescription.Why.UID, DescriptionOfFailedAuthorizationProcess))));
+                                                            pnL.p(TTD.StateDescription.Why.UID, DescriptionOfFailedAuthorizationProcess))))
             };
 
         public IRet BusinessRuleViolated(DocuTerms.IMethod docuTermForFailedBusinessRuleCheck)
@@ -139,7 +141,7 @@ namespace MKPRG.Tracing
             new Ret()
             {
                 ReturnedFromSuccessfulCall = true,
-                StatusAfterMethodCall = mthCallSuccessful(pnL.L());
+                StatusAfterMethodCall = mthCallSuccessful(pnL.L())
             };
 
         public IRet ReturnOk(DocuTerms.IEventParameter AdditionalInfosAboutSuccessfulReturn)
@@ -180,23 +182,44 @@ namespace MKPRG.Tracing
             };
 
         public IRet SubsytemCallFailed(DocuTerms.IMethod docuTermThatDescribesFailedSubsystemCall)
-        {
-            throw new NotImplementedException();
-        }
+            =>
+            new Ret()
+            {
+                SubsystemCallFailed = true,
+                StatusAfterMethodCall = mthCall(pnL.eFails(pnL.L(
+                                                            pnL.p_NID(TTD.StateDescription.WhatsUp.UID, TT.Development.SubsystemCallFailed.UID),
+                                                            pnL.p(TTD.StateDescription.Why.UID, docuTermThatDescribesFailedSubsystemCall))))
+            };
 
         public IRet ValidationOfArgumentFailed(string NameOfValidationRule)
-        {
-            throw new NotImplementedException();
-        }
+            =>
+            new Ret()
+            {
+                ValidationOfArgumentsFailed = true,
+                StatusAfterMethodCall = mthCall(pnL.eFails(pnL.L(
+                                                            pnL.p_NID(TTD.StateDescription.WhatsUp.UID, TT.Validation.Errors.InvalidArgument.UID),
+                                                            pnL.p(TT.Validation.ValidationRule.UID, NameOfValidationRule))))
+            };
+
 
         public IRet ValidationOfArgumentFailed(long NameOfValidationRule, DocuTerms.IProperty validatedArgument)
-        {
-            throw new NotImplementedException();
-        }
+            =>
+            new Ret()
+            {
+                ValidationOfArgumentsFailed = true,
+                StatusAfterMethodCall = mthCall(pnL.eFails(pnL.L(
+                                                            pnL.p_NID(TTD.StateDescription.WhatsUp.UID, TT.Validation.Errors.InvalidArgument.UID),
+                                                            pnL.EmbedListMembers(validatedArgument),
+                                                            pnL.p(TT.Validation.ValidationRule.UID, NameOfValidationRule))))
+            };
 
         public IRet _GeneralErrorForDebugOnly(string preleminaryErrorDescription)
-        {
-            throw new NotImplementedException();
-        }
+        =>
+            new Ret()
+            {
+                GeneralError = true,
+                StatusAfterMethodCall = mthCall(pnL.eFails(pnL.L(
+                                                            pnL.p(TTD.StateDescription.WhatsUp.UID, preleminaryErrorDescription))))
+            };
     }
 }

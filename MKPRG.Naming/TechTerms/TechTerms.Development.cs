@@ -152,6 +152,49 @@ namespace MKPRG.Naming.TechTerms.Development
 
     }
 
+    public class SubsystemCall
+    : NamingBase
+    {
+
+        public const long UID = 0x14748BD815C01A4FL;
+
+        public SubsystemCall()
+            : base(UID)
+        {
+        }
+
+        public override string CNT => "subSytemCall";
+        public override string CN => EN;
+        public override string DE => "Subsystem Aufruf";
+        public override string EN => "Sub System Call";
+        public override string ES => EN;
+
+        public override string Glyph => Glyphs.Runtime.Start;
+
+    }
+
+    public class SubsystemCallFailed
+    : NamingBase
+    {
+
+        public const long UID = 0x19EB74E198E14272L;
+
+        public SubsystemCallFailed()
+            : base(UID)
+        {
+        }
+
+        public override string CNT => "subSystemCallFailed";
+        public override string CN => EN;
+        public override string DE => "Subsystem Aufruf gescheitert";
+        public override string EN => "Sub System Call failed";
+        public override string ES => EN;
+
+        public override string Glyph => Glyphs.Runtime.RuntimeError;
+
+    }
+
+
 
 
 
