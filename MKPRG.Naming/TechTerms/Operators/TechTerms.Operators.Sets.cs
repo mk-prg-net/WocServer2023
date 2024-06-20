@@ -645,6 +645,23 @@ namespace MKPRG.Naming.TechTerms.Operators.Sets
         public override string Glyph => Glyphs.Math.Sets.NotOutOfRange;
     }
 
+    public class IsOfType
+        : NamingBase, Grammar.Adjectives.IAdjective, Grammar.IInProgressActivity
+    {
+        public const long UID = 0x5109CE866A966E9EL;
+
+        public IsOfType()
+            : base(UID)
+        { }
+
+        public override string CN => EN;
+        public override string CNT => GetType().Name;
+        public override string DE => "ist vom Typ";
+        public override string EN => "is of Type";
+        public override string ES => EN;
+
+        public override string Glyph => Glyphs.Validation.Check;
+    }
 
 
 
