@@ -11,7 +11,7 @@ namespace MKPRG.Tracing.DocuTerms
     /// Markiert alle Klassen, die Listenmember sein können
     /// </summary>
     public interface IListMember
-        : IDocuEntity
+        : IDocuEntity, IMemberOfComplexType
     {
     }
 }

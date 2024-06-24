@@ -14,7 +14,7 @@ namespace MKPRG.Tracing.DocuTerms
         IListMember,
         IMethodParameter,
         IInstanceMember,
-        IReturnValue
+        IReturnValue        
     {
         /// <summary>
         /// mko, 23.6.2020

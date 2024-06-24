@@ -11,7 +11,7 @@ namespace MKPRG.Tracing.DocuTerms
     /// Markiert alle DocuEntity- Klassen, die Instanzmember sein können.
     /// </summary>
     public interface IInstanceMember
-        : IListMember
+        : IListMember, IMemberOfComplexType
     {
     }
 }

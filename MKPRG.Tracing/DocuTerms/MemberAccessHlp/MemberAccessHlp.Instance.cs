@@ -19,8 +19,8 @@ namespace MKPRG.Tracing.DocuTerms.MemberAccessHlp
         /// <param name="strPropVal"></param>
         /// <param name="ret"></param>
         /// <returns></returns>
-        public bool TryGetPropFrom(IDTList L, long propNameAsNid, out string strPropVal, out IRet ret)
-            => TryGetPropFrom(L, () => L.ListMembers, propNameAsNid, out strPropVal, out ret);
+        public bool TryGetPropFrom(IInstance instance, long propNameAsNid, out string strPropVal, out IRet ret)
+            => TryGetPropFrom(instance, () => instance.InstanceMembers, propNameAsNid, out strPropVal, out ret);
 
 
         /// <summary>
@@ -31,8 +31,8 @@ namespace MKPRG.Tracing.DocuTerms.MemberAccessHlp
         /// <param name="intPropVal"></param>
         /// <param name="ret"></param>
         /// <returns></returns>
-        public bool TryGetPropFrom(IDTList L, long propNameAsNid, out long intPropVal, out IRet ret)
-            => TryGetPropFrom(L, () => L.ListMembers, propNameAsNid, out intPropVal, out ret);
+        public bool TryGetPropFrom(IInstance instance, long propNameAsNid, out long intPropVal, out IRet ret)
+            => TryGetPropFrom(instance, () => instance.InstanceMembers, propNameAsNid, out intPropVal, out ret);
 
         /// <summary>
         /// mko, 24.6.2024
@@ -42,8 +42,8 @@ namespace MKPRG.Tracing.DocuTerms.MemberAccessHlp
         /// <param name="dblPropVal"></param>
         /// <param name="ret"></param>
         /// <returns></returns>
-        public bool TryGetPropFrom(IDTList L, long propNameAsNid, out double dblPropVal, out IRet ret)
-            => TryGetPropFrom(L, () => L.ListMembers, propNameAsNid, out dblPropVal, out ret);
+        public bool TryGetPropFrom(IInstance instance, long propNameAsNid, out double dblPropVal, out IRet ret)
+            => TryGetPropFrom(instance, () => instance.InstanceMembers, propNameAsNid, out dblPropVal, out ret);
 
         /// <summary>
         /// mko, 24.6.2024
@@ -53,8 +53,8 @@ namespace MKPRG.Tracing.DocuTerms.MemberAccessHlp
         /// <param name="intPropVal"></param>
         /// <param name="ret"></param>
         /// <returns></returns>
-        public bool TryGetPropFrom(IDTList L, long propNameAsNid, out bool boolPropVal, out IRet ret)
-            => TryGetPropFrom(L, () => L.ListMembers, propNameAsNid, out boolPropVal, out ret);
+        public bool TryGetPropFrom(IInstance instance, long propNameAsNid, out bool boolPropVal, out IRet ret)
+            => TryGetPropFrom(instance, () => instance.InstanceMembers, propNameAsNid, out boolPropVal, out ret);
 
         /// <summary>
         /// mko, 24.6.2024
@@ -64,8 +64,8 @@ namespace MKPRG.Tracing.DocuTerms.MemberAccessHlp
         /// <param name="nidPropVal"></param>
         /// <param name="ret"></param>
         /// <returns></returns>
-        public bool TryGetPropFrom(IDTList L, long propNameAsNid, out INID nidPropVal, out IRet ret)
-                => TryGetPropFrom(L, () => L.ListMembers, propNameAsNid, out nidPropVal, out ret);
+        public bool TryGetPropFrom(IInstance instance, long propNameAsNid, out INID nidPropVal, out IRet ret)
+                => TryGetPropFrom(instance, () => instance.InstanceMembers, propNameAsNid, out nidPropVal, out ret);
 
 
         /// <summary>
@@ -76,8 +76,8 @@ namespace MKPRG.Tracing.DocuTerms.MemberAccessHlp
         /// <param name="verPropVal"></param>
         /// <param name="ret"></param>
         /// <returns></returns>
-        public bool TryGetPropFrom(IDTList L, long propNameAsNid, out IVer verPropVal, out IRet ret)
-                => TryGetPropFrom(L, () => L.ListMembers, propNameAsNid, out verPropVal, out ret);
+        public bool TryGetPropFrom(IInstance instance, long propNameAsNid, out IVer verPropVal, out IRet ret)
+                => TryGetPropFrom(instance, () => instance.InstanceMembers, propNameAsNid, out verPropVal, out ret);
 
         /// <summary>
         /// mko, 24.6.2024
@@ -87,8 +87,8 @@ namespace MKPRG.Tracing.DocuTerms.MemberAccessHlp
         /// <param name="listPropVal"></param>
         /// <param name="ret"></param>
         /// <returns></returns>
-        public bool TryGetPropFrom(IDTList L, long propNameAsNid, out IDTList listPropVal, out IRet ret)
-                => TryGetPropFrom(L, () => L.ListMembers, propNameAsNid, out listPropVal, out ret);
+        public bool TryGetPropFrom(IInstance instance, long propNameAsNid, out IDTList listPropVal, out IRet ret)
+                => TryGetPropFrom(instance, () => instance.InstanceMembers, propNameAsNid, out listPropVal, out ret);
 
         /// <summary>
         /// mko, 24.6.2024
@@ -98,8 +98,8 @@ namespace MKPRG.Tracing.DocuTerms.MemberAccessHlp
         /// <param name="instancePropVal"></param>
         /// <param name="ret"></param>
         /// <returns></returns>
-        public bool TryGetPropFrom(IDTList L, long propNameAsNid, out IInstance instancePropVal, out IRet ret)
-                => TryGetPropFrom(L, () => L.ListMembers, propNameAsNid, out instancePropVal, out ret);
+        public bool TryGetPropFrom(IInstance instance, long propNameAsNid, out IInstance instancePropVal, out IRet ret)
+                => TryGetPropFrom(instance, () => instance.InstanceMembers, propNameAsNid, out instancePropVal, out ret);
 
         /// <summary>
         /// mko, 24.6.2024
@@ -109,7 +109,9 @@ namespace MKPRG.Tracing.DocuTerms.MemberAccessHlp
         /// <param name="methodPropVal"></param>
         /// <param name="ret"></param>
         /// <returns></returns>
-        public bool TryGetPropFrom(IDTList L, long propNameAsNid, out IMethod methodPropVal, out IRet ret)
-                => TryGetPropFrom(L, () => L.ListMembers, propNameAsNid, out methodPropVal, out ret);
+        public bool TryGetPropFrom(IInstance instance, long propNameAsNid, out IMethod methodPropVal, out IRet ret)
+                => TryGetPropFrom(instance, () => instance.InstanceMembers, propNameAsNid, out methodPropVal, out ret);
+
+
     }
 }

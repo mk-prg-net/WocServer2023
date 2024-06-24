@@ -13,7 +13,8 @@ namespace MKPRG.Tracing.DocuTerms
         : IListMember,
         IPropertyValue,
         IEventParameter,
-        IReturnValue
+        IReturnValue,
+        IComplexType
     {
         IListMember[] ListMembers { get; }
     }

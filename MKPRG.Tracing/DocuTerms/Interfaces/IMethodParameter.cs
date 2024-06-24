@@ -11,7 +11,7 @@ namespace MKPRG.Tracing.DocuTerms
     /// Klassifizierung von DocuEntities für streng typisierte Composer
     /// </summary>
     public interface IMethodParameter
-        : IListMember
+        : IListMember, IMemberOfComplexType
     {
    }
 }

@@ -12,7 +12,8 @@ namespace MKPRG.Tracing.DocuTerms
     public interface IMethod
         : IInstanceMember,
         IListMember,
-        IPropertyValue
+        IPropertyValue,
+        IComplexType
     {
         /// <summary>
         /// Listet alle Parameter einer Mehtode auf

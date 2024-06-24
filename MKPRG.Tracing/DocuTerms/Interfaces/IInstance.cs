@@ -17,7 +17,8 @@ namespace MKPRG.Tracing.DocuTerms
         // mko, 26.5.2020
         // Hinzugefügt, um TTL- Termen zu genügen
         IInstanceMember,
-        IMethodParameter
+        IMethodParameter,
+        IComplexType
     {
 
         IInstanceMember[] InstanceMembers { get; }
