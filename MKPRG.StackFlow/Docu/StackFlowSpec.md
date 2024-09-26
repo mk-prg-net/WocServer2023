@@ -6,9 +6,9 @@ Nyt (die nützliche) Flussname im Lied der Grímnismál (Edda): https://de.wikip
 
     ᛝS1 ᛭ Für die folgenden Berechnungen im Text wird ein separater Stack S1 angelegt.
 
-    Die Beschleunigung auf der Erde beträgt ᚩ9,81ᛎ ᛇm/s²ᛎ. Ein Mensch mit einem Gewicht von ᛕ120ᛎ ᛇkgᛎ wird mit der Kraft ᛨF=m⋆a ᛨ⎙ angezogen.
+    Die Beschleunigung auf der Erde beträgt ᚩ9,81ᛎ ᛇm/s²ᛎ. Ein Mensch mit einem Gewicht von ᛕ120ᛎ ᛇkgᛎ wird mit der Kraft ᛨm⋆a⟶F ᛨ⎙ angezogen.
 
-Für die Berechnung relevante nummerische Werte als auch Strings werden vom Text durch spezielle Präfixe wie ᚩ, ᛕ und ᛇ separiert. Mittels des Operators ᛎ werden diese in einen Stapelspeicher im Hintergrund geschrieben, aus dem dann Funktionen wie ᛨF=m⋆a oder ᛨ⎙ diese einlesen, verarbeiten und auf den Stapel wieder zurückschreiben. ᛨ⎙ liest zum Beispiel den gesamten Stapel aus, und blendet ihn hinter dem Funktionsaufruf in den Text ein.
+Für die Berechnung relevante nummerische Werte als auch Strings werden vom Text durch spezielle Präfixe wie ᚩ, ᛕ und ᛇ separiert. Mittels des Operators ᛎ werden diese in einen Stapelspeicher im Hintergrund geschrieben, aus dem dann Funktionen wie ᛨm⋆a⟶F oder ᛨ⎙ diese einlesen, verarbeiten und auf den Stapel wieder zurückschreiben. ᛨ⎙ liest zum Beispiel den gesamten Stapel aus, und blendet ihn hinter dem Funktionsaufruf in den Text ein.
 
 ## Grundlagen
 
@@ -22,7 +22,7 @@ Die *Runen* werden in keiner heute mehr existierenden Sprache gennutzt. Damit si
 **᛭** schließt den Rest vom Parsen aus. Damit können nach **᛭** beliebige Kommentare notiert werden.
 
 
-### Stapelspeicher ᛝ und die Operatoren ᛎ (push) und ᛏ (pop)
+### Stapelspeicher ᛝ und die Operatoren ᛎ (push) ᛏ (pop) und ᛨ (push-pop)
 
 Stapelspeicher sind die einzigen, zur Laufzeit veränderliche Speicher in **Stack ᛝ Flow**. Operatoren und Programme können aus diesen lesen und ihre Ergebnisse wieder zurückschreiben.
 
@@ -30,7 +30,9 @@ Es können mittels dem Stack- Operator **ᛝ** beliebig viele Stapel zu Laufzeit
 
 Mittels **ᛝ _Stack_Name_** wird ein Stack angelegt, an den Namen gebunden und aktiviert. Aktiviert bedeutet, dass alle nachfolgenden Stackoperationen für diesen gültig sind.
 
-Die Stackoperation **_Wert_ᛎ** (push) speichert/legt den Wert auf den Staple. Mittels der Stackoperation **ᛏ** (pop) kann der Wert wieder vom Stapel genommen werden. **ᛏᛟ_name_** nimmt einen Wert vom Stapel und bindet ihn an den Namen *_namen_* (siehe unten) .
+Die Stackoperation **_Wert_ᛎ** (push) speichert/legt den Wert auf den Stapel. Mittels der Stackoperation **ᛏ** (pop) kann der Wert wieder vom Stapel genommen werden. **ᛏᛟ_name_** nimmt einen Wert vom Stapel und bindet ihn an den Namen *_namen_* (siehe unten).
+
+Die Kombination aus **ᛎ** (push) und **ᛏ** pop ist **ᛨ** (push-pop). Dieser Operator kann auf Funktionsnamen angewendet werden. Die Funktionen lesen dann alle Argumente vom Stapel ein, und legen den Funktionswert auf den Stapel zurück. Zum Beispiel nimmt **ᛨm⋆a⟶F** den Wert für m und a vom Stapel und schreibt das Ergebnis **F** zurück auf den Stapel. ᛨ⎙
 
 Wird ein weiterer Stapel mittels **ᛝ _Stack_Name_2_** angelegt und aktiviert, dann existert der unter _Stack_Name_ zuerst weiter, ist jedoch nicht aktiv. Soll er wieder aktiv werden, dann muss **ᛝ _Stack_Name_** erneut aufgerufen werden.
 
@@ -135,19 +137,48 @@ Die rationalen Zahlen können z.B. als Zoll- Maße genutzt werden
 ᚩ 3,14    ⟺  3.14
 ᚩ -2,72   ⟺ -2.72
 ᚩ -2,72ᚷ3 ⟺ -2.72e3 = -2720 
-ᚩ ᛔ2 -L00 L0000 ⟺ -4,5 (binär)
+ᚩ ᛔ2 -L00,L0000 ⟺ -4,5 (binär)
+ᚩ ᛔ2 -L00,L0000  ᚷLL ⟺ -L00L00,00 = -36 (binär)
 ```
 
 **ᚩᛠ** ist der Datentyp für Gleitpunkt- Zahlen.
 
 Die Datentypen **ᚱᛠ** und **ᚩᛠ** sind kompatibel bzw. austauschbar: Ein **ᚱᛠ** kann an ein **ᚩᛠ** zugewiesen werden und umgekehrt.
 
-### Komplexe Zahlen ᛈ
+### Mit imaginäre Zahlen 𝒾 erweitern zu den komplexen Zahlen
 
-Komplexe Zahlen können als Punkte der gausschen Zahlenebene betrachtet werden. Dies legt die Darstellung als Wertepaar **(re, im)** mit re= Realteil, und im= Imaginärteil nahe.
+Komplexe Zahlen kann man als die algebraische Kombination **re + 𝒾im** von reellen und imaginären Zahlen betrachten. Dabei ist **re ∈ ℝ** und **𝒾im ∈ 𝕀**. Der Imaginärteil erhält dabei das mathematische Schreibschrift **𝒾** (U +1D4BE) als Präfix. 
 
-Alternativ kann man komplexe Zahlen als die algebraische Kombination **re + 𝒾im** von reellen und imaginären Zahlen betrachten. Dabei ist **re ∈ ℝ** und **𝒾im ∈ 𝕀**. Der Imaginärteil erhält dabei das mathematische Schreibschrift **𝒾** (U +1D4BE) als Präfix. 
+```
+𝒾ᛕ1               ⟺ 𝒾 ∈ 𝕀
+ᛕ1+𝒾ᛕ2            ⟺ 1+𝒾2 ∈ 𝕀
+ᚩ-2,72 + 𝒾ᚩ3,14   ⟺ -2.72+𝒾3.14 ∈ 𝕀
+ᚱ1 2/3 + 𝒾ᚱ7/8    ⟺ 1 2/3 + 𝒾7/8
+```
 
+### Konvertierungsregeln für die nummerischen Darstellungen
+
+Eine **ᛕᛠ** kann ohne Genauigkeitsverlust in **ᚱᛠ** implizit Konvertiert werden. Deshalb können z.B. komplexe Zahlen aus **ᛕᛠ** und  **ᚱᛠ** bestehen:
+
+```
+ᛕ1+𝒾ᚱ7/8          ⟺ 1+𝒾7/8
+```
+
+Explizit kann ein **ᚱᛠ** aus **ᛕᛠ** wie folgt gewonnen werden:
+
+```
+ᛕ1ᛎ ᛕ2ᛎ ᛨ(ᛕᛠ, ᛕᛠ)⟶ᚱᛠ ᛏᛟr ⟺ r == ᚱ1/2 
+ᛕ3ᛎ ᛕ1ᛎ ᛕ2ᛎ ᛨ(ᛕᛠ, ᛕᛠ, ᛕᛠ)⟶ᚱᛠ ᛏᛟr ⟺ r == ᚱ3 1/2 
+```
+
+
+**ᚱᛠ** in **ᛕᛠ** zu konvertieren ist mit Werteverlust verbunden. Die Konvertierung muss deshalb explizit mit folgenden Funktionen durchgeführt werden:  
+
+```
+ᚱ1 2/3ᛎ ᛨᚱᛠ⟶ceilᛕᛠ ᛏᛟk ⟺ k == 2
+ᚱ1 2/3ᛎ ᚱᛠ⟶floorᛕᛠ ᛏᛟk ⟺ k == 1
+ᚱ1 2/3ᛎ ᚱᛠ⟶roundᛕᛠ ᛏᛟk ⟺ k == 2
+```
 
 
 ### Boolsche Werte ᛒ
@@ -248,6 +279,14 @@ Beispiele:
 ```
 ᛭ An die global gültige Naming ID 0x7ABC123 wird der Wert 3,1427 gebunden.
 ᛟᚻ ᛕ ᛔ16 7ABC123 ᚩ3,1427
+```
+
+Naming- IDs sind eindeutig und excellent für reine Machine to Machine Kommunikation. Für einen menschlichen Programmierer hingegen sind sie hingegen zu abstrakt. Deshalb können ihnen im lokalen Namensraum eingängie *Moniker* verpasst werden durch `ᛟ<Moniker> ᚻ ᛕ ᛔ16 <Hex- Wert Naming ID> _Attribut-Wert_`
+
+Beispiel:
+```
+᛭ Die global gültige Naming ID 0x7ABC123 mit dem gebundenen Wert 3,1427 wird zusätzlich an den lokal gültigen Moniker PI gebunden
+ᛟPI ᚻ ᛕ ᛔ16 7ABC123 ᚩ3,1427
 ```
 
 **ᚻᛠ** ist der Datentyp für Namensreferenzen.
