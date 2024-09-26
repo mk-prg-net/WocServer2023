@@ -87,6 +87,8 @@ namespace MKPRG.Naming
 
                                                 && t.Name != "NamingBase"
 
+                                                && t.Name != "NamingBase24"
+
                                                 // mko, 15.2.2021
                                                 && !t.IsAbstract
 

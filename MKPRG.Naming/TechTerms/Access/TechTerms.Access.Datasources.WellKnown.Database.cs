@@ -49,7 +49,7 @@ namespace MKPRG.Naming.TechTerms.Access.Datasources.WellKnown.Database
     public class DatabaseQueryFailed
         : NamingBase
     {
-        public const long UID = 0x1A116D4B2BE852AEL;
+        public const long UID = 0x460E6A533FFA9E4DL;
 
         public DatabaseQueryFailed()
             : base(UID)

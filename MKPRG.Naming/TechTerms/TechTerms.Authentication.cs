@@ -66,7 +66,7 @@ namespace MKPRG.Naming.TechTerms.Authentication
     public class AuthenticationFailedForUserId
         : NamingBase, Grammar.IFinishedActivity
     {
-        public const long UID = 0xACC75C60;
+        public const long UID = 0x66CF3813F8395541L;
 
         public AuthenticationFailedForUserId()
             : base(UID)

@@ -220,7 +220,7 @@ namespace MKPRG.Tracing.DocuTerms
         {
             if (text != null)
             {
-                var strArr = text.Replace("#", " ").Split(L(' ').ToArray(), StringSplitOptions.RemoveEmptyEntries).Select(r => new String(r)).ToArray();
+                var strArr = text.Replace("#", " ").Split(new char[] {' '}, StringSplitOptions.RemoveEmptyEntries).Select(r => new String(r)).ToArray();
                 return new Txt(strArr);
             }
             else

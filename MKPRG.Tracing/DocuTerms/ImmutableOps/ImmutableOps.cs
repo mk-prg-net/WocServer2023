@@ -20,18 +20,21 @@ namespace MKPRG.Tracing.DocuTerms.ImmutableOps
 
         public (IRet ret, IInstance extendedInstance) CopyAndAdd(IInstanceWithNameAsNid inst, params IProperty[] propertiesToAdd) 
         {
-            // ToDo: Check, if properties not already exists inside instance
+            // ToDo: Check, if properties not already exists inside instancep
 
+            var retBld = retBldFactory.CreateRetBld();
+            var ret = retBld.ReturnOK();
 
-
-
-            return pnL.i(inst.DocuTermNid.NamingId, pnL.EmbedInstanceMembers(inst.InstanceMembers), pnL.EmbedInstanceMembers(propertiesToAdd));
+            return (ret, pnL.i(inst.DocuTermNid.NamingId, pnL.EmbedInstanceMembers(inst.InstanceMembers), pnL.EmbedInstanceMembers(propertiesToAdd)));
         }
 
         public (IRet ret, IInstance extendedInstance) CopyAndAdd(IInstanceWithNameAsString inst, params IProperty[] propertiesToAdd)
         {
+            var retBld = retBldFactory.CreateRetBld();
+            var ret = retBld.ReturnOK();
 
-            return pnL.i(inst.DocuTermName, pnL.EmbedInstanceMembers(inst.InstanceMembers), pnL.EmbedInstanceMembers(propertiesToAdd));
+
+            return (ret, pnL.i(inst.DocuTermName, pnL.EmbedInstanceMembers(inst.InstanceMembers), pnL.EmbedInstanceMembers(propertiesToAdd)));
         }
 
     }
