@@ -14,7 +14,7 @@
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
-    justify-content: space-between;
+    justify-content: left;
 }
 
 /* Spalte */
@@ -101,6 +101,16 @@
 .cw-56 {
     width: 56em;
 }
+
+.cw-75 {
+    width: 75em;
+}
+
+.cw-100 {
+    width: 100em;
+}
+
+
 
 .cw3-max-visible {
     width: 56em;

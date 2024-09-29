@@ -196,19 +196,19 @@ define(["require", "exports", "jquery", "react", "react-dom", "./NamingIds", "./
                 // Fall: [00E00] leeres Dokument            
                 // Leerzeilen vor der Editor- zeile aufbauen
                 for (var i = 0; i < prePostLines; i++) {
-                    vLines.push(react_1.default.createElement(CrossWriterEmptyLine_1.CrossWriterEmptyLine, { key: state.keyGen(), cssClassLineNo: "col cw-3 lineNo", cssClassLine: "col cw-56 lineContent", cssClassLineFunction: "col cw-6 lineFunc" }));
+                    vLines.push(react_1.default.createElement(CrossWriterEmptyLine_1.CrossWriterEmptyLine, { key: state.keyGen(), cssClassLineNo: "col cw-3 lineNo", cssClassLine: "col cw-75 lineContent", cssClassLineFunction: "col cw-6 lineFunc" }));
                 }
-                vLines.push(react_1.default.createElement(CrossWriterEditLine_1.CrossWriterEditLine, { key: state.keyGen(), document: state.document, cursor: state.cursor, cssClassCursor: "Cursor", cssClassLineNo: "col cw-3 lineNo", cssClassLine: "col cw-56 EditLine", cssClassLineFunction: "col cw-6 lineFunc", 
+                vLines.push(react_1.default.createElement(CrossWriterEditLine_1.CrossWriterEditLine, { key: state.keyGen(), document: state.document, cursor: state.cursor, cssClassCursor: "Cursor", cssClassLineNo: "col cw-3 lineNo", cssClassLine: "col cw-75 EditLine", cssClassLineFunction: "col cw-6 lineFunc", 
                     //ProcessKeyDownEventForVisibleLines={ProcessKeyDownEventForEditLine}
                     nytKeywords: state.nytKeywords, SetFocusOnInputField: SetFocusOnInputField, countEditOps: state.countEditOp }));
                 // Leerzeilen nach der Editor- zeile aufbauen
                 for (var i = 0; i < prePostLines; i++) {
-                    vLines.push(react_1.default.createElement(CrossWriterEmptyLine_1.CrossWriterEmptyLine, { key: state.keyGen(), cssClassLineNo: "col cw-3 lineNo", cssClassLine: "col cw-56 lineContent", cssClassLineFunction: "col cw-6 lineFunc" }));
+                    vLines.push(react_1.default.createElement(CrossWriterEmptyLine_1.CrossWriterEmptyLine, { key: state.keyGen(), cssClassLineNo: "col cw-3 lineNo", cssClassLine: "col cw-75 lineContent", cssClassLineFunction: "col cw-6 lineFunc" }));
                 }
             }
             else {
                 AddPreLines(vLines, currentCursorLine);
-                vLines.push(react_1.default.createElement(CrossWriterEditLine_1.CrossWriterEditLine, { key: state.keyGen(), document: state.document, cursor: state.cursor, cssClassCursor: "Cursor", cssClassLineNo: "col cw-3 lineNo", cssClassLine: "col cw-56 EditLine", cssClassLineFunction: "col cw-6 lineFunc", 
+                vLines.push(react_1.default.createElement(CrossWriterEditLine_1.CrossWriterEditLine, { key: state.keyGen(), document: state.document, cursor: state.cursor, cssClassCursor: "Cursor", cssClassLineNo: "col cw-3 lineNo", cssClassLine: "col cw-75 EditLine", cssClassLineFunction: "col cw-6 lineFunc", 
                     //ProcessKeyDownEventForVisibleLines={ProcessKeyDownEventForEditLine}
                     nytKeywords: state.nytKeywords, SetFocusOnInputField: SetFocusOnInputField, countEditOps: state.countEditOp }));
                 AddPostLines(vLines, currentCursorLine, state.document.LineCount());
@@ -520,17 +520,17 @@ define(["require", "exports", "jquery", "react", "react-dom", "./NamingIds", "./
                 // Leerraumzeilen am Anfang einfügen, falls Dokumentzeilen sichtbare Fläche nicht vollständig
                 // ausfüllen.
                 for (var i = 0, countEmptyLines = prePostLines - currentCursorLine; i < countEmptyLines; i++) {
-                    vLines.push(react_1.default.createElement(CrossWriterEmptyLine_1.CrossWriterEmptyLine, { key: state.keyGen(), cssClassLineNo: "col cw-3 lineNo", cssClassLine: "col cw-56 lineContent", cssClassLineFunction: "col cw-6 lineFunc" }));
+                    vLines.push(react_1.default.createElement(CrossWriterEmptyLine_1.CrossWriterEmptyLine, { key: state.keyGen(), cssClassLineNo: "col cw-3 lineNo", cssClassLine: "col cw-75 lineContent", cssClassLineFunction: "col cw-6 lineFunc" }));
                 }
                 // Der Editorzeile vorauseilende Zeilen des Dokumentes ausgeben
                 for (var i = 0; i < currentCursorLine; i++, j++) {
-                    vLines.push(react_1.default.createElement(CrossWriterLine_1.CrossWriterLine, { key: state.keyGen(), document: state.document, lineNo: i, cssClassLineNo: "col cw-3 lineNo", cssClassLine: "col cw-56 lineContent", cssClassLineFunction: "col cw-6 lineFunc", nytKeywords: state.nytKeywords }));
+                    vLines.push(react_1.default.createElement(CrossWriterLine_1.CrossWriterLine, { key: state.keyGen(), document: state.document, lineNo: i, cssClassLineNo: "col cw-3 lineNo", cssClassLine: "col cw-75 lineContent", cssClassLineFunction: "col cw-6 lineFunc", nytKeywords: state.nytKeywords }));
                 }
             }
             else {
                 // Der Editorzeile vorauseilende Zeilen des Dokumentes ausgeben
                 for (var i = 0, j = currentCursorLine - 1 - prePostLines; i < prePostLines; i++, j++) {
-                    vLines.push(react_1.default.createElement(CrossWriterLine_1.CrossWriterLine, { key: state.keyGen(), document: state.document, lineNo: j, cssClassLineNo: "col cw-3 lineNo", cssClassLine: "col cw-56 lineContent", cssClassLineFunction: "col cw-6 lineFunc", nytKeywords: state.nytKeywords }));
+                    vLines.push(react_1.default.createElement(CrossWriterLine_1.CrossWriterLine, { key: state.keyGen(), document: state.document, lineNo: j, cssClassLineNo: "col cw-3 lineNo", cssClassLine: "col cw-75 lineContent", cssClassLineFunction: "col cw-6 lineFunc", nytKeywords: state.nytKeywords }));
                 }
             }
         }
@@ -539,23 +539,23 @@ define(["require", "exports", "jquery", "react", "react-dom", "./NamingIds", "./
             let prePostLines = CountPrePostLines();
             if (LineCount - currentCursorLine < prePostLines) {
                 for (var i = currentCursorLine + 1; i < LineCount; i++) {
-                    vLines.push(react_1.default.createElement(CrossWriterLine_1.CrossWriterLine, { key: state.keyGen(), document: state.document, lineNo: i, cssClassLineNo: "col cw-3 lineNo", cssClassLine: "col cw-56 lineContent", cssClassLineFunction: "col cw-6 lineFunc", nytKeywords: state.nytKeywords }));
+                    vLines.push(react_1.default.createElement(CrossWriterLine_1.CrossWriterLine, { key: state.keyGen(), document: state.document, lineNo: i, cssClassLineNo: "col cw-3 lineNo", cssClassLine: "col cw-75 lineContent", cssClassLineFunction: "col cw-6 lineFunc", nytKeywords: state.nytKeywords }));
                 }
                 // Rest mit Leerzeilen auffüllen
                 for (var i = 0, countEmptyLines = prePostLines - (LineCount - currentCursorLine); i < countEmptyLines; i++) {
-                    vLines.push(react_1.default.createElement(CrossWriterEmptyLine_1.CrossWriterEmptyLine, { key: state.keyGen(), cssClassLineNo: "col cw-3 lineNo", cssClassLine: "col cw-56 lineContent", cssClassLineFunction: "col cw-6 lineFunc" }));
+                    vLines.push(react_1.default.createElement(CrossWriterEmptyLine_1.CrossWriterEmptyLine, { key: state.keyGen(), cssClassLineNo: "col cw-3 lineNo", cssClassLine: "col cw-75 lineContent", cssClassLineFunction: "col cw-6 lineFunc" }));
                 }
             }
             else {
                 // Alle sichtbaren Zeilen nach der Edit- Zeile mit Zeilen aus dem Dokument füllen
                 for (var i = 0, j = currentCursorLine + 1; i < prePostLines; i++, j++) {
-                    vLines.push(react_1.default.createElement(CrossWriterLine_1.CrossWriterLine, { key: state.keyGen(), document: state.document, lineNo: j, cssClassLineNo: "col cw-3 lineNo", cssClassLine: "col cw-56 lineContent", cssClassLineFunction: "col cw-6 lineFunc", nytKeywords: state.nytKeywords }));
+                    vLines.push(react_1.default.createElement(CrossWriterLine_1.CrossWriterLine, { key: state.keyGen(), document: state.document, lineNo: j, cssClassLineNo: "col cw-3 lineNo", cssClassLine: "col cw-75 lineContent", cssClassLineFunction: "col cw-6 lineFunc", nytKeywords: state.nytKeywords }));
                 }
             }
         }
         function CreateEditorShortCutTable() {
             let shortCuts = Object.keys(state.editShortCuts).filter((sc) => sc.length < 3).sort((a, b) => a.charCodeAt(1) - b.charCodeAt(1));
-            let divs = shortCuts.map((shortCut) => react_1.default.createElement("div", { className: "col cw-1" },
+            let divs = shortCuts.map((shortCut) => react_1.default.createElement("div", { className: "col cw-2" },
                 react_1.default.createElement("div", null, state.editShortCuts[shortCut].GlyphUniCode),
                 react_1.default.createElement("div", null, shortCut)));
             return divs;
@@ -575,7 +575,8 @@ define(["require", "exports", "jquery", "react", "react-dom", "./NamingIds", "./
                         return react_1.default.createElement("span", { className: "progName" }, nc.EN);
                     }, (ncDict, fName, errClass, descr) => {
                         return react_1.default.createElement("span", { className: "progName" }, `${fName} failed: Err Class: ${errClass}, ${descr}`);
-                    })))),
+                    }))),
+                react_1.default.createElement("div", { id: "shortCutTable", className: "row" }, CreateEditorShortCutTable())),
             react_1.default.createElement("div", { id: "visibleLines", className: "VisibleLines" },
                 react_1.default.createElement("input", { ref: centralInputFieldForCatchingKeyboardEvents, onKeyDown: e => ProcessKeyDownEventForEditLine(e.key, e.ctrlKey, e.altKey, e.shiftKey), onBlur: e => {
                         // Keeps Foocus on Input field. See https://adueck.github.io/blog/keep-focus-when-clicking-on-element-react/
@@ -585,7 +586,6 @@ define(["require", "exports", "jquery", "react", "react-dom", "./NamingIds", "./
                     } }),
                 ViewLines()),
             react_1.default.createElement("footer", null,
-                react_1.default.createElement("div", { id: "shortCutTable", className: "row" }, CreateEditorShortCutTable()),
                 react_1.default.createElement("div", { id: "statusLine" },
                     "Line: ",
                     state.cursor.currentLineNo,

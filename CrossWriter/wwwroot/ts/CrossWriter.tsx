@@ -280,7 +280,7 @@ function CrossWriter(properties: ICrossWriterProps) {
                 vLines.push(<CrossWriterEmptyLine
                     key={state.keyGen()}
                     cssClassLineNo="col cw-3 lineNo"
-                    cssClassLine="col cw-56 lineContent"
+                    cssClassLine="col cw-75 lineContent"
                     cssClassLineFunction="col cw-6 lineFunc"></CrossWriterEmptyLine>);
             }
 
@@ -290,7 +290,7 @@ function CrossWriter(properties: ICrossWriterProps) {
                 cursor={state.cursor}
                 cssClassCursor="Cursor"
                 cssClassLineNo="col cw-3 lineNo"
-                cssClassLine="col cw-56 EditLine"
+                cssClassLine="col cw-75 EditLine"
                 cssClassLineFunction="col cw-6 lineFunc"
                 //ProcessKeyDownEventForVisibleLines={ProcessKeyDownEventForEditLine}
                 nytKeywords={state.nytKeywords}
@@ -304,7 +304,7 @@ function CrossWriter(properties: ICrossWriterProps) {
                 vLines.push(<CrossWriterEmptyLine
                     key={state.keyGen()}
                     cssClassLineNo="col cw-3 lineNo"
-                    cssClassLine="col cw-56 lineContent"
+                    cssClassLine="col cw-75 lineContent"
                     cssClassLineFunction="col cw-6 lineFunc"></CrossWriterEmptyLine>);
             }
         }
@@ -317,7 +317,7 @@ function CrossWriter(properties: ICrossWriterProps) {
                 cursor={state.cursor}
                 cssClassCursor="Cursor"
                 cssClassLineNo="col cw-3 lineNo"
-                cssClassLine="col cw-56 EditLine"
+                cssClassLine="col cw-75 EditLine"
                 cssClassLineFunction="col cw-6 lineFunc"
                 //ProcessKeyDownEventForVisibleLines={ProcessKeyDownEventForEditLine}
                 nytKeywords={state.nytKeywords}
@@ -662,7 +662,7 @@ function CrossWriter(properties: ICrossWriterProps) {
                 vLines.push(<CrossWriterEmptyLine
                     key={state.keyGen()}
                     cssClassLineNo="col cw-3 lineNo"
-                    cssClassLine="col cw-56 lineContent"
+                    cssClassLine="col cw-75 lineContent"
                     cssClassLineFunction="col cw-6 lineFunc"></CrossWriterEmptyLine>);
             }
 
@@ -673,7 +673,7 @@ function CrossWriter(properties: ICrossWriterProps) {
                     document={state.document}
                     lineNo={i}
                     cssClassLineNo="col cw-3 lineNo"
-                    cssClassLine="col cw-56 lineContent"
+                    cssClassLine="col cw-75 lineContent"
                     cssClassLineFunction="col cw-6 lineFunc"
                     nytKeywords={state.nytKeywords}></CrossWriterLine>);
             }
@@ -688,7 +688,7 @@ function CrossWriter(properties: ICrossWriterProps) {
                     document={state.document}
                     lineNo={j}
                     cssClassLineNo="col cw-3 lineNo"
-                    cssClassLine="col cw-56 lineContent"
+                    cssClassLine="col cw-75 lineContent"
                     cssClassLineFunction="col cw-6 lineFunc"
                     nytKeywords={state.nytKeywords}></CrossWriterLine>);
             }
@@ -708,7 +708,7 @@ function CrossWriter(properties: ICrossWriterProps) {
                     document={state.document}
                     lineNo={i}
                     cssClassLineNo="col cw-3 lineNo"
-                    cssClassLine="col cw-56 lineContent"
+                    cssClassLine="col cw-75 lineContent"
                     cssClassLineFunction="col cw-6 lineFunc"
                     nytKeywords={state.nytKeywords} ></CrossWriterLine >);
             }
@@ -718,7 +718,7 @@ function CrossWriter(properties: ICrossWriterProps) {
                 vLines.push(<CrossWriterEmptyLine
                     key={state.keyGen()}
                     cssClassLineNo="col cw-3 lineNo"
-                    cssClassLine="col cw-56 lineContent"
+                    cssClassLine="col cw-75 lineContent"
                     cssClassLineFunction="col cw-6 lineFunc"></CrossWriterEmptyLine>);
             }
         }
@@ -732,7 +732,7 @@ function CrossWriter(properties: ICrossWriterProps) {
                     document={state.document}
                     lineNo={j}
                     cssClassLineNo="col cw-3 lineNo"
-                    cssClassLine="col cw-56 lineContent"
+                    cssClassLine="col cw-75 lineContent"
                     cssClassLineFunction="col cw-6 lineFunc"
                     nytKeywords={state.nytKeywords} ></CrossWriterLine >);
             }
@@ -743,7 +743,7 @@ function CrossWriter(properties: ICrossWriterProps) {
     function CreateEditorShortCutTable(): any[] {
         let shortCuts = Object.keys(state.editShortCuts).filter((sc) => sc.length < 3).sort((a, b) => a.charCodeAt(1) - b.charCodeAt(1));
         let divs = shortCuts.map((shortCut) =>
-            <div className="col cw-1">
+            <div className="col cw-2">
                 <div>{state.editShortCuts[shortCut].GlyphUniCode}</div>
                 <div>{shortCut}</div>
             </div>
@@ -776,6 +776,9 @@ function CrossWriter(properties: ICrossWriterProps) {
                         )}
                     </div>
                 </nav>
+                <div id="shortCutTable" className="row">
+                    {CreateEditorShortCutTable()}
+                </div>
             </header>
 
             <div id="visibleLines" className="VisibleLines" >
@@ -793,10 +796,7 @@ function CrossWriter(properties: ICrossWriterProps) {
                 {ViewLines()}
             </div>
 
-            <footer>
-                <div id="shortCutTable" className="row">
-                    {CreateEditorShortCutTable()}
-                </div>
+            <footer>                
                 <div id="statusLine">Line: {state.cursor.currentLineNo} Col: {state.cursor.currentColNo} #Lines: {state.document.LineCount()} </div>
             </footer>
         </div>
