@@ -10,6 +10,8 @@
     <ProjectReference Include="..\MKPRG.Woc\MKPRG.Woc.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="TechTerms\Apps\CrossWriter\" />
+    <Folder Include="TechTerms\Apps\StackFlow\" />
     <Folder Include="Wocs\Nodes\Mobiles\" />
   </ItemGroup>
   <ItemGroup>

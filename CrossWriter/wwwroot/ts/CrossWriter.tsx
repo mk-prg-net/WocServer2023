@@ -14,6 +14,8 @@ import { CrossWriterEmptyLine } from "./CrossWriterEmptyLine";
 import { CrossWriterLine } from "./CrossWriterLine";
 import { CreateDocument, IDocument, IDocumentCursor } from "./Document";
 
+import { Endpoints } from "./Endpoints";
+
 interface ICrossWriterProps {
     ServerOrigin: string,
     UserId: string,
@@ -82,6 +84,9 @@ var UnkownNC: INamingContainer = {
 
 // Main Control for the Cross Writer Editor
 function CrossWriter(properties: ICrossWriterProps) {
+
+    const endPoints = new Endpoints(properties.ServerOrigin);
+
     // Define initial State
     const [state, setState] = React.useState<ICrossWriterState>({
         init: true,
@@ -112,16 +117,17 @@ function CrossWriter(properties: ICrossWriterProps) {
         if (state.init) {
             let keyGenerator = CreateKeyGenerator();
 
-            $.ajax(`${properties.ServerOrigin}/NamingContainers?NC=MKPRG.Naming.NYT.Keywords`, { method: "GET" })
+            // Lade die Namenscontainer vom Server
+            $.ajax(endPoints.UrlForGetNamingContainers('MKPRG.Naming.NYT.Keywords'), { method: "GET" })
                 .done((data, textStatus, jqXhr) => {
                     let _ncList = data as Array<INamingContainer>;
                     let _nc: Record<string, INamingContainer> = {};
 
+                    // Aufbau des NamigId -> NC Dictionaries
                     for (var i = 0, _ncListCount = _ncList.length; i < _ncListCount; i++) {
                         var nc = _ncList[i];
                         _nc[nc.NIDstr] = nc;
                     }
-
 
                     let _editShortCuts: Record<string, INamingContainer> = {};
 
@@ -134,7 +140,7 @@ function CrossWriter(properties: ICrossWriterProps) {
                     if (properties.DocumentName !== "") {
 
                         // Laden des Beispieldokumentes
-                        $.ajax(`${properties.ServerOrigin}/fileStore?fileName=${properties.DocumentName}`, { method: "GET" })
+                        $.ajax(endPoints.UrlForDownloadFromFileStore(properties.DocumentName), { method: "GET" })
                             .done((data, textStatus, jqXhr) => {
 
                                 let docContentAsString = data as string;
@@ -206,7 +212,8 @@ function CrossWriter(properties: ICrossWriterProps) {
 
                     let errTxt = `HTTP Status:${textStatus}, ${errorThrown}`;
 
-                    // Zustand der React- Komponente neu setzten und rendern
+                    // Im Zustand der React- Komponente das Scheitern des Ladens der Ressourcen 
+                    // Dokumentieren 
                     setState({
                         init: false,
                         nytKeywords: state.nytKeywords,

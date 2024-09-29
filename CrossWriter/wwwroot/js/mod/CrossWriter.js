@@ -3,7 +3,7 @@
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-define(["require", "exports", "jquery", "react", "react-dom", "./NamingIds", "./INamingContainer", "./CrossWriterEditLine", "./CrossWriterEmptyLine", "./CrossWriterLine", "./Document"], function (require, exports, jquery_1, react_1, react_dom_1, NamingIds_1, INamingContainer_1, CrossWriterEditLine_1, CrossWriterEmptyLine_1, CrossWriterLine_1, Document_1) {
+define(["require", "exports", "jquery", "react", "react-dom", "./NamingIds", "./INamingContainer", "./CrossWriterEditLine", "./CrossWriterEmptyLine", "./CrossWriterLine", "./Document", "./Endpoints"], function (require, exports, jquery_1, react_1, react_dom_1, NamingIds_1, INamingContainer_1, CrossWriterEditLine_1, CrossWriterEmptyLine_1, CrossWriterLine_1, Document_1, Endpoints_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     jquery_1 = __importDefault(jquery_1);
@@ -29,6 +29,7 @@ define(["require", "exports", "jquery", "react", "react-dom", "./NamingIds", "./
     };
     // Main Control for the Cross Writer Editor
     function CrossWriter(properties) {
+        const endPoints = new Endpoints_1.Endpoints(properties.ServerOrigin);
         // Define initial State
         const [state, setState] = react_1.default.useState({
             init: true,
@@ -55,10 +56,12 @@ define(["require", "exports", "jquery", "react", "react-dom", "./NamingIds", "./
         function LoadResourcesFromServer() {
             if (state.init) {
                 let keyGenerator = CreateKeyGenerator();
-                jquery_1.default.ajax(`${properties.ServerOrigin}/NamingContainers?NC=MKPRG.Naming.NYT.Keywords`, { method: "GET" })
+                // Lade die Namenscontainer vom Server
+                jquery_1.default.ajax(endPoints.UrlForGetNamingContainers('MKPRG.Naming.NYT.Keywords'), { method: "GET" })
                     .done((data, textStatus, jqXhr) => {
                     let _ncList = data;
                     let _nc = {};
+                    // Aufbau des NamigId -> NC Dictionaries
                     for (var i = 0, _ncListCount = _ncList.length; i < _ncListCount; i++) {
                         var nc = _ncList[i];
                         _nc[nc.NIDstr] = nc;
@@ -71,7 +74,7 @@ define(["require", "exports", "jquery", "react", "react-dom", "./NamingIds", "./
                     }
                     if (properties.DocumentName !== "") {
                         // Laden des Beispieldokumentes
-                        jquery_1.default.ajax(`${properties.ServerOrigin}/fileStore?fileName=${properties.DocumentName}`, { method: "GET" })
+                        jquery_1.default.ajax(endPoints.UrlForDownloadFromFileStore(properties.DocumentName), { method: "GET" })
                             .done((data, textStatus, jqXhr) => {
                             let docContentAsString = data;
                             // 
@@ -136,7 +139,8 @@ define(["require", "exports", "jquery", "react", "react-dom", "./NamingIds", "./
                 })
                     .fail((jqXHR, textStatus, errorThrown) => {
                     let errTxt = `HTTP Status:${textStatus}, ${errorThrown}`;
-                    // Zustand der React- Komponente neu setzten und rendern
+                    // Im Zustand der React- Komponente das Scheitern des Ladens der Ressourcen 
+                    // Dokumentieren 
                     setState({
                         init: false,
                         nytKeywords: state.nytKeywords,
