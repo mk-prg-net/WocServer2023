@@ -1,0 +1,36 @@
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+define(["require", "exports", "qunit", "./RT"], function (require, exports, qunit_1, RT_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    qunit_1 = __importDefault(qunit_1);
+    function BigIntTest() {
+        qunit_1.default.test("Big Int Arithmetik Testen", function (assert) {
+            let a = 12345678901234567890n;
+            let b = 1n;
+            let c = a + b;
+            assert.equal(c, 12345678901234567891n, `Sum of BigInts ${a}+${b} was epected as 12345678901234567891n, but is ${c}`);
+            let x = 1000000000000n;
+            let mul = 2n * x;
+            assert.equal(mul, 2000000000000n, `Mul of BigInts ${x}*2n was epected as 2000000000000n, but is ${mul}`);
+        });
+        qunit_1.default.test("RT Arithmetik Testen", function (assert) {
+            let a = (0, RT_1.newRT)(0n, 1n, 2n, 1n);
+            let b = (0, RT_1.newRT)(2n, 0n, 1n, 1n);
+            let sum = (0, RT_1.addRT)(a, a);
+            assert.equal(sum.M(), 1n);
+            assert.equal(sum.N(), 0n);
+            assert.equal(sum.D(), 1n);
+            assert.equal(sum.X(), 1n);
+            let mul = (0, RT_1.mulRT)(a, b);
+            assert.equal(mul.M(), 1n);
+            assert.equal(mul.N(), 0n);
+            assert.equal(mul.D(), 1n);
+            assert.equal(mul.X(), 1n);
+        });
+        qunit_1.default.start();
+    }
+    exports.default = BigIntTest;
+});
+//# sourceMappingURL=BigIntTest.js.map

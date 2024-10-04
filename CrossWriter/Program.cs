@@ -12,6 +12,7 @@ var builder = WebApplication.CreateBuilder(
 
         // Hier wird das Wurzelverzeichnis für den statischen Content definiert (html, css, scripte)
         WebRootPath = "wwwroot"
+        
     }
 );
 
@@ -38,6 +39,22 @@ string GetWwwRootOrigin(HttpRequest req)
 {
     return $"{req.Scheme}://{req.Host}";
 }
+
+// Initiales HTML- Dokument
+app.MapGet("/", (HttpRequest req) =>
+{
+    // get Origin (Path) of statical content
+    var wwwroot = GetWwwRootOrigin(req);
+
+    // old school templating :-)
+    // Create html- content for Browser. Replace all placeholders for in server Urls etc. with valid Host adresses 
+    var content = string.Join('\n', System.IO.File.ReadAllLines(@".\wwwroot\apps\portal\MainView.html")).Replace("{*}", wwwroot);
+
+    return Results.Content(content, "text/html", System.Text.Encoding.UTF8);
+
+});
+
+
 
 // Liefer eine Liste von Naming- Containern. 
 // Die Liste kann auf zwei Arten festgelegt werden:
@@ -122,6 +139,19 @@ app.MapGet("/Main", (HttpRequest req, MyNamingContainers myNamingContainers) =>
 
 app.MapPost("/Save", (HttpRequest req) =>
 {
+
+});
+
+app.MapGet("/tests", (HttpRequest req) =>
+{
+    // get Origin (Path) of statical content
+    var wwwroot = GetWwwRootOrigin(req);
+
+    // old school templating :-)
+    // Create html- content for Browser. Replace all placeholders for in server Urls etc. with valid Host adresses 
+    var content = string.Join('\n', System.IO.File.ReadAllLines(@".\wwwroot\apps\tests\MainView.html")).Replace("{*}", wwwroot);
+
+    return Results.Content(content, "text/html", System.Text.Encoding.UTF8);
 
 });
 

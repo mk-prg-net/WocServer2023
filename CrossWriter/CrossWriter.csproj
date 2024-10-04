@@ -21,6 +21,7 @@
   <ItemGroup>
     <TypeScriptCompile Remove="wwwroot\ts\CrossWriterEmptyLine.tsx" />
     <TypeScriptCompile Remove="wwwroot\ts\INamingContainer.ts" />
+    <TypeScriptCompile Remove="wwwroot\ts\StackFlow\RT\BigIntTest.ts" />
   </ItemGroup>
 
   <ItemGroup>
@@ -39,11 +40,12 @@
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
+    <Content Include="wwwroot\ts\StackFlow\RT\BigIntTest.ts" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="wwwroot\fileStore\" />
-    <Folder Include="wwwroot\ts\StackFlow\" />
+    <Folder Include="wwwroot\ts\portal\" />
   </ItemGroup>
 
   <ItemGroup>
