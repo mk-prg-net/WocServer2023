@@ -4,6 +4,14 @@ import { IRt, newRT, addRT, mulRT} from "./RT";
 
 export default function BigIntTest() {
 
+    BigInt.prototype["toJSON"] = function () {
+        return this.toString();
+    };
+
+    //QUnit.dump.setParser('bigint', function (bint) {
+    //    return bint.toString();
+    //});
+
     QUnit.test("Big Int Arithmetik Testen", function (assert) {
 
         let a = 12345678901234567890n;

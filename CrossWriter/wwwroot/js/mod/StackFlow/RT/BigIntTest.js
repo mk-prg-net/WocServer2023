@@ -6,6 +6,12 @@ define(["require", "exports", "qunit", "./RT"], function (require, exports, quni
     Object.defineProperty(exports, "__esModule", { value: true });
     qunit_1 = __importDefault(qunit_1);
     function BigIntTest() {
+        BigInt.prototype["toJSON"] = function () {
+            return this.toString();
+        };
+        //QUnit.dump.setParser('bigint', function (bint) {
+        //    return bint.toString();
+        //});
         qunit_1.default.test("Big Int Arithmetik Testen", function (assert) {
             let a = 12345678901234567890n;
             let b = 1n;
