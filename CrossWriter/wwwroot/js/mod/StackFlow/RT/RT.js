@@ -46,12 +46,12 @@ define(["require", "exports"], function (require, exports) {
     exports.newRT = newRT;
     // Addition von ᚱa und  ᚱb
     function addRT(a, b) {
-        return newRT(a.M() * a.X() + b.M() * b.X(), a.N() * a.X() * b.D() + b.N() * b.X() * a.D(), a.N() * b.N(), 1n);
+        return newRT(a.M() * a.X() + b.M() * b.X(), b.D() * a.N() * a.X() + a.D() * b.N() * b.X(), a.D() * b.D(), 1n);
     }
     exports.addRT = addRT;
     // Multiplikation von ᚱa und ᚱb
     function mulRT(a, b) {
-        return newRT(a.M() * b.M(), a.M() * a.N() * b.D() + a.M() * b.N() * a.D() + a.N() * b.N(), a.D() * b.D(), a.X() * b.X());
+        return newRT(a.M() * b.M(), a.N() * b.D() + a.M() * b.N() * a.D() + a.N() * b.N(), a.D() * b.D(), a.X() * b.X());
     }
     exports.mulRT = mulRT;
 });

@@ -67,12 +67,12 @@ export function newRT(
 
 // Addition von ᚱa und  ᚱb
 export function addRT(a: IRt, b: IRt): IRt {
-    return newRT(a.M()*a.X()+b.M()*b.X(), a.N()*a.X()*b.D() + b.N()*b.X()*a.D(), a.N()*b.N(), 1n)
+    return newRT(a.M()*a.X()+b.M()*b.X(), b.D()*a.N()*a.X() + a.D()*b.N()*b.X(), a.D()*b.D(), 1n)
 }
 
 // Multiplikation von ᚱa und ᚱb
 export function mulRT(a: IRt, b: IRt): IRt {
-    return newRT(a.M()*b.M(), a.M()*a.N()*b.D()+a.M()*b.N()*a.D()+a.N()*b.N(), a.D()*b.D(), a.X()*b.X());
+    return newRT(a.M()*b.M(), a.N()*b.D() + a.M()*b.N()*a.D() +a.N()*b.N(), a.D()*b.D(), a.X()*b.X());
 }
 
 

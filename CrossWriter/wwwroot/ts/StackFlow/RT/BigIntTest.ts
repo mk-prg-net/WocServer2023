@@ -34,20 +34,60 @@ export default function BigIntTest() {
         let a = newRT(0n, 1n, 2n, 1n);
         let b = newRT(2n, 0n, 1n, 1n);
 
-        let sum = addRT(a, a);
+        {
+            let sum = addRT(a, a);
 
-        assert.equal(sum.M(), 1n);
-        assert.equal(sum.N(), 0n);
-        assert.equal(sum.D(), 1n);
-        assert.equal(sum.X(), 1n);
+            assert.equal(sum.M(), 0n);
+            assert.equal(sum.N(), 4n);
+            assert.equal(sum.D(), 4n);
+            assert.equal(sum.X(), 1n);
+        }
+
+        {
+            let sum = addRT(b, b);
+
+            assert.equal(sum.M(), 4n);
+            assert.equal(sum.N(), 0n);
+            assert.equal(sum.D(), 1n);
+            assert.equal(sum.X(), 1n);
+        }
+
+        {
+            let sum = addRT(a, b);
+
+            assert.equal(sum.M(), 2n);
+            assert.equal(sum.N(), 1n);
+            assert.equal(sum.D(), 2n);
+            assert.equal(sum.X(), 1n);
+        }
 
 
-        let mul = mulRT(a, b);
+        {
+            let mul = mulRT(b, a);
 
-        assert.equal(mul.M(), 1n);
-        assert.equal(mul.N(), 0n);
-        assert.equal(mul.D(), 1n);
-        assert.equal(mul.X(), 1n);
+            assert.equal(mul.M(), 0n);
+            assert.equal(mul.N(), 2n);
+            assert.equal(mul.D(), 2n);
+            assert.equal(mul.X(), 1n);
+        }
+
+        {
+            let mul = mulRT(a, a);
+
+            assert.equal(mul.M(), 0n);
+            assert.equal(mul.N(), 2n);
+            assert.equal(mul.D(), 8n);
+            assert.equal(mul.X(), 1n);
+        }
+
+        {
+            let mul = mulRT(b, b);
+
+            assert.equal(mul.M(), 4n);
+            assert.equal(mul.N(), 0n);
+            assert.equal(mul.D(), 1n);
+            assert.equal(mul.X(), 1n);
+        }
 
 
 
