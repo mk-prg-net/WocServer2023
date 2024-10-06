@@ -1,10 +1,10 @@
 // mko, 04.10.2024
 //
 // ᚱᛠ: Darstellung rationaler Zahlen in Stack ᛝ Flow
-define(["require", "exports"], function (require, exports) {
+define(["require", "exports", "mathjs"], function (require, exports, mathjs_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    exports.mulRT = exports.addRT = exports.newRT = void 0;
+    exports.GGT = exports.mulRT = exports.addRT = exports.newRT = void 0;
     // Symbolische Konstanten für Positionen der RT Partikel in einem Array
     var P;
     (function (P) {
@@ -46,13 +46,35 @@ define(["require", "exports"], function (require, exports) {
     exports.newRT = newRT;
     // Addition von ᚱa und  ᚱb
     function addRT(a, b) {
-        return newRT(a.M() * a.X() + b.M() * b.X(), b.D() * a.N() * a.X() + a.D() * b.N() * b.X(), a.D() * b.D(), 1n);
+        let sm = a.M() * a.X() + b.M() * b.X();
+        let sn = b.D() * a.N() * a.X() + a.D() * b.N() * b.X();
+        let sd = a.D() * b.D();
+        return newRT(sm, sn, sd, 1n);
     }
     exports.addRT = addRT;
     // Multiplikation von ᚱa und ᚱb
     function mulRT(a, b) {
-        return newRT(a.M() * b.M(), a.N() * b.D() + a.M() * b.N() * a.D() + a.N() * b.N(), a.D() * b.D(), a.X() * b.X());
+        let pm = a.M() * b.M();
+        let pn = a.N() * b.M() * b.D() + a.M() * b.N() * a.D() + a.N() * b.N();
+        let pd = a.D() * b.D();
+        let px = a.X() * b.X();
+        return newRT(pm, pn, pd, px);
     }
     exports.mulRT = mulRT;
+    // Größter gemeinsamer Teiler von a und b
+    function GGT(a, b) {
+        let h = 1n;
+        if (a == 0n)
+            return (0, mathjs_1.abs)(b);
+        if (b == 0n)
+            return (0, mathjs_1.abs)(a);
+        do {
+            h = (0, mathjs_1.mod)(a, b);
+            a = b;
+            b = h;
+        } while (b != 0n);
+        return (0, mathjs_1.abs)(a);
+    }
+    exports.GGT = GGT;
 });
 //# sourceMappingURL=RT.js.map

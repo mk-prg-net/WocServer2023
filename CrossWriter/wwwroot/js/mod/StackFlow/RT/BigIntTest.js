@@ -21,6 +21,12 @@ define(["require", "exports", "qunit", "./RT"], function (require, exports, quni
             let mul = 2n * x;
             assert.equal(mul, 2000000000000n, `Mul of BigInts ${x}*2n was epected as 2000000000000n, but is ${mul}`);
         });
+        qunit_1.default.test("GGT von a und b", function (assert) {
+            let ggt = (0, RT_1.GGT)(9n, 15n);
+            assert.equal(ggt, 3n, `GGT(9n, 15n) was expected as 3n, but is ${ggt}`);
+            ggt = (0, RT_1.GGT)(3528n, 3780n);
+            assert.equal(ggt, 252n, `GGT(3528n, 3780n) was expected as 252n, but is ${ggt}`);
+        });
         qunit_1.default.test("RT Arithmetik Testen", function (assert) {
             let a = (0, RT_1.newRT)(0n, 1n, 2n, 1n);
             let b = (0, RT_1.newRT)(2n, 0n, 1n, 1n);

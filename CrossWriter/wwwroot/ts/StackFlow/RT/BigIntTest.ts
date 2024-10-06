@@ -1,6 +1,6 @@
 ﻿import QUnit, { assert } from "qunit";
 
-import { IRt, newRT, addRT, mulRT} from "./RT";
+import { IRt, newRT, addRT, mulRT, GGT} from "./RT";
 
 export default function BigIntTest() {
 
@@ -28,6 +28,15 @@ export default function BigIntTest() {
 
     });
 
+    QUnit.test("GGT von a und b", function (assert) {
+
+        let ggt = GGT(9n, 15n);
+        assert.equal(ggt, 3n, `GGT(9n, 15n) was expected as 3n, but is ${ggt}`);
+
+        ggt = GGT(3528n, 3780n);
+        assert.equal(ggt, 252n, `GGT(3528n, 3780n) was expected as 252n, but is ${ggt}`);
+
+    });
 
     QUnit.test("RT Arithmetik Testen", function (assert) {
 

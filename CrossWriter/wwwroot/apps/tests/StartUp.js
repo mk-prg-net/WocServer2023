@@ -4,7 +4,8 @@ requirejs.config({
     baseUrl: '/js',
     paths: {
         jquery: "../node_modules/jquery/dist/jquery",
-        qunit: "../node_modules/qunit/qunit/qunit"
+        qunit: "../node_modules/qunit/qunit/qunit",
+        mathjs: "../node_modules/mathjs/lib/browser/math"
     }
 });
 

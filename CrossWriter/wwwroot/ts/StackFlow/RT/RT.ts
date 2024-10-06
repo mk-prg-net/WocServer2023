@@ -2,6 +2,8 @@
 //
 // ᚱᛠ: Darstellung rationaler Zahlen in Stack ᛝ Flow
 
+import { abs, mod } from 'mathjs';
+
 // Rationale Zahl as Quadrupel
 export interface IRt {
 
@@ -67,12 +69,38 @@ export function newRT(
 
 // Addition von ᚱa und  ᚱb
 export function addRT(a: IRt, b: IRt): IRt {
-    return newRT(a.M()*a.X()+b.M()*b.X(), b.D()*a.N()*a.X() + a.D()*b.N()*b.X(), a.D()*b.D(), 1n)
+
+    let sm = a.M() * a.X() + b.M() * b.X();
+    let sn = b.D() * a.N() * a.X() + a.D() * b.N() * b.X();
+    let sd = a.D() * b.D();
+
+    return newRT(sm, sn, sd, 1n)
 }
 
 // Multiplikation von ᚱa und ᚱb
 export function mulRT(a: IRt, b: IRt): IRt {
-    return newRT(a.M()*b.M(), a.N()*b.D() + a.M()*b.N()*a.D() +a.N()*b.N(), a.D()*b.D(), a.X()*b.X());
+
+    let pm = a.M() * b.M();
+    let pn = a.N() * b.M() * b.D() + a.M() * b.N() * a.D() + a.N() * b.N();
+    let pd = a.D() * b.D();
+    let px = a.X() * b.X();
+
+    return newRT(pm, pn, pd, px);
+}
+
+// Größter gemeinsamer Teiler von a und b
+export function GGT(a: bigint, b: bigint) {
+    let h = 1n;
+    if (a == 0n) return abs(b);
+    if (b == 0n) return abs(a);
+
+    do {
+        h = mod(a, b);
+        a = b;
+        b = h;
+    } while (b != 0n)
+
+    return abs(a);
 }
 
 
