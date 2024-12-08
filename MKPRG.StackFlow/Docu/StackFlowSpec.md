@@ -16,11 +16,10 @@ Für die Berechnung relevante nummerische Werte als auch Strings werden vom Text
 
 Alle für den Parser unterscheidbaren Strukturen erhalten ein Präfix in Form einer nordischen **Rune**. 
 
-Die *Runen* werden in keiner heute mehr existierenden Sprache gennutzt. Damit sind die Präfixe, durch die Sparachstrukturen kenntlich werden, eindeutig von Textdaten unterscheidbar. 
+Die *Runen* werden in keiner heute mehr existierenden Sprache genutzt. Damit sind die Präfixe, durch die Sparachstrukturen kenntlich werden, eindeutig von Textdaten unterscheidbar. 
 
 ### Kommentare ᛭
 **᛭** schließt den Rest vom Parsen aus. Damit können nach **᛭** beliebige Kommentare notiert werden.
-
 
 ### Stapelspeicher ᛝ und die Operatoren ᛎ (push) ᛏ (pop) und ᛨ (push-pop)
 
@@ -30,11 +29,15 @@ Es können mittels dem Stack- Operator **ᛝ** beliebig viele Stapel zu Laufzeit
 
 Mittels **ᛝ _Stack_Name_** wird ein Stack angelegt, an den Namen gebunden und aktiviert. Aktiviert bedeutet, dass alle nachfolgenden Stackoperationen für diesen gültig sind.
 
+Auf einen bereits zuvor definierten Stack kann simple durch erneutes setzen von **ᛝ _Stack_Name_** zurückgeschaltet werden, wenn zwischenzeitlich ein anderer Stack aktiviert wurde. 
+
+Ein durch **ᛝ _Stack_Name_** definierter Stack ist global gültig. Möchte man einen nur im aktuellen Block gültigen benannten Stack definieren, dann ist dem Namen die Rune ᛫ voranzustellen, z.B. **ᛝ ᛫ _Stack_Name_**. Blöcke sind z.B. der Siegel **ᛋ**-, oder der Sowilo **ᛊ** Block.
+
 Die Stackoperation **_Wert_ᛎ** (push) speichert/legt den Wert auf den Stapel. Mittels der Stackoperation **ᛏ** (pop) kann der Wert wieder vom Stapel genommen werden. **ᛏᛟ_name_** nimmt einen Wert vom Stapel und bindet ihn an den Namen *_namen_* (siehe unten).
 
 Die Kombination aus **ᛎ** (push) und **ᛏ** pop ist **ᛨ** (push-pop). Dieser Operator kann auf Funktionsnamen angewendet werden. Die Funktionen lesen dann alle Argumente vom Stapel ein, und legen den Funktionswert auf den Stapel zurück. Zum Beispiel nimmt **ᛨm⋆a⟶F** den Wert für m und a vom Stapel und schreibt das Ergebnis **F** zurück auf den Stapel. ᛨ⎙
 
-Wird ein weiterer Stapel mittels **ᛝ _Stack_Name_2_** angelegt und aktiviert, dann existert der unter _Stack_Name_ zuerst weiter, ist jedoch nicht aktiv. Soll er wieder aktiv werden, dann muss **ᛝ _Stack_Name_** erneut aufgerufen werden.
+Wird ein weiterer Stapel mittels **ᛝ _Stack_Name_2_** angelegt und aktiviert, dann existiert der unter _Stack_Name_ zuerst weiter, ist jedoch nicht aktiv. Soll er wieder aktiv werden, dann muss **ᛝ _Stack_Name_** erneut aufgerufen werden.
 
 ```
 ᛭ Ein neuer Stack mit dem Namen S1 wird angelegt. Der Stack ist leer []
@@ -56,6 +59,12 @@ Wird ein weiterer Stapel mittels **ᛝ _Stack_Name_2_** angelegt und aktiviert, 
 ᛕ4ᛎ ᛕ5ᛎ ᛡxᛎ
 ᛭ S1 hat den Inhalt Bottom[1][2]Top
 ᛭ S2 hat den Inhalt Bottom[4][5][3]Top
+
+ᚪᛏᛏ᛬ᛖᚱ+                 ᛭ Hier werden zwei Werte vom Stack S2 entnommen und addiert. Er hat nun den Inhalt Bottom[4]Top
+   ᛋ ᛝ᛫Slokalᛎ ᚱ2ᛎ      ᛭ Ein zu ᛋ lokaler Stack wird eingerichtet. Er hat den Inhalt Bottom[8][2]Top
+     ᚪᛏᛏ᛬ᛖᚱ/            ᛭ Vom ᛋ lokalen Stack werden nun zwei Werte für die Division entnommen. Er ist nun leer.
+        ᛋ ᛝS2 ᛎ ᛩᛩ     ᛭ Es wird wieder auf den globalen Stack S2 zurückgeschaltet, und
+                       ᛭ in diesen der Quotient geschrieben: Bottom[4][4]Top
 ```
 
 ## Literale elementarer Datentypen
@@ -92,32 +101,37 @@ Die Basis kann in einen nummerischen Typ explizit definiert werden mit dem Präf
 ᛔ16
 ```
 
-### Kardinalzahlen ᛕ
+### Allgemeine, rationale Zahlen ᚱ
 
-**ᛕ** ist das Präfix für ganze Zahlen:
-```
-ᛕ 1          ⟺ 1
-ᛕ -123       ⟺ -123
-ᛕ ᛔ16 AFD    ⟺ nat. Zahl zur Basis 16 (hex)
-ᛕ ᛔ2  L00LLL ⟺ nat. Zahl zur Basis  2 (dual)  
-ᛕ ᛞ          ⟺ + Unendlich
-ᛕ -ᛞ         ⟺ - Unendlich
-```
-**ᛕᛠ** ist der Datentyp für Kardinalzahlen.
+**Stack ᛝ Flow** strebt eine exakte Zahlendarstellung an, und versucht so die Probleme von Gleitpunktzahlen zu vermeiden. Da technisch nur endliche Ziffernfolgen darstellbar sind, beschränkt sich **Stack ᛝ Flow** von vornherein auf die Darstellung rationaler Zahlen. 
+Spezielle transzendentalen Zahlen wie **π** oder **𝑒** werden durch ebendiese Symbole ausgedrückt, und mit der vom System maximal bereitstellbare Genauigkeit geliefert.
 
-### Gebrochen Rationale Zahlen ᚱ
+In **Stack ᛝ Flow** wird nicht weiter unterteilt in Festkomma und Gleitpunktzahlen. Die allgemeine, rationale Zahlendarstellung **ᚱ** ermöglicht die exakte Präsentation beider Datentypen.
 
-**ᚱ** ist das Präfix für gebrochen rationale Zahlen. Diese bestehen aus einem *Nenner* und einem *Zähler*, getrennt durch ein /. Die Rune **ᚷ** (Gebo) präfixed den Exponenten. Per default ist die *Basis* **10**, auch für den *Exponenten*. Mittels **ᛔ** kann eine abweichende *Basis* vereinbart werden.
+**ᚱ** ist das Präfix für Zahlen in **Stack ᛝ Flow**. Diese sind ein Quadrupel wie folgt: **ᚱ** = **(m, n, d, x)**. 
 
-1. `ᚱ *Zähler*` hier ist der Nenner stets 1
-2. `ᚱ *Zähler* / *Nenner*`
-3. `ᚱ *Ganzzahlig* *Zähler* / *Nenner*`
-4. `ᚱ *Ganzzahlig* *Zähler* / *Nenner* ᚷ *Exponent*`
-5. `ᚱ ᛔ *Basis* *Ganzzahlig* *Zähler* / *Nenner* ᚷ *Exponent*`
+Komponente | Bedeutung
+-----------|--------------------------------
+**m**      | Ganzzahliger Anteil einer Zahl
+**n**      | Nominator = Zähler des gebrochenen Anteils
+**d**      | Denominator = Nenner der gebrochenen Anteils
+**x**      | Faktor für Größenordnung (z.B. Zehnerpotenz)
+
+Notiert wird das durch **ᚱ m  n/d Xx)**. Der Zahlenwert errechnet sich dann zu **Wert= (m+n/d)*x**.
+
+*Nenner* und *Zähler* des gebrochenen Anteils werden durch ein **/** getrennt. Die Rune **ᚷ** (Gebo) präfixed den Exponenten. Per default ist die *Basis* **10**, auch für den *Exponenten*. Mittels **ᛔ** kann eine abweichende *Basis* vereinbart werden.
+
+Einzelne Komponenten des Tupels können in der **ᚱ** Definition auch weggelassen werden. So ergeben sich folgende Varianten
+
+1. **ᚱ m**
+2. **ᚱ n/d**
+3. **ᚱ m n/d**
+4. **ᚱ m n/d ᚷx**
+5. **ᚱ ᛔ *Basis* m n/d ᚷx**
 
 Beispiele:
 ```
-ᚱ 2     ⟺ 2/1 = 2.0
+ᚱ 2     ⟺ 2
 ᚱ 1/2   ⟺ 1/2 = 0.5
 ᚱ 1 2/3 ⟺ 1 2/3 = 1.666
 ᚱ -4/16 ⟺ -4/16 = -0.25
@@ -126,59 +140,30 @@ Beispiele:
 ```
 Die rationalen Zahlen können z.B. als Zoll- Maße genutzt werden
 
-**ᚱᛠ** ist der Datentyp für gebrochen rationale Zahlen.
-
-### Gleitpunktzahlen ᚪ
-
-**ᚩ** ist das Präfix für rationale Zahlen in der Gleitpunkt- Darstellung. Vor- und Nachkomma- Stellen werden durch , getrennt. Einen Exponenten zu Basis 10 
-
-```
-ᚩ 3       ⟺  3.0
-ᚩ 3,14    ⟺  3.14
-ᚩ -2,72   ⟺ -2.72
-ᚩ -2,72ᚷ3 ⟺ -2.72e3 = -2720 
-ᚩ ᛔ2 -L00,L0000 ⟺ -4,5 (binär)
-ᚩ ᛔ2 -L00,L0000  ᚷLL ⟺ -L00L00,00 = -36 (binär)
-```
-
-**ᚩᛠ** ist der Datentyp für Gleitpunkt- Zahlen.
-
-Die Datentypen **ᚱᛠ** und **ᚩᛠ** sind kompatibel bzw. austauschbar: Ein **ᚱᛠ** kann an ein **ᚩᛠ** zugewiesen werden und umgekehrt.
+**ᚱᛠ** ist der Datentyp für Zahlen in **Stack ᛝ Flow**.
 
 ### Mit imaginäre Zahlen 𝒾 erweitern zu den komplexen Zahlen
 
 Komplexe Zahlen kann man als die algebraische Kombination **re + 𝒾im** von reellen und imaginären Zahlen betrachten. Dabei ist **re ∈ ℝ** und **𝒾im ∈ 𝕀**. Der Imaginärteil erhält dabei das mathematische Schreibschrift **𝒾** (U +1D4BE) als Präfix. 
 
 ```
-𝒾ᛕ1               ⟺ 𝒾 ∈ 𝕀
-ᛕ1+𝒾ᛕ2            ⟺ 1+𝒾2 ∈ 𝕀
-ᚩ-2,72 + 𝒾ᚩ3,14   ⟺ -2.72+𝒾3.14 ∈ 𝕀
-ᚱ1 2/3 + 𝒾ᚱ7/8    ⟺ 1 2/3 + 𝒾7/8
+𝒾ᚱ1                        ⟺ 𝒾 ∈ 𝕀
+ᚱ1+𝒾ᚱ2                     ⟺ 1+𝒾2 ∈ 𝕀
+ᚱ-𝑒 + 𝒾ᚱπ                  ⟺ -2.72+𝒾3.14 ∈ 𝕀
+ᚱ1 2/3 + 𝒾ᚱ7/8             ⟺ 1 2/3 + 𝒾7/8
 ```
 
-### Konvertierungsregeln für die nummerischen Darstellungen
+### Nummerische Vereinfachung von ᚱ
 
-Eine **ᛕᛠ** kann ohne Genauigkeitsverlust in **ᚱᛠ** implizit Konvertiert werden. Deshalb können z.B. komplexe Zahlen aus **ᛕᛠ** und  **ᚱᛠ** bestehen:
-
-```
-ᛕ1+𝒾ᚱ7/8          ⟺ 1+𝒾7/8
-```
-
-Explizit kann ein **ᚱᛠ** aus **ᛕᛠ** wie folgt gewonnen werden:
-
-```
-ᛕ1ᛎ ᛕ2ᛎ ᛨ(ᛕᛠ, ᛕᛠ)⟶ᚱᛠ ᛏᛟr ⟺ r == ᚱ1/2 
-ᛕ3ᛎ ᛕ1ᛎ ᛕ2ᛎ ᛨ(ᛕᛠ, ᛕᛠ, ᛕᛠ)⟶ᚱᛠ ᛏᛟr ⟺ r == ᚱ3 1/2 
-```
+Sei **ᚱ m n/d ᚷ(a10^b+c)**, x kann also als Vielfaches einer 10-er Potenz plus einem Offset dargestellt werden, dann kann der Ausdruck vereinfacht werden zu: **ᚱ m(a10^b+c) n(a10^b+c)/d**
 
 
-**ᚱᛠ** in **ᛕᛠ** zu konvertieren ist mit Werteverlust verbunden. Die Konvertierung muss deshalb explizit mit folgenden Funktionen durchgeführt werden:  
+### Grundrechenoprationen auf ᚱ
 
-```
-ᚱ1 2/3ᛎ ᛨᚱᛠ⟶ceilᛕᛠ ᛏᛟk ⟺ k == 2
-ᚱ1 2/3ᛎ ᚱᛠ⟶floorᛕᛠ ᛏᛟk ⟺ k == 1
-ᚱ1 2/3ᛎ ᚱᛠ⟶roundᛕᛠ ᛏᛟk ⟺ k == 2
-```
+Sei **ᚱa** = **R m n/d ᚷx** und **ᚱb** = **R M N/D ᚷX**. Dann gilt:
+
+1. **ᚱa + ᚱb** = **ᚱ (mx+MX) (Dnx+dNX)/dD ᚷ1**
+2. **ᚱa x ᚱb** = **ᚱ mM (nMD+mNd+nN)/dD ᚷxX**
 
 
 ### Boolsche Werte ᛒ
