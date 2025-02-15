@@ -6,7 +6,7 @@ Last Update: mko, 12.2.2025
 
     ᛝS1 ᛭ Für die folgenden Berechnungen im Text wird ein separater Stack S1 angelegt.
 
-    Die Beschleunigung auf der Erde beträgt ᚱ981/100ᛎ ᛇm/s²ᛎ. Ein Mensch mit einem Gewicht von ᚱ120ᛎ ᛇkgᛎ wird mit der Kraft ᛨm⋆a⟶F ᛨ⎙ angezogen.
+    Die Beschleunigung auf der Erde beträgt ᚱ981/100ᛎ ᛇm/s²ᛎ. Ein Mensch mit einem Gewicht von ᚱ120ᛎ ᛇkgᛎ wird mit der Kraft ᛨᚱm⋆ᚱa⟶ᚱF ᛨ⎙ angezogen.
 
     ᛨm⋆a⟶F ᛨ⎙
 
@@ -117,6 +117,7 @@ In **Stack ᛝ Flow** wird nicht weiter unterteilt in Festkomma und Gleitpunktza
 Komponente | Bedeutung
 -----------|--------------------------------
 **m**      | Ganzzahliger Anteil einer Zahl
+**r**      | Rest bzw. Nachkommastellen
 **n**      | Nominator = Zähler des gebrochenen Anteils
 **d**      | Denominator = Nenner der gebrochenen Anteils
 **x**      | Faktor für Größenordnung (z.B. Zehnerpotenz)
@@ -132,6 +133,9 @@ Einzelne Komponenten des Tupels können in der **ᚱ** Definition auch weggelass
 3. **ᚱ m n/d**
 4. **ᚱ m n/d ᚷx**
 5. **ᚱ ᛔ *Basis* m n/d ᚷx**
+6. **ᚱ m,r**
+7. **ᚱ ᛔ *Basis* m,r**
+8. **ᚱ ᛔ *Basis* m,r ᚷx**
 
 Beispiele:
 ```
@@ -157,17 +161,25 @@ Komplexe Zahlen kann man als die algebraische Kombination **re + 𝒾im** von re
 ᚱ1 2/3 + 𝒾ᚱ7/8             ⟺ 1 2/3 + 𝒾7/8
 ```
 
-### Nummerische Vereinfachung von ᚱ
+### Nummerische Vereinfachung von ᚱ implementieren
 
 Sei **ᚱ m n/d ᚷ(a10^b+c)**, x kann also als Vielfaches einer 10-er Potenz plus einem Offset dargestellt werden, dann kann der Ausdruck vereinfacht werden zu: **ᚱ m(a10^b+c) n(a10^b+c)/d**
 
 
-### Grundrechenoprationen auf ᚱ
+### Grundrechenoprationen auf ᚱ implementieren
 
 Sei **ᚱa** = **R m n/d ᚷx** und **ᚱb** = **R M N/D ᚷX**. Dann gilt:
 
 1. **ᚱa + ᚱb** = **ᚱ (mx+MX) (Dnx+dNX)/dD ᚷ1**
 2. **ᚱa x ᚱb** = **ᚱ mM (nMD+mNd+nN)/dD ᚷxX**
+
+### Funktionen auf ᚱ darstellen in Stackflow
+
+Grundrechenarte wie Plus oder Mal sind vordefiniert, und operieren immer auf dem aktuell aktiven Stack. 
+
+```
+ᚱ1/2ᛎ ᚱ2 2/4ᛎ werden addiert mit ᛨᚱᚱ+ 
+```
 
 
 ### Boolsche Werte ᛒ
@@ -351,7 +363,7 @@ Um abstrakte Naming- IDs besser zu handhaben, können sie an lesbare Namen mitte
 ᛡᚻᚠMath BasicFunctions addᛩ
 
 ᛭ Hier wird über den hierarchichen Namen die Funktion aufgerufen
-ᛣᚻᚠMath BasicFunctions addᛩ  ᛕ1 ᛕ2
+ᛣᚻᚠMath BasicFunctions addᛩ  ᚱ1 ᚱ2
 ᛭ ᛟsum ist nur innerhalb des Siegel - Zweiges sichtbar
 ᛋ ᛏᛟsum ᛣprint ᛇ ᛡsum ist die Summe aus 1 uns 2 ᛩ
 ```
@@ -363,17 +375,17 @@ Um abstrakte Naming- IDs besser zu handhaben, können sie an lesbare Namen mitte
 
 ``` 
 ᛭ Array mit den ersten fünf Primzahlen
-ᚤ ᛕ2 ᛕ3 ᛕ5 ᛕ7 ᛕ11 ᛩ
+ᚤ ᚱ2 ᚱ3 ᚱ5 ᛕ7 ᚱ11 ᛩ
 
 ᛭ Array mit zwei Koordinaten
 ᚤ 
-   ᚹ ᛟx ᚪ2,72 ᛟy ᚪ3,14 ᛩ 
-   ᚹ ᛟx ᚪ5,3  ᛟy ᚪ1,7ᛩ ᛩ
+   ᚹ ᛟx ᚱ2,72 ᛟy ᚱ3,14 ᛩ 
+   ᚹ ᛟx ᚱ5,3  ᛟy ᚱ1,7ᛩ ᛩ
 ᛩ
 
 ᛭ Array aus Daten verschiedener Typen
 ᚤ    
-   ᚹ ᛟx ᛕ2 ᛟy ᛕ3 ᛩ 
+   ᚹ ᛟx ᚱ2 ᛟy ᚱ3 ᛩ 
    ᛕ13
    ᛇ Summe aus a² und b² ᛩ
 ᛩ
@@ -388,10 +400,10 @@ Array sind wie alle Werte unveränderlich (immutable): sie können nur gelesen, 
 Auf einzelne Elemente eines Arrays kann mittels Indexzugriffs- Operator **[_index_]** lesend zugegriffen werden. Dieser hat als Parameter den **0** basierte Index. Erw wird direkt auf Array angewendet:
 ```
 ᛭ An den Namen **dritterEintrag** ist nun der Wert ᛕ5 gebunden.
-ᚤ ᛕ2 ᛕ3 ᛕ5 ᛕ7 ᛕ11 ᛩ [2] ᛟ dritterEintrag 
+ᚤ ᚱ2 ᚱ3 ᚱ5 ᚱ7 ᚱ11 ᛩ [2] ᛟ dritterEintrag 
 
 ᛭ An den Namen **eineListe** wird ein Array gebunden
-ᚤ ᛕ2 ᛕ3 ᛕ5 ᛕ7 ᛕ11 ᛩ ᛟ eineListe
+ᚤ ᚱ2 ᚱ3 ᚱ5 ᚱ7 ᚱ11 ᛩ ᛟ eineListe
 
 ᛭ Der 3. Eintrag im Array wird ausgelesen und auf den Stapel gestellt.
 ᛡeineListe[2]ᛎ
@@ -403,23 +415,23 @@ Im letzten Beispiel wird die Priorität der Operatoren deutlich: höchste Priori
 Mittels des Expand- Operator **ᚷ** kann der Inhalt eines Array in ein anderes eingebettet werden
 
 ```
-ᚤ ᛕ2 ᛕ3 ᛩ ᛟ subArray
+ᚤ ᚱ2 ᚱ3 ᛩ ᛟ subArray
 
-᛭ ᛡnotExpandedArray ist ᚤ ᛕ1 ᚤ ᛕ2 ᛕ3 ᛩ ᛕ4ᛩ
+᛭ ᛡnotExpandedArray ist ᚤ ᚱ1 ᚤ ᚱ2 ᚱ3 ᛩ ᚱ4ᛩ
 ᚤ    
-   ᛕ1
+   ᚱ1
    ᛡsubArray 
-   ᛕ4 
+   ᚱ4 
 ᛩ ᛟ notExpandedArray
 
-᛭ ᛡres1 hat den Wert ᚤ ᛕ2 ᛕ3 ᛩ (Array) 
+᛭ ᛡres1 hat den Wert ᚤ ᚱ2 ᚱ3 ᛩ (Array) 
 ᛡnotExpandedArry [2] ᛟ res1
 
-᛭ ᛡexpandedArray ist ᚤ ᛕ1 ᛕ2 ᛕ3 ᛕ4ᛩ
+᛭ ᛡexpandedArray ist ᚤ ᚱ1 ᚱ2 ᚱ3 ᚱ4ᛩ
 ᚤ    
-   ᛕ1
+   ᚱ1
    ᚷᛡsubArray
-   ᛕ4 
+   ᚱ4 
 ᛩ ᛟexpandedArray
 
 ᛭ ᛡres21 hat den Wert ᛕ3 (einzelnener, ganzzahliger Wert) 
@@ -431,21 +443,21 @@ Mittels des Expand- Operator **ᚷ** kann der Inhalt eines Array in ein anderes 
 Mittels des Expand- Operator **ᚷ** können alle Elemente eines Array hintereinander auf den Stapel kopiert werden:
 
 ```
-ᛟmyArray ᚤ ᛕ1 ᛕ2 ᛩ 
+ᛟmyArray ᚤ ᚱ1 ᚱ2 ᛩ 
 
 ᛭ Array auf den Stapel kopieren
 ᛡmyArrayᛎ
 
 ᛭ Der Stapel hat nun die Belegung:
-᛭ [ᚤ ᛕ1 ᛕ2 ᛩ] Top
+᛭ [ᚤ ᚱ1 ᚱ2 ᛩ] Top
 
 ᛭ Jetzt werden anstatt des Array selbst die einzelnen Werte des Array  auf den Stapel kopiert
 ᛡmyArrayᚷᛎ
 
 ᛭ Der Stapel hat nun die Belegung:
-᛭ [ᛕ2       ] Top
-᛭ [ᛕ1       ]
-᛭ [ᚤ ᛕ1 ᛕ2 ᛩ] Bottom
+᛭ [ᚱ2       ] Top
+᛭ [ᚱ1       ]
+᛭ [ᚤ ᚱ1 ᚱ2 ᛩ] Bottom
 
 ```
 
