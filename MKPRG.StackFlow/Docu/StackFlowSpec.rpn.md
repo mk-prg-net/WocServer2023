@@ -4,7 +4,7 @@ Last Update: mko, 12.2.2025
 
 **Stack ᛝ Flow** ist eine minimalistische, formale Sprache zur Beschreibung aktiver Berechnungen aus laufendem Text heraus. Zum Beispiel kann eine auf dem newtonsche Grundgesetz **F=m⋆a** basierende Berechnung wie folgt definiert werden:
 
-    ᛝS1 ᛭ Für die folgenden Berechnungen im Text wird ein separater Stack S1 angelegt.
+    Für die folgenden Berechnungen im Text wird ein separater Stack S1 angelegt: ᛝS1.
 
     Die Beschleunigung auf der Erde beträgt ᚱ981/100ᛎ ᛇm/s²ᛎ. Ein Mensch mit einem Gewicht von ᚱ120ᛎ ᛇkgᛎ wird mit der Kraft ᛨᚱm⋆ᚱa⟶ᚱF ᛨ⎙ angezogen.
 
@@ -117,14 +117,15 @@ In **Stack ᛝ Flow** wird nicht weiter unterteilt in Festkomma und Gleitpunktza
 Komponente | Bedeutung
 -----------|--------------------------------
 **m**      | Ganzzahliger Anteil einer Zahl
-**r**      | Rest bzw. Nachkommastellen
 **n**      | Nominator = Zähler des gebrochenen Anteils
 **d**      | Denominator = Nenner der gebrochenen Anteils
 **x**      | Faktor für Größenordnung (z.B. Zehnerpotenz)
 
-Notiert wird das durch **ᚱ m  n/d Xx)**. Der Zahlenwert errechnet sich dann zu **Wert= (m+n/d)*x**.
+Notiert wird das durch **ᚱ m  n/d Xx**. Der Zahlenwert errechnet sich dann zu **Wert= (m+n/d)*x**.
 
 *Nenner* und *Zähler* des gebrochenen Anteils werden durch ein **/** getrennt. Die Rune **ᚷ** (Gebo) präfixed den Exponenten. Per default ist die *Basis* **10**, auch für den *Exponenten*. Mittels **ᛔ** kann eine abweichende *Basis* vereinbart werden.
+
+Neben der Darstellung als Bruch kann eine rationale Zahl auch in der gewohnten Gleitpunktsyntax mit **m,r** wobei **r** die Nachkommastellen darstellt.
 
 Einzelne Komponenten des Tupels können in der **ᚱ** Definition auch weggelassen werden. So ergeben sich folgende Varianten
 
@@ -141,8 +142,9 @@ Beispiele:
 ```
 ᚱ 2     ⟺ 2
 ᚱ 1/2   ⟺ 1/2 = 0.5
-ᚱ 1 2/3 ⟺ 1 2/3 = 1.666
-ᚱ -4/16 ⟺ -4/16 = -0.25
+ᚱ 0,5   ⟺ 1/2 = 0.5
+ᚱ 1 2/3 ⟺ 1 2/3 = 1.66...
+ᚱ -4/16 ⟺ -4/16 = -1/4 = -0.25
 ᚱ ᛔ2 -L00/L0000 ⟺ -4/16 = -0.25 im binärsystem
 ᚱ ᛔ2 -L/L000 ᚷLL ⟺ -1 = -1/8 * 2^3
 ```
