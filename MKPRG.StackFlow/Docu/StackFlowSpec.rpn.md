@@ -6,23 +6,22 @@ Last Update: mko, 12.2.2025
 
     Für die folgenden Berechnungen im Text wird ein separater Stack S1 angelegt: ᛝS1.
 
-    Die Beschleunigung auf der Erde beträgt ᚱ981/100ᛎ ᛇm/s²ᛎ. Ein Mensch mit einem Gewicht von ᚱ120ᛎ ᛇkgᛎ wird mit der Kraft ᛨᚱm⋆ᚱa⟶ᚱF ᛨ⎙ angezogen.
-
-    ᛨm⋆a⟶F ᛨ⎙
+    Die Beschleunigung auf der Erde beträgt ᚱ:981/100ᛎ ᛇ:m/s²ᛎ. Ein Mensch mit einem Gewicht von ᚱ:120ᛎ ᛇ:kgᛎ wird mit der Kraft ᛨᚱ:m⋆ᚱ:a⟶ᚱ:Fᛎ ᛨ⎙ angezogen.
+    
 
 
 Für die Berechnung relevante nummerische Werte als auch Strings werden vom Text durch spezielle Präfixe wie ᚱ und ᛇ separiert. Mittels des Operators ᛎ werden diese in einen Stapelspeicher im Hintergrund geschrieben, aus dem dann Funktionen wie ᛨm⋆a⟶F oder ᛨ⎙ diese einlesen, verarbeiten und auf den Stapel wieder zurückschreiben. ᛨ⎙ liest zum Beispiel den gesamten Stapel aus, und blendet ihn hinter dem Funktionsaufruf in den Text ein.
 
 ## Grundlagen
 
-### Runen als Präfix
+### Runen als Präfixe und Funktionssymbole
 
-Alle für den Parser unterscheidbaren Strukturen erhalten ein Präfix in Form einer nordischen **Rune**. 
+Alle für den Parser unterscheidbaren Strukturen und Funktionen erhalten ein Präfix in Form einer nordischen **Rune**. 
 
 Die *Runen* werden in keiner heute mehr existierenden Sprache genutzt. Damit sind die Präfixe, durch die Sparachstrukturen kenntlich werden, eindeutig von Textdaten unterscheidbar. 
 
 ### Kommentare ᛭
-**᛭** schließt den Rest vom Parsen aus. Damit können nach **᛭** beliebige Kommentare notiert werden.
+**᛭** schließt den Rest vom Parsen aus. Damit können nach **᛭** beliebige Kommentare notiert werden, die auch Runen, also Schlüsselwörter von Stackflow enthalten!
 
 ### Stapelspeicher ᛝ und die Operatoren ᛎ (push) ᛏ (pop) und ᛨ (push-pop)
 
@@ -32,15 +31,15 @@ Es können mittels dem Stack- Operator **ᛝ** beliebig viele Stapel zu Laufzeit
 
 Mittels **ᛝ _Stack_Name_** wird ein Stack angelegt, an den Namen gebunden und aktiviert. Aktiviert bedeutet, dass alle nachfolgenden Stackoperationen für diesen gültig sind.
 
+Wird ein weiterer Stapel mittels **ᛝ _Stack_Name_2_** angelegt und aktiviert, dann existiert der unter **_Stack_Name_** zuerst definierte weiter, ist jedoch nicht aktiv.
+
 Auf einen bereits zuvor definierten Stack kann simple durch erneutes setzen von **ᛝ _Stack_Name_** zurückgeschaltet werden, wenn zwischenzeitlich ein anderer Stack aktiviert wurde. 
 
-Ein durch **ᛝ _Stack_Name_** definierter Stack ist global gültig. Möchte man einen nur im aktuellen Block gültigen benannten Stack definieren, dann ist dem Namen die Rune ᛫ voranzustellen, z.B. **ᛝ ᛫ _Stack_Name_**. Blöcke sind z.B. der Siegel **ᛋ**-, oder der Sowilo **ᛊ** Block.
+Ein durch **ᛝ _Stack_Name_** definierter Stack ist global gültig. Möchte man einen nur im aktuellen Block gültigen benannten Stack definieren, dann ist dem Namen die Rune ᛫ (Runic single Punctuation) voranzustellen, z.B. **ᛝ ᛫ _Stack_Name_**. Blöcke sind z.B. der Siegel **ᛋ**-, oder der Sowilo **ᛊ** Block.
 
 Die Stackoperation **_Wert_ᛎ** (push) speichert/legt den Wert auf den Stapel. Mittels der Stackoperation **ᛏ** (pop) kann der Wert wieder vom Stapel genommen werden. **ᛏᛟ_name_** nimmt einen Wert vom Stapel und bindet ihn an den Namen *_namen_* (siehe unten).
 
-Die Kombination aus **ᛎ** (push) und **ᛏ** pop ist **ᛨ** (push-pop). Dieser Operator kann auf Funktionsnamen angewendet werden. Die Funktionen lesen dann alle Argumente vom Stapel ein, und legen den Funktionswert auf den Stapel zurück. Zum Beispiel nimmt **ᛨm⋆a⟶F** den Wert für m und a vom Stapel und schreibt das Ergebnis **F** zurück auf den Stapel. ᛨ⎙
-
-Wird ein weiterer Stapel mittels **ᛝ _Stack_Name_2_** angelegt und aktiviert, dann existiert der unter _Stack_Name_ zuerst weiter, ist jedoch nicht aktiv. Soll er wieder aktiv werden, dann muss **ᛝ _Stack_Name_** erneut aufgerufen werden.
+Die Kombination aus **ᛎ** (push) und **ᛏ** pop ist **ᛨ** (push-pop). Dieser Operator kann auf Funktionsnamen angewendet werden. Die Funktionen lesen dann alle Argumente vom Stapel ein, und legen den Funktionswert auf den Stapel zurück. Zum Beispiel nimmt **ᛨR:m⋆ᚱ:a⟶ᚱ:F** den Wert für m und a vom Stapel und schreibt das Ergebnis **F** zurück auf den Stapel.  
 
 ```
 ᛭ Ein neuer Stack mit dem Namen S1 wird angelegt. Der Stack ist leer []
@@ -63,15 +62,33 @@ Wird ein weiterer Stapel mittels **ᛝ _Stack_Name_2_** angelegt und aktiviert, 
 ᛭ S1 hat den Inhalt Bottom[1][2]Top
 ᛭ S2 hat den Inhalt Bottom[4][5][3]Top
 
-ᚪᛏᛏ᛬ᛖᚱ+                 ᛭ Hier werden zwei Werte vom Stack S2 entnommen und addiert.
-                       ᛭ Er hat nun den Inhalt Bottom[4]Top                       
+ᛏ(ᚱa ᚱb) ⟶ a+b        ᛭ Hier werden zwei Werte vom Stack S2 durch die Funktion mit dem Namen a+b,
+                       ᛭ die zwei rationale Zahlen als PArameter erwartet, entnommen und addiert.
+                       ᛭ Stack S2 hat nun den Inhalt Bottom[4]Top                       
    ᛋ ᛝ᛫Slokalᛎ ᚱ2ᛎ      ᛭ Ein zu ᛋ lokaler Stack wird eingerichtet. Er hat den Inhalt Bottom[8][2]Top
-     ᚪᛏᛏ᛬ᛖᚱ/            ᛭ Vom ᛋ lokalen Stack werden nun zwei Werte für die Division entnommen. Er ist nun leer.
+     ᛏ(ᚱa ᚱb) ⟶ a/b   ᛭ Vom ᛋ lokalen Stack werden nun zwei Werte für die Division entnommen. Er ist nun leer.
         ᛋ ᛝS2 ᛎ ᛩᛩ     ᛭ Es wird wieder auf den globalen Stack S2 zurückgeschaltet, und
                        ᛭ in diesen der Quotient geschrieben: Bottom[4][4]Top
 ```
 
 ## Literale elementarer Datentypen
+
+*Literale* bilden einen Vorrat an Symbolen, die an elementare Dinge der Welt gebunden werden wie die Wörter einer Sprache, die Mächtigkeiten von Mengen oder einfache Beziehungen.
+
+## Präfixieren
+
+Literale wie die Wörter einer Sprache wie z.B. das Stringliteral *Welt* werden gewöhnlich *frei* notiert. Das bedeutet, sie sind frei nutz- bzw. einsetzbar z.B. in der Parameterliste einer Funktion.
+
+Durch Präfixe können solche Literale aber an Bedeutungen gebunden werden, und ihr Einsatz damit eingeschränkt werden. 
+
+Präfixe werden einem Wert vorangestellt, und durch einen Doppelpunkt separiert: `Präfix:Wert`
+
+In Stackflow können bestimmte Teilmengen von Literalen als Präfixe eingesetzt werden. Zu diesen Teilmengen gehören zum einen die Datentyp- Symbole in Form von Runen wie ᚱ, ᚱ und ᛇ aber auch die Menge der *Strings* selbst, wodurch der Autor eines Stack- Flow Textes die Freiheit hat, beliebige Präfixe zu definieren. 
+
+Z.B. werden nummerische Literale mit Präfix **ᚱ** versehen, und werden so auf den Bereich der rationalen Zahlen eingeschränkt: `ᚱ:3 1/2`
+
+Präfixe wie **ᚱ** sind Stackflow- Schlüsselwörter und als Runen im Text so prägnant, das die **:** zum abtrennen des Werte weggelassen werden können: `ᚱ3 1/2`
+
 
 ### Präfixe für die Notation von Zahlenwerten
 Eine Gleitpunktzahl wie **3.14** ist eine kulturspezifische Notation (**en-US**). 
@@ -105,7 +122,7 @@ Die Basis kann in einen nummerischen Typ explizit definiert werden mit dem Präf
 ᛔ16
 ```
 
-### Allgemeine, rationale Zahlen ᚱ
+### Allgemeine, rationale Zahlen mit ᚱ Präfix auszeichnen
 
 **Stack ᛝ Flow** strebt eine exakte Zahlendarstellung an, und versucht so die Probleme von Gleitpunktzahlen zu vermeiden. Da technisch nur endliche Ziffernfolgen darstellbar sind, beschränkt sich **Stack ᛝ Flow** von vornherein auf die Darstellung rationaler Zahlen. 
 Spezielle transzendentalen Zahlen wie **π** oder **𝑒** werden durch ebendiese Symbole ausgedrückt, und mit der vom System maximal bereitstellbare Genauigkeit geliefert.
@@ -129,24 +146,24 @@ Neben der Darstellung als Bruch kann eine rationale Zahl auch in der gewohnten G
 
 Einzelne Komponenten des Tupels können in der **ᚱ** Definition auch weggelassen werden. So ergeben sich folgende Varianten
 
-1. **ᚱ m**
-2. **ᚱ n/d**
-3. **ᚱ m n/d**
-4. **ᚱ m n/d ᚷx**
-5. **ᚱ ᛔ *Basis* m n/d ᚷx**
-6. **ᚱ m,r**
-7. **ᚱ ᛔ *Basis* m,r**
-8. **ᚱ ᛔ *Basis* m,r ᚷx**
+1. **ᚱm**
+2. **ᚱn/d**
+3. **ᚱm n/d**
+4. **ᚱm n/d ᚷx**
+5. **ᚱᛔ *Basis* m n/d ᚷx**
+6. **ᚱm,r**
+7. **ᚱᛔ *Basis* m,r**
+8. **ᚱᛔ *Basis* m,r ᚷx**
 
 Beispiele:
 ```
-ᚱ 2     ⟺ 2
-ᚱ 1/2   ⟺ 1/2 = 0.5
-ᚱ 0,5   ⟺ 1/2 = 0.5
-ᚱ 1 2/3 ⟺ 1 2/3 = 1.66...
-ᚱ -4/16 ⟺ -4/16 = -1/4 = -0.25
-ᚱ ᛔ2 -L00/L0000 ⟺ -4/16 = -0.25 im binärsystem
-ᚱ ᛔ2 -L/L000 ᚷLL ⟺ -1 = -1/8 * 2^3
+ᚱ2     ⟺ 2
+ᚱ1/2   ⟺ 1/2 = 0.5
+ᚱ0,5   ⟺ 1/2 = 0.5
+ᚱ1 2/3 ⟺ 1 2/3 = 1.66...
+ᚱ-4/16 ⟺ -4/16 = -1/4 = -0.25
+ᚱᛔ2 -L00/L0000 ⟺ -4/16 = -0.25 im binärsystem
+ᚱᛔ2 -L/L000 ᚷLL ⟺ -1 = -1/8 * 2^3
 ```
 Die rationalen Zahlen können z.B. als Zoll- Maße genutzt werden
 
@@ -157,10 +174,10 @@ Die rationalen Zahlen können z.B. als Zoll- Maße genutzt werden
 Komplexe Zahlen kann man als die algebraische Kombination **re + 𝒾im** von reellen und imaginären Zahlen betrachten. Dabei ist **re ∈ ℝ** und **𝒾im ∈ 𝕀**. Der Imaginärteil erhält dabei das mathematische Schreibschrift **𝒾** (U +1D4BE) als Präfix. 
 
 ```
-𝒾ᚱ1                        ⟺ 𝒾 ∈ 𝕀
-ᚱ1+𝒾ᚱ2                     ⟺ 1+𝒾2 ∈ 𝕀
-ᚱ-𝑒 + 𝒾ᚱπ                  ⟺ -2.72+𝒾3.14 ∈ 𝕀
-ᚱ1 2/3 + 𝒾ᚱ7/8             ⟺ 1 2/3 + 𝒾7/8
+ᚱ𝒾1                       ⟺ 𝒾 ∈ 𝕀
+ᚱ1+𝒾2                     ⟺ 1+𝒾2 ∈ 𝕀
+ᚱ-𝑒 + 𝒾π                   ⟺ -2.72+𝒾3.14 ∈ 𝕀
+ᚱ1 2/3 + 𝒾7/8             ⟺ 1 2/3 + 𝒾7/8
 ```
 
 ### Nummerische Vereinfachung von ᚱ implementieren
@@ -172,28 +189,35 @@ Sei **ᚱ m n/d ᚷ(a10^b+c)**, x kann also als Vielfaches einer 10-er Potenz pl
 
 Sei **ᚱa** = **R m n/d ᚷx** und **ᚱb** = **R M N/D ᚷX**. Dann gilt:
 
-1. **ᚱa + ᚱb** = **ᚱ (mx+MX) (Dnx+dNX)/dD ᚷ1**
-2. **ᚱa x ᚱb** = **ᚱ mM (nMD+mNd+nN)/dD ᚷxX**
+1. **ᚱa + ᚱb** = **ᚱ: (mx+MX) (Dnx+dNX)/dD ᚷ1**
+2. **ᚱa x ᚱb** = **ᚱ: mM (nMD+mNd+nN)/dD ᚷxX**
 
 ### Funktionen auf ᚱ darstellen in Stackflow
 
 Grundrechenarte wie Plus oder Mal sind vordefiniert, und operieren immer auf dem aktuell aktiven Stack. 
 
+Formel          |  Operation
+----------------|-----------------------------------------
+(ᚱa ᚱb) ⟶ a+b  | Addition zweier rationaler Zahlen
+(ᚱ…) ⟶ +…      | Addition aller  rationaler Zahlen auf dem Stack, bis der Stack leer ist, oder ein nicht nummerischer Wert auf dem Stack liegt.
+(ᚱa ᚱb) ⟶ a-b  | Subtraktion zweier rationaler Zahlen
+(ᚱa ᚱb) ⟶ a/b  | Division zweier rationaler Zahlen
+(ᚱa ᚱb) ⟶ a*b  | Multiplikation zweier rationaler Zahlen
+(ᛇa ᛇb) ⟶ a+b  | Addition zweier Zeichenketten
 ```
-ᚱ1/2ᛎ ᚱ2 2/4ᛎ werden addiert mit ᛨᚱᚱ+ 
+ᚱ1/2ᛎ ᚱ2 2/4ᛎ werden addiert mit ᛏ(ᚱa ᚱb) ⟶ a+b 
 ```
 
-
-### Boolsche Werte ᛒ
+### Boolsche Werte ᛒ Präfix auszeichnen
 
 **ᛒ** ist das Präfix für boolsche Werte. Die beiden möglichen boolschen Werte werden durch die Namen **true** und **false** ausgedrückt:
 ```
-ᛒ true  ⟺ True
-ᛒ false ⟺ False
+ᛒ:true  ⟺ True
+ᛒ:false ⟺ False
 ```
 **ᛒᛠ** ist der Datentyp für boolsche Werte.
 
-### Strings ᛇ
+### Strings mit ᛇ Präfix 
 
 *Strings* sind Listen aus beliebigen Zeichen. Sie können auch Leerzeichen enthalten.
 
@@ -206,11 +230,11 @@ Hallo
 ᛭ geschlossener Strings, die einzelne Hierarchieebenen benennen
 ᚠ All Galaxieen Andromeda ᛩ 
 ```
-Enthalten *Strings* Leerzeichen, dann müssen sie in ein **S-Array**: `ᛇ ... ᛩ`   gesetzt werden. **ᛇ** ist das Präfix für String- Listen.
+Enthalten *Strings* Leerzeichen, dann müssen sie in ein **S-Array**: `ᛇ ... ᛩ`   gesetzt werden. **ᛇ** (Iwaz) ist das Präfix für String- Listen.
 
 Die Leerzeichen sind innerhalb eines String- Array geschützt.  
 
-Sehr Lange Strings können mittels **ᛢ** auf mehrere Zeilen umgebrochen werden.
+Sehr Lange Strings können mittels **ᛢ** (Cweorth) auf mehrere Zeilen umgebrochen werden.
 ```
 ᛭ String aus mehreren Wörtern. Die Leerzeichen sind geschützt
 ᛇHallo    Weltᛩ
@@ -225,13 +249,17 @@ So wird *Text* und *Logik* vollständig vermischt.ᛩ
 
 Werden in einem String Namensreferenzen eingesetzt, die beim Abruf des Strings evaluiert werden, dann liegt eine Stringinterpolation vor.
 
-Sei **ᛟattrib schöne** eine Namensbindung. Dann kann eine Stringinterpolation wie folgt definiert werden:
+Sei `ᛟattrib schöne` eine Namensbindung. Dann kann eine Stringinterpolation wie folgt definiert werden:
 
-**ᛇ Hallo *ᛡattrib* Welt ᛩ** 
+```
+ᛇ Hallo ᛡattrib Welt ᛩ
+```
 
 Diese wird dann evaluiert zu:
 
-**ᛇ Hallo schöne Welt ᛩ** 
+```
+ᛇ Hallo schöne Welt ᛩ
+```
 
 ### Hierarchieen ᚠ
 
@@ -258,7 +286,7 @@ Attribute bzw Namensbindungen sind wie folgt aufgebaut: `<Wert> ᛟ <Name als St
 Beispiele:
 ```
 ᛭ Konstante PI definieren
-ᚱ314/100 ᛟ PI 
+ᚱ:314/100 ᛟ PI 
 
 ᛭ Liste der ersten fünf Primzahlen an einen Namen binden
 ᚤᛕ2 ᛕ3 ᛕ5 ᛕ7 ᛕ11ᛩ ᛟ ersteFünfPrimzahlen
