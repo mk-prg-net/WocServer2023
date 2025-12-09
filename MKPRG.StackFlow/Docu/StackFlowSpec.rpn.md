@@ -507,7 +507,7 @@ Die Verarbeitung von Daten erfolgt durch einzelne, benannte *Verarbeitungsstufen
 
 ```
 ᛭ Syntaktischer Aufbau einer Verarbeitungsstufe
-ᚪ ᛠ_E1 ... ᛠ_En ᛬ ᛖ_NameVerarbeitungsstufe 
+ᛏ(ᛠ_E1 ... ᛠ_En) ⟶ ⟨Name Verarbeitungsstufe oder Formel⟩
     ᛋ _Nachfolgende_Verarbeitungsfunktion_im_SIGEL_Zweig_
     ᛊ _Nachfolgende_Verarbeitungsfunktion_im_SOWILO_Zweig_
 ᛩ _Abschluss_oder_Nachfolge_Funktion_am_Ausgang_
@@ -533,30 +533,30 @@ Am Ende müssen aber beide Pfade wieder am Ausgang zu einem Pfad zusammengeführ
 ```
 ### Eingangswerte/Paramter
 
-Jede Stufe kann parametriert werden. Die Parameter (oder Eingangswerte) werden auf dem Stapelspeicher bereitgestellt. Der Stapelspeicher kann unmittelbar nach dem Stufennamen mittel ᛎ (push) Operatoren vor Aufruf der Stufe mit den benötigten Parametern befüllt werden.
+Jede Stufe kann parametriert werden. Die Parameter (oder Eingangswerte) werden auf dem Stapelspeicher bereitgestellt. Der Stapelspeicher kann unmittelbar vor dem Aufruf der VErarbeitungsstufe mittels ᛎ (push) Operatoren mit den benötigten Parametern befüllt werden.
 
 Eine einfache Verarbeitungsstufe, die dieses Prinzip direkt auzsnutzt, ist die **push** Stufe. Sie legt alle Eingangsparameter unverändert auf dem Stapel des Laufzeisystems ab:
 
 ```
                 Inhalt Stapelspeicher
                    --+---+--+
-ᛣ push  a ... z    a | b | c|
+aᛎ ... zᛎ          a | b | c|
                    --+---+--+
              ⇠ ᛋ   ↵   
              ⇠ ᛊ   ↵
-             ↳ ᛉ
+             ↳ ᛩ
 ```
 
 #### Annahmen zum Stapelspeicher definieren
 
-Da jede Stufe ihre Parameter vom Stapel liest, muss sichergestellt werden, dass auch alle benötigten Parameter auf dem Stapel für die Stufe bereitstehen. Die Prüfung des Stapelspeichers erfolgt durch die Stufe zur Laufzeit. NYT stellt zudem eine generische Implementierung für solche Prüfungen bereit durch **Musterbelegungen**:
+Da jede Stufe ihre Parameter vom Stapel liest, muss sichergestellt werden, dass auch alle benötigten Parameter auf dem Stapel für die Stufe bereitstehen. Die Prüfung des Stapelspeichers erfolgt durch die Stufe zur Laufzeit. **StackFlow** stellt eine generische Implementierung für solche Prüfungen bereit durch **Musterbelegungen**:
 
-𝑫𝒆𝒇 **Musterbelegung**: ist eine Liste von Typnamen nach der INGWAZ Rune: `ᛜ ᛠ1 … ᛠn`. Der erste Typname `ᛠ1` bezeichnet dabei den Datentyp des ersten Wertes auf dem Stapelspeicher, der zweite `ᛠ2` den des zweiten Wertes auf dem Stapelspeicher usw.. 
+𝑫𝒆𝒇 **Musterbelegung**: ist eine Liste von Typnamen in runden Klammern: `(ᛠ1 … ᛠn)`. Der erste Typname `ᛠ1` bezeichnet dabei den Datentyp des ersten Wertes auf dem Stapelspeicher, der zweite `ᛠ2` den des zweiten Wertes auf dem Stapelspeicher usw.. 
 
-Die **Musterbelegung** kann an die Parameterliste einer Stufe angehangen werden, und definiert eine Annahme über die Belegung des Stapelspeichers vor dem Einkellern der Parameter einer Stufe:
+Die **Musterbelegung** definiert eine Annahme über die Belegung des Stapelspeichers vor der Ausführung einer Stufe:
 ```
 
-p1ᛎ  …  pnᛎ ᛣstufenName ᛜ ᛠ1  …  ᛠm ᛉ
+p1ᛎ  …  pnᛎ            ᛏ(ᛠ1  …  ᛠm) ⟶ ⟨Name Verarbeitungsstufe oder Formel⟩ ᛋ ⟨Fortsetzung, falls fehlerfrei⟩ ᛩ ᛊ ⟨Fortsetzung, falls Fehler⟩ ᛩ
 \---+---/               \---+---/
     |                       | 
 Einzukellernde   Annahme über die bereits auf     
@@ -571,7 +571,7 @@ Wenn eine **Musterbelegung** nicht zutrifft, dann wird eine Fehlermeldung erzeug
 ᛕ77ᛎ ᛕ88ᛎ
 
 ᛭ Hier wird eine Musterbelegung von zwei Kardinalzahlen auf dem Stapelspeicher angenommen.
-ᛣadd ᛜ ᛕᛠ ᛕᛠ
+(ᛕᛠ ᛕᛠ) ⟶ +
 ᛊ ᛣprintᛉ
 ᛉ
 ```
