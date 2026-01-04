@@ -83,7 +83,7 @@ Durch Präfixe können solche Literale aber an Bedeutungen gebunden werden, und 
 
 Präfixe werden einem Wert vorangestellt, und durch einen Doppelpunkt separiert: `Präfix:Wert`
 
-In Stackflow können bestimmte Teilmengen von Literalen als Präfixe eingesetzt werden. Zu diesen Teilmengen gehören zum einen die Datentyp- Symbole in Form von Runen wie ᚱ, ᚱ und ᛇ aber auch die Menge der *Strings* selbst, wodurch der Autor eines Stack- Flow Textes die Freiheit hat, beliebige Präfixe zu definieren. 
+In Stackflow können bestimmte Teilmengen von Literalen als Präfixe eingesetzt werden. Zu diesen Teilmengen gehören zum einen die Datentyp- Symbole in Form von Runen wie ᚱ, aber auch die Menge der *Strings* selbst, wodurch der Autor eines Stack- Flow Textes die Freiheit hat, beliebige Präfixe zu definieren. 
 
 Z.B. werden nummerische Literale mit Präfix **ᚱ** versehen, und werden so auf den Bereich der rationalen Zahlen eingeschränkt: `ᚱ:3 1/2`
 
