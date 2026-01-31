@@ -46,7 +46,7 @@ namespace MKPRG.Naming.NYT.Keywords
         public string GlyphUniCode => Glyphs.StackFlow.Comment;
         public override string Glyph => Glyphs.StackFlow.CommentHtm;
 
-        public string EditShortCut => "#x";        
+        public string EditShortCut => "#c";        
     }
 
     public class ArrayBegin
@@ -424,6 +424,28 @@ namespace MKPRG.Naming.NYT.Keywords
         public string EditShortCut => "#h";
     }
 
+    public class PhysicalUnit
+        : NamingBase,
+        IGlyphUniCode,
+        IEditShortCut
+    {
+        public const long UID = 0x389CF2E210B44880L;
+
+        public PhysicalUnit()
+            : base(UID)
+        {
+        }
+
+        public override string CNT => "physUnit";
+        public override string DE => "physikalische Einheit";
+        public override string EN => "physical unit";
+
+        public string GlyphUniCode => Glyphs.StackFlow.BjarkanBool;
+        public override string Glyph => Glyphs.StackFlow.BjarkanBoolHtm;
+
+        public string EditShortCut => "#b";
+    }
+
     public class BoolValue
         : NamingBase,
         IGlyphUniCode,
@@ -668,26 +690,92 @@ namespace MKPRG.Naming.NYT.Keywords
         public string EditShortCut => "#l";
     }
 
-    public class TyrGoto
+    public class Pop
         : NamingBase,
         IGlyphUniCode,
         IEditShortCut
     {
         public const long UID = 0x1F62197DE6E8423FL;
 
-        public TyrGoto()
+        public Pop()
             : base(UID)
         {
         }
 
-        public override string CNT => "nytGoto";
-        public override string DE => "Goto";
-        public override string EN => "Goto";
+        public override string CNT => "nytPop";
+        public override string DE => "Pop";
+        public override string EN => "pop";
 
-        public string GlyphUniCode => Glyphs.StackFlow.TyrGoto;
-        public override string Glyph => Glyphs.StackFlow.TyrGoto;
+        public string GlyphUniCode => Glyphs.StackFlow.TyrPop;
+        public override string Glyph => Glyphs.StackFlow.TyrPop;
+
+        public string EditShortCut => "#1";
+    }
+
+    public class Push
+        : NamingBase,
+        IGlyphUniCode,
+        IEditShortCut
+    {
+        public const long UID = 0x11A37D28A36B8EFBL;
+
+        public Push()
+            : base(UID)
+        {
+        }
+
+        public override string CNT => "nytPush";
+        public override string DE => "Push";
+        public override string EN => "psuh";
+
+        public string GlyphUniCode => Glyphs.StackFlow.ZPush;
+        public override string Glyph => Glyphs.StackFlow.ZPushHtm;
+
+        public string EditShortCut => "#2";
+    }
+
+    public class PhysUnit
+        : NamingBase,
+        IGlyphUniCode,
+        IEditShortCut
+    {
+        public const long UID = 0x475524C2A7F453B5L;
+
+        public PhysUnit()
+            : base(UID)
+        {
+        }
+
+        public override string CNT => "nytPhysUnit";
+        public override string DE => "physikalische Einheit";
+        public override string EN => "physical unit";
+
+        public string GlyphUniCode => Glyphs.StackFlow.PhysicalUnit;
+        public override string Glyph => Glyphs.StackFlow.PhysicalUnit;
 
         public string EditShortCut => "#y";
+    }
+
+    public class MathOp
+    : NamingBase,
+    IGlyphUniCode,
+    IEditShortCut
+    {
+        public const long UID = 0x6A1849F7ED4B1516L;
+
+        public MathOp()
+            : base(UID)
+        {
+        }
+
+        public override string CNT => "nytMathOp";
+        public override string DE => "mathematischer Operator";
+        public override string EN => "mothematical Operator";
+
+        public string GlyphUniCode => Glyphs.StackFlow.MathOp;
+        public override string Glyph => Glyphs.StackFlow.MathOpHtm;
+
+        public string EditShortCut => "#x";
     }
 
 

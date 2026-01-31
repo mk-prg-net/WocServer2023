@@ -835,8 +835,13 @@ namespace MKPRG.Naming
             public static string SowiloBranch => "ᛊ";
             public static string SowiloBranchHtm => "&#x16CA;";
 
-            public static string TyrGoto => "ᛏ";
-            public static string TyrGotoHtm => "&#x16CF;";
+            // ᛏ Tyr Pop
+            public static string TyrPop => "ᛏ";
+            public static string TyrPopHtm => "&#x16CF;";
+
+            // ᛎ Z Push
+            public static string ZPush => "ᛎ";
+            public static string ZPushHtm => "&#x16CE;";
 
             // ᛋᛏ Switch to Siegel Branch
             public static string SwitchToSiegelBranch => "ᛋᛏ";
@@ -845,7 +850,6 @@ namespace MKPRG.Naming
             // ᛊᛏ Switch to Soowilo Branch
             public static string SwitchToSowiloBranch => "ᛊᛏ";
             public static string SwitchToSowiloBranchHtm => "&#x16CA;&#x16CF;";
-
 
             // ᛇ IWAZ StringBegin
             public static string IwazStringBegin => "ᛇ";
@@ -857,13 +861,11 @@ namespace MKPRG.Naming
 
             // ᚹ WYNN List Begin
             public static string WynnListBegin => "ᚹ";
-            public static string WynnListBeginHtm => "&#x16B9;";
-            
+            public static string WynnListBeginHtm => "&#x16B9;";            
 
             // ᛩ Q List End
             public static string QListEnd => "ᛩ";
             public static string QListEndHtm => "&#x16E9;";
-
 
             // ᛠ Type
             public static string Type => "ᛠ";
@@ -872,6 +874,17 @@ namespace MKPRG.Naming
             // ᚠ FEHU Hierarchical List
             public static string FehuHirachy => "ᚠ";
             public static string FehuHirachyHtm => "&#x16A0;";
+
+            // ꕪ Vai Ka: Physical Unit
+            public static string PhysicalUnit => "ꕪ";
+            public static string PhysicalUnitHtm => "&#xA56A;";
+
+            // ꕮ Vai Ma: mathematical Operator
+            // ꕑ ꕈ ꔕ ꕮ ꔫ
+            public static string MathOp => "ꕮ";
+            public static string MathOpHtm => "&#xA56E;";
+
+            
 
             // ᛒ BJARKAN Bool
             public static string BjarkanBool => "ᛒ";
