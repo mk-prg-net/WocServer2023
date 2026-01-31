@@ -338,3 +338,8 @@ ASALocalRun/
 
 # BeatPulse healthcheck temp database
 healthchecksdb
+
+# Croswriter 
+**/wwwroot/js/*.*
+**/wwwroot/js/mod/*.*
+**/wwwroot/node_mdules/
