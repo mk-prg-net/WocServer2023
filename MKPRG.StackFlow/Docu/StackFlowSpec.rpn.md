@@ -7,12 +7,18 @@ Last Update: mko, 12.2.2025
     Für die folgenden Berechnungen im Text wird ein separater Stack S1 angelegt: ᛝS1.
 
     Die Beschleunigung auf der Erde beträgt ᚱ:981/100ᛎ ᛇ:m/s²ᛎ. Ein Mensch mit einem Gewicht von ᚱ:120ᛎ ᛇ:kgᛎ wird mit der Kraft ᛨᚱ:m⋆ᚱ:a⟶ᚱ:Fᛎ ᛨ⎙ angezogen.
-    
-
-
+   
 Für die Berechnung relevante nummerische Werte als auch Strings werden vom Text durch spezielle Präfixe wie ᚱ und ᛇ separiert. Mittels des Operators ᛎ werden diese in einen Stapelspeicher im Hintergrund geschrieben, aus dem dann Funktionen wie ᛨm⋆a⟶F oder ᛨ⎙ diese einlesen, verarbeiten und auf den Stapel wieder zurückschreiben. ᛨ⎙ liest zum Beispiel den gesamten Stapel aus, und blendet ihn hinter dem Funktionsaufruf in den Text ein.
 
 ## Grundlagen
+
+
+flowchart TD
+    A[Christmas] -->|Get money| B(Go shopping)
+    B --> C{Let me think}
+    C -->|One| D[Laptop]
+    C -->|Two| E[iPhone]
+    C -->|Three| F[fa:fa-car Car]
 
 ### Runen als Präfixe und Funktionssymbole
 
