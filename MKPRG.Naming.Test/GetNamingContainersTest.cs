@@ -35,6 +35,8 @@ namespace MKPRG.Naming.Test
 
             Assert.IsTrue(getNamingContainers.succeded);
 
+            var NamingAssemblies = ntools.Add_Naming_Assemblies_to_Assembly_set();
+
         }
 
         [TestMethod]
