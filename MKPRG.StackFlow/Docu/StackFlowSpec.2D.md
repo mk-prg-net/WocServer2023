@@ -1,6 +1,6 @@
-# Stack ᛝ Flow 2D 
+# Stack ᛝ Flow RPN 
 
-Last Update: mko, 09.05.2026
+Last Update: mko, 12.2.2025
 
 **Stack ᛝ Flow** ist eine minimalistische, formale Sprache zur Beschreibung aktiver Berechnungen aus laufendem Text heraus. Zum Beispiel kann eine auf dem newtonsche Grundgesetz **F=m⋆a** basierende Berechnung wie folgt definiert werden:
 
@@ -9,37 +9,6 @@ Last Update: mko, 09.05.2026
     Die Beschleunigung auf der Erde beträgt ᚱ:981/100ᛎ ᛇ:m/s²ᛎ. Ein Mensch mit einem Gewicht von ᚱ:120ᛎ ᛇ:kgᛎ wird mit der Kraft ᛨᚱ:m⋆ᚱ:a⟶ᚱ:Fᛎ ᛨ⎙ angezogen.
    
 Für die Berechnung relevante nummerische Werte als auch Strings werden vom Text durch spezielle Präfixe wie ᚱ und ᛇ separiert. Mittels des Operators ᛎ werden diese in einen Stapelspeicher im Hintergrund geschrieben, aus dem dann Funktionen wie ᛨm⋆a⟶F oder ᛨ⎙ diese einlesen, verarbeiten und auf den Stapel wieder zurückschreiben. ᛨ⎙ liest zum Beispiel den gesamten Stapel aus, und blendet ihn hinter dem Funktionsaufruf in den Text ein.
-
-
-## 2D Darstellung 
-
-```
-eckige Klammer links, Verlängerung ⎢ 
-eckige Klammer unten               ⎣
-
-½ →  / ⎢ 1     
-       ⎣ 2 
-
-½ + ¾ → + ⎢ /⎢1  
-          ⎢  ⎣2
-          ⎢
-          ⎢ /⎢3
-          ⎣  ⎣4
-
-½(√x+3) → *⎢ /⎢1
-           ⎢  ⎣2
-           ⎢
-           ⎢ +⎢√x
-           ⎣  ⎣3
-
-
-⎹ 3 - x
-⎹ ----- → √⎢ /⎢ -⎢3
-⎷   x      ⎢  ⎢  ⎣x  
-           ⎣  ⎣x
-
-```
-
 
 ## Grundlagen
 
